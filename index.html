@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Entre Ciel et Terre</title>
+<meta name="theme-color" content="#05070f">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icones/icone-192.png">
+<link rel="apple-touch-icon" href="icones/icone-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Cinzel:wght@400;500&display=swap">
+<style>
+@font-face{font-family:'Lora local';src:url('polices/lora.ttf') format('truetype');font-weight:400 700;font-style:normal;font-display:swap}
+@font-face{font-family:'Lora local';src:url('polices/lora-italique.ttf') format('truetype');font-weight:400 700;font-style:italic;font-display:swap}
+:root{
+  --serif:'Cormorant Garamond','Lora local',Georgia,serif;
+  --caps:'Cinzel','Lora local',Georgia,serif;
+  --sans:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --nuit:#05070f;--nuit2:#0b1020;--nuit3:#121a32;
+  --argent:#b9c7e6;--argent2:#dfe5f3;--texte:#dfe4f0;--doux:#8e9bbb;--trait:#ffffff1f;
+  --cuivre:#e09356;--ambre:#f5c48c;--poussiere:#ffcf8f;
+  --rouge:#e8907f;
+  --taille:1;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:var(--nuit);color:var(--texte);font-family:var(--sans);overscroll-behavior:none}
+body{min-height:100%;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+.cache{display:none!important}
+
+/* ---------- Fonds ---------- */
+#fond{position:fixed;inset:0;z-index:0;pointer-events:none;transition:opacity .6s}
+.fond-ciel{background:radial-gradient(ellipse at 85% -10%,#22305a 0%,#0e1530 42%,#05070f 100%)}
+.fond-terre{background:radial-gradient(ellipse at 20% 120%,#b5652e 0%,#6b351a 30%,#2e170c 68%,#170b06 100%)}
+.voie{position:absolute;inset:-20%;background:linear-gradient(125deg,transparent 30%,#6f7fb21a 42%,#c9d4ee12 48%,#8a7fb81a 54%,transparent 66%);filter:blur(18px)}
+.rayon{position:absolute;inset:0;background:linear-gradient(45deg,transparent 30%,#ffc27a14 48%,transparent 62%)}
+.astres i{position:absolute;border-radius:50%}
+@media (prefers-reduced-motion:no-preference){.astres i.sc{animation:scint 9s ease-in-out infinite}}
+@keyframes scint{0%,100%{opacity:.2}50%{opacity:.9}}
+
+#app{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column}
+
+/* ---------- Barre du haut ---------- */
+.barre{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:8px;padding:calc(10px + env(safe-area-inset-top)) 14px 10px;background:linear-gradient(180deg,#05070fe6,#05070f99 70%,transparent);backdrop-filter:blur(6px)}
+.terre .barre{background:linear-gradient(180deg,#170b06e6,#170b0699 70%,transparent)}
+.retour{background:transparent;border:none;color:var(--argent);font-family:var(--serif);font-size:19px;padding:8px 6px;white-space:nowrap}
+.terre .retour{color:var(--ambre)}
+.barre h1{flex:1;margin:0;font-family:var(--caps);font-weight:400;font-size:13px;letter-spacing:4px;text-transform:uppercase;color:var(--argent2);text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.barre .act{display:flex;gap:6px}
+.pastille{border:0.5px solid #c9d4ee55;background:#0b10208c;color:var(--argent2);border-radius:22px;padding:8px 13px;font-size:13px;letter-spacing:.5px}
+.terre .pastille{border-color:#f5c48c66;background:#170b068c;color:#f6e7d4}
+
+.page{flex:1;width:100%;max-width:780px;margin:0 auto;padding:6px 18px calc(110px + env(safe-area-inset-bottom))}
+
+/* ---------- Titres ---------- */
+.heros{text-align:center;margin:10px 0 22px}
+.surtitre{font-family:var(--caps);font-size:12px;letter-spacing:7px;color:#aebbd8;text-transform:uppercase}
+.titre{font-family:var(--serif);font-style:italic;font-weight:300;font-size:48px;line-height:1.08;margin:8px 0 6px;-webkit-background-clip:text;background-clip:text;color:transparent;background-image:linear-gradient(100deg,#9fb0d6,#f6f8fd 35%,#c3cee8 55%,#fff 70%,#9fb0d6)}
+.terre .surtitre{color:var(--ambre)}
+.terre .titre,.titre.cuivre{background-image:linear-gradient(100deg,#c6743a,#ffe0b5 30%,#e09356 50%,#fff0d8 68%,#c6743a)}
+.orne{display:flex;align-items:center;justify-content:center;gap:10px;color:#c9d4ee;font-size:10px;letter-spacing:6px}
+.orne span{height:0.5px;width:60px;background:linear-gradient(90deg,transparent,currentColor)}
+.orne span:last-child{background:linear-gradient(90deg,currentColor,transparent)}
+.terre .orne{color:var(--ambre)}
+.etiquette{display:flex;align-items:center;gap:10px;font-family:var(--caps);font-size:11px;letter-spacing:4px;color:#9fabc8;margin:26px 0 12px;text-transform:uppercase}
+.etiquette:after{content:"";flex:1;height:0.5px;background:currentColor;opacity:.3}
+.terre .etiquette{color:#e9be92}
+
+/* ---------- Cartes ---------- */
+.carte{display:block;width:100%;text-align:left;border:none;border-radius:18px;padding:1px;margin-bottom:12px;background:linear-gradient(160deg,#dfe5f366,#ffffff10 40%,#9fb0d633)}
+.carte>.int{border-radius:17px;padding:18px;background:linear-gradient(180deg,#121a32eb,#0a1022f2);display:flex;align-items:center;gap:14px}
+.terre .carte{background:linear-gradient(160deg,#f5c48c99,#ffffff08 45%,#c46a3555)}
+.terre .carte>.int{background:linear-gradient(180deg,#2e170cee,#170b06f2)}
+.carte .nom{font-family:var(--serif);font-size:24px;color:#f3f5fb;line-height:1.2}
+.carte .sous{font-family:var(--caps);font-size:10px;letter-spacing:3px;color:var(--doux);margin-top:5px;text-transform:uppercase}
+.carte .fl{margin-left:auto;color:var(--argent);font-size:22px}
+.terre .carte .fl{color:var(--ambre)}
+.fantome{border:0.5px dashed #ffffff2e;border-radius:18px;padding:16px 18px;color:#7d89a8;font-family:var(--serif);font-style:italic;font-size:18px;margin-bottom:12px}
+.terre .fantome{border-color:#f5c48c40;color:#c49c7a}
+.bloc{border:0.5px solid var(--trait);border-radius:16px;padding:16px;background:#0b1020b3;margin-bottom:12px}
+.ligne{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:0.5px solid #ffffff12}
+.ligne:last-child{border-bottom:none}
+.vide{text-align:center;color:#7d89a8;font-family:var(--serif);font-style:italic;font-size:19px;padding:28px 0}
+.discret{color:var(--doux);font-size:14px}
+
+/* ---------- Boutons ---------- */
+.btn{border:0.5px solid #c9d4ee66;background:#0b10208c;color:var(--argent2);border-radius:14px;padding:13px 18px;font-size:16px}
+.btn.plein{background:linear-gradient(180deg,#f3f5fb,#b9c7e6);border:none;color:#0b1020;font-family:var(--caps);font-size:13px;letter-spacing:3px;border-radius:30px;padding:15px 26px;box-shadow:0 0 18px #b9c7e655}
+.btn.danger{border-color:#e8907f88;color:#f2b3a6}
+.btn.large{width:100%}
+.rangee{display:flex;gap:10px;flex-wrap:wrap}
+.rangee .btn{flex:1;min-width:140px}
+.flottant{position:fixed;right:20px;bottom:calc(22px + env(safe-area-inset-bottom));z-index:6}
+
+/* ---------- Accueil ---------- */
+.accueil{display:flex;flex-direction:column;min-height:100vh}
+.face{position:relative;flex:1;min-height:36vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border:none;padding:30px 20px;overflow:hidden;color:var(--texte)}
+.face.ciel{background:radial-gradient(ellipse at 80% -10%,#22305a 0%,#0e1530 45%,#05070f 100%);padding-top:calc(30px + env(safe-area-inset-top))}
+.face.sol{background:radial-gradient(ellipse at 20% 120%,#b5652e 0%,#6b351a 30%,#2e170c 68%,#170b06 100%)}
+.face .z{position:relative}
+.face .titre{font-size:54px}
+.face .desc{font-family:var(--serif);font-style:italic;font-size:19px;opacity:.88;margin-top:8px}
+.face.sol .surtitre{color:var(--ambre)}
+.face.sol .orne{color:var(--ambre)}
+.horizon{height:1px;background:linear-gradient(90deg,#e09356,#f3e6d4 50%,#b9c7e6);position:relative;z-index:2}
+.outils{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;padding:12px 10px calc(14px + env(safe-area-inset-bottom));background:#08060a}
+.outil{background:transparent;border:none;display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px 2px;color:#cfd6e6;font-size:12px;letter-spacing:.3px}
+.outil svg{width:26px;height:26px;stroke:#d8c3a5;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+.rappel{position:relative;z-index:3;margin:0;padding:12px 16px;background:#2e170cf2;border-bottom:0.5px solid #f5c48c55;color:#f6e7d4;display:flex;align-items:center;gap:12px;font-size:15px}
+.rappel .btn{padding:8px 14px;font-size:14px;border-color:#f5c48c88;background:transparent;color:#ffe0b5}
+
+/* ---------- Technique ---------- */
+.prog{height:2px;background:#ffffff14;border-radius:2px;margin:4px 0 18px}
+.prog div{height:2px;border-radius:2px;background:linear-gradient(90deg,#6c80b3,#f3f5fb);box-shadow:0 0 10px #c9d4ee88;transition:width .4s}
+.etape{border-radius:20px;padding:1px;background:linear-gradient(160deg,#dfe5f366,#ffffff10 40%,#9fb0d633)}
+.etape>.int{border-radius:19px;padding:26px 22px 24px;background:linear-gradient(180deg,#121a32ee,#0a1022f4)}
+.romain{text-align:center;font-family:var(--caps);font-size:13px;letter-spacing:6px;color:#aebbd8}
+.etape h2{text-align:center;font-family:var(--serif);font-weight:400;font-size:calc(31px * var(--taille));line-height:1.15;color:#f3f5fb;margin:8px 0 6px}
+.etape .orne{margin-bottom:20px;font-size:9px}
+.dit{font-family:var(--serif);font-style:italic;font-size:calc(23px * var(--taille));line-height:1.65;color:#d9dfec;margin:0 0 14px;white-space:pre-line}
+.sousparti{font-family:var(--caps);font-size:calc(12px * var(--taille));letter-spacing:4px;color:#aebbd8;margin:22px 0 8px;text-transform:uppercase}
+.consigne{font-size:calc(16px * var(--taille));color:#aab4cc;border-left:1.5px solid #b9c7e666;padding:4px 0 4px 12px;margin:0 0 16px;line-height:1.5}
+.questions{margin:6px 0 16px}
+.questions .titreq{display:flex;align-items:center;gap:10px;font-family:var(--caps);font-size:10px;letter-spacing:4px;color:#9fabc8;margin:8px 0 4px}
+.questions .titreq:after,.questions .titreq:before{content:"";flex:1;height:0.5px;background:#ffffff1a}
+.q{display:flex;gap:12px;align-items:baseline;font-size:calc(20px * var(--taille));color:#f6f8fd;padding:12px 0;border-bottom:0.5px solid #ffffff10;line-height:1.4}
+.q:last-child{border-bottom:none}
+.q b{font-weight:400;color:var(--argent);font-size:12px;flex-shrink:0}
+.navetape{position:fixed;left:0;right:0;bottom:0;z-index:6;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 18px calc(16px + env(safe-area-inset-bottom));background:linear-gradient(0deg,#05070ff2,#05070fcc 70%,transparent)}
+.navetape .prec{background:transparent;border:none;color:var(--doux);font-family:var(--serif);font-size:20px;padding:12px 8px}
+.navetape .prec:disabled{opacity:.3}
+.sommaire button{display:flex;width:100%;gap:14px;align-items:baseline;background:transparent;border:none;border-bottom:0.5px solid #ffffff12;padding:14px 4px;text-align:left;color:#e6eaf4;font-family:var(--serif);font-size:20px}
+.sommaire button span{font-family:var(--caps);font-size:12px;letter-spacing:3px;color:var(--argent);width:56px;flex-shrink:0}
+.sommaire button.ici{color:#fff}
+.sommaire button.ici span{color:#fff}
+
+/* ---------- Personnes ---------- */
+.pers{display:flex;gap:14px;border:0.5px solid var(--trait);border-radius:16px;padding:14px 16px;background:#0b1020c4;margin-bottom:10px;align-items:flex-start}
+.num{width:38px;height:38px;border-radius:50%;border:1px solid var(--argent);color:var(--argent2);display:flex;align-items:center;justify-content:center;font-family:var(--caps);font-size:15px;flex-shrink:0}
+.pers .pn{font-family:var(--serif);font-size:23px;color:#f3f5fb}
+.pers .pl{font-family:var(--caps);font-size:11px;letter-spacing:2px;color:var(--ambre);margin-left:8px;text-transform:uppercase}
+.pers .pc{color:#b8c0d4;font-size:16px;margin-top:3px}
+.pers .ps{margin-top:8px;padding-top:7px;border-top:0.5px dashed #ffffff26;color:#8e9bbb;font-size:15px}
+.ordre{display:flex;flex-direction:column;gap:4px;margin-left:auto}
+.ordre button{background:transparent;border:0.5px solid #ffffff26;border-radius:8px;color:var(--argent);width:36px;height:30px;font-size:14px}
+
+/* ---------- Agenda ---------- */
+.navdate{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.navdate .lab{flex:1;text-align:center;font-family:var(--serif);font-size:23px;color:#f3f5fb;text-transform:capitalize}
+.rond{width:44px;height:44px;border-radius:50%;border:0.5px solid #c9d4ee55;background:#0b10208c;color:var(--argent2);font-size:20px}
+.bascule{display:flex;border:0.5px solid #c9d4ee44;border-radius:22px;overflow:hidden}
+.bascule button{background:transparent;border:none;padding:9px 16px;color:var(--doux);font-size:14px}
+.bascule button.on{background:var(--argent);color:#0b1020}
+.rdv{display:flex;gap:14px;width:100%;text-align:left;border:0.5px solid var(--trait);border-left:2px solid var(--argent);border-radius:14px;background:#0b1020c4;padding:14px 16px;margin-bottom:10px;color:var(--texte)}
+.rdv.fait{opacity:.55}
+.rdv .h{font-family:var(--caps);font-size:14px;letter-spacing:1px;color:var(--argent2);width:70px;flex-shrink:0;line-height:1.5}
+.rdv .h small{display:block;color:var(--doux);font-family:var(--sans);letter-spacing:0;font-size:12px}
+.rdv .c{font-family:var(--serif);font-size:22px;color:#f3f5fb}
+.rdv .p{color:#aab4cc;font-size:14px;margin-top:2px}
+.jour{border:0.5px solid var(--trait);border-radius:14px;padding:12px 14px;margin-bottom:8px;background:#0b10209e;width:100%;text-align:left;color:var(--texte)}
+.jour.auj{border-color:#c9d4ee88}
+.jour .jt{font-family:var(--serif);font-size:20px;color:#f3f5fb;text-transform:capitalize}
+.jour .jr{font-size:14px;color:#aab4cc;margin-top:4px}
+
+/* ---------- Formulaires ---------- */
+.champ{margin-bottom:14px}
+.champ label{display:block;font-family:var(--caps);font-size:10px;letter-spacing:3px;color:#9fabc8;margin-bottom:6px;text-transform:uppercase}
+.champ input,.champ select,.champ textarea{width:100%;background:#05070fcc;border:0.5px solid #c9d4ee44;border-radius:12px;padding:13px 14px;font-size:17px;color:#eef1f8;outline:none}
+.champ textarea{min-height:110px;resize:vertical;line-height:1.5}
+.champ input:focus,.champ select:focus,.champ textarea:focus{border-color:var(--argent)}
+.champ select option{background:#0b1020}
+.deux{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.trois{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px}
+input[type=date],input[type=time]{color-scheme:dark}
+
+/* ---------- Fenêtre ---------- */
+#voile{position:fixed;inset:0;z-index:20;background:#02030899;backdrop-filter:blur(3px);display:flex;align-items:flex-end;justify-content:center}
+.feuille{width:100%;max-width:640px;max-height:92vh;overflow:auto;background:linear-gradient(180deg,#141c34,#0a1022);border:0.5px solid #c9d4ee44;border-bottom:none;border-radius:22px 22px 0 0;padding:22px 20px calc(22px + env(safe-area-inset-bottom))}
+.feuille h3{margin:0 0 18px;text-align:center;font-family:var(--serif);font-weight:400;font-size:26px;color:#f3f5fb}
+@media (min-width:700px){#voile{align-items:center}.feuille{border-radius:22px;border-bottom:0.5px solid #c9d4ee44}}
+#toast{position:fixed;left:50%;bottom:110px;transform:translateX(-50%);z-index:30;background:#f3f5fb;color:#0b1020;padding:12px 20px;border-radius:24px;font-size:15px;box-shadow:0 6px 20px #0008;transition:opacity .3s;max-width:90vw;text-align:center}
+
+/* ---------- Note de séance (papier) ---------- */
+.papier{background:#fdfcf9;color:#1c1d22;border-radius:6px;padding:28px 24px;font-family:var(--sans);font-size:14px;line-height:1.5;box-shadow:0 10px 30px #0009}
+.papier .ent{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.papier .em b{font-size:16px}
+.papier .tit{font-family:var(--caps);letter-spacing:3px;font-size:18px;text-align:right}
+.papier .cli{margin:22px 0 16px;padding:12px 14px;background:#f1efe9;border-radius:4px}
+.papier table{width:100%;border-collapse:collapse;margin:8px 0}
+.papier th{text-align:left;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#6b6d75;border-bottom:1px solid #cfccc4;padding:6px 4px}
+.papier td{padding:8px 4px;border-bottom:0.5px solid #e4e1da;vertical-align:top}
+.papier .d{text-align:right;white-space:nowrap}
+.papier .tot{display:flex;justify-content:flex-end;gap:24px;font-size:17px;font-weight:600;margin-top:10px}
+.papier .men{margin-top:18px;font-size:12px;color:#55575e}
+.ligneprest{border:0.5px solid var(--trait);border-radius:14px;padding:12px;margin-bottom:10px;background:#05070f80}
+</style>
+</head>
+<body>
+<div id="fond"></div>
+<div id="app"></div>
+<div id="voile" class="cache"><div class="feuille" id="feuille"></div></div>
+<div id="toast" class="cache"></div>
+
+<script>
+/* =====================================================================
+   ENTRE CIEL ET TERRE — appli hors ligne
+   ===================================================================== */
+
+/* ---------- La technique de Rhéa Powers (texte adapté pour séance guidée) ---------- */
+const TECHNIQUES = {
+  rhea: {
+    id: 'rhea',
+    nom: 'Technique de Rhéa Powers',
+    sous: 'Régression · vies antérieures',
+    etapes: [
+      { r: '', titre: 'Avant la séance', b: [
+        ['consigne', "Définir ensemble le thème de la régression, en une phrase courte et claire."]
+      ]},
+      { r: 'I', titre: 'Installation', b: [
+        ['dit', "Installe-toi confortablement, laisse ton corps trouver sa place… Ferme doucement les yeux.\nPorte ton attention sur ta respiration. Ne change rien, observe-la simplement. L'air qui entre, frais… l'air qui sort, un peu plus chaud.\nEt à chaque expiration, tu vas laisser une partie de ton corps se relâcher, un peu plus, toujours un peu plus."],
+        ['sous', 'Le crâne'],
+        ['dit', "Porte ton attention tout en haut de ta tête, sur le sommet de ton crâne.\nInspire… et en expirant, sens ton cuir chevelu se détendre, comme s'il s'élargissait doucement.\nCette détente glisse vers l'arrière de ta tête… et sur les côtés, au-dessus de tes oreilles. Tes oreilles elles-mêmes se relâchent."],
+        ['sous', 'Le front'],
+        ['dit', "Inspire… et en expirant, la détente descend sur ton front.\nTon front devient lisse, large, ouvert. Chaque petite ride se détend, s'efface.\nL'espace entre tes sourcils se relâche… tes sourcils se posent, légers."],
+        ['sous', 'Les yeux'],
+        ['dit', "Inspire… et en expirant, tes paupières deviennent lourdes, douces, agréablement lourdes.\nLes petits muscles autour de tes yeux se relâchent.\nTes yeux eux-mêmes se reposent dans leurs orbites, immobiles, tranquilles… plus rien à regarder, plus rien à chercher."],
+        ['sous', 'Le visage'],
+        ['dit', "Inspire… et en expirant, tes tempes se détendent.\nTes joues se relâchent, deviennent souples… ton nez, tes narines, l'air qui passe librement.\nTa lèvre supérieure, ta lèvre inférieure se détendent… ta bouche se repose."],
+        ['sous', 'La mâchoire'],
+        ['dit', "Inspire… et en expirant, porte ton attention sur les muscles de ta mâchoire, juste devant tes oreilles, là où l'on serre souvent sans s'en rendre compte.\nLaisse-les se desserrer… tes dents se séparent légèrement.\nTa langue se pose, détendue, au fond de ta bouche. Ta gorge s'ouvre, s'apaise.\nTout ton visage est maintenant détendu, paisible."],
+        ['sous', 'La nuque et le cou'],
+        ['dit', "Inspire… et en expirant, la détente coule à l'arrière de ta tête, dans ta nuque.\nLes muscles de ta nuque, souvent si tendus, se relâchent un à un.\nTon cou devient souple, sur les côtés, à l'avant… ta tête repose, lourde, parfaitement soutenue."],
+        ['sous', 'Les épaules'],
+        ['dit', "Inspire… et en expirant, tes épaules descendent.\nElles s'alourdissent, elles se posent, comme si elles déposaient enfin tout ce qu'elles portaient.\nLe haut de ton dos, entre tes épaules, se relâche aussi."],
+        ['sous', 'Les bras et les mains'],
+        ['dit', "Inspire… et en expirant, la détente descend dans tes bras.\nLe haut de tes bras… tes biceps… tes coudes, qui se déplient légèrement.\nTes avant-bras deviennent lourds… tes poignets se relâchent.\nTes mains s'ouvrent, posées, détendues… ta paume… le dos de ta main…\nEt la détente arrive jusqu'au bout de chacun de tes doigts : ton pouce… ton index… ton majeur… ton annulaire… ton petit doigt.\nTes bras sont maintenant lourds, chauds, complètement relâchés."],
+        ['sous', 'La poitrine'],
+        ['dit', "Inspire… et en expirant, ta poitrine se détend.\nLes muscles entre tes côtes se relâchent… ta cage thoracique s'ouvre un peu plus, librement.\nTa respiration devient plus ample, plus lente, plus calme, toute seule, sans effort."],
+        ['sous', 'Le dos'],
+        ['dit', "Inspire… et en expirant, la détente descend le long de ta colonne vertébrale, vertèbre après vertèbre.\nTes omoplates se posent… le milieu de ton dos se relâche… les muscles le long de ta colonne s'allongent, se détendent.\nLe bas de ton dos, là où l'on accumule tant de tensions, se dépose maintenant, lourd et confortable."],
+        ['sous', 'Le ventre'],
+        ['dit', "Inspire… et en expirant, ton ventre se relâche complètement.\nIl se soulève doucement à l'inspiration… et redescend à l'expiration. Plus rien à retenir.\nLa détente s'étend à l'intérieur, autour de tes organes, comme une vague de calme."],
+        ['sous', 'Le bassin et les hanches'],
+        ['dit', "Inspire… et en expirant, ton bassin se pose.\nTes hanches s'ouvrent légèrement, se relâchent… tes fessiers se détendent, s'enfoncent dans le support."],
+        ['sous', 'Les cuisses'],
+        ['dit', "Inspire… et en expirant, la détente descend dans tes cuisses.\nLes gros muscles à l'avant de tes cuisses se relâchent… à l'arrière… à l'intérieur… à l'extérieur.\nTes cuisses deviennent lourdes, comme posées, abandonnées."],
+        ['sous', 'Les genoux et les jambes'],
+        ['dit', "Inspire… et en expirant, tes genoux se détendent.\nLa détente glisse dans tes mollets, qui deviennent souples… tes tibias… et tes chevilles se relâchent."],
+        ['sous', 'Les pieds'],
+        ['dit', "Inspire… et en expirant, tes pieds se détendent complètement.\nLe dessus de tes pieds… la plante de tes pieds… tes talons…\nEt jusqu'au bout de chacun de tes orteils, un à un."],
+        ['sous', 'Tout le corps'],
+        ['dit', "Maintenant, tout ton corps est relâché, du sommet de ton crâne jusqu'au bout de tes orteils.\nRessens cette lourdeur agréable, ce calme qui s'installe partout.\nEt à chaque respiration, tu t'enfonces encore un peu plus profondément dans cette détente… tranquillement… à ton rythme… de plus en plus profondément."]
+      ]},
+      { r: 'II', titre: "L'endroit safe", b: [
+        ['dit', "Maintenant que ton corps est détendu, imagine un lieu où tu te sens totalement en sécurité, apaisé, protégé. Ça peut être un endroit que tu connais ou un endroit que tu inventes : une plage, une forêt, un jardin, une maison…"],
+        ['q', ["Regarde autour de toi. Quelles couleurs vois-tu ?", "Quels sons entends-tu ?", "Quelle est la température de l'air ?", "Qu'est-ce que tu sens sous tes pieds ?"]],
+        ['dit', "Ressens cette paix, ce calme, cette sécurité dans tout ton corps.\nMaintenant, pendant que tu ressens tout ça, touche doucement ton pouce et ton index. Ce geste est relié à cet endroit. À chaque fois que tu le feras, ou que je te le demanderai, tu reviendras ici instantanément, en sécurité.\nRelâche tes doigts. Cet endroit reste là, il t'attend, toujours disponible."]
+      ]},
+      { r: 'III', titre: 'La pièce', b: [
+        ['dit', "Maintenant, tu quittes doucement ton endroit safe, en sachant que tu peux y revenir à tout moment.\nDevant toi apparaît une pièce. Une pièce où tu te sens bien, à l'aise, détendu.\nPrends le temps de regarder autour de toi… Les couleurs, la lumière, les objets, la température de l'air.\nSi quelque chose ne te convient pas, change-le. Arrange cette pièce exactement comme tu le souhaites.\nDans cette pièce, il y a un lit, confortable, accueillant. Approche-toi, et allonge-toi.\nEt à chaque inspiration, tu t'enfonces un peu plus dans ce confort… de plus en plus profondément."]
+      ]},
+      { r: 'IV', titre: 'La lumière dorée', b: [
+        ['dit', "Pendant que tu es allongé là, porte ton attention sur tes pieds. Imagine une lumière dorée, chaude et douce, qui commence à entrer par tes orteils.\nPartout où elle passe, elle laisse derrière elle une détente profonde et une énergie bienfaisante.\nElle se répand dans la plante de tes pieds, dans chaque petit muscle, puis dans tes chevilles… et elle monte tranquillement dans tes jambes.\nTu la sens glisser à travers tes genoux, agréablement, et entrer dans tes cuisses. Laisse tes cuisses se relâcher, pendant que la lumière remplit tes jambes de vagues de douceur.\nElle continue sa route et entre dans tes hanches, dans le bas de ton ventre.\nTu la sens circuler doucement à l'intérieur de ton corps, autour de tes organes, et monter vers le haut de ton corps.\nElle arrive dans ta poitrine. Prends une longue inspiration… et en expirant, laisse toute ta poitrine se détendre.\nLa lumière entoure maintenant ton cœur, et tu le sens battre calmement, tranquillement, régulièrement.\nElle monte jusqu'à tes épaules, qui deviennent lourdes et souples, puis elle descend dans tes bras… dans tes coudes, tes avant-bras… jusque dans tes mains, et au bout de chacun de tes doigts.\nMaintenant, elle remonte doucement vers ta nuque, et entre dans ta tête. Tu sens ta tête se remplir de calme et de détente.\nTout ton corps est rempli de cette lumière dorée, apaisante et bienfaisante.\nRegarde à l'intérieur de toi : s'il reste encore une tension quelque part, observe comme elle se dissout, simplement, au contact de la lumière.\nPendant tout le voyage, cette lumière veille sur ton corps. Il reste ici, en sécurité, et il t'attend."]
+      ]},
+      { r: 'V', titre: "L'escalier", b: [
+        ['consigne', "Approfondissement."],
+        ['dit', "Dans ta pièce, tu remarques maintenant un escalier qui descend, doux et sûr, avec une rampe sous ta main.\nIl a dix marches. À chaque marche que tu descends, tu vas deux fois plus profondément en toi, deux fois plus détendu.\nDix… tu poses le pied sur la première marche.\nNeuf… tu descends, ton corps se relâche encore.\nHuit… plus profondément.\nSept… tout devient calme, paisible.\nSix… tu te laisses porter.\nCinq… à mi-chemin, encore plus détendu.\nQuatre… les bruits extérieurs s'éloignent.\nTrois… de plus en plus profond.\nDeux… presque arrivé.\nUn… tu es en bas, profondément détendu, parfaitement bien."]
+      ]},
+      { r: 'VI', titre: "L'intention", b: [
+        ['dit', "Maintenant, rappelle-toi le thème que nous avons choisi ensemble pour cette séance. Laisse-le simplement être là, présent en toi.\nRelie-toi à ton Soi supérieur, cette partie de toi qui sait, qui voit plus loin.\nDemande à tes guides et à tes maîtres spirituels de t'accompagner tout au long de ce voyage.\nDemande-leur de te montrer l'origine de ce thème… et de t'aider à t'en libérer.\nPrends un instant pour sentir leur présence à tes côtés."]
+      ]},
+      { r: 'VII', titre: 'Le passage', b: [
+        ['dit', "En bas de l'escalier, tu remarques une porte, juste en face de toi.\nRegarde-la… et approche-toi doucement.\nPose la main sur la poignée, ouvre la porte… et franchis le seuil.\nDe l'autre côté, tu es enveloppé d'une brume douce et fraîche, agréable."],
+        ['q', ["De quelle couleur est la brume ?"]],
+        ['dit', "Au loin, à travers la brume, tu aperçois un pont.\nAvance vers le pont… et commence à le traverser, pas après pas.\nPendant que tu avances, souviens-toi de ton thème.\nAu bout du pont, tu vas demander à ton Soi supérieur de t'emmener loin, très loin en arrière, dans cette vie passée qui contient l'origine de ce thème.\nTu arrives au bout du pont… Fais-le maintenant. Pose le pied sur l'autre rive, et entre dans cette vie."]
+      ]},
+      { r: 'VIII', titre: 'Arrivée dans la vie antérieure', b: [
+        ['dit', "Prends ton temps. Laisse les images, les sensations, les impressions venir d'elles-mêmes."],
+        ['q', ["Regarde tes pieds : que vois-tu ?", "Regarde ton corps : que portes-tu comme vêtements ?", "Regarde tes épaules, ta tête : es-tu un homme ou une femme ?", "Quel est ton nom ? Ton prénom ?", "Où es-tu ? Si un nom de lieu vient, laisse-le venir.", "À quelle époque es-tu ? Laisse venir une date, si elle vient.", "Quel est ton travail, ta place dans ce groupe ou cette société ?", "Quelle est ta responsabilité dans ce travail ou cette place ?", "Comment la vis-tu ?", "Regarde autour de toi : es-tu dehors ou à l'intérieur ?", "Y a-t-il quelqu'un avec toi ?", "Quel est ton lien avec cette personne ?"]],
+        ['dit', "Selon ce que tu vois, avance un peu dans le temps, et regarde ce qui se passe ensuite."],
+        ['q', ["Que se passe-t-il ?"]]
+      ]},
+      { r: 'IX', titre: "L'événement source", b: [
+        ['dit', "Bien. Maintenant, dans cette vie, retourne au début de l'événement qui contient l'origine de ton thème."],
+        ['q', ["Regarde autour de toi : que se passe-t-il, où es-tu ?"]],
+        ['dit', "Avance à travers les événements, et va à l'instant où tu as pris une décision en lien avec ton thème. Regarde ce que tu as décidé."],
+        ['q', ["As-tu pris une décision qui commence par « Plus jamais… » ? Si oui, laquelle ?", "Et quoi d'autre ? « Plus jamais… »", "As-tu pris une décision qui commence par « Je ferai toujours… » ? Si oui, laquelle ?", "Et quoi d'autre ? « Je ferai toujours… »", "Qu'as-tu finalement décidé face à cet événement ?"]]
+      ]},
+      { r: 'X', titre: 'La fin de cette vie', b: [
+        ['dit', "Bien. Maintenant, dans cette vie, va vers la fin de cette vie. Si c'est le même événement que celui que tu viens de voir, regarde-le à nouveau, plus intensément."],
+        ['q', ["Où es-tu ? Que se passe-t-il à la fin de cette vie ?"]],
+        ['dit', "Va à l'instant, juste avant de quitter ton corps. De cet instant, regarde quelle décision tu prends, et qui influence ta vie et ta réalité d'aujourd'hui."],
+        ['q', ["As-tu décidé quelque chose qui commence par « Plus jamais… » ? Et quoi d'autre ?", "Quelque chose qui commence par « Je ferai toujours… » ? Et quoi d'autre ?", "Quelque chose qui commence par « La prochaine fois… » ?", "Laquelle de ces décisions influence le plus ta vie actuelle ?", "Que devrais-tu encore savoir sur cette vie ?"]],
+        ['dit', "Maintenant, vis le passage. Quitte ce corps, doucement… et regarde comment c'est, de l'autre côté."]
+      ]},
+      { r: 'XI', titre: 'Entre deux vies', b: [
+        ['dit', "Imagine un passage qui s'ouvre au niveau de ton troisième œil, juste au-dessus de la racine de ton nez, au centre de ton front.\nEmprunte ce passage pour remonter le temps et l'espace… jusqu'à l'espace entre deux vies, au moment où, depuis ton Soi supérieur, tu as choisi la vie que tu viens de voir."],
+        ['q', ["Depuis ton Soi supérieur, de quoi s'agissait-il vraiment dans cette vie ?", "Quelle leçon voulais-tu y apprendre ?"]],
+        ['dit', "Dans cet espace entre deux vies, rassemble toutes les âmes qui ont joué un rôle important dans cette vie."],
+        ['q', ["Quels accords as-tu passés avec elles avant que vous ne preniez forme ?", "Quels accords aviez-vous pris ensemble pour apprendre la leçon que vous vouliez apprendre ?", "Quel était ton accord pour les aider à apprendre leur propre leçon ?"]]
+      ]},
+      { r: 'XII', titre: 'La rencontre', b: [
+        ['dit', "Maintenant, laisse-les partir, avec gratitude.\nRegarde la personne que tu étais dans cette vie… et la personne que tu es aujourd'hui. Elles sont là, face à face."],
+        ['q', ["Que la personne d'autrefois a-t-elle à dire à celle d'aujourd'hui ?"]],
+        ['dit', "Écoute bien… Prends le temps de recevoir son message.\nEnsuite, prends-la dans tes bras… et laisse-la s'en aller, doucement, en paix."]
+      ]},
+      { r: 'XIII', titre: 'Le chemin du retour', b: [
+        ['dit', "Il est temps de revenir. Tu emportes avec toi tout ce que tu as compris aujourd'hui, tout ce qui est utile pour ta vie actuelle.\nTu te retrouves au bout du pont… et tu le traverses dans l'autre sens, tranquillement, pas après pas.\nTu passes à travers la brume douce et fraîche… et tu retrouves la porte.\nTu franchis le seuil, tu refermes la porte derrière toi.\nTe voilà au pied de l'escalier, en sécurité.\nTu remontes les marches, une à une, et à chaque marche tu te sens plus léger, plus présent… jusqu'à retrouver ta pièce."]
+      ]},
+      { r: 'XIV', titre: 'Retour', b: [
+        ['dit', "Dans un instant, je vais compter jusqu'à trois. À trois, tu seras pleinement revenu ici, dans cette époque et dans ta réalité présente.\nUn… tu reviens complètement dans ton corps, tu sens son poids, ta respiration.\nDeux… tu reconnais la pièce où tu te trouves, les sons autour de toi.\nTrois… tu ouvres les yeux. Te voilà de retour dans ta vie présente, calme et détendu.\nÉtire-toi doucement, prends tout le temps qu'il te faut pour revenir pleinement.\nBienvenue."]
+      ]},
+      { r: '', titre: "En cas d'urgence", b: [
+        ['consigne', "À tout moment de la séance."],
+        ['dit', "Touche ton pouce et ton index… tu es maintenant dans ton endroit safe, en sécurité."]
+      ]}
+    ]
+  }
+};
+
+/* ---------- Données par défaut ---------- */
+const DEFAUT = () => ({
+  version: 1,
+  emetteur: {
+    nom: 'Thierry Testa',
+    statut: 'Entrepreneur individuel',
+    activite: 'Accompagnement bien-être',
+    adresse: '200 chemin de Saint-Thomé, 83136 Néoules',
+    siret: '947 927 463 00028',
+    tel: '06 50 57 86 55',
+    mail: 'namastehypno83@gmail.com',
+    tva: 'TVA non applicable, art. 293 B du CGI'
+  },
+  prestations: [
+    { id: 'p1', nom: 'Hypnose terrestre', duree: '', prix: 70, pack: 0 },
+    { id: 'p2', nom: 'Pack régression (2 à 3 séances)', duree: '', prix: 150, pack: 3 },
+    { id: 'p3', nom: 'Régression', duree: '', prix: '', pack: 0 },
+    { id: 'p4', nom: 'Entre deux vies', duree: '', prix: '', pack: 0 },
+    { id: 'p5', nom: 'Séance énergétique', duree: '', prix: '', pack: 0 },
+    { id: 'p6', nom: 'Supplément déplacement à domicile', duree: '', prix: '', pack: 0 }
+  ],
+  clients: [],
+  rdv: [],
+  notes: [],
+  diverses: [
+    { id: 'd1', titre: 'Les états de conscience', texte: "1. Beta : l'état d'éveil, pleinement conscient.\n2. Alpha : les niveaux de transe, du léger au profond.\n   a. Alpha léger : celui qu'on utilise en méditation.\n   b. Alpha moyen : retrouver les souvenirs d'enfance et les traumatismes anciens ; c'est aussi le niveau des changements de comportement, comme prendre ou perdre du poids, arrêter de fumer.\n   c. Alpha profond : retrouver les vies antérieures.\n3. Theta : le niveau le plus profond avant de perdre conscience ; c'est le champ de l'esprit superconscient, qui donne accès à notre vie spirituelle entre deux vies.\n4. Delta : le sommeil profond.\n\nÀ dire au client : on traverse ces états chaque nuit en s'endormant, puis dans l'autre sens au réveil." },
+    { id: 'd2', titre: 'La métaphore du cinéma', texte: "• Entrer dans le monde spirituel, c'est comme regarder un film dont on est le héros.\n• Au début, comme quand on entre dans une salle obscure sans connaître l'histoire, les scènes semblent défiler lentement.\n• Ensuite, une fois qu'on a pris ses repères, tout paraît s'accélérer, comme si le projectionniste lançait le film plus vite : on n'est plus spectateur, on fait partie des scènes, pris par l'action." }
+  ],
+  derniereSauvegarde: null
+});
+
+/* ---------- Stockage ---------- */
+const CLE = 'entre-ciel-et-terre';
+let D;
+function charger() {
+  try { D = JSON.parse(localStorage.getItem(CLE)); } catch (e) { D = null; }
+  if (!D || !D.version) D = DEFAUT();
+  const def = DEFAUT();
+  for (const k in def) if (D[k] === undefined) D[k] = def[k];
+}
+function enregistrer() {
+  try { localStorage.setItem(CLE, JSON.stringify(D)); }
+  catch (e) { toast("Impossible d'enregistrer : la mémoire de la tablette est peut-être pleine."); }
+}
+if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
+
+/* ---------- Outils ---------- */
+const $ = s => document.querySelector(s);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+const pad = n => String(n).padStart(2, '0');
+const isoJour = d => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+const auj = () => isoJour(new Date());
+const versDate = iso => { const [y, m, d] = iso.split('-').map(Number); return new Date(y, m - 1, d); };
+const decaler = (iso, n) => { const d = versDate(iso); d.setDate(d.getDate() + n); return isoJour(d); };
+const JOURS = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+const MOIS = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+const dateLongue = iso => { const d = versDate(iso); return JOURS[d.getDay()] + ' ' + d.getDate() + ' ' + MOIS[d.getMonth()] + ' ' + d.getFullYear(); };
+const dateCourte = iso => { if (!iso) return ''; const [y, m, d] = iso.split('-'); return d + '/' + m + '/' + y; };
+const euros = n => (Number(n) || 0).toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+const dureeTxt = m => { m = Number(m) || 0; if (!m) return ''; const h = Math.floor(m / 60), r = m % 60; return h ? h + ' h' + (r ? ' ' + pad(r) : '') : r + ' min'; };
+const finHeure = (h, m) => { if (!h) return ''; const [a, b] = h.split(':').map(Number); const t = a * 60 + b + (Number(m) || 0); return pad(Math.floor(t / 60) % 24) + ':' + pad(t % 60); };
+const nomClient = c => c ? [c.prenom, c.nom].filter(Boolean).join(' ') : '—';
+const client = id => D.clients.find(c => c.id === id);
+const prestation = id => D.prestations.find(p => p.id === id);
+
+function toast(t) {
+  const el = $('#toast'); el.textContent = t; el.classList.remove('cache'); el.style.opacity = 1;
+  clearTimeout(toast.t); toast.t = setTimeout(() => { el.style.opacity = 0; setTimeout(() => el.classList.add('cache'), 300); }, 2600);
+}
+
+/* ---------- Fonds étoilés et poussière (fixes, scintillement économe) ---------- */
+function astres(n, couleur, zone, graine, scint) {
+  let s = graine; const r = () => { s = (s * 16807) % 2147483647; return s / 2147483647; };
+  let h = '';
+  for (let i = 0; i < n; i++) {
+    const z = r() < 0.08 ? 2.4 : r() * 1.3 + 0.5;
+    const x = r() * 100, y = r() * 100;
+    const fort = zone ? Math.abs((100 - y) - x) < 22 : false;
+    const op = zone ? (fort ? 0.55 : 0.16) + r() * 0.3 : 0.25 + r() * 0.5;
+    const sc = scint && i % 13 === 0;
+    h += '<i class="' + (sc ? 'sc' : '') + '" style="left:' + x.toFixed(2) + '%;top:' + y.toFixed(2) + '%;width:' + z.toFixed(1) + 'px;height:' + z.toFixed(1) + 'px;background:' + couleur + ';opacity:' + op.toFixed(2) + (zone ? ';box-shadow:0 0 ' + (z * 3).toFixed(1) + 'px ' + couleur + '66' : '') + (sc ? ';animation-delay:' + (r() * 9).toFixed(1) + 's' : '') + '"></i>';
+  }
+  return '<div class="astres" style="position:absolute;inset:0">' + h + '</div>';
+}
+const CIEL = '<div class="voie"></div>' + astres(170, '#e6ecfa', false, 11, true);
+const TERRE = '<div class="rayon"></div>' + astres(80, '#ffcf8f', true, 5, false);
+let fondActuel = '';
+function fond(type) {
+  if (type === fondActuel) return; fondActuel = type;
+  const f = $('#fond');
+  f.className = type === 'terre' ? 'fond-terre' : 'fond-ciel';
+  f.innerHTML = type === 'terre' ? TERRE : CIEL;
+  document.querySelector('meta[name=theme-color]').content = type === 'terre' ? '#2e170c' : '#05070f';
+}
+
+/* ---------- Icônes ---------- */
+const ICO = {
+  agenda: '<svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>',
+  clients: '<svg viewBox="0 0 24 24"><circle cx="9" cy="8.5" r="3.2"/><path d="M3.5 19c.8-3.2 3-4.8 5.5-4.8s4.7 1.6 5.5 4.8"/><circle cx="17" cy="9.5" r="2.4"/><path d="M15.8 14.4c2.3.1 4 1.5 4.7 4"/></svg>',
+  notes: '<svg viewBox="0 0 24 24"><path d="M6 3h8.5L19 7.5V21H6z"/><path d="M14 3v5h5M9 12.5h7M9 16h7"/></svg>',
+  diverses: '<svg viewBox="0 0 24 24"><path d="M20 4c-8 0-13 5-14 14l-2 2"/><path d="M6 18c6 0 10-3 11-9"/></svg>',
+  reglages: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.5 5.5l1.7 1.7M16.8 16.8l1.7 1.7M5.5 18.5l1.7-1.7M16.8 7.2l1.7-1.7"/></svg>'
+};
+const orne = s => '<div class="orne"><span></span>' + s + '<span></span></div>';
+
+/* ---------- Navigation (bouton retour Android compris) ---------- */
+let vue = { v: 'accueil', p: {} };
+function aller(v, p) {
+  vue = { v, p: p || {} };
+  history.pushState(vue, '');
+  rendre(); window.scrollTo(0, 0);
+}
+function remplacer(v, p) { vue = { v, p: p || {} }; history.replaceState(vue, ''); rendre(); window.scrollTo(0, 0); }
+window.addEventListener('popstate', e => {
+  if (!$('#voile').classList.contains('cache')) { fermer(); history.pushState(vue, ''); return; }
+  vue = e.state || { v: 'accueil', p: {} };
+  rendre();
+  if (apresRetour) { const f = apresRetour; apresRetour = null; f(); }
+});
+let apresRetour = null;
+function retour() { history.back(); }
+
+/* ---------- Mise en veille de l'écran ---------- */
+let verrou = null;
+async function garderEveille(oui) {
+  try {
+    if (oui && 'wakeLock' in navigator && !verrou) { verrou = await navigator.wakeLock.request('screen'); verrou.addEventListener('release', () => { verrou = null; }); }
+    if (!oui && verrou) { await verrou.release(); verrou = null; }
+  } catch (e) {}
+}
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && vue.v === 'technique') garderEveille(true); });
+
+/* ---------- Rendu ---------- */
+const VUES = {};
+function rendre() {
+  const app = $('#app');
+  const f = VUES[vue.v] || VUES.accueil;
+  app.className = '';
+  app.innerHTML = f(vue.p);
+  garderEveille(vue.v === 'technique');
+}
+function barre(titre, actions, sansRetour) {
+  return '<div class="barre">' + (sansRetour ? '<span style="width:70px"></span>' : '<button class="retour" data-a="retour">‹ Retour</button>') + '<h1>' + esc(titre) + '</h1><div class="act">' + (actions || '<span style="width:70px"></span>') + '</div></div>';
+}
+
+/* ----- Accueil ----- */
+VUES.accueil = () => {
+  fond('ciel');
+  const rien = !D.clients.length && !D.rdv.length && !D.notes.length;
+  const dern = D.derniereSauvegarde;
+  const ecart = dern ? (Date.now() - new Date(dern).getTime()) / 86400000 : Infinity;
+  const rappel = !rien && ecart > 30
+    ? '<div class="rappel"><span style="flex:1">Pense à sauvegarder tes données · dernière sauvegarde : ' + (dern ? dateCourte(dern.slice(0, 10)) : 'jamais') + '</span><button class="btn" data-a="sauver">Sauvegarder</button></div>' : '';
+  return '<div class="accueil">' + rappel +
+    '<button class="face ciel" data-a="aller" data-v="celeste">' + '<div style="position:absolute;inset:0"><div class="voie"></div>' + astres(110, '#e6ecfa', false, 23, true) + '</div>' +
+      '<div class="z"><div class="surtitre">Hypnose</div><div class="titre">Céleste</div>' + orne('✦ ✧ ✦') + '<div class="desc">Régression · vies antérieures · entre deux vies</div></div></button>' +
+    '<div class="horizon"></div>' +
+    '<button class="face sol" data-a="aller" data-v="terrestre"><div style="position:absolute;inset:0"><div class="rayon"></div>' + astres(70, '#ffcf8f', true, 7, false) + '</div>' +
+      '<div class="z"><div class="surtitre">Hypnose</div><div class="titre cuivre">Terrestre</div>' + orne('◆ ◇ ◆') + '<div class="desc">Stress · sommeil · tabac · confiance</div></div></button>' +
+    '<nav class="outils">' +
+      [['agenda', 'Agenda'], ['clients', 'Clients'], ['notes', 'Notes'], ['diverses', 'Diverses'], ['reglages', 'Réglages']].map(([v, l]) => '<button class="outil" data-a="aller" data-v="' + v + '">' + ICO[v] + l + '</button>').join('') +
+    '</nav></div>';
+};
+
+/* ----- Céleste ----- */
+VUES.celeste = () => {
+  fond('ciel');
+  return barre('Entre Ciel et Terre') + '<div class="page"><div class="heros"><div class="surtitre">Hypnose</div><div class="titre">Céleste</div>' + orne('✦ ✧ ✦') + '</div>' +
+    '<div class="etiquette">Techniques</div>' +
+    Object.values(TECHNIQUES).map(t => '<button class="carte" data-a="technique" data-id="' + t.id + '"><div class="int"><div><div class="nom">' + esc(t.nom) + '</div><div class="sous">' + esc(t.sous) + ' · ' + t.etapes.filter(e => e.r).length + ' étapes</div></div><span class="fl">›</span></div></button>').join('') +
+    '<div class="fantome">Prochaine technique…</div></div>';
+};
+
+/* ----- Terrestre ----- */
+VUES.terrestre = () => {
+  fond('terre'); $('#app').className = 'terre';
+  return barre('Entre Ciel et Terre') + '<div class="page"><div class="heros"><div class="surtitre">Hypnose</div><div class="titre">Terrestre</div>' + orne('◆ ◇ ◆') + '</div>' +
+    '<div class="etiquette">Protocoles</div><div class="fantome">Tes protocoles terrestres viendront ici…</div></div>';
+};
+
+/* ----- Technique ----- */
+const positions = {};
+VUES.technique = p => {
+  fond('ciel');
+  const t = TECHNIQUES[p.id]; if (!t) return VUES.celeste();
+  if (p.sommaire) {
+    return barre(t.nom) + '<div class="page"><div class="heros" style="margin-bottom:10px"><div class="surtitre">Étapes</div></div><div class="sommaire">' +
+      t.etapes.map((e, i) => '<button data-a="saut" data-i="' + i + '" class="' + (i === (positions[t.id] || 0) ? 'ici' : '') + '"><span>' + (e.r || '·') + '</span>' + esc(e.titre) + '</button>').join('') + '</div></div>';
+  }
+  const i = Math.min(positions[t.id] || 0, t.etapes.length - 1);
+  const e = t.etapes[i];
+  const total = t.etapes.filter(x => x.r).length;
+  const prog = ((i + 1) / t.etapes.length) * 100;
+  let corps = '';
+  for (const [type, val] of e.b) {
+    if (type === 'dit') corps += '<p class="dit">« ' + esc(val) + ' »</p>';
+    else if (type === 'sous') corps += '<div class="sousparti">' + esc(val) + '</div>';
+    else if (type === 'consigne') corps += '<div class="consigne">' + esc(val) + '</div>';
+    else if (type === 'q') corps += '<div class="questions"><div class="titreq">Questions</div>' + val.map(q => '<div class="q"><b>✦</b><span>' + esc(q) + '</span></div>').join('') + '</div>';
+  }
+  return barre(t.nom, '<button class="pastille" data-a="taille" data-d="-1" aria-label="Texte plus petit">A−</button><button class="pastille" data-a="taille" data-d="1" aria-label="Texte plus grand">A+</button><button class="pastille" data-a="choixpers">Personnes</button><button class="pastille" data-a="sommaire">Étapes</button>') +
+    '<div class="page"><div class="prog"><div style="width:' + prog + '%"></div></div>' +
+    '<div class="etape"><div class="int"><div class="romain">' + (e.r ? e.r + ' · ' + romain(total) : '✦') + '</div><h2>' + esc(e.titre) + '</h2>' + orne('✦') + corps + '</div></div></div>' +
+    '<div class="navetape"><button class="prec" data-a="etape" data-d="-1" ' + (i === 0 ? 'disabled' : '') + '>‹ Précédent</button>' +
+    (i < t.etapes.length - 1 ? '<button class="btn plein" data-a="etape" data-d="1">Suivant</button>' : '<button class="btn plein" data-a="retour">Terminer</button>') + '</div>';
+};
+function romain(n) { const v = [[10, 'X'], [9, 'IX'], [5, 'V'], [4, 'IV'], [1, 'I']]; let s = ''; for (const [a, b] of v) while (n >= a) { s += b; n -= a; } return s; }
+
+/* ----- Agenda ----- */
+let agenda = { date: auj(), mode: 'jour' };
+const rdvDu = iso => D.rdv.filter(r => r.date === iso).sort((a, b) => (a.heure || '').localeCompare(b.heure || ''));
+function carteRdv(r) {
+  const c = client(r.clientId), pr = prestation(r.prestationId);
+  return '<button class="rdv ' + (r.fait ? 'fait' : '') + '" data-a="rdv" data-id="' + r.id + '"><div class="h">' + esc(r.heure || '—') + '<small>' + (r.duree ? 'à ' + finHeure(r.heure, r.duree) : '') + '</small></div><div><div class="c">' + esc(nomClient(c)) + '</div><div class="p">' + esc([pr ? pr.nom : '', dureeTxt(r.duree), r.lieu].filter(Boolean).join(' · ')) + '</div>' + (r.note ? '<div class="p" style="font-style:italic">' + esc(r.note) + '</div>' : '') + '</div></button>';
+}
+VUES.agenda = () => {
+  fond('ciel');
+  let h = barre('Agenda', '<button class="pastille" data-a="aujourdhui">Aujourd\'hui</button>');
+  h += '<div class="page"><div class="navdate"><button class="rond" data-a="decal" data-d="-1">‹</button><div class="lab">';
+  if (agenda.mode === 'jour') {
+    h += esc(dateLongue(agenda.date)) + '</div><button class="rond" data-a="decal" data-d="1">›</button></div>';
+  } else {
+    const d = versDate(agenda.date); const lundi = decaler(agenda.date, -((d.getDay() + 6) % 7));
+    h += 'Semaine du ' + versDate(lundi).getDate() + ' ' + MOIS[versDate(lundi).getMonth()] + '</div><button class="rond" data-a="decal" data-d="1">›</button></div>';
+  }
+  h += '<div style="display:flex;justify-content:center;gap:10px;margin-bottom:16px;align-items:center"><div class="bascule"><button class="' + (agenda.mode === 'jour' ? 'on' : '') + '" data-a="mode" data-m="jour">Jour</button><button class="' + (agenda.mode === 'semaine' ? 'on' : '') + '" data-a="mode" data-m="semaine">Semaine</button></div><input type="date" id="sautdate" value="' + agenda.date + '" style="background:#05070fcc;border:0.5px solid #c9d4ee44;border-radius:22px;padding:8px 12px;color:#eef1f8;color-scheme:dark"></div>';
+  if (agenda.mode === 'jour') {
+    const l = rdvDu(agenda.date);
+    h += l.length ? l.map(carteRdv).join('') : '<div class="vide">Aucun rendez-vous ce jour</div>';
+  } else {
+    const d = versDate(agenda.date); const lundi = decaler(agenda.date, -((d.getDay() + 6) % 7));
+    for (let k = 0; k < 7; k++) {
+      const j = decaler(lundi, k), l = rdvDu(j);
+      h += '<button class="jour ' + (j === auj() ? 'auj' : '') + '" data-a="voirjour" data-j="' + j + '"><div class="jt">' + JOURS[versDate(j).getDay()] + ' ' + versDate(j).getDate() + ' ' + MOIS[versDate(j).getMonth()] + '</div><div class="jr">' +
+        (l.length ? l.map(r => esc((r.heure || '') + ' · ' + nomClient(client(r.clientId)))).join('<br>') : '<span style="opacity:.5">Libre</span>') + '</div></button>';
+    }
+  }
+  h += '</div><button class="btn plein flottant" data-a="nouveaurdv">+ Rendez-vous</button>';
+  return h;
+};
+
+/* ----- Clients ----- */
+let recherche = '';
+VUES.clients = () => {
+  fond('ciel');
+  const l = D.clients.filter(c => nomClient(c).toLowerCase().includes(recherche.toLowerCase())).sort((a, b) => nomClient(a).localeCompare(nomClient(b), 'fr'));
+  return barre('Clients') + '<div class="page"><div class="champ"><input id="recherche" placeholder="Rechercher un client…" value="' + esc(recherche) + '"></div>' +
+    (l.length ? l.map(c => {
+      const nbr = D.rdv.filter(r => r.clientId === c.id).length;
+      return '<button class="carte" data-a="client" data-id="' + c.id + '"><div class="int"><div><div class="nom">' + esc(nomClient(c)) + '</div><div class="sous">' + nbr + ' rendez-vous' + (c.pack ? ' · pack ' + c.pack.utilisees + '/' + c.pack.total : '') + '</div></div><span class="fl">›</span></div></button>';
+    }).join('') : '<div class="vide">' + (D.clients.length ? 'Aucun résultat' : 'Aucun client pour l\'instant') + '</div>') +
+    '</div><button class="btn plein flottant" data-a="nouveauclient">+ Client</button>';
+};
+VUES.client = p => {
+  fond('ciel');
+  const c = client(p.id); if (!c) return VUES.clients();
+  const rdvs = D.rdv.filter(r => r.clientId === c.id).sort((a, b) => (b.date + b.heure).localeCompare(a.date + a.heure));
+  const notes = D.notes.filter(n => n.clientId === c.id).sort((a, b) => b.numero.localeCompare(a.numero));
+  const nbp = (c.personnes || []).length;
+  let h = barre(nomClient(c), '<button class="pastille" data-a="modifclient" data-id="' + c.id + '">Modifier</button>');
+  h += '<div class="page"><div class="heros" style="margin-bottom:16px"><div class="titre" style="font-size:42px">' + esc(nomClient(c)) + '</div></div>';
+  const coord = [c.tel ? '<a style="color:#dfe5f3" href="tel:' + esc(c.tel.replace(/\s/g, '')) + '">' + esc(c.tel) + '</a>' : '', c.mail ? '<a style="color:#dfe5f3" href="mailto:' + esc(c.mail) + '">' + esc(c.mail) + '</a>' : '', esc(c.adresse || '')].filter(Boolean);
+  if (coord.length) h += '<div class="bloc" style="font-size:17px;line-height:1.8">' + coord.join('<br>') + '</div>';
+  if (c.profil) h += '<div class="bloc" style="white-space:pre-line;font-size:16px;line-height:1.6;color:#cfd6e6">' + esc(c.profil) + '</div>';
+  if (c.pack) {
+    h += '<div class="etiquette">Pack régression</div><div class="bloc" style="display:flex;align-items:center;gap:14px"><div style="flex:1"><div style="font-family:var(--serif);font-size:24px;color:#f3f5fb">Séances utilisées : ' + c.pack.utilisees + ' / ' + c.pack.total + '</div><div class="discret">Pack réglé le ' + dateCourte(c.pack.depuis) + (c.pack.note ? ' · note ' + esc(c.pack.note) : '') + '</div></div><button class="rond" data-a="pack" data-d="-1">−</button><button class="rond" data-a="pack" data-d="1">+</button></div>';
+  }
+  h += '<div class="rangee" style="margin:14px 0"><button class="btn" data-a="personnes" data-id="' + c.id + '">Fiche personnes (' + nbp + ')</button><button class="btn" data-a="nouveaurdv" data-client="' + c.id + '">+ Rendez-vous</button><button class="btn" data-a="nouvellenote" data-client="' + c.id + '">+ Note de séance</button></div>';
+  h += '<div class="etiquette">Rendez-vous</div>' + (rdvs.length ? rdvs.map(r => '<button class="rdv ' + (r.fait ? 'fait' : '') + '" data-a="rdv" data-id="' + r.id + '"><div class="h">' + dateCourte(r.date).slice(0, 5) + '<small>' + esc(r.heure || '') + '</small></div><div><div class="c" style="font-size:19px">' + esc(prestation(r.prestationId) ? prestation(r.prestationId).nom : 'Rendez-vous') + '</div><div class="p">' + esc([dureeTxt(r.duree), r.lieu].filter(Boolean).join(' · ')) + '</div></div></button>').join('') : '<div class="discret">Aucun rendez-vous.</div>');
+  h += '<div class="etiquette">Notes de séance</div>' + (notes.length ? notes.map(n => '<button class="rdv" data-a="voirnote" data-id="' + n.id + '"><div class="h">' + esc(n.numero) + '</div><div><div class="c" style="font-size:19px">' + euros(n.total) + '</div><div class="p">' + dateCourte(n.date) + '</div></div></button>').join('') : '<div class="discret">Aucune note de séance.</div>');
+  return h + '</div>';
+};
+
+/* ----- Fiche personnes ----- */
+VUES.personnes = p => {
+  fond('ciel');
+  const c = client(p.id); if (!c) return VUES.clients();
+  const l = (c.personnes || []);
+  return barre('Fiche personnes') + '<div class="page"><div class="heros" style="margin-bottom:14px"><div class="surtitre">Personnes marquantes</div><div class="titre" style="font-size:38px">' + esc(nomClient(c)) + '</div><div class="discret">Par ordre d\'apparition dans sa vie</div></div>' +
+    (l.length ? l.map((x, i) => '<div class="pers"><div class="num">' + (i + 1) + '</div><div style="flex:1;min-width:0" data-a="modifpers" data-i="' + i + '"><div><span class="pn">' + esc(x.prenom || 'Prénom') + '</span><span class="pl">' + esc(x.lien || '') + '</span></div>' + (x.caractere ? '<div class="pc">' + esc(x.caractere) + '</div>' : '') + '<div class="ps">En séance : ' + (x.seance ? '<span style="color:#dfe5f3">' + esc(x.seance) + '</span>' : '…') + '</div></div><div class="ordre"><button data-a="ordrepers" data-i="' + i + '" data-d="-1" aria-label="Monter">▲</button><button data-a="ordrepers" data-i="' + i + '" data-d="1" aria-label="Descendre">▼</button></div></div>').join('') : '<div class="vide">Aucune personne pour l\'instant</div>') +
+    '<button class="btn large" style="margin-top:8px" data-a="ajoutpers">+ Ajouter une personne</button></div>';
+};
+
+/* ----- Notes de séance ----- */
+VUES.notes = () => {
+  fond('ciel');
+  const l = [...D.notes].sort((a, b) => b.numero.localeCompare(a.numero));
+  return barre('Notes de séance') + '<div class="page">' +
+    (l.length ? l.map(n => '<button class="rdv" data-a="voirnote" data-id="' + n.id + '"><div class="h">' + esc(n.numero) + '<small>' + dateCourte(n.date) + '</small></div><div><div class="c">' + esc(n.clientNom) + '</div><div class="p">' + euros(n.total) + ' · ' + esc(n.lignes.map(x => x.intitule).join(', ')) + '</div></div></button>').join('') : '<div class="vide">Aucune note de séance pour l\'instant</div>') +
+    '</div><button class="btn plein flottant" data-a="nouvellenote">+ Nouvelle note</button>';
+};
+let brouillon = null;
+function nouveauBrouillon(p) {
+  const r = p.rdv ? D.rdv.find(x => x.id === p.rdv) : null;
+  const pr = r ? prestation(r.prestationId) : null;
+  brouillon = {
+    clientId: r ? r.clientId : (p.client || ''),
+    date: auj(),
+    dateSeance: r ? r.date : auj(),
+    lieu: r ? (r.lieu || '') : '',
+    lignes: [pr ? { prestationId: pr.id, intitule: pr.nom, duree: r.duree || pr.duree || '', prix: pr.prix || '' } : { prestationId: '', intitule: '', duree: '', prix: '' }],
+    mode: 'Espèces',
+    dateReglement: auj(),
+    rdvId: r ? r.id : ''
+  };
+}
+VUES.nouvellenote = p => {
+  fond('ciel');
+  if (!brouillon) nouveauBrouillon(p);
+  const b = brouillon;
+  const optsC = '<option value="">— Choisir un client —</option>' + [...D.clients].sort((a, z) => nomClient(a).localeCompare(nomClient(z), 'fr')).map(c => '<option value="' + c.id + '" ' + (c.id === b.clientId ? 'selected' : '') + '>' + esc(nomClient(c)) + '</option>').join('');
+  const optsP = sel => '<option value="">— Prestation —</option>' + D.prestations.map(x => '<option value="' + x.id + '" ' + (x.id === sel ? 'selected' : '') + '>' + esc(x.nom) + (x.prix !== '' && x.prix != null ? ' · ' + x.prix + ' €' : ' · à définir') + '</option>').join('');
+  let h = barre('Nouvelle note') + '<div class="page"><div class="heros" style="margin-bottom:14px"><div class="surtitre">Note de séance</div></div>';
+  h += '<div class="champ"><label>Client</label><select data-b="clientId">' + optsC + '</select></div>';
+  h += '<div class="deux"><div class="champ"><label>Date de la note</label><input type="date" data-b="date" value="' + b.date + '"></div><div class="champ"><label>Date de la séance</label><input type="date" data-b="dateSeance" value="' + b.dateSeance + '"></div></div>';
+  h += '<div class="champ"><label>Lieu de la séance</label><input data-b="lieu" value="' + esc(b.lieu) + '" placeholder="Cabinet, domicile du client…"></div>';
+  h += '<div class="etiquette">Prestations</div>';
+  b.lignes.forEach((l, i) => {
+    h += '<div class="ligneprest"><div class="champ"><label>Prestation</label><select data-l="' + i + '" data-k="prestationId">' + optsP(l.prestationId) + '</select></div>' +
+      '<div class="trois"><div class="champ"><label>Intitulé</label><input data-l="' + i + '" data-k="intitule" value="' + esc(l.intitule) + '"></div><div class="champ"><label>Durée (min)</label><input type="number" inputmode="numeric" data-l="' + i + '" data-k="duree" value="' + esc(l.duree) + '"></div><div class="champ"><label>Prix (€)</label><input type="number" inputmode="decimal" step="0.01" data-l="' + i + '" data-k="prix" value="' + esc(l.prix) + '"></div></div>' +
+      (b.lignes.length > 1 ? '<button class="btn danger" data-a="supligne" data-i="' + i + '">Retirer cette ligne</button>' : '') + '</div>';
+  });
+  h += '<button class="btn large" data-a="ajligne">+ Ajouter une ligne</button>';
+  h += '<div class="etiquette">Règlement</div><div class="deux"><div class="champ"><label>Mode de paiement</label><select data-b="mode">' + ['Espèces', 'Virement', 'Carte', 'Chèque', 'Non réglé'].map(m => '<option ' + (m === b.mode ? 'selected' : '') + '>' + m + '</option>').join('') + '</select></div><div class="champ"><label>Réglé le</label><input type="date" data-b="dateReglement" value="' + b.dateReglement + '"></div></div>';
+  h += '<button class="btn plein large" style="margin-top:12px" data-a="apercunote">Aperçu</button></div>';
+  return h;
+};
+function htmlNote(n) {
+  const e = n.emetteur;
+  return '<div class="papier"><div class="ent"><div class="em"><b>' + esc(e.nom) + '</b><br>' + esc(e.statut) + ' · ' + esc(e.activite) + '<br>' + esc(e.adresse) + '<br>SIRET ' + esc(e.siret) + '<br>' + esc(e.tel) + ' · ' + esc(e.mail) + '</div>' +
+    '<div><div class="tit">NOTE DE SÉANCE</div><div style="text-align:right;margin-top:6px">N° <b>' + esc(n.numero || 'à attribuer') + '</b><br>Date : ' + dateCourte(n.date) + '</div></div></div>' +
+    '<div class="cli"><span style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#6b6d75">Client</span><br><b>' + esc(n.clientNom) + '</b>' + (n.clientAdresse ? '<br>' + esc(n.clientAdresse) : '') + '</div>' +
+    '<div>Séance du ' + dateCourte(n.dateSeance) + (n.lieu ? ' · ' + esc(n.lieu) : '') + '</div>' +
+    '<table><tr><th>Prestation</th><th>Durée</th><th class="d">Prix</th></tr>' + n.lignes.map(l => '<tr><td>' + esc(l.intitule) + '</td><td>' + esc(dureeTxt(l.duree)) + '</td><td class="d">' + euros(l.prix) + '</td></tr>').join('') + '</table>' +
+    '<div class="tot"><span>Total</span><span>' + euros(n.total) + '</span></div>' +
+    '<div class="men">' + esc(e.tva) + (n.mode && n.mode !== 'Non réglé' ? '<br>Réglé le ' + dateCourte(n.dateReglement) + ' par ' + esc(n.mode.toLowerCase()) + '.' : '') + '</div></div>';
+}
+function noteDepuisBrouillon() {
+  const b = brouillon, c = client(b.clientId);
+  const lignes = b.lignes.filter(l => l.intitule || l.prix).map(l => ({ intitule: l.intitule || '', duree: l.duree || '', prix: Number(l.prix) || 0, prestationId: l.prestationId }));
+  return { clientId: b.clientId, clientNom: nomClient(c), clientAdresse: c ? c.adresse || '' : '', date: b.date, dateSeance: b.dateSeance, lieu: b.lieu, lignes, total: lignes.reduce((s, l) => s + l.prix, 0), mode: b.mode, dateReglement: b.dateReglement, emetteur: { ...D.emetteur }, rdvId: b.rdvId };
+}
+VUES.apercunote = () => {
+  fond('ciel');
+  if (!brouillon) return VUES.notes();
+  const n = noteDepuisBrouillon();
+  return barre('Aperçu') + '<div class="page">' + htmlNote(n) + '<div class="discret" style="margin:14px 0;text-align:center">Une fois validée, la note reçoit son numéro et ne peut plus être modifiée.</div><div class="rangee"><button class="btn" data-a="retour">Modifier</button><button class="btn plein" data-a="validernote">Valider</button></div></div>';
+};
+VUES.voirnote = p => {
+  fond('ciel');
+  const n = D.notes.find(x => x.id === p.id); if (!n) return VUES.notes();
+  const derniere = D.notes.filter(x => x.numero.slice(0, 4) === n.numero.slice(0, 4)).sort((a, b) => b.numero.localeCompare(a.numero))[0];
+  return barre('Note ' + n.numero) + '<div class="page">' + htmlNote(n) +
+    '<div class="rangee" style="margin-top:18px"><button class="btn" data-a="pdf" data-id="' + n.id + '">Télécharger le PDF</button><button class="btn plein" data-a="envoyer" data-id="' + n.id + '">Envoyer au client</button></div>' +
+    (derniere && derniere.id === n.id ? '<button class="btn danger large" style="margin-top:22px" data-a="supnote" data-id="' + n.id + '">Annuler cette note (dernière émise)</button>' : '') + '</div>';
+};
+
+/* ----- Notes diverses ----- */
+VUES.diverses = () => {
+  fond('ciel');
+  return barre('Notes diverses') + '<div class="page"><div class="heros" style="margin-bottom:14px"><div class="surtitre">Carnet</div><div class="titre" style="font-size:40px">Notes diverses</div></div>' +
+    (D.diverses.length ? D.diverses.map(n => '<div class="bloc" data-a="modifdiverse" data-id="' + n.id + '"><div style="font-family:var(--serif);font-size:25px;color:#f3f5fb;margin-bottom:8px">' + esc(n.titre) + '</div><div style="white-space:pre-line;font-size:17px;line-height:1.65;color:#cfd6e6">' + esc(n.texte) + '</div></div>').join('') : '<div class="vide">Aucune note</div>') +
+    '</div><button class="btn plein flottant" data-a="nouvellediverse">+ Note</button>';
+};
+
+/* ----- Réglages ----- */
+VUES.reglages = () => {
+  fond('ciel');
+  const e = D.emetteur;
+  const ch = (k, l) => '<div class="champ"><label>' + l + '</label><input data-e="' + k + '" value="' + esc(e[k]) + '"></div>';
+  return barre('Réglages') + '<div class="page">' +
+    '<div class="etiquette">Sauvegarde</div><div class="bloc"><div style="font-size:16px;margin-bottom:12px">Dernière sauvegarde : <b>' + (D.derniereSauvegarde ? dateCourte(D.derniereSauvegarde.slice(0, 10)) : 'jamais') + '</b></div><div class="discret" style="margin-bottom:14px">Toutes tes données sont sur cette tablette. Garde régulièrement une copie ailleurs (mail, Drive, clé). Un rappel apparaît une fois par mois.</div><div class="rangee"><button class="btn plein" data-a="sauver">Sauvegarder</button><button class="btn" data-a="restaurer">Restaurer</button></div><input type="file" id="fichierrest" accept="application/json,.json" class="cache"></div>' +
+    '<div class="etiquette">Prestations et tarifs</div>' + D.prestations.map(x => '<button class="rdv" data-a="modifprest" data-id="' + x.id + '"><div style="flex:1"><div class="c" style="font-size:20px">' + esc(x.nom) + '</div><div class="p">' + (x.prix !== '' && x.prix != null ? euros(x.prix) : 'Prix à définir') + (x.duree ? ' · ' + dureeTxt(x.duree) : '') + (x.pack ? ' · pack de ' + x.pack + ' séances' : '') + '</div></div></button>').join('') +
+    '<button class="btn large" data-a="ajoutprest">+ Ajouter une prestation</button>' +
+    '<div class="etiquette">Mes coordonnées (notes de séance)</div>' + ch('nom', 'Nom') + ch('statut', 'Statut') + ch('activite', 'Activité') + ch('adresse', 'Adresse') + '<div class="deux">' + ch('siret', 'SIRET') + ch('tel', 'Téléphone') + '</div>' + ch('mail', 'Mail') + ch('tva', 'Mention TVA') +
+    '<button class="btn plein large" data-a="sauveremetteur">Enregistrer mes coordonnées</button>' +
+    '<div class="discret" style="text-align:center;margin-top:30px">Entre Ciel et Terre · version 1</div></div>';
+};
+
+/* ---------- Fenêtres (formulaires) ---------- */
+let formAct = null;
+function ouvrir(titre, html, act) {
+  $('#feuille').innerHTML = '<h3>' + esc(titre) + '</h3>' + html;
+  $('#voile').classList.remove('cache'); formAct = act || {};
+}
+function fermer() { $('#voile').classList.add('cache'); $('#feuille').innerHTML = ''; formAct = null; }
+const valeur = id => { const el = document.getElementById(id); return el ? el.value.trim() : ''; };
+const champ = (id, l, v, type, extra) => '<div class="champ"><label for="' + id + '">' + l + '</label>' + (type === 'textarea' ? '<textarea id="' + id + '" ' + (extra || '') + '>' + esc(v) + '</textarea>' : '<input id="' + id + '" type="' + (type || 'text') + '" value="' + esc(v) + '" ' + (extra || '') + '>') + '</div>';
+const boutonsForm = (sup) => '<div class="rangee" style="margin-top:10px">' + (sup ? '<button class="btn danger" data-a="f-sup">Supprimer</button>' : '') + '<button class="btn" data-a="f-annuler">Annuler</button><button class="btn plein" data-a="f-ok">Enregistrer</button></div>';
+
+function formClient(c, apres) {
+  c = c || {};
+  ouvrir(c.id ? 'Modifier le client' : 'Nouveau client',
+    '<div class="deux">' + champ('fprenom', 'Prénom', c.prenom) + champ('fnom', 'Nom', c.nom) + '</div><div class="deux">' + champ('ftel', 'Téléphone', c.tel, 'tel') + champ('fmail', 'Mail', c.mail, 'email') + '</div>' + champ('fadr', 'Adresse', c.adresse) + champ('fprofil', 'Notes sur la personne', c.profil, 'textarea') + boutonsForm(!!c.id), {
+      ok() {
+        if (!valeur('fprenom') && !valeur('fnom')) return toast('Indique au moins un prénom ou un nom.');
+        const obj = c.id ? c : { id: uid(), personnes: [], cree: new Date().toISOString() };
+        Object.assign(obj, { prenom: valeur('fprenom'), nom: valeur('fnom'), tel: valeur('ftel'), mail: valeur('fmail'), adresse: valeur('fadr'), profil: valeur('fprofil') });
+        if (!c.id) D.clients.push(obj);
+        enregistrer(); fermer(); apres ? apres(obj) : rendre();
+      },
+      sup() {
+        if (!confirm('Supprimer ce client ? Ses rendez-vous seront aussi supprimés. Les notes de séance émises sont conservées.')) return;
+        D.clients = D.clients.filter(x => x.id !== c.id); D.rdv = D.rdv.filter(r => r.clientId !== c.id);
+        enregistrer(); fermer(); remplacer('clients');
+      }
+    });
+}
+
+function formRdv(r, defauts) {
+  r = r || {}; defauts = defauts || {};
+  const cid = r.clientId || defauts.client || '';
+  const optsC = '<option value="">— Choisir —</option><option value="__nouveau">+ Nouveau client…</option>' + [...D.clients].sort((a, b) => nomClient(a).localeCompare(nomClient(b), 'fr')).map(c => '<option value="' + c.id + '" ' + (c.id === cid ? 'selected' : '') + '>' + esc(nomClient(c)) + '</option>').join('');
+  const optsP = '<option value="">— Prestation —</option>' + D.prestations.map(x => '<option value="' + x.id + '" ' + (x.id === r.prestationId ? 'selected' : '') + '>' + esc(x.nom) + '</option>').join('');
+  ouvrir(r.id ? 'Modifier le rendez-vous' : 'Nouveau rendez-vous',
+    '<div class="champ"><label for="fcli">Client</label><select id="fcli">' + optsC + '</select></div><div id="zonenouv" class="cache deux">' + champ('fnprenom', 'Prénom', '') + champ('fnnom', 'Nom', '') + '</div>' +
+    '<div class="deux">' + champ('fdate', 'Date', r.date || defauts.date || agenda.date, 'date') + champ('fheure', 'Heure', r.heure || '09:00', 'time') + '</div>' +
+    '<div class="deux"><div class="champ"><label for="fprest">Prestation</label><select id="fprest">' + optsP + '</select></div>' + champ('fduree', 'Durée (min)', r.duree || '', 'number', 'inputmode="numeric"') + '</div>' +
+    champ('flieu', 'Lieu', r.lieu || '', 'text', 'list="lieux" placeholder="Cabinet, domicile du client…"') + '<datalist id="lieux"><option value="Cabinet"><option value="Domicile du client"><option value="À distance"></datalist>' +
+    champ('fnote', 'Note', r.note || '', 'textarea', 'style="min-height:70px"') + boutonsForm(!!r.id), {
+      ok() {
+        let clientId = valeur('fcli');
+        if (clientId === '__nouveau') {
+          if (!valeur('fnprenom') && !valeur('fnnom')) return toast('Indique le prénom ou le nom du nouveau client.');
+          const c = { id: uid(), prenom: valeur('fnprenom'), nom: valeur('fnnom'), personnes: [], cree: new Date().toISOString() };
+          D.clients.push(c); clientId = c.id;
+        }
+        if (!clientId) return toast('Choisis un client.');
+        if (!valeur('fdate')) return toast('Indique une date.');
+        const obj = r.id ? r : { id: uid() };
+        Object.assign(obj, { clientId, date: valeur('fdate'), heure: valeur('fheure'), prestationId: valeur('fprest'), duree: valeur('fduree'), lieu: valeur('flieu'), note: valeur('fnote') });
+        const deb = h => { if (!h) return 0; const [a, b] = h.split(':').map(Number); return a * 60 + b; };
+        const conflit = D.rdv.find(x => x.id !== obj.id && x.date === obj.date && x.heure && obj.heure && deb(x.heure) < deb(obj.heure) + (Number(obj.duree) || 60) && deb(obj.heure) < deb(x.heure) + (Number(x.duree) || 60));
+        if (conflit && !confirm('Ce rendez-vous chevauche celui de ' + nomClient(client(conflit.clientId)) + ' à ' + conflit.heure + '. Enregistrer quand même ?')) return;
+        if (!r.id) D.rdv.push(obj);
+        agenda.date = obj.date;
+        enregistrer(); fermer(); rendre(); toast('Rendez-vous enregistré');
+      },
+      sup() { if (!confirm('Supprimer ce rendez-vous ?')) return; D.rdv = D.rdv.filter(x => x.id !== r.id); enregistrer(); fermer(); rendre(); }
+    });
+  $('#fcli').addEventListener('change', e => $('#zonenouv').classList.toggle('cache', e.target.value !== '__nouveau'));
+  $('#fprest').addEventListener('change', e => { const p = prestation(e.target.value); if (p && p.duree && !$('#fduree').value) $('#fduree').value = p.duree; });
+}
+
+function ficheRdv(r) {
+  const c = client(r.clientId), p = prestation(r.prestationId);
+  ouvrir(nomClient(c),
+    '<div style="text-align:center;margin:-8px 0 18px;color:#cfd6e6;font-size:17px;line-height:1.7">' + esc(dateLongue(r.date)) + '<br>' + esc(r.heure || '') + (r.duree ? ' → ' + finHeure(r.heure, r.duree) + ' (' + dureeTxt(r.duree) + ')' : '') + '<br>' + esc([p ? p.nom : '', r.lieu].filter(Boolean).join(' · ')) + (r.note ? '<br><i>' + esc(r.note) + '</i>' : '') + '</div>' +
+    '<div style="display:grid;gap:10px">' +
+    '<button class="btn" data-a="f-fait">' + (r.fait ? 'Marquer comme non honoré' : 'Marquer comme honoré') + '</button>' +
+    '<button class="btn" data-a="f-note">Créer la note de séance</button>' +
+    '<button class="btn" data-a="f-client">Ouvrir la fiche client</button>' +
+    '<button class="btn" data-a="f-modif">Modifier</button>' +
+    '<button class="btn" data-a="f-annuler">Fermer</button></div>', {
+      fait() { r.fait = !r.fait; enregistrer(); fermer(); rendre(); },
+      note() { fermer(); brouillon = null; nouveauBrouillon({ rdv: r.id }); aller('nouvellenote', {}); },
+      client() { fermer(); aller('client', { id: r.clientId }); },
+      modif() { fermer(); formRdv(r); }
+    });
+}
+
+function formPers(c, i) {
+  const x = i != null ? c.personnes[i] : {};
+  ouvrir(i != null ? 'Modifier' : 'Nouvelle personne',
+    '<div class="deux">' + champ('pprenom', 'Prénom', x.prenom) + champ('plien', 'Lien', x.lien, 'text', 'list="liens" placeholder="mère, frère, ami…"') + '</div><datalist id="liens">' + ['mère', 'père', 'grand-mère', 'grand-père', 'frère', 'sœur', 'conjoint', 'enfant', 'premier amour', 'amour', 'meilleur ami', 'meilleure amie', 'oncle', 'tante'].map(v => '<option value="' + v + '">').join('') + '</datalist>' +
+    champ('pcar', 'Caractère', x.caractere, 'text', 'placeholder="quelques mots"') + champ('pseance', 'En séance', x.seance, 'textarea', 'style="min-height:70px" placeholder="Qui elle s\'est révélée être dans le monde spirituel…"') + boutonsForm(i != null), {
+      ok() {
+        const obj = { prenom: valeur('pprenom'), lien: valeur('plien'), caractere: valeur('pcar'), seance: valeur('pseance') };
+        if (!obj.prenom) return toast('Indique au moins un prénom.');
+        c.personnes = c.personnes || [];
+        if (i != null) c.personnes[i] = obj; else c.personnes.push(obj);
+        enregistrer(); fermer(); rendre();
+      },
+      sup() { if (!confirm('Retirer cette personne ?')) return; c.personnes.splice(i, 1); enregistrer(); fermer(); rendre(); }
+    });
+}
+
+function formDiverse(n) {
+  n = n || {};
+  ouvrir(n.id ? 'Modifier la note' : 'Nouvelle note', champ('dtitre', 'Titre', n.titre) + champ('dtexte', 'Texte', n.texte, 'textarea', 'style="min-height:220px"') + boutonsForm(!!n.id), {
+    ok() {
+      if (!valeur('dtitre')) return toast('Donne un titre à la note.');
+      const obj = n.id ? n : { id: uid() };
+      obj.titre = valeur('dtitre'); obj.texte = document.getElementById('dtexte').value;
+      if (!n.id) D.diverses.push(obj);
+      enregistrer(); fermer(); rendre();
+    },
+    sup() { if (!confirm('Supprimer cette note ?')) return; D.diverses = D.diverses.filter(x => x.id !== n.id); enregistrer(); fermer(); rendre(); }
+  });
+}
+
+function formPrest(x) {
+  x = x || {};
+  ouvrir(x.id ? 'Prestation' : 'Nouvelle prestation', champ('snom', 'Nom', x.nom) + '<div class="deux">' + champ('sprix', 'Prix (€) — vide = à définir', x.prix, 'number', 'inputmode="decimal" step="0.01"') + champ('sduree', 'Durée habituelle (min)', x.duree, 'number', 'inputmode="numeric"') + '</div>' + champ('spack', 'Pack : nombre de séances incluses (0 = non)', x.pack || 0, 'number', 'inputmode="numeric"') + boutonsForm(!!x.id), {
+    ok() {
+      if (!valeur('snom')) return toast('Donne un nom à la prestation.');
+      const obj = x.id ? x : { id: uid() };
+      Object.assign(obj, { nom: valeur('snom'), prix: valeur('sprix') === '' ? '' : Number(valeur('sprix')), duree: valeur('sduree'), pack: Number(valeur('spack')) || 0 });
+      if (!x.id) D.prestations.push(obj);
+      enregistrer(); fermer(); rendre();
+    },
+    sup() { if (!confirm('Supprimer cette prestation ?')) return; D.prestations = D.prestations.filter(p => p.id !== x.id); enregistrer(); fermer(); rendre(); }
+  });
+}
+
+/* ---------- PDF (généré sur la tablette, sans internet) ---------- */
+const LARG = [278,278,355,556,556,889,667,191,333,333,389,584,278,333,278,278,556,556,556,556,556,556,556,556,556,556,278,278,584,584,584,556,1015,667,667,722,722,667,611,778,722,278,500,667,556,833,722,778,667,778,722,667,611,722,667,944,667,667,611,278,278,278,469,556,333,556,556,500,556,556,278,556,556,222,222,500,222,833,556,556,556,556,333,500,278,556,500,722,500,500,500,334,260,334,584];
+const SANS_ACCENT = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '');
+function largeur(t, taille, gras) {
+  let w = 0;
+  for (const ch of SANS_ACCENT(t)) { const c = ch.charCodeAt(0); w += (c >= 32 && c <= 126) ? LARG[c - 32] : 556; }
+  return w * taille / 1000 * (gras ? 1.06 : 1);
+}
+const WIN = { '€': 128, '‚': 130, '„': 132, '…': 133, '‘': 145, '’': 146, '“': 147, '”': 148, '•': 149, '–': 150, '—': 151, 'œ': 156, 'Œ': 140, ' ': 32, ' ': 32 };
+function octets(t) {
+  const out = [];
+  for (const ch of t) {
+    const c = ch.charCodeAt(0);
+    let b = WIN[ch] != null ? WIN[ch] : (c < 256 ? c : 63);
+    if (b === 40 || b === 41 || b === 92) out.push(92);
+    out.push(b);
+  }
+  return out;
+}
+function creerPDF(n) {
+  const e = n.emetteur;
+  const ops = [];
+  const txt = (x, y, t, taille, gras, couleur) => { ops.push({ x, y, t, taille, gras, couleur: couleur || '0.11 0.11 0.13' }); };
+  const droite = (xd, y, t, taille, gras, couleur) => txt(xd - largeur(t, taille, gras), y, t, taille, gras, couleur);
+  const traits = [], fonds = [];
+  let y = 790;
+  txt(50, y, e.nom, 14, true); droite(545, y, 'NOTE DE SÉANCE', 15, true);
+  y -= 17; txt(50, y, e.statut + ' · ' + e.activite, 10);
+  droite(545, y, 'N° ' + n.numero, 11, true);
+  y -= 14; txt(50, y, e.adresse, 10); droite(545, y, 'Date : ' + dateCourte(n.date), 10);
+  y -= 14; txt(50, y, 'SIRET ' + e.siret, 10);
+  y -= 14; txt(50, y, e.tel + ' · ' + e.mail, 10);
+  y -= 40;
+  fonds.push([50, y - 30, 495, 46]);
+  txt(62, y, 'CLIENT', 8, false, '0.42 0.43 0.46');
+  txt(62, y - 16, n.clientNom, 12, true);
+  if (n.clientAdresse) { y -= 14; txt(62, y - 16, n.clientAdresse, 10); fonds[0][1] -= 14; fonds[0][3] += 14; }
+  y -= 60;
+  txt(50, y, 'Séance du ' + dateCourte(n.dateSeance) + (n.lieu ? ' · ' + n.lieu : ''), 11);
+  y -= 30;
+  txt(50, y, 'PRESTATION', 8, false, '0.42 0.43 0.46'); txt(360, y, 'DURÉE', 8, false, '0.42 0.43 0.46'); droite(545, y, 'PRIX', 8, false, '0.42 0.43 0.46');
+  y -= 8; traits.push([50, y, 545, y, 0.8]);
+  for (const l of n.lignes) {
+    y -= 20;
+    let lib = l.intitule; while (largeur(lib, 11) > 300 && lib.length > 4) lib = lib.slice(0, -2);
+    if (lib !== l.intitule) lib = lib.slice(0, -1) + '…';
+    txt(50, y, lib, 11); txt(360, y, dureeTxt(l.duree), 11); droite(545, y, euros(l.prix), 11);
+    y -= 9; traits.push([50, y, 545, y, 0.3]);
+  }
+  y -= 26; droite(470, y, 'Total', 13, true); droite(545, y, euros(n.total), 13, true);
+  y -= 40; txt(50, y, e.tva, 9, false, '0.33 0.34 0.37');
+  if (n.mode && n.mode !== 'Non réglé') { y -= 14; txt(50, y, 'Réglé le ' + dateCourte(n.dateReglement) + ' par ' + n.mode.toLowerCase() + '.', 9, false, '0.33 0.34 0.37'); }
+
+  // Construction du flux
+  const enc = new TextEncoder();
+  let flux = [];
+  const pousse = s => { for (const b of enc.encode(s)) flux.push(b); };
+  for (const f of fonds) pousse('0.945 0.937 0.914 rg ' + f.join(' ') + ' re f\n');
+  for (const t of traits) pousse('0.8 0.79 0.76 RG ' + t[4] + ' w ' + t[0] + ' ' + t[1] + ' m ' + t[2] + ' ' + t[3] + ' l S\n');
+  for (const o of ops) {
+    pousse('BT ' + o.couleur + ' rg /' + (o.gras ? 'F2' : 'F1') + ' ' + o.taille + ' Tf ' + o.x.toFixed(2) + ' ' + o.y.toFixed(2) + ' Td (');
+    flux.push(...octets(o.t));
+    pousse(') Tj ET\n');
+  }
+  const objets = [
+    '<< /Type /Catalog /Pages 2 0 R >>',
+    '<< /Type /Pages /Kids [3 0 R] /Count 1 >>',
+    '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 5 0 R /F2 6 0 R >> >> /Contents 4 0 R >>',
+    null,
+    '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>',
+    '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>',
+    '<< /Producer (Entre Ciel et Terre) /Title (Note de seance ' + n.numero + ') >>'
+  ];
+  const sortie = []; const ajoute = s => { for (const b of enc.encode(s)) sortie.push(b); };
+  const offsets = [];
+  ajoute('%PDF-1.4\n');
+  objets.forEach((o, i) => {
+    offsets.push(sortie.length);
+    ajoute((i + 1) + ' 0 obj\n');
+    if (o === null) { ajoute('<< /Length ' + flux.length + ' >>\nstream\n'); for (const b of flux) sortie.push(b); ajoute('\nendstream'); }
+    else ajoute(o);
+    ajoute('\nendobj\n');
+  });
+  const xref = sortie.length;
+  ajoute('xref\n0 ' + (objets.length + 1) + '\n0000000000 65535 f \n' + offsets.map(o => String(o).padStart(10, '0') + ' 00000 n \n').join(''));
+  ajoute('trailer\n<< /Size ' + (objets.length + 1) + ' /Root 1 0 R /Info 7 0 R >>\nstartxref\n' + xref + '\n%%EOF');
+  return new Blob([new Uint8Array(sortie)], { type: 'application/pdf' });
+}
+const nomPDF = n => 'Note-de-seance-' + n.numero + '-' + SANS_ACCENT(n.clientNom).replace(/[^A-Za-z0-9]+/g, '-') + '.pdf';
+function telecharger(blob, nom) {
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = nom;
+  document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1500);
+}
+async function partager(blob, nom, titre, texte) {
+  const f = new File([blob], nom, { type: blob.type });
+  if (navigator.canShare && navigator.canShare({ files: [f] })) {
+    try { await navigator.share({ files: [f], title: titre, text: texte }); return true; }
+    catch (e) { if (e.name === 'AbortError') return false; }
+  }
+  telecharger(blob, nom); toast('Le partage n\'est pas disponible ici : le fichier a été téléchargé.');
+  return true;
+}
+
+/* ---------- Sauvegarde ---------- */
+function fenetreSauvegarde() {
+  ouvrir('Sauvegarder', '<div class="discret" style="text-align:center;margin:-6px 0 18px;font-size:15px">Un fichier contenant toutes tes données va être créé. Garde-le hors de la tablette : envoie-le-toi par mail ou dépose-le sur ton Drive.</div><div style="display:grid;gap:10px"><button class="btn plein" data-a="f-partager">Envoyer ou déposer sur Drive</button><button class="btn" data-a="f-telecharger">Télécharger sur la tablette</button><button class="btn" data-a="f-annuler">Annuler</button></div>', {
+    async partager() { const ok = await partager(blobSauvegarde(), nomSauvegarde(), 'Sauvegarde Entre Ciel et Terre', ''); if (ok) marquerSauvegarde(); },
+    telecharger() { telecharger(blobSauvegarde(), nomSauvegarde()); marquerSauvegarde(); }
+  });
+}
+const blobSauvegarde = () => new Blob([JSON.stringify({ appli: 'entre-ciel-et-terre', date: new Date().toISOString(), donnees: D }, null, 1)], { type: 'application/json' });
+const nomSauvegarde = () => 'entre-ciel-et-terre-sauvegarde-' + auj() + '.json';
+function marquerSauvegarde() { D.derniereSauvegarde = new Date().toISOString(); enregistrer(); fermer(); rendre(); toast('Sauvegarde créée'); }
+function restaurer(fichier) {
+  const lec = new FileReader();
+  lec.onload = () => {
+    try {
+      const o = JSON.parse(lec.result); const d = o.donnees || o;
+      if (!d.clients || !d.rdv || !d.notes) throw new Error();
+      if (!confirm('Remplacer toutes les données actuelles par celles de cette sauvegarde (' + (o.date ? dateCourte(o.date.slice(0, 10)) : 'date inconnue') + ') ?')) return;
+      D = Object.assign(DEFAUT(), d); enregistrer(); remplacer('accueil'); toast('Données restaurées');
+    } catch (e) { toast('Ce fichier n\'est pas une sauvegarde valide.'); }
+  };
+  lec.readAsText(fichier);
+}
+
+/* ---------- Actions ---------- */
+document.addEventListener('click', ev => {
+  const el = ev.target.closest('[data-a]'); if (!el) return;
+  const a = el.dataset.a, d = el.dataset;
+  if (a.startsWith('f-')) {
+    const k = a.slice(2);
+    if (k === 'annuler') return fermer();
+    if (formAct && formAct[k]) return formAct[k](el);
+    return;
+  }
+  switch (a) {
+    case 'retour': return retour();
+    case 'aller': return aller(d.v);
+    case 'technique': return aller('technique', { id: d.id });
+    case 'etape': {
+      const t = TECHNIQUES[vue.p.id]; const i = (positions[t.id] || 0) + Number(d.d);
+      positions[t.id] = Math.max(0, Math.min(t.etapes.length - 1, i)); rendre(); window.scrollTo({ top: 0, behavior: 'smooth' }); return;
+    }
+    case 'sommaire': return aller('technique', { id: vue.p.id, sommaire: true });
+    case 'saut': positions[vue.p.id] = Number(d.i); return retour();
+    case 'taille': {
+      const v = Math.max(0.8, Math.min(1.5, (Number(localStorage.getItem('ect-taille')) || 1) + Number(d.d) * 0.1));
+      localStorage.setItem('ect-taille', v); document.documentElement.style.setProperty('--taille', v); return;
+    }
+    case 'choixpers': {
+      const l = [...D.clients].sort((a, b) => (b.vu || '').localeCompare(a.vu || '') || nomClient(a).localeCompare(nomClient(b), 'fr'));
+      return ouvrir('Fiche personnes de…', (l.length ? '<div style="display:grid;gap:8px">' + l.map(c => '<button class="btn" data-a="f-pers" data-id="' + c.id + '">' + esc(nomClient(c)) + '</button>').join('') + '</div>' : '<div class="vide">Aucun client</div>') + '<button class="btn large" style="margin-top:14px" data-a="f-annuler">Fermer</button>', {
+        pers(b) { const id = b.dataset.id; fermer(); aller('personnes', { id }); }
+      });
+    }
+    case 'decal': agenda.date = decaler(agenda.date, Number(d.d) * (agenda.mode === 'jour' ? 1 : 7)); return rendre();
+    case 'mode': agenda.mode = d.m; return rendre();
+    case 'aujourdhui': agenda.date = auj(); return rendre();
+    case 'voirjour': agenda.date = d.j; agenda.mode = 'jour'; return rendre();
+    case 'nouveaurdv': return formRdv(null, { client: d.client });
+    case 'rdv': { const r = D.rdv.find(x => x.id === d.id); return r && ficheRdv(r); }
+    case 'nouveauclient': return formClient(null, c => aller('client', { id: c.id }));
+    case 'client': { const c = client(d.id); if (c) { c.vu = new Date().toISOString(); enregistrer(); } return aller('client', { id: d.id }); }
+    case 'modifclient': return formClient(client(d.id));
+    case 'pack': {
+      const c = client(vue.p.id); if (!c || !c.pack) return;
+      c.pack.utilisees = Math.max(0, Math.min(c.pack.total, c.pack.utilisees + Number(d.d))); enregistrer(); return rendre();
+    }
+    case 'personnes': return aller('personnes', { id: d.id });
+    case 'ajoutpers': return formPers(client(vue.p.id));
+    case 'modifpers': return formPers(client(vue.p.id), Number(d.i));
+    case 'ordrepers': {
+      const c = client(vue.p.id), i = Number(d.i), j = i + Number(d.d);
+      if (j < 0 || j >= c.personnes.length) return;
+      [c.personnes[i], c.personnes[j]] = [c.personnes[j], c.personnes[i]]; enregistrer(); return rendre();
+    }
+    case 'nouvellenote': brouillon = null; nouveauBrouillon({ client: d.client }); return aller('nouvellenote', {});
+    case 'ajligne': brouillon.lignes.push({ prestationId: '', intitule: '', duree: '', prix: '' }); return rendre();
+    case 'supligne': brouillon.lignes.splice(Number(d.i), 1); return rendre();
+    case 'apercunote': {
+      if (!brouillon.clientId) return toast('Choisis un client.');
+      const n = noteDepuisBrouillon();
+      if (!n.lignes.length || n.lignes.some(l => !l.intitule)) return toast('Chaque ligne doit avoir un intitulé.');
+      if (!n.total) return toast('Le total est à 0 € : indique un prix.');
+      if (!D.emetteur.siret || !D.emetteur.adresse) return toast('Complète tes coordonnées dans les Réglages.');
+      return aller('apercunote', {});
+    }
+    case 'validernote': {
+      const n = noteDepuisBrouillon();
+      const an = n.date.slice(0, 4);
+      const nb = D.notes.filter(x => x.numero.startsWith(an + '-')).map(x => Number(x.numero.slice(5))).reduce((m, v) => Math.max(m, v), 0);
+      n.id = uid(); n.numero = an + '-' + String(nb + 1).padStart(3, '0'); n.creee = new Date().toISOString();
+      D.notes.push(n);
+      const c = client(n.clientId);
+      const pk = n.lignes.map(l => prestation(l.prestationId)).find(p => p && p.pack);
+      if (c && pk) c.pack = { total: pk.pack, utilisees: 0, depuis: n.date, note: n.numero };
+      enregistrer(); brouillon = null;
+      apresRetour = () => aller('voirnote', { id: n.id }); history.go(-2);
+      return toast('Note ' + n.numero + ' enregistrée');
+    }
+    case 'voirnote': return aller('voirnote', { id: d.id });
+    case 'pdf': { const n = D.notes.find(x => x.id === d.id); return telecharger(creerPDF(n), nomPDF(n)); }
+    case 'envoyer': { const n = D.notes.find(x => x.id === d.id); return partager(creerPDF(n), nomPDF(n), 'Note de séance ' + n.numero, 'Bonjour, voici votre note de séance. Belle journée, ' + D.emetteur.nom.split(' ')[0] + '.'); }
+    case 'supnote': {
+      if (!confirm('Annuler définitivement la note ' + D.notes.find(x => x.id === d.id).numero + ' ? Son numéro sera réutilisé.')) return;
+      D.notes = D.notes.filter(x => x.id !== d.id); enregistrer(); return retour();
+    }
+    case 'nouvellediverse': return formDiverse();
+    case 'modifdiverse': return formDiverse(D.diverses.find(x => x.id === d.id));
+    case 'modifprest': return formPrest(prestation(d.id));
+    case 'ajoutprest': return formPrest();
+    case 'sauveremetteur':
+      document.querySelectorAll('[data-e]').forEach(i => D.emetteur[i.dataset.e] = i.value.trim());
+      enregistrer(); return toast('Coordonnées enregistrées');
+    case 'sauver': return fenetreSauvegarde();
+    case 'restaurer': return $('#fichierrest').click();
+  }
+});
+document.addEventListener('input', ev => {
+  const t = ev.target;
+  if (t.id === 'recherche') {
+    recherche = t.value; const pos = t.selectionStart; rendre();
+    const n = $('#recherche'); n.focus(); n.setSelectionRange(pos, pos); return;
+  }
+  if (!brouillon) return;
+  if (t.dataset.b) brouillon[t.dataset.b] = t.value;
+  if (t.dataset.l != null && t.dataset.k) brouillon.lignes[Number(t.dataset.l)][t.dataset.k] = t.value;
+});
+document.addEventListener('change', ev => {
+  const t = ev.target;
+  if (t.id === 'sautdate' && t.value) { agenda.date = t.value; return rendre(); }
+  if (t.id === 'fichierrest' && t.files[0]) return restaurer(t.files[0]);
+  if (brouillon && t.dataset.l != null && t.dataset.k === 'prestationId') {
+    const l = brouillon.lignes[Number(t.dataset.l)], p = prestation(t.value);
+    l.prestationId = t.value;
+    if (p) { l.intitule = p.nom; if (p.duree) l.duree = p.duree; l.prix = p.prix; }
+    return rendre();
+  }
+  if (brouillon && t.dataset.b === 'clientId') {
+    const r = D.rdv.filter(x => x.clientId === t.value).sort((a, b) => b.date.localeCompare(a.date))[0];
+    if (r && !brouillon.lieu) brouillon.lieu = r.lieu || '';
+    return rendre();
+  }
+});
+$('#voile').addEventListener('click', e => { if (e.target.id === 'voile') fermer(); });
+
+/* ---------- Démarrage ---------- */
+charger();
+document.documentElement.style.setProperty('--taille', Number(localStorage.getItem('ect-taille')) || 1);
+history.replaceState(vue, '');
+rendre();
+if ('serviceWorker' in navigator && location.protocol !== 'file:') navigator.serviceWorker.register('sw.js').catch(() => {});
+</script>
+</body>
+</html>
