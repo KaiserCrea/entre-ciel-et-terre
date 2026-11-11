@@ -109,11 +109,15 @@ button{cursor:pointer}
 .face.sol .surtitre{color:var(--ambre)}
 .face.sol .orne{color:var(--ambre)}
 .horizon{height:1px;background:linear-gradient(90deg,#e09356,#f3e6d4 50%,#b9c7e6);position:relative;z-index:2}
-.outils{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;padding:12px 10px calc(14px + env(safe-area-inset-bottom));background:#08060a}
-.outil{background:transparent;border:none;display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px 2px;color:#cfd6e6;font-size:12px;letter-spacing:.3px}
-.outil svg{width:26px;height:26px;stroke:#d8c3a5;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
-.rappel{position:relative;z-index:3;margin:0;padding:12px 16px;background:#2e170cf2;border-bottom:0.5px solid #f5c48c55;color:#f6e7d4;display:flex;align-items:center;gap:12px;font-size:15px}
-.rappel .btn{padding:8px 14px;font-size:14px;border-color:#f5c48c88;background:transparent;color:#ffe0b5}
+.outils{position:relative;display:grid;grid-template-columns:repeat(5,1fr);gap:4px;padding:16px 10px calc(14px + env(safe-area-inset-bottom));background:linear-gradient(180deg,#120804,#0b0503)}
+.outils:before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,#e09356 25%,#fff4e2 50%,#b9c7e6 75%,transparent)}
+.outil{background:transparent;border:none;display:flex;flex-direction:column;align-items:center;gap:7px;padding:8px 2px;color:#e9cfae;font-family:var(--caps);font-size:10px;letter-spacing:2px;text-transform:uppercase}
+.outil svg{width:26px;height:26px;stroke:#f5c48c;fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}
+.face.sol:after{content:"";position:absolute;left:0;right:0;bottom:0;height:32%;background:linear-gradient(180deg,transparent,#120804);pointer-events:none}
+.rappel{position:relative;z-index:3;margin:0;padding:calc(12px + env(safe-area-inset-top)) 18px 13px;background:linear-gradient(180deg,#05070f,#0b1020);color:#dfe5f3;display:flex;align-items:center;gap:14px;font-family:var(--serif);font-style:italic;font-size:18px}
+.rappel:after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:linear-gradient(90deg,transparent,#b9c7e6 25%,#fff4e2 50%,#e09356 75%,transparent)}
+.rappel .btn{font-style:normal;padding:9px 18px;font-family:var(--caps);font-size:11px;letter-spacing:2px;background:linear-gradient(180deg,#f3f5fb,#b9c7e6);border:none;color:#0b1020;border-radius:20px;box-shadow:0 0 12px #b9c7e644}
+.rappel+.face.ciel{padding-top:30px}
 
 /* ---------- Technique ---------- */
 .prog{height:2px;background:#ffffff14;border-radius:2px;margin:4px 0 18px}
@@ -152,7 +156,8 @@ button{cursor:pointer}
 
 /* ---------- Agenda ---------- */
 .navdate{display:flex;align-items:center;gap:8px;margin-bottom:12px}
-.navdate .lab{flex:1;text-align:center;font-family:var(--serif);font-size:23px;color:#f3f5fb;text-transform:capitalize}
+.navdate .lab{flex:1;text-align:center;font-family:var(--serif);font-size:24px;color:#f3f5fb;background:none;border:none;padding:4px 2px}
+.navdate .lab small{display:block;font-family:var(--caps);font-size:9px;letter-spacing:3px;color:var(--doux);margin-top:3px;text-transform:uppercase}
 .rond{width:44px;height:44px;border-radius:50%;border:0.5px solid #c9d4ee55;background:#0b10208c;color:var(--argent2);font-size:20px}
 .bascule{display:flex;border:0.5px solid #c9d4ee44;border-radius:22px;overflow:hidden}
 .bascule button{background:transparent;border:none;padding:9px 16px;color:var(--doux);font-size:14px}
@@ -165,7 +170,7 @@ button{cursor:pointer}
 .rdv .p{color:#aab4cc;font-size:14px;margin-top:2px}
 .jour{border:0.5px solid var(--trait);border-radius:14px;padding:12px 14px;margin-bottom:8px;background:#0b10209e;width:100%;text-align:left;color:var(--texte)}
 .jour.auj{border-color:#c9d4ee88}
-.jour .jt{font-family:var(--serif);font-size:20px;color:#f3f5fb;text-transform:capitalize}
+.jour .jt{font-family:var(--serif);font-size:20px;color:#f3f5fb}
 .jour .jr{font-size:14px;color:#aab4cc;margin-top:4px}
 
 /* ---------- Formulaires ---------- */
@@ -199,6 +204,48 @@ input[type=date],input[type=time]{color-scheme:dark}
 .papier .tot{display:flex;justify-content:flex-end;gap:24px;font-size:17px;font-weight:600;margin-top:10px}
 .papier .men{margin-top:18px;font-size:12px;color:#55575e}
 .ligneprest{border:0.5px solid var(--trait);border-radius:14px;padding:12px;margin-bottom:10px;background:#05070f80}
+
+/* ---------- Technique en texte continu ---------- */
+.progfixe{position:absolute;left:0;right:0;bottom:0;height:2px;background:#ffffff14}
+.progfixe div{height:2px;width:0;background:linear-gradient(90deg,#6c80b3,#f3f5fb);box-shadow:0 0 10px #c9d4ee88}
+.technique{touch-action:pan-y}
+.technique .etape{margin-bottom:22px;scroll-margin-top:84px}
+.fintech{text-align:center;font-family:var(--serif);font-style:italic;font-size:20px;color:var(--doux);margin:26px 0 18px}
+.liste{list-style:none;padding:0;margin:0 0 14px}
+.liste li{position:relative;padding:9px 0 9px 26px;font-size:calc(20px * var(--taille));line-height:1.5;color:#e6eaf4;border-bottom:0.5px solid #ffffff10}
+.liste li:last-child{border-bottom:none}
+.liste li:before{content:"✦";position:absolute;left:2px;top:calc(10px * var(--taille));font-size:11px;color:var(--argent)}
+.texte{font-size:calc(19px * var(--taille));color:#cfd6e6;line-height:1.6;margin:0 0 8px}
+.marque{display:inline-block;margin-left:8px;padding:3px 9px;border:0.5px solid #c9d4ee66;border-radius:12px;font-family:var(--caps);font-size:9px;letter-spacing:2px;color:var(--argent2);vertical-align:middle}
+
+/* ---------- Agenda : mois, année, ligne du temps ---------- */
+.grille{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.grille .jn{text-align:center;font-family:var(--caps);font-size:10px;letter-spacing:1px;color:var(--doux);padding-bottom:4px}
+.case{aspect-ratio:1;border-radius:12px;border:0.5px solid #ffffff17;background:#0b10208c;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;font-family:var(--serif);font-size:22px;color:#e6eaf4;padding:0}
+.case.dim{color:var(--doux)}
+.case.auj{border-color:#dfe5f3;box-shadow:0 0 12px #b9c7e655}
+.pts{display:flex;gap:4px;height:6px}
+.pts i{width:6px;height:6px;border-radius:50%;background:#dfe5f3;box-shadow:0 0 5px #b9c7e6}
+.annee{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.mm{display:flex;flex-direction:column;justify-content:flex-start;border:0.5px solid #ffffff1a;border-radius:16px;padding:12px 10px;background:#0b10208c;text-align:left;color:var(--texte)}
+.mm.cur{border-color:#c9d4ee88}
+.mm h4{margin:0 0 8px;text-align:center;font-family:var(--serif);font-weight:400;font-size:20px;color:#f3f5fb}
+.mg{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;font-size:11px;text-align:center;color:#aab4cc}
+.mg span{padding:3px 0;border-radius:5px}
+.mg .t{opacity:.5;font-family:var(--caps);font-size:9px}
+.mg .ch{background:#b9c7e655;color:#fff}
+.mg .au{outline:0.5px solid #fff}
+.ldt{position:relative;margin-left:58px;border-left:0.5px solid #ffffff26;margin-bottom:8px}
+.hl{position:absolute;left:0;right:0;height:64px;border:none;border-top:0.5px solid #ffffff14;background:transparent;padding:0;text-align:left}
+.hl:active{background:#ffffff0a}
+.hl span{position:absolute;left:-58px;top:-8px;width:48px;text-align:right;font-family:var(--caps);font-size:12px;color:var(--doux)}
+.blocrdv{position:absolute;z-index:2;border-radius:12px;padding:8px 12px;text-align:left;background:linear-gradient(180deg,#1b2648f2,#111a34f2);border:0.5px solid #c9d4ee66;border-left:2px solid #dfe5f3;box-shadow:0 4px 14px #0006;overflow:hidden;color:var(--texte)}
+.blocrdv.fait{opacity:.5}
+.blocrdv .n{font-family:var(--serif);font-size:20px;color:#f6f8fd;line-height:1.15}
+.blocrdv .d{font-size:13px;color:#aab4cc;margin-top:3px}
+.maintenant{position:absolute;z-index:3;left:-6px;right:0;height:1px;background:linear-gradient(90deg,#fff,#b9c7e6 40%,transparent);box-shadow:0 0 8px #dfe5f3;pointer-events:none}
+.maintenant:before{content:"";position:absolute;left:0;top:-4px;width:9px;height:9px;border-radius:50%;background:#fff;box-shadow:0 0 8px #fff}
+.astuce{text-align:center;font-family:var(--serif);font-style:italic;font-size:16px;color:var(--doux);margin:6px 0 4px}
 </style>
 </head>
 <body>
@@ -321,6 +368,36 @@ const TECHNIQUES = {
         ['dit', "Touche ton pouce et ton index… tu es maintenant dans ton endroit safe, en sécurité."]
       ]}
     ]
+  },
+  allemann: {
+    id: 'allemann',
+    nom: 'Technique du Docteur Allemann',
+    sous: 'Auto-régression · à pratiquer seul',
+    auto: true,
+    etapes: [
+      { r: '', titre: 'Avant de commencer', b: [
+        ['liste', ["S'allonger sur un lit ou au sol, à un endroit ni trop dur ni trop mou, et garder toujours le même.", "Position : sur le dos, paumes vers le haut, jambes légèrement écartées, jamais croisées.", "Avoir chaud, ne pas être dérangé.", "Avoir choisi le thème à éclairer pendant la séance.", "À savoir : des fourmillements peuvent apparaître, ils viennent de l'énergie créée par la respiration. S'ils deviennent trop forts, ralentir la respiration. Ne jamais forcer, simplement rester conscient de ce qui se passe."]]
+      ]},
+      { r: 'I', titre: 'La respiration', b: [
+        ['liste', ["Fermer les yeux, porter l'attention sur la respiration, sentir le corps se détendre à chaque souffle.", "Pendant une dizaine de minutes, respirer calmement par le nez, sans pause entre l'inspiration et l'expiration, pour créer un flux d'énergie continu dans le corps et l'esprit."]]
+      ]},
+      { r: 'II', titre: 'La détente du corps', b: [
+        ['texte', "Tout en gardant cette respiration continue :"],
+        ['liste', ["Penser aux pieds, les laisser se détendre.", "Puis le bassin, le ventre, la poitrine, la gorge.", "Respirer dans les fesses, le bas du dos, puis remonter le long de la colonne jusqu'à la nuque.", "Respirer dans la nuque, puis dans toute la tête."]]
+      ]},
+      { r: 'III', titre: "L'approfondissement", b: [
+        ['liste', ["Trois respirations longues et profondes, en laissant l'air sortir tout seul, sans forcer ni pousser avec le ventre.", "Revenir à une respiration douce et régulière, et laisser le corps se détendre encore davantage."]]
+      ]},
+      { r: 'IV', titre: 'La lumière', b: [
+        ['liste', ["Imaginer tout le corps se remplir de lumière, jusqu'à devenir la lumière, en continuant à respirer par le nez."]]
+      ]},
+      { r: 'V', titre: 'Le voyage', b: [
+        ['liste', ["Se rappeler le thème choisi, tout en continuant à respirer.", "Se laisser aller complètement, accueillir les sensations et les images qui viennent.", "Faire confiance à l'intelligence créatrice, source de toute vie.", "Ne pas chercher à voir ni à analyser : rester spectateur, laisser venir les événements.", "Laisser venir les informations gardées dans la mémoire du corps, de l'esprit et de l'univers.", "Toutes les réponses sont en soi : on fait partie du tout."]]
+      ]},
+      { r: 'VI', titre: 'Le retour', b: [
+        ['liste', ["Quand le moment est venu, laisser partir les souvenirs et revenir à la respiration, douce et régulière.", "Remercier l'intelligence infinie qui a guidé la séance.", "Reprendre conscience du corps et compter mentalement de 5 à 0.", "À 0, ouvrir doucement les yeux et retrouver l'environnement.", "Prendre tout son temps avant de se lever. On est de nouveau ici et maintenant."]]
+      ]}
+    ]
   }
 };
 
@@ -432,19 +509,44 @@ const orne = s => '<div class="orne"><span></span>' + s + '<span></span></div>';
 
 /* ---------- Navigation (bouton retour Android compris) ---------- */
 let vue = { v: 'accueil', p: {} };
+let apresRetour = null, cibleEtape = null;
+const surSentinelle = () => !!(history.state && history.state.sentinelle);
 function aller(v, p) {
   vue = { v, p: p || {} };
   history.pushState(vue, '');
   rendre(); window.scrollTo(0, 0);
 }
-function remplacer(v, p) { vue = { v, p: p || {} }; history.replaceState(vue, ''); rendre(); window.scrollTo(0, 0); }
+function remplacer(v, p) {
+  vue = { v, p: p || {} };
+  if (surSentinelle()) history.pushState(vue, ''); else history.replaceState(vue, '');
+  rendre(); window.scrollTo(0, 0);
+}
+// Sur l'accueil, il faut deux appuis sur retour pour quitter l'appli.
+// La protection se réarme dès qu'on touche l'écran.
+function armer() { if (surSentinelle()) history.pushState({ v: 'accueil', p: {} }, ''); }
+document.addEventListener('pointerup', armer, true);
+document.addEventListener('keydown', armer, true);
 window.addEventListener('popstate', e => {
-  if (!$('#voile').classList.contains('cache')) { fermer(); history.pushState(vue, ''); return; }
-  vue = e.state || { v: 'accueil', p: {} };
+  const st = e.state || { v: 'accueil', p: {} };
+  if (!$('#voile').classList.contains('cache')) {
+    fermerSiOk();
+    if (!st.sentinelle) history.pushState(vue, '');
+    return;
+  }
+  if (vue.v === 'nouvellenote' && brouillonModifie() && !confirm('Abandonner cette note de séance ?')) {
+    if (!st.sentinelle) history.pushState(vue, '');
+    return;
+  }
+  if (st.sentinelle) {
+    vue = { v: 'accueil', p: {} }; rendre(); window.scrollTo(0, 0);
+    toast('Appuie encore une fois pour quitter');
+    return;
+  }
+  vue = { v: st.v, p: st.p || {} };
   rendre();
+  restaurerDefilement();
   if (apresRetour) { const f = apresRetour; apresRetour = null; f(); }
 });
-let apresRetour = null;
 function retour() { history.back(); }
 
 /* ---------- Mise en veille de l'écran ---------- */
@@ -505,63 +607,180 @@ VUES.terrestre = () => {
     '<div class="etiquette">Protocoles</div><div class="fantome">Tes protocoles terrestres viendront ici…</div></div>';
 };
 
-/* ----- Technique ----- */
+/* ----- Technique (texte continu) ----- */
 const positions = {};
+function corpsEtape(e) {
+  let c = '';
+  for (const [type, val] of e.b) {
+    if (type === 'dit') c += '<p class="dit">« ' + esc(val) + ' »</p>';
+    else if (type === 'sous') c += '<div class="sousparti">' + esc(val) + '</div>';
+    else if (type === 'consigne') c += '<div class="consigne">' + esc(val) + '</div>';
+    else if (type === 'texte') c += '<p class="texte">' + esc(val) + '</p>';
+    else if (type === 'liste') c += '<ul class="liste">' + val.map(x => '<li>' + esc(x) + '</li>').join('') + '</ul>';
+    else if (type === 'q') c += '<div class="questions"><div class="titreq">Questions</div>' + val.map(q => '<div class="q"><b>✦</b><span>' + esc(q) + '</span></div>').join('') + '</div>';
+  }
+  return c;
+}
 VUES.technique = p => {
   fond('ciel');
   const t = TECHNIQUES[p.id]; if (!t) return VUES.celeste();
   if (p.sommaire) {
     return barre(t.nom) + '<div class="page"><div class="heros" style="margin-bottom:10px"><div class="surtitre">Étapes</div></div><div class="sommaire">' +
-      t.etapes.map((e, i) => '<button data-a="saut" data-i="' + i + '" class="' + (i === (positions[t.id] || 0) ? 'ici' : '') + '"><span>' + (e.r || '·') + '</span>' + esc(e.titre) + '</button>').join('') + '</div></div>';
+      t.etapes.map((e, i) => '<button data-a="saut" data-i="' + i + '"><span>' + (e.r || '·') + '</span>' + esc(e.titre) + '</button>').join('') + '</div></div>';
   }
-  const i = Math.min(positions[t.id] || 0, t.etapes.length - 1);
-  const e = t.etapes[i];
   const total = t.etapes.filter(x => x.r).length;
-  const prog = ((i + 1) / t.etapes.length) * 100;
-  let corps = '';
-  for (const [type, val] of e.b) {
-    if (type === 'dit') corps += '<p class="dit">« ' + esc(val) + ' »</p>';
-    else if (type === 'sous') corps += '<div class="sousparti">' + esc(val) + '</div>';
-    else if (type === 'consigne') corps += '<div class="consigne">' + esc(val) + '</div>';
-    else if (type === 'q') corps += '<div class="questions"><div class="titreq">Questions</div>' + val.map(q => '<div class="q"><b>✦</b><span>' + esc(q) + '</span></div>').join('') + '</div>';
-  }
-  return barre(t.nom, '<button class="pastille" data-a="taille" data-d="-1" aria-label="Texte plus petit">A−</button><button class="pastille" data-a="taille" data-d="1" aria-label="Texte plus grand">A+</button><button class="pastille" data-a="choixpers">Personnes</button><button class="pastille" data-a="sommaire">Étapes</button>') +
-    '<div class="page"><div class="prog"><div style="width:' + prog + '%"></div></div>' +
-    '<div class="etape"><div class="int"><div class="romain">' + (e.r ? e.r + ' · ' + romain(total) : '✦') + '</div><h2>' + esc(e.titre) + '</h2>' + orne('✦') + corps + '</div></div></div>' +
-    '<div class="navetape"><button class="prec" data-a="etape" data-d="-1" ' + (i === 0 ? 'disabled' : '') + '>‹ Précédent</button>' +
-    (i < t.etapes.length - 1 ? '<button class="btn plein" data-a="etape" data-d="1">Suivant</button>' : '<button class="btn plein" data-a="retour">Terminer</button>') + '</div>';
+  const actions = '<button class="pastille" data-a="taille" data-d="-1" aria-label="Texte plus petit">A−</button><button class="pastille" data-a="taille" data-d="1" aria-label="Texte plus grand">A+</button>' +
+    (t.auto ? '<button class="pastille" data-a="pdftech">PDF</button>' : '<button class="pastille" data-a="choixpers">Personnes</button>') +
+    '<button class="pastille" data-a="sommaire">Étapes</button>';
+  let h = barre(t.nom, actions).replace(/<\/div>$/, '<div class="progfixe"><div id="progbar"></div></div></div>');
+  h += '<div class="page technique">';
+  t.etapes.forEach((e, i) => {
+    h += '<section class="etape" id="etape-' + i + '"><div class="int"><div class="romain">' + (e.r ? e.r + ' · ' + romain(total) : '✦') + '</div><h2>' + esc(e.titre) + '</h2>' + orne('✦') + corpsEtape(e) + '</div></section>';
+  });
+  h += '<div class="fintech">✦ Fin de la technique ✦</div>';
+  if (t.auto) h += '<button class="btn plein large" data-a="pdftech">Envoyer au client (PDF)</button>';
+  return h + '</div>';
 };
+function majProg() {
+  const b = document.getElementById('progbar'); if (!b) return;
+  const doc = document.documentElement, max = doc.scrollHeight - innerHeight;
+  b.style.width = (max > 0 ? Math.min(100, scrollY / max * 100) : 100) + '%';
+}
+window.addEventListener('scroll', () => {
+  if (vue.v === 'technique' && !vue.p.sommaire) { positions[vue.p.id] = scrollY; majProg(); }
+}, { passive: true });
+function restaurerDefilement() {
+  if (vue.v !== 'technique' || vue.p.sommaire) return;
+  if (cibleEtape != null) {
+    const el = document.getElementById('etape-' + cibleEtape); cibleEtape = null;
+    if (el) el.scrollIntoView();
+  } else window.scrollTo(0, positions[vue.p.id] || 0);
+  majProg();
+}
+
+/* ----- Taille du texte (boutons et pincement) ----- */
+const tailleActuelle = () => Number(document.documentElement.style.getPropertyValue('--taille')) || 1;
+function setTaille(v, garder) {
+  v = Math.max(0.7, Math.min(2, v));
+  const doc = document.documentElement, max = doc.scrollHeight - innerHeight;
+  const ratio = max > 0 ? scrollY / max : 0;
+  doc.style.setProperty('--taille', v.toFixed(3));
+  if (vue.v === 'technique') { window.scrollTo(0, ratio * (doc.scrollHeight - innerHeight)); majProg(); }
+  if (garder) { try { localStorage.setItem('ect-taille', v.toFixed(3)); } catch (e) {} }
+}
+let pincement = null;
+const ecart = e => Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+document.addEventListener('touchstart', e => {
+  if (vue.v === 'technique' && !vue.p.sommaire && e.touches.length === 2) pincement = { d: ecart(e), t: tailleActuelle() };
+}, { passive: true });
+document.addEventListener('touchmove', e => {
+  if (!pincement || e.touches.length !== 2) return;
+  e.preventDefault();
+  setTaille(pincement.t * ecart(e) / pincement.d, false);
+}, { passive: false });
+document.addEventListener('touchend', e => {
+  if (pincement && e.touches.length < 2) { setTaille(tailleActuelle(), true); pincement = null; }
+}, { passive: true });
+
 function romain(n) { const v = [[10, 'X'], [9, 'IX'], [5, 'V'], [4, 'IV'], [1, 'I']]; let s = ''; for (const [a, b] of v) while (n >= a) { s += b; n -= a; } return s; }
 
 /* ----- Agenda ----- */
 let agenda = { date: auj(), mode: 'jour' };
+const maj = t => t ? t.charAt(0).toUpperCase() + t.slice(1) : t;
+const minutes = h => { if (!h) return null; const [a, b] = h.split(':').map(Number); return a * 60 + b; };
 const rdvDu = iso => D.rdv.filter(r => r.date === iso).sort((a, b) => (a.heure || '').localeCompare(b.heure || ''));
+const lundiDe = iso => decaler(iso, -((versDate(iso).getDay() + 6) % 7));
 function carteRdv(r) {
   const c = client(r.clientId), pr = prestation(r.prestationId);
   return '<button class="rdv ' + (r.fait ? 'fait' : '') + '" data-a="rdv" data-id="' + r.id + '"><div class="h">' + esc(r.heure || '—') + '<small>' + (r.duree ? 'à ' + finHeure(r.heure, r.duree) : '') + '</small></div><div><div class="c">' + esc(nomClient(c)) + '</div><div class="p">' + esc([pr ? pr.nom : '', dureeTxt(r.duree), r.lieu].filter(Boolean).join(' · ')) + '</div>' + (r.note ? '<div class="p" style="font-style:italic">' + esc(r.note) + '</div>' : '') + '</div></button>';
 }
+function titreAgenda() {
+  const d = versDate(agenda.date);
+  if (agenda.mode === 'jour') return maj(dateLongue(agenda.date));
+  if (agenda.mode === 'semaine') { const l = versDate(lundiDe(agenda.date)); return 'Semaine du ' + l.getDate() + ' ' + MOIS[l.getMonth()]; }
+  if (agenda.mode === 'mois') return maj(MOIS[d.getMonth()]) + ' ' + d.getFullYear();
+  return String(d.getFullYear());
+}
+function compteParJour() { const m = {}; for (const r of D.rdv) m[r.date] = (m[r.date] || 0) + 1; return m; }
+function vueJour(iso) {
+  const l = rdvDu(iso);
+  const sansHeure = l.filter(r => !r.heure), avec = l.filter(r => r.heure);
+  let deb = 8 * 60, fin = 20 * 60;
+  for (const r of avec) { const s = minutes(r.heure); deb = Math.min(deb, Math.floor(s / 60) * 60); fin = Math.max(fin, Math.ceil((s + (Number(r.duree) || 60)) / 60) * 60); }
+  fin = Math.min(fin, 24 * 60);
+  const PX = 64 / 60;
+  let h = '';
+  if (sansHeure.length) h += '<div class="etiquette">Sans heure</div>' + sansHeure.map(carteRdv).join('');
+  h += '<div class="ldt" style="height:' + ((fin - deb) * PX) + 'px">';
+  for (let m = deb; m < fin; m += 60) h += '<button class="hl" data-a="heurelibre" data-h="' + pad(m / 60) + '" style="top:' + ((m - deb) * PX) + 'px" aria-label="Nouveau rendez-vous à ' + pad(m / 60) + ' h"><span>' + pad(m / 60) + ':00</span></button>';
+  // Colonnes pour les rendez-vous qui se chevauchent
+  // Groupes de rendez-vous qui se chevauchent : chacun partage la largeur seulement avec son groupe
+  const place = []; let groupe = [], finGroupe = -1, fins = [];
+  const clore = () => { const n = Math.max(1, fins.length); for (const x of groupe) x.push(n); groupe = []; fins = []; };
+  for (const r of avec) {
+    const s = minutes(r.heure), e = s + (Number(r.duree) || 60);
+    if (s >= finGroupe) clore();
+    let c = fins.findIndex(f => f <= s); if (c < 0) { c = fins.length; fins.push(e); } else fins[c] = e;
+    const x = [r, s, e, c]; groupe.push(x); place.push(x); finGroupe = Math.max(finGroupe, e);
+  }
+  clore();
+  for (const [r, s, e, c, n] of place) {
+    const cl = client(r.clientId), pr = prestation(r.prestationId);
+    h += '<button class="blocrdv' + (r.fait ? ' fait' : '') + '" data-a="rdv" data-id="' + r.id + '" style="top:' + ((s - deb) * PX + 2) + 'px;height:' + Math.max(30, (e - s) * PX - 4) + 'px;left:calc(8px + (100% - 12px) * ' + c + ' / ' + n + ');width:calc((100% - 12px) / ' + n + ' - 4px)"><div class="n">' + esc(nomClient(cl)) + '</div><div class="d">' + esc(r.heure + ' → ' + finHeure(r.heure, r.duree || 60) + (pr ? ' · ' + pr.nom : '') + (r.lieu ? ' · ' + r.lieu : '')) + '</div></button>';
+  }
+  if (iso === auj()) {
+    const now = new Date(), m = now.getHours() * 60 + now.getMinutes();
+    if (m >= deb && m <= fin) h += '<div class="maintenant" style="top:' + ((m - deb) * PX) + 'px"></div>';
+  }
+  h += '</div><div class="astuce">Toucher une heure libre crée un rendez-vous à cette heure</div>';
+  const maintenant = auj() + ' ' + pad(new Date().getHours()) + ':' + pad(new Date().getMinutes());
+  const suite = D.rdv.filter(r => r.date !== iso && (r.date + ' ' + (r.heure || '00:00')) >= maintenant).sort((a, b) => (a.date + a.heure).localeCompare(b.date + b.heure)).slice(0, 5);
+  h += '<div class="etiquette">Prochains rendez-vous</div>' + (suite.length ? suite.map(r => {
+    const c = client(r.clientId), pr = prestation(r.prestationId), dt = versDate(r.date);
+    return '<button class="rdv' + (r.fait ? ' fait' : '') + '" data-a="rdv" data-id="' + r.id + '"><div class="h">' + maj(JOURS[dt.getDay()].slice(0, 3)) + ' ' + dt.getDate() + '<small>' + esc(r.heure || '') + '</small></div><div><div class="c" style="font-size:20px">' + esc(nomClient(c)) + '</div><div class="p">' + esc([pr ? pr.nom : '', dureeTxt(r.duree), r.lieu].filter(Boolean).join(' · ')) + '</div></div></button>';
+  }).join('') : '<div class="discret">Aucun rendez-vous à venir.</div>');
+  return h;
+}
+function vueMois(iso) {
+  const d = versDate(iso), y = d.getFullYear(), mo = d.getMonth();
+  const dec = (new Date(y, mo, 1).getDay() + 6) % 7, nb = new Date(y, mo + 1, 0).getDate(), cpt = compteParJour();
+  let h = '<div class="grille">' + ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'].map(j => '<div class="jn">' + j + '</div>').join('');
+  for (let i = 0; i < dec; i++) h += '<div></div>';
+  for (let j = 1; j <= nb; j++) {
+    const k = y + '-' + pad(mo + 1) + '-' + pad(j), n = cpt[k] || 0;
+    h += '<button class="case' + (k === auj() ? ' auj' : '') + (new Date(y, mo, j).getDay() === 0 ? ' dim' : '') + '" data-a="voirjour" data-j="' + k + '"><span>' + j + '</span><span class="pts">' + '<i></i>'.repeat(Math.min(n, 3)) + '</span></button>';
+  }
+  return h + '</div><div class="astuce" style="margin-top:14px">Toucher un jour pour l\'ouvrir</div>';
+}
+function vueAnnee(iso) {
+  const d = versDate(iso), y = d.getFullYear(), cpt = compteParJour();
+  let h = '<div class="annee">';
+  for (let k = 0; k < 12; k++) {
+    const dec = (new Date(y, k, 1).getDay() + 6) % 7, nb = new Date(y, k + 1, 0).getDate();
+    let g = ['L', 'M', 'M', 'J', 'V', 'S', 'D'].map(j => '<span class="t">' + j + '</span>').join('');
+    for (let i = 0; i < dec; i++) g += '<span></span>';
+    for (let j = 1; j <= nb; j++) { const kk = y + '-' + pad(k + 1) + '-' + pad(j); g += '<span class="' + (cpt[kk] ? 'ch' : '') + (kk === auj() ? ' au' : '') + '">' + j + '</span>'; }
+    h += '<button class="mm' + (k === d.getMonth() ? ' cur' : '') + '" data-a="voirmois" data-j="' + y + '-' + pad(k + 1) + '-01"><h4>' + maj(MOIS[k]) + '</h4><div class="mg">' + g + '</div></button>';
+  }
+  return h + '</div>';
+}
 VUES.agenda = () => {
   fond('ciel');
+  const m = agenda.mode;
   let h = barre('Agenda', '<button class="pastille" data-a="aujourdhui">Aujourd\'hui</button>');
-  h += '<div class="page"><div class="navdate"><button class="rond" data-a="decal" data-d="-1">‹</button><div class="lab">';
-  if (agenda.mode === 'jour') {
-    h += esc(dateLongue(agenda.date)) + '</div><button class="rond" data-a="decal" data-d="1">›</button></div>';
-  } else {
-    const d = versDate(agenda.date); const lundi = decaler(agenda.date, -((d.getDay() + 6) % 7));
-    h += 'Semaine du ' + versDate(lundi).getDate() + ' ' + MOIS[versDate(lundi).getMonth()] + '</div><button class="rond" data-a="decal" data-d="1">›</button></div>';
-  }
-  h += '<div style="display:flex;justify-content:center;gap:10px;margin-bottom:16px;align-items:center"><div class="bascule"><button class="' + (agenda.mode === 'jour' ? 'on' : '') + '" data-a="mode" data-m="jour">Jour</button><button class="' + (agenda.mode === 'semaine' ? 'on' : '') + '" data-a="mode" data-m="semaine">Semaine</button></div><input type="date" id="sautdate" value="' + agenda.date + '" style="background:#05070fcc;border:0.5px solid #c9d4ee44;border-radius:22px;padding:8px 12px;color:#eef1f8;color-scheme:dark"></div>';
-  if (agenda.mode === 'jour') {
-    const l = rdvDu(agenda.date);
-    h += l.length ? l.map(carteRdv).join('') : '<div class="vide">Aucun rendez-vous ce jour</div>';
-  } else {
-    const d = versDate(agenda.date); const lundi = decaler(agenda.date, -((d.getDay() + 6) % 7));
+  h += '<div class="page"><div class="navdate"><button class="rond" data-a="decal" data-d="-1" aria-label="Précédent">‹</button><button class="lab" data-a="titreagenda">' + esc(titreAgenda()) + '<small>' + (m === 'annee' ? 'Toucher un mois' : 'Toucher pour l\'année') + '</small></button><button class="rond" data-a="decal" data-d="1" aria-label="Suivant">›</button></div>';
+  h += '<div style="display:flex;justify-content:center;margin-bottom:18px"><div class="bascule">' + [['jour', 'Jour'], ['semaine', 'Semaine'], ['mois', 'Mois']].map(([k, l]) => '<button class="' + (m === k ? 'on' : '') + '" data-a="mode" data-m="' + k + '">' + l + '</button>').join('') + '</div></div>';
+  if (m === 'jour') h += vueJour(agenda.date);
+  else if (m === 'semaine') {
+    const lundi = lundiDe(agenda.date);
     for (let k = 0; k < 7; k++) {
-      const j = decaler(lundi, k), l = rdvDu(j);
-      h += '<button class="jour ' + (j === auj() ? 'auj' : '') + '" data-a="voirjour" data-j="' + j + '"><div class="jt">' + JOURS[versDate(j).getDay()] + ' ' + versDate(j).getDate() + ' ' + MOIS[versDate(j).getMonth()] + '</div><div class="jr">' +
+      const j = decaler(lundi, k), l = rdvDu(j), dj = versDate(j);
+      h += '<button class="jour ' + (j === auj() ? 'auj' : '') + '" data-a="voirjour" data-j="' + j + '"><div class="jt">' + maj(JOURS[dj.getDay()]) + ' ' + dj.getDate() + ' ' + MOIS[dj.getMonth()] + '</div><div class="jr">' +
         (l.length ? l.map(r => esc((r.heure || '') + ' · ' + nomClient(client(r.clientId)))).join('<br>') : '<span style="opacity:.5">Libre</span>') + '</div></button>';
     }
   }
+  else if (m === 'mois') h += vueMois(agenda.date);
+  else h += vueAnnee(agenda.date);
   h += '</div><button class="btn plein flottant" data-a="nouveaurdv">+ Rendez-vous</button>';
   return h;
 };
@@ -616,7 +835,8 @@ VUES.notes = () => {
     (l.length ? l.map(n => '<button class="rdv" data-a="voirnote" data-id="' + n.id + '"><div class="h">' + esc(n.numero) + '<small>' + dateCourte(n.date) + '</small></div><div><div class="c">' + esc(n.clientNom) + '</div><div class="p">' + euros(n.total) + ' · ' + esc(n.lignes.map(x => x.intitule).join(', ')) + '</div></div></button>').join('') : '<div class="vide">Aucune note de séance pour l\'instant</div>') +
     '</div><button class="btn plein flottant" data-a="nouvellenote">+ Nouvelle note</button>';
 };
-let brouillon = null;
+let brouillon = null, brouillonInit = '';
+const brouillonModifie = () => !!brouillon && JSON.stringify(brouillon) !== brouillonInit;
 function nouveauBrouillon(p) {
   const r = p.rdv ? D.rdv.find(x => x.id === p.rdv) : null;
   const pr = r ? prestation(r.prestationId) : null;
@@ -630,6 +850,7 @@ function nouveauBrouillon(p) {
     dateReglement: auj(),
     rdvId: r ? r.id : ''
   };
+  brouillonInit = JSON.stringify(brouillon);
 }
 VUES.nouvellenote = p => {
   fond('ciel');
@@ -701,14 +922,22 @@ VUES.reglages = () => {
     '<button class="btn large" data-a="ajoutprest">+ Ajouter une prestation</button>' +
     '<div class="etiquette">Mes coordonnées (notes de séance)</div>' + ch('nom', 'Nom') + ch('statut', 'Statut') + ch('activite', 'Activité') + ch('adresse', 'Adresse') + '<div class="deux">' + ch('siret', 'SIRET') + ch('tel', 'Téléphone') + '</div>' + ch('mail', 'Mail') + ch('tva', 'Mention TVA') +
     '<button class="btn plein large" data-a="sauveremetteur">Enregistrer mes coordonnées</button>' +
-    '<div class="discret" style="text-align:center;margin-top:30px">Entre Ciel et Terre · version 1</div></div>';
+    '<div class="discret" style="text-align:center;margin-top:30px">Entre Ciel et Terre · version 2</div></div>';
 };
 
 /* ---------- Fenêtres (formulaires) ---------- */
 let formAct = null;
+let formInit = '';
+const etatForm = () => JSON.stringify([...document.querySelectorAll('#feuille input, #feuille select, #feuille textarea')].map(i => i.value));
 function ouvrir(titre, html, act) {
   $('#feuille').innerHTML = '<h3>' + esc(titre) + '</h3>' + html;
   $('#voile').classList.remove('cache'); formAct = act || {};
+  formInit = etatForm();
+}
+const formModifie = () => !$('#voile').classList.contains('cache') && etatForm() !== formInit;
+function fermerSiOk() {
+  if (formModifie() && !confirm('Abandonner ce que tu as écrit ?')) return false;
+  fermer(); return true;
 }
 function fermer() { $('#voile').classList.add('cache'); $('#feuille').innerHTML = ''; formAct = null; }
 const valeur = id => { const el = document.getElementById(id); return el ? el.value.trim() : ''; };
@@ -741,7 +970,7 @@ function formRdv(r, defauts) {
   const optsP = '<option value="">— Prestation —</option>' + D.prestations.map(x => '<option value="' + x.id + '" ' + (x.id === r.prestationId ? 'selected' : '') + '>' + esc(x.nom) + '</option>').join('');
   ouvrir(r.id ? 'Modifier le rendez-vous' : 'Nouveau rendez-vous',
     '<div class="champ"><label for="fcli">Client</label><select id="fcli">' + optsC + '</select></div><div id="zonenouv" class="cache deux">' + champ('fnprenom', 'Prénom', '') + champ('fnnom', 'Nom', '') + '</div>' +
-    '<div class="deux">' + champ('fdate', 'Date', r.date || defauts.date || agenda.date, 'date') + champ('fheure', 'Heure', r.heure || '09:00', 'time') + '</div>' +
+    '<div class="deux">' + champ('fdate', 'Date', r.date || defauts.date || agenda.date, 'date') + champ('fheure', 'Heure', r.heure || defauts.heure || '09:00', 'time') + '</div>' +
     '<div class="deux"><div class="champ"><label for="fprest">Prestation</label><select id="fprest">' + optsP + '</select></div>' + champ('fduree', 'Durée (min)', r.duree || '', 'number', 'inputmode="numeric"') + '</div>' +
     champ('flieu', 'Lieu', r.lieu || '', 'text', 'list="lieux" placeholder="Cabinet, domicile du client…"') + '<datalist id="lieux"><option value="Cabinet"><option value="Domicile du client"><option value="À distance"></datalist>' +
     champ('fnote', 'Note', r.note || '', 'textarea', 'style="min-height:70px"') + boutonsForm(!!r.id), {
@@ -772,7 +1001,7 @@ function formRdv(r, defauts) {
 function ficheRdv(r) {
   const c = client(r.clientId), p = prestation(r.prestationId);
   ouvrir(nomClient(c),
-    '<div style="text-align:center;margin:-8px 0 18px;color:#cfd6e6;font-size:17px;line-height:1.7">' + esc(dateLongue(r.date)) + '<br>' + esc(r.heure || '') + (r.duree ? ' → ' + finHeure(r.heure, r.duree) + ' (' + dureeTxt(r.duree) + ')' : '') + '<br>' + esc([p ? p.nom : '', r.lieu].filter(Boolean).join(' · ')) + (r.note ? '<br><i>' + esc(r.note) + '</i>' : '') + '</div>' +
+    '<div style="text-align:center;margin:-8px 0 18px;color:#cfd6e6;font-size:17px;line-height:1.7">' + esc(maj(dateLongue(r.date))) + '<br>' + esc(r.heure || '') + (r.duree ? ' → ' + finHeure(r.heure, r.duree) + ' (' + dureeTxt(r.duree) + ')' : '') + '<br>' + esc([p ? p.nom : '', r.lieu].filter(Boolean).join(' · ')) + (r.note ? '<br><i>' + esc(r.note) + '</i>' : '') + '</div>' +
     '<div style="display:grid;gap:10px">' +
     '<button class="btn" data-a="f-fait">' + (r.fait ? 'Marquer comme non honoré' : 'Marquer comme honoré') + '</button>' +
     '<button class="btn" data-a="f-note">Créer la note de séance</button>' +
@@ -849,12 +1078,52 @@ function octets(t) {
   }
   return out;
 }
+function fluxPage(pg) {
+  const enc = new TextEncoder(), flux = [];
+  const pousse = t => { for (const b of enc.encode(t)) flux.push(b); };
+  for (const f of pg.fonds) pousse('0.945 0.937 0.914 rg ' + f.join(' ') + ' re f\n');
+  for (const t of pg.traits) pousse('0.8 0.79 0.76 RG ' + t[4] + ' w ' + t[0] + ' ' + t[1] + ' m ' + t[2] + ' ' + t[3] + ' l S\n');
+  for (const o of pg.ops) {
+    pousse('BT ' + (o.couleur || '0.11 0.11 0.13') + ' rg /' + (o.gras ? 'F2' : o.ital ? 'F3' : 'F1') + ' ' + o.taille + ' Tf ' + o.x.toFixed(2) + ' ' + o.y.toFixed(2) + ' Td (');
+    for (const b of octets(o.t)) flux.push(b);
+    pousse(') Tj ET\n');
+  }
+  return flux;
+}
+function assemblerPDF(pages, titre) {
+  const enc = new TextEncoder(), n = pages.length;
+  const objets = [
+    '<< /Type /Catalog /Pages 2 0 R >>',
+    '<< /Type /Pages /Kids [' + pages.map((_, i) => (7 + 2 * i) + ' 0 R').join(' ') + '] /Count ' + n + ' >>',
+    '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>',
+    '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>',
+    '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Oblique /Encoding /WinAnsiEncoding >>',
+    '<< /Producer (Entre Ciel et Terre) /Title (' + SANS_ACCENT(titre).replace(/[()\\]/g, '').replace(/[^\x20-\x7e]/g, '') + ') >>'
+  ];
+  pages.forEach((pg, i) => {
+    objets.push('<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents ' + (8 + 2 * i) + ' 0 R >>');
+    objets.push({ flux: fluxPage(pg) });
+  });
+  const sortie = []; const ajoute = t => { for (const b of enc.encode(t)) sortie.push(b); };
+  const offsets = [];
+  ajoute('%PDF-1.4\n');
+  objets.forEach((o, i) => {
+    offsets.push(sortie.length);
+    ajoute((i + 1) + ' 0 obj\n');
+    if (typeof o === 'object') { ajoute('<< /Length ' + o.flux.length + ' >>\nstream\n'); for (const b of o.flux) sortie.push(b); ajoute('\nendstream'); }
+    else ajoute(o);
+    ajoute('\nendobj\n');
+  });
+  const xref = sortie.length;
+  ajoute('xref\n0 ' + (objets.length + 1) + '\n0000000000 65535 f \n' + offsets.map(o => String(o).padStart(10, '0') + ' 00000 n \n').join(''));
+  ajoute('trailer\n<< /Size ' + (objets.length + 1) + ' /Root 1 0 R /Info 6 0 R >>\nstartxref\n' + xref + '\n%%EOF');
+  return new Blob([new Uint8Array(sortie)], { type: 'application/pdf' });
+}
 function creerPDF(n) {
   const e = n.emetteur;
-  const ops = [];
+  const ops = [], traits = [], fonds = [];
   const txt = (x, y, t, taille, gras, couleur) => { ops.push({ x, y, t, taille, gras, couleur: couleur || '0.11 0.11 0.13' }); };
   const droite = (xd, y, t, taille, gras, couleur) => txt(xd - largeur(t, taille, gras), y, t, taille, gras, couleur);
-  const traits = [], fonds = [];
   let y = 790;
   txt(50, y, e.nom, 14, true); droite(545, y, 'NOTE DE SÉANCE', 15, true);
   y -= 17; txt(50, y, e.statut + ' · ' + e.activite, 10);
@@ -882,41 +1151,54 @@ function creerPDF(n) {
   y -= 26; droite(470, y, 'Total', 13, true); droite(545, y, euros(n.total), 13, true);
   y -= 40; txt(50, y, e.tva, 9, false, '0.33 0.34 0.37');
   if (n.mode && n.mode !== 'Non réglé') { y -= 14; txt(50, y, 'Réglé le ' + dateCourte(n.dateReglement) + ' par ' + n.mode.toLowerCase() + '.', 9, false, '0.33 0.34 0.37'); }
-
-  // Construction du flux
-  const enc = new TextEncoder();
-  let flux = [];
-  const pousse = s => { for (const b of enc.encode(s)) flux.push(b); };
-  for (const f of fonds) pousse('0.945 0.937 0.914 rg ' + f.join(' ') + ' re f\n');
-  for (const t of traits) pousse('0.8 0.79 0.76 RG ' + t[4] + ' w ' + t[0] + ' ' + t[1] + ' m ' + t[2] + ' ' + t[3] + ' l S\n');
-  for (const o of ops) {
-    pousse('BT ' + o.couleur + ' rg /' + (o.gras ? 'F2' : 'F1') + ' ' + o.taille + ' Tf ' + o.x.toFixed(2) + ' ' + o.y.toFixed(2) + ' Td (');
-    flux.push(...octets(o.t));
-    pousse(') Tj ET\n');
+  return assemblerPDF([{ ops, traits, fonds }], 'Note de seance ' + n.numero);
+}
+function couper(t, taille, larg, gras) {
+  const out = []; let cur = '';
+  for (const m of String(t).split(/\s+/)) {
+    const essai = cur ? cur + ' ' + m : m;
+    if (largeur(essai, taille, gras) > larg && cur) { out.push(cur); cur = m; } else cur = essai;
   }
-  const objets = [
-    '<< /Type /Catalog /Pages 2 0 R >>',
-    '<< /Type /Pages /Kids [3 0 R] /Count 1 >>',
-    '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 5 0 R /F2 6 0 R >> >> /Contents 4 0 R >>',
-    null,
-    '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>',
-    '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>',
-    '<< /Producer (Entre Ciel et Terre) /Title (Note de seance ' + n.numero + ') >>'
-  ];
-  const sortie = []; const ajoute = s => { for (const b of enc.encode(s)) sortie.push(b); };
-  const offsets = [];
-  ajoute('%PDF-1.4\n');
-  objets.forEach((o, i) => {
-    offsets.push(sortie.length);
-    ajoute((i + 1) + ' 0 obj\n');
-    if (o === null) { ajoute('<< /Length ' + flux.length + ' >>\nstream\n'); for (const b of flux) sortie.push(b); ajoute('\nendstream'); }
-    else ajoute(o);
-    ajoute('\nendobj\n');
+  if (cur) out.push(cur);
+  return out;
+}
+function creerPDFTexte(t) {
+  const e = D.emetteur, G = '0.42 0.43 0.46', N = '0.11 0.11 0.13', pages = [];
+  let pg, y;
+  const nouvelle = () => { pg = { ops: [], traits: [], fonds: [] }; pages.push(pg); y = 780; };
+  const txt = (x, yy, s, taille, gras, couleur, ital) => pg.ops.push({ x, y: yy, t: s, taille, gras, couleur: couleur || N, ital });
+  const place = h => { if (y - h < 75) nouvelle(); };
+  nouvelle();
+  txt(60, y, t.nom, 20, true); y -= 20;
+  txt(60, y, t.sous, 11, false, G, true); y -= 14;
+  pg.traits.push([60, y, 535, y, 0.6]); y -= 30;
+  for (const et of t.etapes) {
+    place(56);
+    txt(60, y, (et.r ? et.r + '. ' : '') + et.titre, 13, true); y -= 20;
+    for (const [type, val] of et.b) {
+      const elements = (type === 'liste' || type === 'q') ? val : [val];
+      for (const it of elements) {
+        const puce = type === 'liste' || type === 'q';
+        const gras = type === 'sous';
+        const ls = couper(type === 'dit' ? '« ' + it + ' »' : it, 11, puce ? 460 : 475, gras);
+        place(ls.length * 15 + 4);
+        ls.forEach((l, k) => {
+          if (puce && k === 0) txt(62, y, '•', 11, false, '0.55 0.45 0.35');
+          txt(puce ? 76 : 60, y, l, 11, gras, N, type === 'dit' || type === 'texte');
+          y -= 15;
+        });
+        y -= 4;
+      }
+    }
+    y -= 12;
+  }
+  pages.forEach((p, i) => {
+    p.traits.push([60, 54, 535, 54, 0.3]);
+    p.ops.push({ x: 60, y: 40, t: e.nom + ' · ' + e.activite + ' · ' + e.tel + ' · ' + e.mail, taille: 8, couleur: G });
+    const num = (i + 1) + ' / ' + pages.length;
+    p.ops.push({ x: 535 - largeur(num, 8), y: 40, t: num, taille: 8, couleur: G });
   });
-  const xref = sortie.length;
-  ajoute('xref\n0 ' + (objets.length + 1) + '\n0000000000 65535 f \n' + offsets.map(o => String(o).padStart(10, '0') + ' 00000 n \n').join(''));
-  ajoute('trailer\n<< /Size ' + (objets.length + 1) + ' /Root 1 0 R /Info 7 0 R >>\nstartxref\n' + xref + '\n%%EOF');
-  return new Blob([new Uint8Array(sortie)], { type: 'application/pdf' });
+  return assemblerPDF(pages, t.nom);
 }
 const nomPDF = n => 'Note-de-seance-' + n.numero + '-' + SANS_ACCENT(n.clientNom).replace(/[^A-Za-z0-9]+/g, '-') + '.pdf';
 function telecharger(blob, nom) {
@@ -962,23 +1244,20 @@ document.addEventListener('click', ev => {
   const a = el.dataset.a, d = el.dataset;
   if (a.startsWith('f-')) {
     const k = a.slice(2);
-    if (k === 'annuler') return fermer();
+    if (k === 'annuler') return fermerSiOk();
     if (formAct && formAct[k]) return formAct[k](el);
     return;
   }
   switch (a) {
     case 'retour': return retour();
     case 'aller': return aller(d.v);
-    case 'technique': return aller('technique', { id: d.id });
-    case 'etape': {
-      const t = TECHNIQUES[vue.p.id]; const i = (positions[t.id] || 0) + Number(d.d);
-      positions[t.id] = Math.max(0, Math.min(t.etapes.length - 1, i)); rendre(); window.scrollTo({ top: 0, behavior: 'smooth' }); return;
-    }
+    case 'technique': positions[d.id] = 0; return aller('technique', { id: d.id });
     case 'sommaire': return aller('technique', { id: vue.p.id, sommaire: true });
-    case 'saut': positions[vue.p.id] = Number(d.i); return retour();
-    case 'taille': {
-      const v = Math.max(0.8, Math.min(1.5, (Number(localStorage.getItem('ect-taille')) || 1) + Number(d.d) * 0.1));
-      localStorage.setItem('ect-taille', v); document.documentElement.style.setProperty('--taille', v); return;
+    case 'saut': cibleEtape = Number(d.i); return retour();
+    case 'taille': return setTaille(tailleActuelle() + Number(d.d) * 0.1, true);
+    case 'pdftech': {
+      const t = TECHNIQUES[vue.p.id]; if (!t) return;
+      return partager(creerPDFTexte(t), SANS_ACCENT(t.nom).replace(/[^A-Za-z0-9]+/g, '-') + '.pdf', t.nom, 'Bonjour, voici la technique dont nous avons parlé. Belle pratique, ' + D.emetteur.nom.split(' ')[0] + '.');
     }
     case 'choixpers': {
       const l = [...D.clients].sort((a, b) => (b.vu || '').localeCompare(a.vu || '') || nomClient(a).localeCompare(nomClient(b), 'fr'));
@@ -986,7 +1265,20 @@ document.addEventListener('click', ev => {
         pers(b) { const id = b.dataset.id; fermer(); aller('personnes', { id }); }
       });
     }
-    case 'decal': agenda.date = decaler(agenda.date, Number(d.d) * (agenda.mode === 'jour' ? 1 : 7)); return rendre();
+    case 'decal': {
+      const n = Number(d.d), dt = versDate(agenda.date);
+      if (agenda.mode === 'jour') agenda.date = decaler(agenda.date, n);
+      else if (agenda.mode === 'semaine') agenda.date = decaler(agenda.date, 7 * n);
+      else if (agenda.mode === 'mois') agenda.date = isoJour(new Date(dt.getFullYear(), dt.getMonth() + n, 1));
+      else agenda.date = isoJour(new Date(dt.getFullYear() + n, dt.getMonth(), 1));
+      return rendre();
+    }
+    case 'titreagenda': if (agenda.mode !== 'annee') { agenda.mode = 'annee'; rendre(); } return;
+    case 'voirmois': agenda.date = d.j; agenda.mode = 'mois'; return rendre();
+    case 'heurelibre': {
+      const rc = el.getBoundingClientRect(), demi = (ev.clientY - rc.top) > rc.height / 2;
+      return formRdv(null, { date: agenda.date, heure: d.h + (demi ? ':30' : ':00') });
+    }
     case 'mode': agenda.mode = d.m; return rendre();
     case 'aujourdhui': agenda.date = auj(); return rendre();
     case 'voirjour': agenda.date = d.j; agenda.mode = 'jour'; return rendre();
@@ -1075,12 +1367,12 @@ document.addEventListener('change', ev => {
     return rendre();
   }
 });
-$('#voile').addEventListener('click', e => { if (e.target.id === 'voile') fermer(); });
 
 /* ---------- Démarrage ---------- */
 charger();
 document.documentElement.style.setProperty('--taille', Number(localStorage.getItem('ect-taille')) || 1);
-history.replaceState(vue, '');
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+history.replaceState({ v: 'accueil', p: {}, sentinelle: true }, '');
 rendre();
 if ('serviceWorker' in navigator && location.protocol !== 'file:') navigator.serviceWorker.register('sw.js').catch(() => {});
 </script>
