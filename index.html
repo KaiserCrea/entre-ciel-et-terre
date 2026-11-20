@@ -246,6 +246,63 @@ input[type=date],input[type=time]{color-scheme:dark}
 .maintenant{position:absolute;z-index:3;left:-6px;right:0;height:1px;background:linear-gradient(90deg,#fff,#b9c7e6 40%,transparent);box-shadow:0 0 8px #dfe5f3;pointer-events:none}
 .maintenant:before{content:"";position:absolute;left:0;top:-4px;width:9px;height:9px;border-radius:50%;background:#fff;box-shadow:0 0 8px #fff}
 .astuce{text-align:center;font-family:var(--serif);font-style:italic;font-size:16px;color:var(--doux);margin:6px 0 4px}
+@media (prefers-reduced-motion:no-preference){
+  .glisse-g{animation:glisseG .28s ease-out}
+  .glisse-d{animation:glisseD .28s ease-out}
+}
+@keyframes glisseG{from{transform:translateX(42px);opacity:.35}to{transform:none;opacity:1}}
+@keyframes glisseD{from{transform:translateX(-42px);opacity:.35}to{transform:none;opacity:1}}
+.agenda-page{touch-action:pan-y}
+
+/* ---------- Accueil : sous-titres ---------- */
+.face .desc{font-size:min(19px,4.3vw)}
+.face .desc span{display:inline-block;white-space:nowrap}
+
+/* ---------- Atelier ---------- */
+.atelierc{margin-bottom:6px}
+.atelierc .int{background:linear-gradient(180deg,#1a2547ee,#0d1430f4)}
+.terre .atelierc .int{background:linear-gradient(180deg,#4a2512ee,#21100af4)}
+.sceau{width:46px;height:46px;flex-shrink:0;border-radius:50%;border:0.5px solid #dfe5f3aa;display:flex;align-items:center;justify-content:center;color:#f3f5fb;font-size:18px;box-shadow:0 0 16px #b9c7e633 inset}
+.terre .sceau{border-color:#f5c48caa;color:var(--ambre);box-shadow:0 0 16px #e0935633 inset}
+.choix{display:grid;gap:8px}
+@media (min-width:640px){.choix{grid-template-columns:1fr 1fr}}
+.choix button{display:flex;flex-direction:column;gap:4px;text-align:left;border:0.5px solid #ffffff1f;border-radius:14px;padding:13px 15px;background:#0b10209e;color:var(--texte)}
+.choix button .cn{font-family:var(--serif);font-size:20px;color:#f3f5fb;line-height:1.2}
+.choix button .cs{font-family:var(--caps);font-size:9px;letter-spacing:2px;color:var(--doux);text-transform:uppercase}
+.choix button.on{border-color:#dfe5f3;background:linear-gradient(180deg,#1e2a50,#111a34);box-shadow:0 0 14px #b9c7e640}
+.terre .choix button{background:#170b069e}
+.terre .choix button.on{border-color:#f5c48c;background:linear-gradient(180deg,#4a2512,#2a140a);box-shadow:0 0 14px #e0935640}
+.interrupteur{display:flex;align-items:center;gap:12px;width:100%;flex-wrap:wrap;border:0.5px solid #ffffff1f;border-radius:14px;padding:13px 15px;background:#0b10209e;color:#f3f5fb;font-family:var(--serif);font-size:20px;text-align:left}
+.interrupteur small{flex-basis:100%;font-family:var(--sans);font-size:13px;color:var(--doux)}
+.interrupteur .pt{width:42px;height:24px;border-radius:12px;background:#ffffff1f;position:relative;transition:background .2s}
+.interrupteur .pt:after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#dfe5f3;transition:left .2s}
+.interrupteur.on .pt{background:#8fa3d4}
+.interrupteur.on .pt:after{left:21px}
+.terre .interrupteur{background:#170b069e}
+.terre .interrupteur.on .pt{background:#c6743a}
+.raccord{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;padding:11px 14px;border:0.5px solid #ffffff17;border-radius:12px;margin-bottom:8px;background:#05070f80;font-size:15px;color:#cfd6e6}
+.raccord small{margin-left:auto;font-family:var(--caps);font-size:9px;letter-spacing:2px;color:var(--doux);text-transform:uppercase}
+.raccord .ok{color:#a8d5b0}
+.raccord.a{display:block;border-color:#f5c48c66}
+.raccord .rt{font-family:var(--serif);font-size:18px;color:#f3f5fb}
+.liaison{width:100%;min-height:96px;background:#05070fcc;border:0.5px solid #c9d4ee44;border-radius:12px;padding:12px 13px;font-family:var(--serif);font-style:italic;font-size:18px;line-height:1.5;color:#eef1f8;resize:vertical;outline:none}
+.resume{margin-top:24px;padding:18px;border-radius:16px;border:0.5px solid #c9d4ee44;background:#0b1020c4}
+.terre .resume{background:#170b06c4;border-color:#f5c48c55}
+.duree{font-family:var(--serif);font-size:21px;color:#f3f5fb;margin-bottom:12px}
+.duree b{font-weight:500}
+.btn:disabled{opacity:.4}
+
+/* ---------- Notes diverses en mosaïque ---------- */
+.filtres{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin:0 0 16px;scrollbar-width:none}
+.filtres button{flex-shrink:0;border:0.5px solid #c9d4ee44;background:#0b10208c;color:var(--argent2);border-radius:20px;padding:8px 15px;font-size:14px;white-space:nowrap}
+.filtres button.on{background:var(--argent);color:#0b1020;border-color:var(--argent)}
+.mosaique{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;align-items:start}
+.notec{display:flex;flex-direction:column;gap:8px;text-align:left;border:0.5px solid #ffffff1f;border-radius:16px;padding:15px 15px 16px;background:linear-gradient(180deg,#121a32e6,#0a1022ee);color:var(--texte)}
+.notec .nt{font-family:var(--serif);font-size:21px;color:#f3f5fb;line-height:1.2}
+.notec .nx{font-size:14px;line-height:1.55;color:#aab4cc;white-space:pre-line;display:-webkit-box;-webkit-line-clamp:7;-webkit-box-orient:vertical;overflow:hidden}
+.np{display:flex;gap:6px;flex-wrap:wrap}
+.puce{font-family:var(--caps);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--argent2);border:0.5px solid #c9d4ee55;border-radius:10px;padding:3px 8px}
+.notepleine{white-space:pre-line;font-size:calc(18px * var(--taille));line-height:1.7;color:#d9dfec}
 </style>
 </head>
 <body>
@@ -310,7 +367,8 @@ const TECHNIQUES = {
         ['dit', "Ressens cette paix, ce calme, cette sécurité dans tout ton corps.\nMaintenant, pendant que tu ressens tout ça, touche doucement ton pouce et ton index. Ce geste est relié à cet endroit. À chaque fois que tu le feras, ou que je te le demanderai, tu reviendras ici instantanément, en sécurité.\nRelâche tes doigts. Cet endroit reste là, il t'attend, toujours disponible."]
       ]},
       { r: 'III', titre: 'La pièce', b: [
-        ['dit', "Maintenant, tu quittes doucement ton endroit safe, en sachant que tu peux y revenir à tout moment.\nDevant toi apparaît une pièce. Une pièce où tu te sens bien, à l'aise, détendu.\nPrends le temps de regarder autour de toi… Les couleurs, la lumière, les objets, la température de l'air.\nSi quelque chose ne te convient pas, change-le. Arrange cette pièce exactement comme tu le souhaites.\nDans cette pièce, il y a un lit, confortable, accueillant. Approche-toi, et allonge-toi.\nEt à chaque inspiration, tu t'enfonces un peu plus dans ce confort… de plus en plus profondément."]
+        ['dit', "Maintenant, tu quittes doucement ton endroit safe, en sachant que tu peux y revenir à tout moment.", { si: 'safe' }],
+        ['dit', "Devant toi apparaît une pièce. Une pièce où tu te sens bien, à l'aise, détendu.\nPrends le temps de regarder autour de toi… Les couleurs, la lumière, les objets, la température de l'air.\nSi quelque chose ne te convient pas, change-le. Arrange cette pièce exactement comme tu le souhaites.\nDans cette pièce, il y a un lit, confortable, accueillant. Approche-toi, et allonge-toi.\nEt à chaque inspiration, tu t'enfonces un peu plus dans ce confort… de plus en plus profondément."]
       ]},
       { r: 'IV', titre: 'La lumière dorée', b: [
         ['dit', "Pendant que tu es allongé là, porte ton attention sur tes pieds. Imagine une lumière dorée, chaude et douce, qui commence à entrer par tes orteils.\nPartout où elle passe, elle laisse derrière elle une détente profonde et une énergie bienfaisante.\nElle se répand dans la plante de tes pieds, dans chaque petit muscle, puis dans tes chevilles… et elle monte tranquillement dans tes jambes.\nTu la sens glisser à travers tes genoux, agréablement, et entrer dans tes cuisses. Laisse tes cuisses se relâcher, pendant que la lumière remplit tes jambes de vagues de douceur.\nElle continue sa route et entre dans tes hanches, dans le bas de ton ventre.\nTu la sens circuler doucement à l'intérieur de ton corps, autour de tes organes, et monter vers le haut de ton corps.\nElle arrive dans ta poitrine. Prends une longue inspiration… et en expirant, laisse toute ta poitrine se détendre.\nLa lumière entoure maintenant ton cœur, et tu le sens battre calmement, tranquillement, régulièrement.\nElle monte jusqu'à tes épaules, qui deviennent lourdes et souples, puis elle descend dans tes bras… dans tes coudes, tes avant-bras… jusque dans tes mains, et au bout de chacun de tes doigts.\nMaintenant, elle remonte doucement vers ta nuque, et entre dans ta tête. Tu sens ta tête se remplir de calme et de détente.\nTout ton corps est rempli de cette lumière dorée, apaisante et bienfaisante.\nRegarde à l'intérieur de toi : s'il reste encore une tension quelque part, observe comme elle se dissout, simplement, au contact de la lumière.\nPendant tout le voyage, cette lumière veille sur ton corps. Il reste ici, en sécurité, et il t'attend."]
@@ -358,7 +416,9 @@ const TECHNIQUES = {
         ['dit', "Écoute bien… Prends le temps de recevoir son message.\nEnsuite, prends-la dans tes bras… et laisse-la s'en aller, doucement, en paix."]
       ]},
       { r: 'XIII', titre: 'Le chemin du retour', b: [
-        ['dit', "Il est temps de revenir. Tu emportes avec toi tout ce que tu as compris aujourd'hui, tout ce qui est utile pour ta vie actuelle.\nTu te retrouves au bout du pont… et tu le traverses dans l'autre sens, tranquillement, pas après pas.\nTu passes à travers la brume douce et fraîche… et tu retrouves la porte.\nTu franchis le seuil, tu refermes la porte derrière toi.\nTe voilà au pied de l'escalier, en sécurité.\nTu remontes les marches, une à une, et à chaque marche tu te sens plus léger, plus présent… jusqu'à retrouver ta pièce."]
+        ['dit', "Il est temps de revenir. Tu emportes avec toi tout ce que tu as compris aujourd'hui, tout ce qui est utile pour ta vie actuelle.\nTu te retrouves au bout du pont… et tu le traverses dans l'autre sens, tranquillement, pas après pas.\nTu passes à travers la brume douce et fraîche… et tu retrouves la porte.\nTu franchis le seuil, tu refermes la porte derrière toi.\nTe voilà au pied de l'escalier, en sécurité."],
+        ['dit', "Tu remontes les marches, une à une, et à chaque marche tu te sens plus léger, plus présent… jusqu'à retrouver ta pièce.", { si: 'piece' }],
+        ['dit', "Tu remontes les marches, une à une, et à chaque marche tu te sens plus léger, plus présent… jusqu'en haut de l'escalier.", { sinon: 'piece' }]
       ]},
       { r: 'XIV', titre: 'Retour', b: [
         ['dit', "Dans un instant, je vais compter jusqu'à trois. À trois, tu seras pleinement revenu ici, dans cette époque et dans ta réalité présente.\nUn… tu reviens complètement dans ton corps, tu sens son poids, ta respiration.\nDeux… tu reconnais la pièce où tu te trouves, les sons autour de toi.\nTrois… tu ouvres les yeux. Te voilà de retour dans ta vie présente, calme et détendu.\nÉtire-toi doucement, prends tout le temps qu'il te faut pour revenir pleinement.\nBienvenue."]
@@ -398,12 +458,244 @@ const TECHNIQUES = {
         ['liste', ["Quand le moment est venu, laisser partir les souvenirs et revenir à la respiration, douce et régulière.", "Remercier l'intelligence infinie qui a guidé la séance.", "Reprendre conscience du corps et compter mentalement de 5 à 0.", "À 0, ouvrir doucement les yeux et retrouver l'environnement.", "Prendre tout son temps avant de se lever. On est de nouveau ici et maintenant."]]
       ]}
     ]
+  },
+  weiss: {
+    id: 'weiss',
+    nom: 'Technique de Brian Weiss',
+    sous: 'Relaxation et régression',
+    etapes: [
+      { r: 'I', titre: 'La respiration', b: [
+        ['dit', "Laisse tes yeux se fermer doucement.\nPorte maintenant ton attention sur ta respiration. Laisse-la devenir profonde et régulière, en respirant par le bas du ventre.\nPrends cinq grandes respirations, profondes et apaisantes : inspire par le nez… et souffle par la bouche… détends-toi."],
+        ['consigne', "Laisser un long temps pour les cinq respirations."],
+        ['dit', "À chaque expiration, laisse sortir toutes les courbatures, les douleurs et les tensions gardées dans ton corps.\nÀ chaque inspiration, laisse entrer en toi l'énergie paisible qui t'entoure.\nEt détends-toi plus profondément encore."]
+      ]},
+      { r: 'II', titre: 'La détente des muscles', b: [
+        ['dit', "Visualise, imagine ou sens maintenant tes muscles qui se détendent complètement.\nDétends les muscles de ton front, de ton visage… de tes mâchoires…\nDétends les muscles de ton cou et de tes épaules, ces endroits souvent si tendus.\nDétends tes bras… tes jambes… les muscles de ton dos…\nLaisse les muscles de ton ventre se relâcher complètement, pour que ta respiration reste paisible, profonde et régulière.\nÀ chaque nouvelle respiration, laisse-toi aller vers une détente de plus en plus profonde."]
+      ]},
+      { r: 'III', titre: 'La lumière', b: [
+        ['dit', "Visualise, imagine ou sens une lumière brillante au sommet de ton crâne, à l'intérieur de ta tête. Laisse ton esprit choisir sa couleur."],
+        ['consigne', "Pause."],
+        ['dit', "À mesure que cette lumière descend et se répand dans ton corps, chaque tissu, chaque organe, chaque muscle, chaque fibre et chaque cellule qu'elle touche se détend complètement… et se libère de toute tension, de toute douleur.\nLa lumière t'emmène dans une détente toujours plus profonde. Tu te sens déjà très paisible, très calme.\nRegarde-la maintenant se répandre depuis le sommet de ta tête… vers ton front… derrière tes yeux… et sens-toi te détendre encore davantage.\nElle se répand dans ton cuir chevelu… dans tes mâchoires… et t'apaise toujours plus.\nElle baigne maintenant ton cou, en relâche entièrement les muscles, et adoucit ta gorge. Ta détente augmente encore."],
+        ['consigne', "Pause."],
+        ['dit', "Sens cette lumière qui détend et apaise chaque muscle, chaque nerf, chaque cellule… elle se répand dans tes épaules…\nElle descend le long de tes bras, jusqu'à tes mains et tes doigts."],
+        ['consigne', "Pause."],
+        ['dit', "Sens-la entrer dans le haut de ton dos… dans ta poitrine… dans ton cœur, qui la fait circuler dans tous les vaisseaux de ton corps…\nElle entre dans tes poumons et y rayonne merveilleusement…\nLe haut de ton dos est maintenant parfaitement détendu.\nLa lumière coule maintenant le long de ta colonne vertébrale, du cerveau jusqu'en bas du dos, et baigne tout ton système nerveux, jusqu'à remplir chaque muscle et chaque cellule de ton corps.\nTon calme est profond. Tu ressens une merveilleuse tranquillité, une grande paix."],
+        ['consigne', "Pause."],
+        ['dit', "Sens la lumière se répandre dans ton ventre… dans le bas de ton dos… elle détend complètement tes muscles et tes nerfs… Elle entre dans tes hanches… dans tes jambes, jusqu'à tes pieds et tes orteils… Tout ton corps est rempli, baigné de cette lumière extraordinaire. Tu te sens profondément paisible.\nSens maintenant la lumière t'entourer complètement, comme un cocon, un halo de lumière. Elle te protège, et détend ta peau et tous tes muscles extérieurs…\nTu te sens encore plus paisible, plus calme, plus détendu."]
+      ]},
+      { r: 'IV', titre: 'Le compte de 5 à 1', b: [
+        ['dit', "Je vais maintenant compter à rebours, de cinq à un.\nÀ chaque chiffre, ta paix, ton calme et ta détente vont grandir. Quand j'arriverai à un, tu seras dans une détente très profonde, et ton esprit sera libre des limites habituelles du temps et de l'espace. Ta mémoire sera sans limite.\nCinq…\nQuatre, tu te sens de plus en plus paisible, de plus en plus détendu…\nTrois, de plus en plus profondément…\nDeux, tu y es presque…\nUn."]
+      ]},
+      { r: 'V', titre: 'La sécurité', b: [
+        ['dit', "Te voilà maintenant dans une détente très profonde, et pourtant tu gardes parfaitement le contrôle. Si tu ressens le moindre malaise, maintenant ou plus tard, tu peux toujours arrêter l'exercice, ne pas faire la régression, et revenir à ton état normal en ouvrant les yeux. Tu garderas toute la maîtrise de ton corps et de ton esprit, et tu te sentiras merveilleusement détendu et reposé."]
+      ]},
+      { r: 'VI', titre: "L'escalier et la porte", b: [
+        ['dit', "Si tu décides de continuer, imagine, vois ou sens que tu descends lentement un magnifique escalier."],
+        ['consigne', "Pause."],
+        ['dit', "En bas, il y a une porte, et une lumière éclatante brille de l'autre côté.\nTu te sens parfaitement détendu, parfaitement paisible.\nTu franchis la porte, en sachant que ton esprit n'est plus limité par le temps ni par l'espace, et que tu peux te souvenir de tout ce qui t'est arrivé.\nUne fois la porte franchie, en entrant dans la lumière, tu te retrouveras à une autre époque.\nLaisse ton inconscient choisir cette époque, dans ta vie actuelle ou dans une autre. Tu peux remonter à un moment où est apparue la cause première d'un de tes troubles, de tes sentiments, ou d'une difficulté dans tes relations d'aujourd'hui."],
+        ['consigne', "Pause."]
+      ]},
+      { r: 'VII', titre: "L'exploration", b: [
+        ['dit', "En entrant dans cette lumière, commence par regarder tes pieds."],
+        ['q', ["Comment es-tu chaussé ? Des chaussures, des sandales, autre chose, ou es-tu pieds nus ?", "Observe ton corps…", "Tes vêtements…", "Regarde tes mains…", "Quelle est ton allure générale ?", "Fait-il jour ou nuit ?", "Es-tu à l'intérieur ou à l'extérieur ?", "Sais-tu, ou peux-tu savoir, la date ? (pause)","Regarde autour de toi : le paysage, l'architecture des bâtiments, la végétation, les arbres. Y a-t-il des gens autour de toi ? Si oui, tu peux leur parler et écouter ce qu'ils te répondent."]],
+        ['dit', "Cherche la réponse à tes questions, l'explication de tes difficultés."],
+        ['consigne', "Longue pause."],
+        ['dit', "Continue ta recherche. Tu peux remonter ou avancer dans le temps si c'est nécessaire…\nSi tu ressens un peu d'anxiété, élève-toi et flotte au-dessus de ton corps, et contente-toi d'observer, sans y participer et sans ressentir d'émotion.\nSi tu le souhaites, ouvre simplement les yeux et arrête le processus.\nObserve attentivement tous les événements importants. Avec le regard plus large qui est le tien maintenant, comprends pourquoi ils se sont produits, et ce qu'ils signifient vraiment.\nTu es maintenant capable de comprendre."],
+        ['consigne', "Longue pause."],
+        ['q', ["Reconnais-tu des personnes de ton entourage actuel ?"]],
+        ['consigne', "Longue pause."],
+        ['dit', "Si tu le souhaites, va à la fin de cette existence, et revis ta mort."],
+        ['consigne', "Longue pause."],
+        ['dit', "Flotte au-dessus de ton corps et passe ta vie en revue."],
+        ['q', ["Quelles leçons dois-tu en tirer ?"]],
+        ['consigne', "Longue pause."]
+      ]},
+      { r: 'VIII', titre: 'Le retour', b: [
+        ['dit', "Il est temps maintenant de revenir.\nLaisse doucement cette époque derrière toi. Tu gardes avec toi tout ce que tu as vu, tout ce que tu as compris.\nRetourne vers la lumière éclatante… et repasse la porte."],
+        ['consigne', "Pause."],
+        ['dit', "Tu retrouves le bas du magnifique escalier. Remonte-le maintenant, marche après marche, tranquillement… À chaque marche, tu reviens un peu plus vers le présent, vers ta vie d'aujourd'hui… vers cette pièce, ici et maintenant."],
+        ['consigne', "Pause."],
+        ['dit', "Te voilà en haut de l'escalier."],
+        ['dit', "Je vais compter de un à cinq. À cinq, tu ouvriras les yeux. Tu seras complètement éveillé, alerte et reposé, et tu te sentiras merveilleusement bien. Tu garderas toute la maîtrise de ton corps et de ton esprit, et tu te souviendras de tout. Chaque fois que tu referas cet exercice, ta détente sera plus profonde.\nUn : chaque muscle et chaque nerf de ton corps est parfaitement détendu.\nDeux : tu te réveilles petit à petit, et tu te sens merveilleusement bien.\nTrois : tu es de plus en plus éveillé, de plus en plus alerte.\nQuatre : tu es presque complètement réveillé, et tu ressens une formidable sensation de bien-être.\nCinq : tu ouvres les yeux, pleinement présent, ici et maintenant."]
+      ]}
+    ]
+  },
+  projection: {
+    id: 'projection',
+    nom: 'Technique de projection vers une vie future',
+    sous: 'Docteur Allemann · vies futures',
+    etapes: [
+      { r: '', titre: 'Avant la séance', b: [
+        ['liste', ["Pièce calme, téléphone coupé, sonnette débranchée, aucun dérangement possible.", "Client allongé sur un lit ou au sol, ou assis dans un fauteuil s'il préfère.", "De préférence quand il est calme et reposé. Compter de 30 minutes à 1 heure.", "Après la séance, lui laisser tout le temps nécessaire avant de se lever."]]
+      ]},
+      { r: 'I', titre: 'Induction : le lieu agréable', b: [
+        ['dit', "Installe-toi confortablement… et laisse doucement tes yeux se fermer. Prends une grande inspiration… et en expirant, laisse tes épaules descendre, ta mâchoire se desserrer, ton visage se détendre. Encore une fois… inspire… et relâche.\nMaintenant, laisse venir à toi l'image d'un lieu agréable. Un endroit où tu te sens bien, simplement bien. Ça peut être un lieu que tu connais, un souvenir, ou un endroit que tu inventes à l'instant : un jardin, une plage, une forêt, une prairie au bord de l'eau… Laisse venir le premier qui se présente, c'est toujours le bon.\nRegarde autour de toi. Remarque les couleurs… la lumière… est-ce le matin, le milieu de la journée, la fin d'après-midi ? Remarque comme la lumière se pose sur les choses, doucement. Écoute maintenant ce lieu. Peut-être le vent dans les feuilles… le bruit de l'eau… des oiseaux au loin… ou simplement le silence. Laisse ces sons t'envelopper, sans rien chercher. Sens l'air sur ta peau… sa température, sa douceur. Sens le sol sous tes pieds : l'herbe, le sable, la terre… Remarque l'odeur de cet endroit, l'odeur de l'air, de la nature autour de toi.\nEt à chaque chose que tu remarques, tu te sens un peu plus détendu… un peu plus présent dans ce lieu… et un peu plus loin de tout le reste.\nAvance tranquillement dans ce lieu, à ton rythme. Chaque pas t'emmène un peu plus profondément dans le calme. Trouve maintenant l'endroit idéal pour te poser. Un endroit doux, confortable, juste pour toi. Allonge-toi… et laisse ton corps s'abandonner, complètement soutenu."],
+        ['dit', "Ressens la paix, le calme et la sécurité de ce lieu dans tout ton corps. Maintenant, pendant que tu ressens tout ça, touche doucement ton pouce et ton index. Ce geste est relié à ce lieu. À chaque fois que tu le feras, ou que je te le demanderai, tu reviendras ici instantanément, en sécurité. Relâche tes doigts. Ce lieu reste là, il t'attend, toujours disponible.", { si: 'safe' }],
+        ['dit', "Et là, dans ce lieu agréable, commence à respirer calmement, régulièrement, par le nez. Relie ton inspiration et ton expiration, sans pause entre les deux, comme une vague qui va et vient. Sens l'air qui entre… et qui sort de tes narines…"]
+      ]},
+      { r: 'II', titre: 'La détente du corps par le souffle', b: [
+        ['dit', "Tout en continuant à respirer de cette façon, porte maintenant ton attention sur ton corps. Porte ton attention sur tes pieds… et respire dans tes pieds. Quand tu penses à un endroit de ton corps et que tu y respires en même temps, cet endroit respire de lui-même… et se remplit d'énergie, tout naturellement. Pense maintenant à tes chevilles… puis à tes mollets… à tes genoux… à tes cuisses… en continuant à respirer, l'inspiration et l'expiration toujours reliées, sans pause entre les deux. Pense à ton bassin à présent… puis à ton ventre… à ta poitrine… à ta gorge. Tu es calme, et ton corps se détend un peu plus à chaque respiration. Maintenant, respire dans tes fesses… puis dans le bas de ton dos… et remonte doucement le long de ta colonne vertébrale, jusqu'à ta nuque. Respire dans ta nuque… puis dans toute ta tête. Ton corps est maintenant bien détendu. Tout en toi est calme, apaisé."]
+      ]},
+      { r: 'III', titre: "L'approfondissement", b: [
+        ['dit', "Prends maintenant trois respirations longues et profondes… et laisse tes poumons se vider tout seuls à l'expiration, sans forcer, sans pousser avec le ventre. Une… Deux… Trois… Reprends une respiration douce et régulière."]
+      ]},
+      { r: 'IV', titre: 'La lumière blanche', b: [
+        ['dit', "Pense maintenant à la lumière. Une belle lumière blanche, qui commence à circuler dans tout ton corps. Remplis d'abord tes pieds de cette lumière… puis tes chevilles… tes genoux… tes cuisses. Laisse-la pénétrer à l'intérieur de ton corps. Continue en remplissant ton bassin… ton ventre… ta poitrine… et ta gorge de cette lumière. Fais maintenant passer cette belle lumière blanche dans tes fesses… dans le bas de ton dos… puis fais-la monter tout le long de ta colonne vertébrale, jusqu'à ta nuque. Cette lumière éblouissante entre dans ta nuque… puis dans ta tête, où elle se diffuse. Ta tête est maintenant remplie de lumière. À chaque inspiration, ton corps et ton esprit se remplissent encore davantage de cette lumière. Tout est lumière rayonnante en toi. Respire calmement par le nez, et sens comme ton corps est détendu… et lumineux. Prends encore trois respirations profondes, en te relâchant complètement à chaque expiration."]
+      ]},
+      { r: 'V', titre: 'Le départ', b: [
+        ['dit', "Maintenant va commencer ton voyage vers le futur. Respire toujours régulièrement et calmement. Ton cœur, lui aussi, bat régulièrement et calmement. Ton corps et ton esprit sont remplis de lumière, et le resteront pendant toute la durée de ce voyage. Ils sont en sécurité là où ils se trouvent, et le resteront jusqu'à ton retour. Prends maintenant une respiration longue et profonde… et imagine-toi dans un ballon qui te porte, et qui s'envole doucement au-dessus de la Terre."]
+      ]},
+      { r: 'VI', titre: 'Premier arrêt : 2031', b: [
+        ['dit', "Tu es au-dessus de la Terre, et tu vois tout ce qui s'y passe. Tu es maintenant en 2031."],
+        ['q', ["Regarde : que se passe-t-il à cette époque dans ton pays ?"]],
+        ['dit', "Observe simplement ce qui se passe, sans jamais vouloir y changer quoi que ce soit. Reste simple spectateur."]
+      ]},
+      { r: 'VII', titre: 'Deuxième arrêt : 2100', b: [
+        ['dit', "Maintenant, tu es en l'an 2100. Regarde, et laisse-toi aller. Tu es au-dessus de la Terre et tu vois tout ce qui s'y passe."],
+        ['q', ["Que se passe-t-il à cette époque ?", "Que se passe-t-il dans ton pays ?"]],
+        ['dit', "Laisse-toi baigner par l'atmosphère qui règne dans ce pays en 2100. Bien… laisse à nouveau s'éloigner de toi ces événements."]
+      ]},
+      { r: 'VIII', titre: 'Toi en 2100', b: [
+        ['dit', "Maintenant, regarde où tu seras en 2100."],
+        ['q', ["Es-tu toujours sur Terre, ou as-tu atteint un autre plan de conscience ?", "Comment es-tu ?", "Quelle forme as-tu ?", "Où es-tu ?"]],
+        ['dit', "Laisse venir les réponses à toutes ces questions. Reste toujours simple spectateur de ce que tu vois. Tu es en totale sécurité, là où tu te trouves."]
+      ]},
+      { r: 'IX', titre: 'La prochaine incarnation', b: [
+        ['dit', "Maintenant, va au moment où tu te réincarnes sur Terre, si tu n'y es pas déjà, et regarde dans quel pays tu te réincarnes."],
+        ['q', ["En quelle année sommes-nous ?", "Quel est ton nom ?", "Quelle leçon es-tu venu apprendre dans cette nouvelle vie ?", "Es-tu une fille ou un garçon ?", "Comment te sens-tu ?"]],
+        ['dit', "Laisse venir les réponses à toi. Prends quelques respirations calmes et douces par le nez, et regarde les images qui viennent. Laisse venir à toi toutes les informations qui peuvent t'être données. Tu es calme et détendu. Ta respiration est régulière et douce, et ton cœur bat calmement et régulièrement. Maintenant, si tu le souhaites, tu peux poser mentalement une ou plusieurs questions de ton choix. Laisse venir spontanément à ton esprit la ou les réponses."]
+      ]},
+      { r: 'X', titre: 'La prochaine vie', b: [
+        ['dit', "Regarde ta prochaine vie."],
+        ['q', ["Quelles sont tes occupations ?", "Comment est ta maison ?", "Comment est l'endroit où tu habites ?", "Quelles sont les personnes qui t'entourent ?"]],
+        ['dit', "Laisse venir à toi les informations de cette prochaine vie. Reste simple spectateur… et rappelle-toi que tout peut toujours changer, car ce sont nos actions et nos pensées qui créent constamment notre avenir."]
+      ]},
+      { r: 'XI', titre: 'Le retour', b: [
+        ['dit', "Laisse maintenant s'éloigner de toi toutes les sensations et les images que tu as pu voir. Retrouve ton ballon… monte à bord… et sens-le redescendre doucement, très doucement, à travers le temps, jusqu'à aujourd'hui."],
+        ['dit', "Il se pose avec douceur dans ton lieu agréable. Descends du ballon et retrouve ce lieu, son calme, sa lumière, ses sons… tu es en sécurité.", { si: 'lieu' }],
+        ['dit', "Il se pose avec douceur, ici. Descends du ballon… tu es en sécurité.", { sinon: 'lieu' }],
+        ['dit', "Prends quelques respirations douces par le nez. Quand tu te sens prêt, prends une respiration longue et profonde… puis deux autres. Doucement, reprends conscience de ton corps, et de la lumière dans laquelle il se trouve."],
+        ['dit', "Je vais maintenant compter de 10 à 0. À zéro, tu ouvriras doucement les yeux. Dix… neuf… huit… sept… six… cinq… quatre… trois… deux… un… zéro. Ouvre doucement les yeux. Prends tout le temps qu'il te faut pour reprendre pleinement conscience de ton corps et de ton environnement. Bienvenue sur Terre… bienvenue ici et maintenant."]
+      ]},
+      { r: '', titre: 'Après la séance : intégration', b: [
+        ['liste', ["Laisser le client raconter ce qu'il a vu, sans interpréter à sa place.", "Rappeler que rien n'est figé : ce qu'il a vu montre où mènent ses pensées et ses actions d'aujourd'hui, ce n'est pas une destinée.", "Repérer avec lui ce qui lui convient et ce qui ne lui convient pas dans cet avenir.", "Chercher les pensées ou les habitudes actuelles qui y mènent.", "Choisir ensemble un ou deux changements concrets à mettre en place dès maintenant."]]
+      ]},
+      { r: '', titre: "En cas d'urgence", b: [
+        ['consigne', "À tout moment de la séance."],
+        ['dit', "Touche ton pouce et ton index… tu es maintenant dans ton lieu agréable, en sécurité."]
+      ]}
+    ]
   }
 };
+const ORDRE_CELESTE = ['rhea', 'weiss', 'projection', 'allemann'];
+
+/* ---------- Briques de l'atelier ---------- */
+// type : induction · approf · protocole · retour — face : celeste · terrestre · deux
+// fournit / besoin : raccords entre briques — lieu : induction du lieu agréable
+const ET = (id, i) => TECHNIQUES[id].etapes[i];
+const partie = (e, titre, debut, fin) => ({ r: 'x', titre: titre || e.titre, b: e.b.slice(debut || 0, fin == null ? e.b.length : fin) });
+const BRIQUES = [
+  { id: 'rhea-install', type: 'induction', face: 'deux', min: 12, nom: 'Installation, du crâne aux pieds', src: 'Rhéa Powers', etapes: [ET('rhea', 1)] },
+  { id: 'weiss-lumiere', type: 'induction', face: 'deux', min: 10, nom: 'Respiration, muscles et lumière', src: 'Brian Weiss', etapes: [ET('weiss', 0), ET('weiss', 1), ET('weiss', 2)] },
+  { id: 'allemann-lieu', type: 'induction', face: 'deux', min: 7, nom: 'Le lieu agréable', src: 'Allemann', lieu: true, fournit: ['souffle'], etapes: [ET('projection', 1)] },
+  { id: 'slam', type: 'induction', face: 'deux', min: 6, nom: 'Le slam dunk', src: 'Catalepsie du bras', etapes: [{ r: 'x', titre: 'Le slam dunk', b: [
+    ['dit', "Prends une grande inspiration… et en expirant, relâche-toi… et laisse tes yeux se fermer.\nMaintenant, ouvre très légèrement les yeux, juste assez pour regarder à travers tes cils… et fixe l'ongle du pouce de ta main gauche.\nTout en continuant de fixer ton pouce, lève lentement ton bras… et sens combien il devient lourd.\nLaisse-le redescendre… et recommence. Lève-le encore… À chaque fois, la lourdeur double…"],
+    ['consigne', "Répéter plusieurs fois, jusqu'à ce que le bras ne se lève plus."],
+    ['dit', "Ton bras est si lourd maintenant que tu ne peux plus le lever… Laisse-le reposer.\nMaintenant, de la même façon, regarde le pouce de ta main droite… et lève ce bras, lentement… Laisse-le redescendre… et recommence… À chaque fois, il devient plus lourd…"],
+    ['consigne', "Répéter."],
+    ['dit', "… jusqu'à ce que ta main s'arrête d'elle-même, en l'air, à mi-chemin entre ta jambe et ton visage… immobile."],
+    ['consigne', "Attendre que la main s'immobilise."],
+    ['dit', "Ferme les yeux. Et descends… de plus en plus profond… pendant que ton bras droit reste là, parfaitement immobile… comme suspendu."],
+    ['consigne', "Pause."],
+    ['dit', "Et maintenant, ton bras redevient léger… et se repose doucement… et à mesure qu'il se pose, tu descends encore plus profond."]
+  ]}] },
+  { id: 'trois21', type: 'induction', face: 'deux', min: 10, nom: 'Le 3-2-1', src: 'Voir, entendre, ressentir', etapes: [{ r: 'x', titre: 'Le 3-2-1', b: [
+    ['dit', "Installe-toi confortablement… et choisis un point dans la pièce, devant toi. Garde les yeux fixés dessus, sans bouger la tête… et en même temps, laisse ton regard s'élargir à tout ce qu'il y a autour, sur les côtés.\nMaintenant, nomme dans ta tête trois choses que tu vois en ce moment…"],
+    ['consigne', "Laisser le temps à chaque fois."],
+    ['dit', "… trois choses que tu entends…\n… trois choses que tu ressens…"],
+    ['dit', "Maintenant, deux choses que tu vois… deux choses que tu entends… deux choses que tu ressens…"],
+    ['dit', "Une chose que tu vois… une chose que tu entends… et une chose que tu ressens… Et peut-être que cette chose, c'est l'envie de fermer les yeux… Alors ferme-les."],
+    ['consigne', "Pause."],
+    ['dit', "Tourne maintenant ton attention vers l'intérieur… et observe ce qui se passe dans ton esprit. Ce sont peut-être des choses que tu imagines… ou des scènes dont tu te souviens… une image, un son, une sensation… même une émotion… tout ce qui vient tout seul.\nLaisse venir trois choses que tu vois… trois choses que tu entends… trois choses que tu ressens…"],
+    ['dit', "Deux choses que tu vois… deux que tu entends… deux que tu ressens…"],
+    ['dit', "Une chose que tu vois… une que tu entends… une que tu ressens…"],
+    ['consigne', "Le cycle intérieur peut être répété pour aller plus profond."]
+  ]}] },
+  { id: 'univers', type: 'induction', face: 'deux', min: 8, nom: "L'univers en rotation", src: 'Daniel Goldschmidt', etapes: [{ r: 'x', titre: "L'univers en rotation", b: [
+    ['dit', "Ferme les yeux… et commence à ressentir profondément ta propre présence… ici… maintenant."],
+    ['consigne', "Pause."],
+    ['dit', "Et peut-être que tu peux sentir aussi… qu'en ce moment même, pendant que je te parle, nous tournons dans l'espace… emportés par la Terre qui tourne sur elle-même…\nEt en même temps, la Terre tourne autour du soleil… un grand voyage d'une année…\nEt le soleil lui-même se déplace dans la galaxie… emporté par le grand mouvement de la Voie lactée…"],
+    ['consigne', "Pause."],
+    ['dit', "Porte bien ton attention sur ton corps… sur ta respiration… sur les bruits autour de toi… et laisse le son de ma voix dériver… pendant que tu te concentres sur ce mouvement… D'une certaine façon, nous flottons tous dans l'espace…\nEt ton bras pourrait, de lui-même… tout seul… se mettre à bouger… et à flotter, lui aussi… à son tour…"],
+    ['consigne', "Laisser le temps au bras de se soulever."],
+    ['dit', "C'est bien… laisse-le flotter… et laisse-toi aller encore plus loin dans ce mouvement…"],
+    ['consigne', "Pause."],
+    ['dit', "Et maintenant, ton bras redescend doucement… et se repose… et tu continues de descendre, paisiblement."]
+  ]}] },
+
+  { id: 'rhea-piece', type: 'approf', face: 'deux', min: 9, nom: "La pièce, la lumière dorée et l'escalier", src: 'Rhéa Powers', fournit: ['escalier', 'piece'], etapes: [ET('rhea', 3), ET('rhea', 4), ET('rhea', 5)] },
+  { id: 'weiss-compte', type: 'approf', face: 'deux', min: 2, nom: 'Le compte de 5 à 1', src: 'Brian Weiss', etapes: [ET('weiss', 3)] },
+  { id: 'allemann-souffle', type: 'approf', face: 'deux', min: 10, nom: 'Le souffle et la lumière blanche', src: 'Allemann', besoin: 'souffle', etapes: [ET('projection', 2), ET('projection', 3), ET('projection', 4)] },
+
+  { id: 'rhea-regression', type: 'protocole', face: 'celeste', min: 40, nom: 'Régression vies antérieures', src: 'Rhéa Powers', besoin: 'escalier',
+    avant: ET('rhea', 0), etapes: [ET('rhea', 6), ET('rhea', 7), ET('rhea', 8), ET('rhea', 9), ET('rhea', 10), ET('rhea', 11), ET('rhea', 12), ET('rhea', 13)] },
+  { id: 'weiss-regression', type: 'protocole', face: 'celeste', min: 35, nom: 'Régression par la porte de lumière', src: 'Brian Weiss',
+    etapes: [ET('weiss', 4), ET('weiss', 5), ET('weiss', 6), partie(ET('weiss', 7), 'Le chemin du retour', 0, 5)] },
+  { id: 'projection-futur', type: 'protocole', face: 'celeste', min: 30, nom: 'Projection vers une vie future', src: 'Allemann',
+    avant: ET('projection', 0), apres: ET('projection', 12),
+    etapes: [ET('projection', 5), ET('projection', 6), ET('projection', 7), ET('projection', 8), ET('projection', 9), ET('projection', 10), partie(ET('projection', 11), 'Le retour en ballon', 0, 4)] },
+  { id: 'miroirs', type: 'protocole', face: 'deux', min: 30, nom: 'Les miroirs', src: 'Stephen Brooks', apres: { r: '', titre: 'Après la séance', b: [['liste', ["En reparler avec lui après la séance."]]] },
+    etapes: [
+      { r: 'x', titre: 'Le château', b: [
+        ['dit', "Devant toi se dresse un vieux château… ses vieilles pierres… et une grande tour qui le surmonte. Approche-toi… et entre.\nDevant toi, un large escalier monte dans la tour. Monte… marche après marche… il y en a une centaine… et à chaque marche, tu te sens plus calme… plus léger…"],
+        ['consigne', "Pause."],
+        ['dit', "Te voilà au centre de la tour, dans une grande salle. Sur le mur, il y a un grand miroir ancien. Approche-toi… et regarde ton reflet.\nObserve ton visage… tes paupières… ta respiration… Tu peux voir que tu es en transe."],
+        ['consigne', "Pause."]
+      ]},
+      { r: 'x', titre: 'Les miroirs', b: [
+        ['dit', "Dans un instant, des parties de toi vont apparaître dans ce miroir.\nEt voici, à côté de toi, ton inconscient qui apparaît… peut-être sous la forme d'un vieux sage… peut-être d'un ange… Laisse-le prendre la forme qui lui convient."],
+        ['q', ["Comment est-il ? Que vois-tu ?"]],
+        ['dit', "De ton inconscient émerge maintenant un moi plus jeune… il apparaît à ta droite."],
+        ['q', ["Quel âge as-tu ? Que se passe-t-il pour toi à ce moment-là ?"]],
+        ['dit', "Et un moi plus jeune encore apparaît à ta gauche."],
+        ['q', ["Quel âge as-tu ? Que se passe-t-il pour toi à ce moment-là ?"]],
+        ['dit', "Parle-leur de ce qui t'amène aujourd'hui… Écoute ce qu'ils ont à te dire."],
+        ['consigne', "Longue pause."],
+        ['dit', "D'autres moi peuvent encore apparaître… plus jeunes… ou même plus âgés, venus de ton futur. Laisse venir ceux qui ont quelque chose à t'apporter."],
+        ['q', ["Qui est là ? Que te disent-ils ?", "Qu'est-ce qui pourrait t'aider ? Qu'est-ce que tu comprends maintenant ?"]],
+        ['consigne', "Dialoguer librement. Longue pause."]
+      ]},
+      { r: 'x', titre: 'La réassociation', b: [
+        ['dit', "Il est temps maintenant de les rassembler. Remercie chacun d'eux…\nLe plus jeune entre dans celui qui est un peu plus âgé… et celui-ci dans le suivant… comme des poupées russes… jusqu'à ce que tous entrent en toi, le moi d'aujourd'hui… Tu les portes tous en toi, réunis… entier."],
+        ['consigne', "Pause."],
+        ['dit', "Éloigne-toi doucement du miroir… et redescends le grand escalier, marche après marche… À chaque marche, tu reviens un peu plus vers ici et maintenant…\nTe voilà en bas. Tu sors du château… et tu le laisses derrière toi."]
+      ]}
+    ] },
+
+  { id: 'rhea-retour', type: 'retour', face: 'deux', min: 2, nom: 'Compte de 1 à 3', src: 'Rhéa Powers', etapes: [ET('rhea', 14)] },
+  { id: 'weiss-retour', type: 'retour', face: 'deux', min: 2, nom: 'Compte de 1 à 5', src: 'Brian Weiss', etapes: [partie(ET('weiss', 7), 'Retour', 5)] },
+  { id: 'allemann-retour', type: 'retour', face: 'deux', min: 2, nom: 'Compte de 10 à 0', src: 'Allemann', etapes: [partie(ET('projection', 11), 'Retour', 4)] }
+];
+const SAFE = ET('rhea', 2);
+const LIAISONS = {
+  escalier: "Devant toi, un escalier doux et sûr descend, avec une rampe sous ta main. Descends-le tranquillement, marche après marche… et à chaque marche, tu vas plus profondément en toi.\nTe voilà en bas, profondément détendu, parfaitement bien.",
+  souffle: "Commence maintenant à respirer calmement, régulièrement, par le nez. Relie ton inspiration et ton expiration, sans pause entre les deux, comme une vague qui va et vient."
+};
+const TYPES = [['induction', 'Induction'], ['approf', 'Approfondissement'], ['protocole', 'Protocole'], ['retour', 'Retour']];
+
+/* ---------- Jeux hypnotiques (Terrestre) ---------- */
+const JEUX = [
+  { id: 'mains', nom: 'Les mains magnétiques', sous: 'Antony Jacquin · induction rapide, jeu', b: [
+    ['liste', ["Faire tendre les bras devant soi, paumes jointes et bien serrées.", "Faire descendre les mains jointes, comme pour une prière.", "Faire décoller les deux index, pointés vers le ciel et écartés.", "Faire fixer l'espace entre eux : ils vont se rapprocher comme deux aimants. Quand ils se touchent, les yeux se ferment.", "Faire presser fort les paumes, doigts entrecroisés.", "Évoquer les visages des personnes qu'il aime le plus, leurs yeux, leurs sourires, leur voix, et tout l'amour qu'il leur porte. Pendant ce temps, les doigts se collent et fusionnent.", "Plus il essaie de les séparer, plus ils se collent. Même les yeux ouverts, impossible.", "Il ne pourra les séparer qu'en descendant plus profond en transe."]],
+    ['sous', 'Pour libérer'],
+    ['dit', "À trois, tes mains se décollent facilement. Un, deux, trois."],
+    ['consigne', "En jeu, sans continuer la séance."]
+  ]}
+];
 
 /* ---------- Données par défaut ---------- */
 const DEFAUT = () => ({
-  version: 1,
+  version: 3,
   emetteur: {
     nom: 'Thierry Testa',
     statut: 'Entrepreneur individuel',
@@ -425,12 +717,25 @@ const DEFAUT = () => ({
   clients: [],
   rdv: [],
   notes: [],
-  diverses: [
-    { id: 'd1', titre: 'Les états de conscience', texte: "1. Beta : l'état d'éveil, pleinement conscient.\n2. Alpha : les niveaux de transe, du léger au profond.\n   a. Alpha léger : celui qu'on utilise en méditation.\n   b. Alpha moyen : retrouver les souvenirs d'enfance et les traumatismes anciens ; c'est aussi le niveau des changements de comportement, comme prendre ou perdre du poids, arrêter de fumer.\n   c. Alpha profond : retrouver les vies antérieures.\n3. Theta : le niveau le plus profond avant de perdre conscience ; c'est le champ de l'esprit superconscient, qui donne accès à notre vie spirituelle entre deux vies.\n4. Delta : le sommeil profond.\n\nÀ dire au client : on traverse ces états chaque nuit en s'endormant, puis dans l'autre sens au réveil." },
-    { id: 'd2', titre: 'La métaphore du cinéma', texte: "• Entrer dans le monde spirituel, c'est comme regarder un film dont on est le héros.\n• Au début, comme quand on entre dans une salle obscure sans connaître l'histoire, les scènes semblent défiler lentement.\n• Ensuite, une fois qu'on a pris ses repères, tout paraît s'accélérer, comme si le projectionniste lançait le film plus vite : on n'est plus spectateur, on fait partie des scènes, pris par l'action." }
-  ],
+  diverses: DIVERSES_DEFAUT(),
+  etiquettes: ['Inductions', 'Protocoles', 'Métaphores', 'Théorie'],
+  briques: [],
   derniereSauvegarde: null
 });
+const DIVERSES_V3 = [
+  { id: 'd3', etiquettes: ['Inductions'], titre: 'Induction hypnose profonde', texte: "On notera que la plupart des inductions de transe profonde (et il en existe de nombreuses) utilisent les ingrédients suivants :\n\n• Fractionnement : induire la transe, remonter le sujet et le faire redescendre plus profondément en lui donnant des suggestions d'approfondissement.\nExemple : « À présent, ouvrez les yeux, regardez autour de vous, puis refermez les yeux et redescendez cinq fois plus profond. » Cette manœuvre peut être répétée de nombreuses fois, si nécessaire, après avoir vérifié l'état du sujet.\n\n• Suggestions indirectes : parler à quelqu'un d'autre dans l'assistance et émettre des suggestions qui s'adressent au sujet.\nExemple : « Et je me demande, si vous qui êtes au premier rang voyez bien combien notre sujet devient progressivement lourd et tranquille, calme et apaisé… »\n\n• Suggestions composées : ce mécanisme consiste à lier un acte ou un mot du praticien à la mise en route ou à l'approfondissement de l'état hypnotique.\nExemple : « À chaque fois que je dirai \"bleu\", vous irez dix fois plus profond. » Milton Erickson utilisait souvent l'acte d'allumer une cigarette comme déclencheur de la transe. Gerald Kein touchait son nœud de cravate, etc.\n\n• Suggestions post-hypnotiques : cette suggestion, comme son nom l'indique, consiste à mettre le sujet en transe dite moyenne ou en tout état réceptif adéquat, et à lui demander d'effectuer une tâche si possible confusionnante, telle qu'ouvrir une porte ou une fenêtre ou enlever une de ses chaussures, etc. Puis à lui demander d'oublier, à ramener la personne, et à juste attendre que la suggestion soit exécutée. Exemple : « Lorsque vous vous éveillerez, vous ouvrirez et fermerez deux fois la porte, tout en oubliant cette instruction. » Une astuce consiste à faire totalement sortir le sujet, le laisser accomplir la tâche programmée et utiliser son étonnement en disant « Bravo, vous avez fait ce que je vous avais demandé, entrez profondément en transe, maintenant ! » tout en produisant un geste qui tiendra lieu de rupture, comme une invitation à descendre plus profond (lâcher de bras).\n\n• Ratification : consiste à informer le sujet de l'ensemble des réactions hypnotiques constatées par le praticien. Cela renforce et approfondit l'état hypnotique car la ratification conforte le sujet dans la conviction qu'il est en train de vivre une transe de plus en plus forte.\nExemple : « Et je peux voir que vos yeux ne peuvent plus s'ouvrir et que vos doigts commencent à vibrer, à s'agiter en synchronisation avec votre respiration. » Faire remarquer les sensations de lourdeur s'accroissant qui constituent un marqueur de la profondeur.\n\n• Arm Drop ou lâcher de bras : dans bon nombre d'inductions, le lâcher du bras constitue une rupture, une brusquerie (Antoine Bioy) susceptible de permettre l'entrée en transe et même son approfondissement. Exemple : « Lorsque votre bras retombera lourdement, vous irez dix fois plus profondément en transe. »\n\n• Catalepsies diverses : la catalepsie (paupières, bras, ou autres parties du corps), une fois obtenue, devient une marque d'automaticité que l'on peut faire remarquer au sujet. Plus profondément, elle ouvre sur la catatonie qui affecte les membres et la tête, les rendant flaccides et raides en même temps, permettant au praticien de faire adopter toutes sortes d'attitudes corporelles au sujet. Exemple : « Plus vous essayez d'ouvrir les yeux et moins vous y arrivez ! »" },
+  { id: 'f1', etiquettes: ['Inductions'], titre: 'Le « slam dunk »', texte: "Type : induction, catalepsie du bras.\n\n• Grande inspiration ; en expirant, laisser les yeux se fermer.\n• Faire regarder à travers les cils l'ongle du pouce gauche.\n• Faire lever lentement le bras en fixant le pouce, sentir qu'il devient lourd. Répéter jusqu'à ne plus pouvoir le lever : la lourdeur double à chaque fois.\n• Même chose avec le pouce droit, jusqu'à ce que la main s'arrête d'elle-même à mi-chemin entre la jambe et le visage.\n• Faire fermer les yeux, descendre plus profond avec la catalepsie du bras droit.\n• Pour libérer : « Ton bras redevient léger et se repose doucement. »" },
+  { id: 'f2', etiquettes: ['Inductions'], titre: 'Le triple bind conversationnel (Mike Mandel)', texte: "Type : induction conversationnelle, sans texte à lire.\n\n• Lui demander s'il est prêt à glisser en transe profonde.\n• Pendant qu'il écoute la voix et sent sa respiration, l'amener sur une sensation intérieure : « Qu'est-ce que tu ressens, là, maintenant ? »\n• Reprendre sa réponse mot pour mot (ratification). Ex. : « Une forme de chaleur, bien. »\n• Réponse inattendue : « rien » → « Rien… et tu peux remarquer comme ce calme s'installe. » Froid, lourdeur ou autre → reprendre de la même façon.\n• « Où est-elle dans ton corps ? » Reprendre sa réponse.\n• Triple choix : « Est-ce qu'elle bouge, est-ce qu'elle s'intensifie, ou est-ce que tu en es de plus en plus conscient ? » Toutes les réponses mènent à la transe.\n• Reprendre sa réponse, puis : « … et tu remarques combien il est facile, maintenant, d'entrer profondément en transe… Fais-le maintenant ! » Approfondir." },
+  { id: 'f3', etiquettes: ['Protocoles'], titre: 'Les miroirs (Stephen Brooks)', texte: "Type : protocole, dialogue avec les parties.\n\n• Induire une transe légère à moyenne avec l'image d'un vieux château et d'une grande tour.\n• Lui faire monter un large escalier, une centaine de marches, jusqu'au centre de la tour.\n• Il voit son reflet dans un grand miroir ancien accroché au mur. En observant son visage, il constate qu'il est en transe (paupières, symétrie du visage, respiration).\n• Annoncer que des parties de lui vont apparaître dans le miroir.\n• Faire apparaître l'inconscient à côté de lui, sous la forme d'un vieux sage ou d'un ange.\n• De l'inconscient sortent des « moi » plus jeunes, liés à des moments importants de sa vie : un plus jeune à sa droite, un encore plus jeune à sa gauche.\n• Il parle de son problème avec eux. D'autres « moi » peuvent venir, plus jeunes ou plus âgés, venus du futur.\n• Dialoguer avec lui et ses différents « moi » pour résoudre le problème, ou au moins l'éclairer. Plus la transe est profonde, plus les réponses viennent seules. En reparler après la séance.\n• Très important : à la fin, réassocier tous les « moi » en les faisant entrer les uns dans les autres, comme des poupées russes, jusque dans le « moi » présent.\n• Retour : redescendre l'escalier de la tour, sortir du château, puis compter jusqu'à cinq." },
+  { id: 'f4', etiquettes: ['Inductions'], titre: 'Le 3-2-1', texte: "Type : induction douce, aussi en autohypnose. Occuper le conscient pour laisser l'inconscient travailler.\n\nAvant, en autohypnose : endroit calme, position confortable. Se fixer une durée à voix haute (« Je pars en autohypnose pour 15 minutes ») et une suggestion liée à l'objectif.\n\nEn séance guidée : le client nomme les choses à voix haute ou dans sa tête, à ton rythme.\n\nCycle extérieur :\n• Fixer un point de la pièce, en vision périphérique, tête immobile.\n• Nommer 3 choses vues, puis 3 entendues, puis 3 ressenties (« Je vois la lampe… je vois la chaise… »).\n• Puis 2 de chaque, puis 1 de chaque.\n• Pour la dernière chose ressentie : « Je sens l'envie de fermer les yeux. »\n\nCycle intérieur :\n• Fermer les yeux, tourner l'attention vers l'intérieur.\n• Même chose avec ce qui vient spontanément à l'esprit : images, souvenirs, sons, sensations, émotions. 3-3-3, puis 2-2-2, puis 1-1-1.\n• Répéter le cycle intérieur pour prolonger la séance.\n• Sortie en autohypnose : à la fin de la durée fixée, compter jusqu'à cinq et ouvrir les yeux." },
+  { id: 'f5', etiquettes: ['Inductions'], titre: 'Les mouvements oculaires rapides (Mike Mandel)', texte: "Type : induction éclair.\n\n• Avant : prévenir le client du contact physique et de la bascule, avoir son accord. Client bien assis sur une chaise stable. Éviter en cas de problèmes de cou ou de dos.\n• Lui demander de ne plus bouger la tête ni le corps, de fermer les yeux et de se détendre.\n• En inspirant, ouvrir les yeux et suivre le bout de l'index placé près de ses yeux, sans bouger.\n• Accélérer les mouvements : en haut, en bas, en zigzag.\n• Faire refermer les yeux et continuer à suivre l'index à l'intérieur de la tête, de droite à gauche.\n• Passer une main derrière sa tête, prendre fermement de l'autre sa main gauche posée sur sa jambe, et dire « Dors ! » en basculant doucement le haut de son corps vers le bas. Vite, mais avec délicatesse. La transe vient en quelques secondes." },
+  { id: 'f6', etiquettes: ['Inductions'], titre: "L'univers en rotation (Daniel Goldschmidt)", texte: "Type : induction, découverte, catalepsie du bras.\n\n• Faire fermer les yeux et ressentir profondément sa propre présence.\n• Lui faire sentir qu'on tourne dans l'espace en ce moment même : la Terre sur elle-même, la Terre autour du soleil en un an, le soleil dans la galaxie, emporté lui-même par la Voie lactée.\n• Inviter à suivre son corps, sa respiration, les bruits, en laissant dériver la voix : on flotte tous dans l'espace.\n• Suggérer que son bras pourrait, de lui-même, se mettre à bouger et à flotter à son tour.\n• Le plus souvent, la transe vient et le bras devient cataleptique. Après la séance, le sujet dit souvent qu'il n'écoutait plus, occupé à ressentir les mouvements.\n• Pour libérer : « Ton bras redevient léger et se repose doucement. »" }
+];
+const DIVERSES_DEFAUT = () => [
+    { id: 'd1', etiquettes: ['Théorie'], titre: 'Les états de conscience', texte: "1. Beta : l'état d'éveil, pleinement conscient.\n2. Alpha : les niveaux de transe, du léger au profond.\n   a. Alpha léger : celui qu'on utilise en méditation.\n   b. Alpha moyen : retrouver les souvenirs d'enfance et les traumatismes anciens ; c'est aussi le niveau des changements de comportement, comme prendre ou perdre du poids, arrêter de fumer.\n   c. Alpha profond : retrouver les vies antérieures.\n3. Theta : le niveau le plus profond avant de perdre conscience ; c'est le champ de l'esprit superconscient, qui donne accès à notre vie spirituelle entre deux vies.\n4. Delta : le sommeil profond.\n\nÀ dire au client : on traverse ces états chaque nuit en s'endormant, puis dans l'autre sens au réveil." },
+    { id: 'd2', etiquettes: ['Métaphores'], titre: 'La métaphore du cinéma', texte: "• Entrer dans le monde spirituel, c'est comme regarder un film dont on est le héros.\n• Au début, comme quand on entre dans une salle obscure sans connaître l'histoire, les scènes semblent défiler lentement.\n• Ensuite, une fois qu'on a pris ses repères, tout paraît s'accélérer, comme si le projectionniste lançait le film plus vite : on n'est plus spectateur, on fait partie des scènes, pris par l'action." },
+    ...DIVERSES_V3.map(n => ({ ...n, etiquettes: [...n.etiquettes] }))
+];
 
 /* ---------- Stockage ---------- */
 const CLE = 'entre-ciel-et-terre';
@@ -440,6 +745,21 @@ function charger() {
   if (!D || !D.version) D = DEFAUT();
   const def = DEFAUT();
   for (const k in def) if (D[k] === undefined) D[k] = def[k];
+  migrer();
+}
+// Passage à la version 3 : étiquettes des notes existantes, nouvelles notes ajoutées à la suite.
+// Tes notes, clients, rendez-vous et notes d'honoraires ne sont pas touchés.
+function migrer() {
+  if ((D.version || 1) < 3) {
+    const tags = { d1: ['Théorie'], d2: ['Métaphores'] };
+    for (const n of D.diverses) if (!n.etiquettes) n.etiquettes = tags[n.id] ? [...tags[n.id]] : [];
+    for (const n of DIVERSES_V3) if (!D.diverses.some(x => x.id === n.id)) D.diverses.push({ ...n, etiquettes: [...n.etiquettes] });
+    for (const e of DEFAUT().etiquettes) if (!D.etiquettes.includes(e)) D.etiquettes.push(e);
+    D.version = 3;
+    enregistrer();
+  }
+  for (const n of D.diverses) if (!n.etiquettes) n.etiquettes = [];
+  for (const c of D.clients) if (!c.seances) c.seances = [];
 }
 function enregistrer() {
   try { localStorage.setItem(CLE, JSON.stringify(D)); }
@@ -533,7 +853,7 @@ window.addEventListener('popstate', e => {
     if (!st.sentinelle) history.pushState(vue, '');
     return;
   }
-  if (vue.v === 'nouvellenote' && brouillonModifie() && !confirm('Abandonner cette note de séance ?')) {
+  if (vue.v === 'nouvellenote' && brouillonModifie() && !confirm('Abandonner cette note d\'honoraires ?')) {
     if (!st.sentinelle) history.pushState(vue, '');
     return;
   }
@@ -567,6 +887,7 @@ function rendre() {
   app.className = '';
   app.innerHTML = f(vue.p);
   garderEveille(vue.v === 'technique');
+  egaliser();
 }
 function barre(titre, actions, sansRetour) {
   return '<div class="barre">' + (sansRetour ? '<span style="width:70px"></span>' : '<button class="retour" data-a="retour">‹ Retour</button>') + '<h1>' + esc(titre) + '</h1><div class="act">' + (actions || '<span style="width:70px"></span>') + '</div></div>';
@@ -582,21 +903,23 @@ VUES.accueil = () => {
     ? '<div class="rappel"><span style="flex:1">Pense à sauvegarder tes données · dernière sauvegarde : ' + (dern ? dateCourte(dern.slice(0, 10)) : 'jamais') + '</span><button class="btn" data-a="sauver">Sauvegarder</button></div>' : '';
   return '<div class="accueil">' + rappel +
     '<button class="face ciel" data-a="aller" data-v="celeste">' + '<div style="position:absolute;inset:0"><div class="voie"></div>' + astres(110, '#e6ecfa', false, 23, true) + '</div>' +
-      '<div class="z"><div class="surtitre">Hypnose</div><div class="titre">Céleste</div>' + orne('✦ ✧ ✦') + '<div class="desc">Régression · vies antérieures · entre deux vies</div></div></button>' +
+      '<div class="z"><div class="surtitre">Hypnose</div><div class="titre">Céleste</div>' + orne('✦ ✧ ✦') + '<div class="desc"><span>Régression · Vies Antérieures · Entre Deux Vies</span></div></div></button>' +
     '<div class="horizon"></div>' +
     '<button class="face sol" data-a="aller" data-v="terrestre"><div style="position:absolute;inset:0"><div class="rayon"></div>' + astres(70, '#ffcf8f', true, 7, false) + '</div>' +
-      '<div class="z"><div class="surtitre">Hypnose</div><div class="titre cuivre">Terrestre</div>' + orne('◆ ◇ ◆') + '<div class="desc">Stress · sommeil · tabac · confiance</div></div></button>' +
+      '<div class="z"><div class="surtitre">Hypnose</div><div class="titre cuivre">Terrestre</div>' + orne('◆ ◇ ◆') + '<div class="desc"><span>Addictions · Phobies · Performances · Confiance</span></div></div></button>' +
     '<nav class="outils">' +
-      [['agenda', 'Agenda'], ['clients', 'Clients'], ['notes', 'Notes'], ['diverses', 'Diverses'], ['reglages', 'Réglages']].map(([v, l]) => '<button class="outil" data-a="aller" data-v="' + v + '">' + ICO[v] + l + '</button>').join('') +
+      [['agenda', 'Agenda'], ['clients', 'Clients'], ['notes', 'Honoraires'], ['diverses', 'Diverses'], ['reglages', 'Réglages']].map(([v, l]) => '<button class="outil" data-a="aller" data-v="' + v + '">' + ICO[v] + l + '</button>').join('') +
     '</nav></div>';
 };
 
 /* ----- Céleste ----- */
+const carteAtelier = face => '<button class="carte atelierc" data-a="atelier" data-face="' + face + '"><div class="int"><div class="sceau">✦</div><div><div class="nom">Composer une séance</div><div class="sous">Atelier · assembler des briques</div></div><span class="fl">›</span></div></button>';
 VUES.celeste = () => {
   fond('ciel');
   return barre('Entre Ciel et Terre') + '<div class="page"><div class="heros"><div class="surtitre">Hypnose</div><div class="titre">Céleste</div>' + orne('✦ ✧ ✦') + '</div>' +
+    carteAtelier('celeste') +
     '<div class="etiquette">Techniques</div>' +
-    Object.values(TECHNIQUES).map(t => '<button class="carte" data-a="technique" data-id="' + t.id + '"><div class="int"><div><div class="nom">' + esc(t.nom) + '</div><div class="sous">' + esc(t.sous) + ' · ' + t.etapes.filter(e => e.r).length + ' étapes</div></div><span class="fl">›</span></div></button>').join('') +
+    ORDRE_CELESTE.map(id => TECHNIQUES[id]).map(t => '<button class="carte" data-a="technique" data-id="' + t.id + '"><div class="int"><div><div class="nom">' + esc(t.nom) + '</div><div class="sous">' + esc(t.sous) + ' · ' + t.etapes.filter(e => e.r).length + ' étapes</div></div><span class="fl">›</span></div></button>').join('') +
     '<div class="fantome">Prochaine technique…</div></div>';
 };
 
@@ -604,14 +927,38 @@ VUES.celeste = () => {
 VUES.terrestre = () => {
   fond('terre'); $('#app').className = 'terre';
   return barre('Entre Ciel et Terre') + '<div class="page"><div class="heros"><div class="surtitre">Hypnose</div><div class="titre">Terrestre</div>' + orne('◆ ◇ ◆') + '</div>' +
-    '<div class="etiquette">Protocoles</div><div class="fantome">Tes protocoles terrestres viendront ici…</div></div>';
+    carteAtelier('terrestre') +
+    '<div class="etiquette">Protocoles</div><div class="fantome">Tes protocoles terrestres viendront ici…</div>' +
+    '<div class="etiquette">Jeux hypnotiques</div>' +
+    JEUX.map(j => '<button class="carte" data-a="jeu" data-id="' + j.id + '"><div class="int"><div><div class="nom">' + esc(j.nom) + '</div><div class="sous">' + esc(j.sous) + '</div></div><span class="fl">›</span></div></button>').join('') +
+    '</div>';
+};
+VUES.jeu = p => {
+  fond('terre'); $('#app').className = 'terre';
+  const j = JEUX.find(x => x.id === p.id); if (!j) return VUES.terrestre();
+  return barre(j.nom, '<button class="pastille" data-a="taille" data-d="-1" aria-label="Texte plus petit">A−</button><button class="pastille" data-a="taille" data-d="1" aria-label="Texte plus grand">A+</button>') +
+    '<div class="page technique"><section class="etape"><div class="int"><div class="romain">Jeu hypnotique</div><h2>' + esc(j.nom) + '</h2>' + orne('◆') + '<div class="consigne" style="border:none;padding:0;text-align:center">' + esc(j.sous) + '</div>' + corpsEtape({ b: j.b }) + '</div></section></div>';
 };
 
 /* ----- Technique (texte continu) ----- */
 const positions = {};
-function corpsEtape(e) {
+const TOUT = { safe: true, lieu: true, piece: true };
+function blocsVisibles(b, ctx) {
+  ctx = ctx || TOUT;
+  const out = [];
+  for (const blk of b) {
+    const c = blk[2];
+    if (c && c.si && !ctx[c.si]) continue;
+    if (c && c.sinon && ctx[c.sinon]) continue;
+    const prec = out[out.length - 1];
+    if (blk[0] === 'dit' && prec && prec[0] === 'dit') out[out.length - 1] = ['dit', prec[1] + '\n' + blk[1]];
+    else out.push([blk[0], blk[1]]);
+  }
+  return out;
+}
+function corpsEtape(e, ctx) {
   let c = '';
-  for (const [type, val] of e.b) {
+  for (const [type, val] of blocsVisibles(e.b, ctx)) {
     if (type === 'dit') c += '<p class="dit">« ' + esc(val) + ' »</p>';
     else if (type === 'sous') c += '<div class="sousparti">' + esc(val) + '</div>';
     else if (type === 'consigne') c += '<div class="consigne">' + esc(val) + '</div>';
@@ -621,9 +968,19 @@ function corpsEtape(e) {
   }
   return c;
 }
+// Une technique : celles du livre, ou une séance composée dans l'atelier
+function tech(id) {
+  if (TECHNIQUES[id]) return TECHNIQUES[id];
+  if (id === 'compo') return compo ? construire(compo) : null;
+  if (id && id.startsWith('seance:')) {
+    const [, cid, sid] = id.split(':'), c = client(cid), x = c && (c.seances || []).find(s => s.id === sid);
+    return x ? construire(x.compo, x.titre) : null;
+  }
+  return null;
+}
 VUES.technique = p => {
-  fond('ciel');
-  const t = TECHNIQUES[p.id]; if (!t) return VUES.celeste();
+  fond(p.terre ? 'terre' : 'ciel'); if (p.terre) $('#app').className = 'terre';
+  const t = tech(p.id); if (!t) return VUES.celeste();
   if (p.sommaire) {
     return barre(t.nom) + '<div class="page"><div class="heros" style="margin-bottom:10px"><div class="surtitre">Étapes</div></div><div class="sommaire">' +
       t.etapes.map((e, i) => '<button data-a="saut" data-i="' + i + '"><span>' + (e.r || '·') + '</span>' + esc(e.titre) + '</button>').join('') + '</div></div>';
@@ -635,7 +992,7 @@ VUES.technique = p => {
   let h = barre(t.nom, actions).replace(/<\/div>$/, '<div class="progfixe"><div id="progbar"></div></div></div>');
   h += '<div class="page technique">';
   t.etapes.forEach((e, i) => {
-    h += '<section class="etape" id="etape-' + i + '"><div class="int"><div class="romain">' + (e.r ? e.r + ' · ' + romain(total) : '✦') + '</div><h2>' + esc(e.titre) + '</h2>' + orne('✦') + corpsEtape(e) + '</div></section>';
+    h += '<section class="etape" id="etape-' + i + '"><div class="int"><div class="romain">' + (e.r ? e.r + ' · ' + romain(total) : '✦') + '</div><h2>' + esc(e.titre) + '</h2>' + orne('✦') + corpsEtape(e, t.ctx) + '</div></section>';
   });
   h += '<div class="fintech">✦ Fin de la technique ✦</div>';
   if (t.auto) h += '<button class="btn plein large" data-a="pdftech">Envoyer au client (PDF)</button>';
@@ -657,6 +1014,166 @@ function restaurerDefilement() {
   } else window.scrollTo(0, positions[vue.p.id] || 0);
   majProg();
 }
+
+/* ----- Atelier : composer une séance ----- */
+let compo = null;
+try { compo = JSON.parse(localStorage.getItem('ect-compo')); } catch (e) { compo = null; }
+const garderCompo = () => { try { localStorage.setItem('ect-compo', JSON.stringify(compo)); } catch (e) {} };
+function texteEnBlocs(t) {
+  const b = []; let dit = [];
+  const vider = () => { if (dit.length) { b.push(['dit', dit.join('\n')]); dit = []; } };
+  for (const brut of String(t || '').split('\n')) {
+    const l = brut.trim();
+    if (!l) { vider(); continue; }
+    if (/^[?¿]/.test(l) || /^- /.test(l)) {
+      vider(); const q = l.replace(/^[?¿-]\s*/, '');
+      const prec = b[b.length - 1];
+      if (prec && prec[0] === 'q') prec[1].push(q); else b.push(['q', [q]]);
+    } else if (/^\(.*\)$/.test(l)) { vider(); b.push(['consigne', l.slice(1, -1)]); }
+    else dit.push(l);
+  }
+  vider();
+  return b;
+}
+function brique(id) {
+  if (!id) return null;
+  const b = BRIQUES.find(x => x.id === id); if (b) return b;
+  const u = (D.briques || []).find(x => x.id === id); if (!u) return null;
+  return { id: u.id, type: u.type, face: u.face, min: Number(u.min) || 0, nom: u.nom, src: 'Ma brique', perso: true, etapes: [{ r: 'x', titre: u.nom, b: texteEnBlocs(u.texte) }] };
+}
+const briquesDe = (type, face) => [...BRIQUES, ...(D.briques || []).map(u => brique(u.id))].filter(b => b.type === type && (b.face === 'deux' || b.face === face));
+function raccords(c) {
+  const ind = brique(c.induction), ap = brique(c.approf), pr = brique(c.protocole);
+  const l = [];
+  if (ind && ap) {
+    if (ap.besoin && !(ind.fournit || []).includes(ap.besoin)) l.push({ cle: ap.besoin, de: ind.nom, vers: ap.nom });
+    else l.push({ de: ind.nom, vers: ap.nom });
+  }
+  const avantProt = ap || ind;
+  if (avantProt && pr) {
+    if (pr.besoin && !(avantProt.fournit || []).includes(pr.besoin)) l.push({ cle: pr.besoin, de: avantProt.nom, vers: pr.nom });
+    else l.push({ de: avantProt.nom, vers: pr.nom });
+  }
+  return l;
+}
+const dureeCompo = c => ['induction', 'approf', 'protocole', 'retour'].reduce((s, k) => s + ((brique(c[k]) || {}).min || 0), 0) + (c.safe && !(brique(c.induction) || {}).lieu ? 4 : 0);
+function construire(c, titre) {
+  const ind = brique(c.induction), ap = brique(c.approf), pr = brique(c.protocole), re = brique(c.retour);
+  const ctx = { safe: !!c.safe, lieu: !!(ind && ind.lieu), piece: !!(ap && (ap.fournit || []).includes('piece')) };
+  const copie = e => ({ r: e.r ? 'x' : '', titre: e.titre, b: [...e.b] });
+  const lie = (etapes, cle) => {
+    const l = etapes.map(copie);
+    if (cle && l.length) l[0].b.unshift(['dit', (c.liaisons && c.liaisons[cle] != null) ? c.liaisons[cle] : LIAISONS[cle]]);
+    return l;
+  };
+  const rac = raccords(c), cleAvant = nom => (rac.find(r => r.cle && r.vers === nom) || {}).cle;
+  let et = [];
+  if (pr && pr.avant) et.push({ ...copie(pr.avant), r: '' });
+  if (ind) et = et.concat(ind.etapes.map(copie));
+  if (c.safe && ind && !ind.lieu) et.push(copie(SAFE));
+  if (ap) et = et.concat(lie(ap.etapes, cleAvant(ap.nom)));
+  if (pr) et = et.concat(lie(pr.etapes, cleAvant(pr.nom)));
+  if (re) et = et.concat(re.etapes.map(copie));
+  if (pr && pr.apres) et.push({ ...copie(pr.apres), r: '' });
+  if (c.safe) et.push({ r: '', titre: "En cas d'urgence", b: [['consigne', 'À tout moment de la séance.'], ['dit', ctx.lieu ? "Touche ton pouce et ton index… tu es maintenant dans ton lieu agréable, en sécurité." : "Touche ton pouce et ton index… tu es maintenant dans ton endroit safe, en sécurité."]] });
+  let n = 0; for (const e of et) if (e.r) e.r = romain(++n);
+  return { id: 'compo', nom: titre || 'Séance composée', sous: [ind, ap, pr, re].filter(Boolean).map(b => b.nom).join(' · '), etapes: et, ctx };
+}
+const pret = c => c && brique(c.induction) && brique(c.protocole) && brique(c.retour);
+VUES.atelier = p => {
+  const terre = p.face === 'terrestre';
+  fond(terre ? 'terre' : 'ciel'); if (terre) $('#app').className = 'terre';
+  if (!compo || compo.face !== p.face) { compo = { face: p.face, induction: '', approf: '', safe: false, protocole: '', retour: '', liaisons: {}, clientId: '' }; garderCompo(); }
+  if (p.client && compo.clientId !== p.client) { compo.clientId = p.client; garderCompo(); }
+  for (const k of ['induction', 'approf', 'protocole', 'retour']) if (compo[k] && !brique(compo[k])) compo[k] = '';
+  const cl = client(compo.clientId);
+  const choix = (type, num, titre, vide) => {
+    const l = briquesDe(type, p.face);
+    return '<div class="etiquette">' + num + ' · ' + titre + '</div><div class="choix">' +
+      (vide ? '<button class="' + (!compo[type] ? 'on' : '') + '" data-a="choisir" data-t="' + type + '" data-id=""><span class="cn">Aucun</span></button>' : '') +
+      (l.length ? l.map(b => '<button class="' + (compo[type] === b.id ? 'on' : '') + '" data-a="choisir" data-t="' + type + '" data-id="' + b.id + '"><span class="cn">' + esc(b.nom) + '</span><span class="cs">' + esc(b.src) + ' · ≈ ' + b.min + ' min</span></button>').join('') : '<div class="discret">Aucune brique de ce type pour l\'instant.</div>') + '</div>';
+  };
+  const ind = brique(compo.induction);
+  let h = barre('Atelier') + '<div class="page"><div class="heros" style="margin-bottom:8px"><div class="surtitre">Atelier · ' + (terre ? 'Terrestre' : 'Céleste') + '</div><div class="titre" style="font-size:40px">Composer une séance</div>' + (cl ? '<div class="discret">pour ' + esc(nomClient(cl)) + '</div>' : '') + '</div>';
+  h += choix('induction', 1, 'Induction');
+  h += '<div class="etiquette">Endroit safe</div><button class="interrupteur' + (compo.safe ? ' on' : '') + '" data-a="safe"><span class="pt"></span><span>' + (compo.safe ? 'Oui' : 'Non') + '</span><small>' + (ind && ind.lieu ? 'Relié au lieu agréable de l\'induction' : 'Après l\'induction, avec l\'ancrage pouce-index') + '</small></button>';
+  h += choix('approf', 2, 'Approfondissement', true);
+  h += choix('protocole', 3, 'Protocole');
+  h += choix('retour', 4, 'Retour');
+  const rac = raccords(compo);
+  if (rac.length) {
+    h += '<div class="etiquette">Raccords</div>' + rac.map(r => r.cle
+      ? '<div class="raccord a"><div class="rt">' + esc(r.de) + ' → ' + esc(r.vers) + '</div><div class="discret" style="margin:4px 0 8px">Phrase de liaison proposée, à modifier si besoin :</div><textarea class="liaison" data-liaison="' + r.cle + '">' + esc(compo.liaisons[r.cle] != null ? compo.liaisons[r.cle] : LIAISONS[r.cle]) + '</textarea></div>'
+      : '<div class="raccord"><span class="ok">✓</span>' + esc(r.de) + ' → ' + esc(r.vers) + '<small>Raccord direct</small></div>').join('');
+  }
+  h += '<div class="resume"><div class="duree">Durée estimée <b>≈ ' + dureeCompo(compo) + ' min</b></div>' +
+    (pret(compo) ? '' : '<div class="discret" style="margin-bottom:12px">Choisis au moins une induction, un protocole et un retour.</div>') +
+    '<div class="rangee"><button class="btn" data-a="enrcompo"' + (pret(compo) ? '' : ' disabled') + '>Enregistrer dans la fiche client</button><button class="btn plein" data-a="lancercompo"' + (pret(compo) ? '' : ' disabled') + '>Lancer la séance</button></div></div>';
+  const miennes = (D.briques || []).filter(b => b.face === 'deux' || b.face === p.face);
+  h += '<div class="etiquette">Mes briques</div>' + (miennes.length ? miennes.map(b => '<button class="rdv" data-a="modifbrique" data-id="' + b.id + '"><div style="flex:1"><div class="c" style="font-size:20px">' + esc(b.nom) + '</div><div class="p">' + esc((TYPES.find(t => t[0] === b.type) || ['', ''])[1]) + (b.min ? ' · ≈ ' + b.min + ' min' : '') + '</div></div></button>').join('') : '<div class="discret">Tu peux ajouter tes propres briques depuis la tablette.</div>') +
+    '<button class="btn large" style="margin-top:8px" data-a="nouvellebrique">+ Nouvelle brique</button></div>';
+  return h;
+};
+function formBrique(x) {
+  x = x || { face: compo ? compo.face : 'deux', type: 'induction' };
+  const sel = (id, l, opts, v) => '<div class="champ"><label for="' + id + '">' + l + '</label><select id="' + id + '">' + opts.map(([k, t]) => '<option value="' + k + '"' + (k === v ? ' selected' : '') + '>' + t + '</option>').join('') + '</select></div>';
+  ouvrir(x.id ? 'Modifier la brique' : 'Nouvelle brique', champ('bnom', 'Nom', x.nom) +
+    '<div class="trois">' + sel('btype', 'Type', TYPES, x.type) + sel('bface', 'Rangée dans', [['celeste', 'Céleste'], ['terrestre', 'Terrestre'], ['deux', 'Les deux']], x.face) + champ('bmin', 'Durée (min)', x.min || '', 'number', 'inputmode="numeric"') + '</div>' +
+    champ('btexte', 'Texte', x.texte, 'textarea', 'style="min-height:240px"') +
+    '<div class="discret" style="margin:-6px 0 14px;line-height:1.5">Ligne vide : nouveau paragraphe. Ligne commençant par « ? » : question. Ligne entre parenthèses : consigne pour toi.</div>' + boutonsForm(!!x.id), {
+      ok() {
+        if (!valeur('bnom')) return toast('Donne un nom à la brique.');
+        if (!valeur('btexte')) return toast('Écris le texte de la brique.');
+        const obj = x.id ? x : { id: 'u-' + uid() };
+        Object.assign(obj, { nom: valeur('bnom'), type: valeur('btype'), face: valeur('bface'), min: Number(valeur('bmin')) || 0, texte: document.getElementById('btexte').value });
+        D.briques = D.briques || [];
+        if (!x.id) D.briques.push(obj);
+        enregistrer(); fermer(); rendre(); toast('Brique enregistrée');
+      },
+      sup() {
+        if (!confirm('Supprimer cette brique ?')) return;
+        D.briques = D.briques.filter(b => b.id !== x.id);
+        if (compo) for (const k of ['induction', 'approf', 'protocole', 'retour']) if (compo[k] === x.id) compo[k] = '';
+        garderCompo(); enregistrer(); fermer(); rendre();
+      }
+    });
+}
+function formEnrCompo() {
+  const optsC = '<option value="">— Choisir un client —</option>' + [...D.clients].sort((a, z) => nomClient(a).localeCompare(nomClient(z), 'fr')).map(c => '<option value="' + c.id + '" ' + (c.id === compo.clientId ? 'selected' : '') + '>' + esc(nomClient(c)) + '</option>').join('');
+  ouvrir('Enregistrer la séance', '<div class="champ"><label for="ecli">Client</label><select id="ecli">' + optsC + '</select></div>' + champ('etitre', 'Titre', 'Séance du ' + dateCourte(auj())) + boutonsForm(false), {
+    ok() {
+      const c = client(valeur('ecli')); if (!c) return toast('Choisis un client.');
+      c.seances = c.seances || [];
+      c.seances.unshift({ id: uid(), date: auj(), titre: valeur('etitre') || 'Séance préparée', compo: JSON.parse(JSON.stringify(compo)) });
+      compo.clientId = c.id; garderCompo();
+      enregistrer(); fermer(); rendre(); toast('Séance enregistrée dans la fiche de ' + nomClient(c));
+    }
+  });
+}
+
+/* ----- Notes diverses en mosaïque ----- */
+let rechDiv = '', filtreDiv = '';
+try { filtreDiv = localStorage.getItem('ect-etiq') || ''; } catch (e) {}
+const sansAcc = s => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+const puces = (l, cls) => (l || []).map(e => '<span class="puce ' + (cls || '') + '">' + esc(e) + '</span>').join('');
+VUES.diverses = () => {
+  fond('ciel');
+  if (filtreDiv && !D.etiquettes.includes(filtreDiv)) filtreDiv = '';
+  const r = sansAcc(rechDiv);
+  const l = D.diverses.filter(n => (!filtreDiv || (n.etiquettes || []).includes(filtreDiv)) && (!r || sansAcc(n.titre + ' ' + n.texte).includes(r)));
+  return barre('Notes diverses') + '<div class="page"><div class="heros" style="margin-bottom:14px"><div class="surtitre">Carnet</div><div class="titre" style="font-size:40px">Notes diverses</div></div>' +
+    '<div class="champ"><input id="rechdiv" placeholder="Rechercher dans les notes…" value="' + esc(rechDiv) + '"></div>' +
+    '<div class="filtres"><button class="' + (!filtreDiv ? 'on' : '') + '" data-a="filtreetiq" data-e="">Toutes</button>' + D.etiquettes.map(e => '<button class="' + (filtreDiv === e ? 'on' : '') + '" data-a="filtreetiq" data-e="' + esc(e) + '">' + esc(e) + '</button>').join('') + '</div>' +
+    (l.length ? '<div class="mosaique">' + l.map(n => '<button class="notec" data-a="voirdiverse" data-id="' + n.id + '"><div class="nt">' + esc(n.titre) + '</div>' + (n.etiquettes && n.etiquettes.length ? '<div class="np">' + puces(n.etiquettes) + '</div>' : '') + '<div class="nx">' + esc(n.texte) + '</div></button>').join('') + '</div>' : '<div class="vide">' + (D.diverses.length ? 'Aucune note ne correspond' : 'Aucune note') + '</div>') +
+    '</div><button class="btn plein flottant" data-a="nouvellediverse">+ Note</button>';
+};
+VUES.voirdiverse = p => {
+  fond('ciel');
+  const n = D.diverses.find(x => x.id === p.id); if (!n) return VUES.diverses();
+  return barre('Note', '<button class="pastille" data-a="modifdiverse" data-id="' + n.id + '">Modifier</button>') +
+    '<div class="page"><div class="heros" style="margin-bottom:10px"><div class="titre" style="font-size:38px">' + esc(n.titre) + '</div>' + (n.etiquettes && n.etiquettes.length ? '<div class="np" style="justify-content:center">' + puces(n.etiquettes) + '</div>' : '') + '</div>' +
+    '<div class="bloc notepleine">' + esc(n.texte) + '</div></div>';
+};
 
 /* ----- Taille du texte (boutons et pincement) ----- */
 const tailleActuelle = () => Number(document.documentElement.style.getPropertyValue('--taille')) || 1;
@@ -811,9 +1328,12 @@ VUES.client = p => {
   if (c.pack) {
     h += '<div class="etiquette">Pack régression</div><div class="bloc" style="display:flex;align-items:center;gap:14px"><div style="flex:1"><div style="font-family:var(--serif);font-size:24px;color:#f3f5fb">Séances utilisées : ' + c.pack.utilisees + ' / ' + c.pack.total + '</div><div class="discret">Pack réglé le ' + dateCourte(c.pack.depuis) + (c.pack.note ? ' · note ' + esc(c.pack.note) : '') + '</div></div><button class="rond" data-a="pack" data-d="-1">−</button><button class="rond" data-a="pack" data-d="1">+</button></div>';
   }
-  h += '<div class="rangee" style="margin:14px 0"><button class="btn" data-a="personnes" data-id="' + c.id + '">Fiche personnes (' + nbp + ')</button><button class="btn" data-a="nouveaurdv" data-client="' + c.id + '">+ Rendez-vous</button><button class="btn" data-a="nouvellenote" data-client="' + c.id + '">+ Note de séance</button></div>';
+  h += '<div class="rangee" style="margin:14px 0"><button class="btn" data-a="personnes" data-id="' + c.id + '">Fiche personnes (' + nbp + ')</button><button class="btn" data-a="nouveaurdv" data-client="' + c.id + '">+ Rendez-vous</button><button class="btn" data-a="nouvellenote" data-client="' + c.id + '">+ Note d\'honoraires</button></div>';
+  h += '<button class="carte atelierc" data-a="preparer" data-id="' + c.id + '"><div class="int"><div class="sceau">✦</div><div><div class="nom">Préparer sa séance</div><div class="sous">Atelier · composer avec des briques</div></div><span class="fl">›</span></div></button>';
+  const sp = c.seances || [];
+  if (sp.length) h += '<div class="etiquette">Séances préparées</div>' + sp.map(x => '<button class="rdv" data-a="seanceprep" data-id="' + x.id + '"><div class="h">' + dateCourte(x.date).slice(0, 5) + '<small>≈ ' + dureeCompo(x.compo) + ' min</small></div><div><div class="c" style="font-size:19px">' + esc(x.titre) + '</div><div class="p">' + esc([x.compo.induction, x.compo.approf, x.compo.protocole].map(brique).filter(Boolean).map(b => b.nom).join(' · ')) + '</div></div></button>').join('');
   h += '<div class="etiquette">Rendez-vous</div>' + (rdvs.length ? rdvs.map(r => '<button class="rdv ' + (r.fait ? 'fait' : '') + '" data-a="rdv" data-id="' + r.id + '"><div class="h">' + dateCourte(r.date).slice(0, 5) + '<small>' + esc(r.heure || '') + '</small></div><div><div class="c" style="font-size:19px">' + esc(prestation(r.prestationId) ? prestation(r.prestationId).nom : 'Rendez-vous') + '</div><div class="p">' + esc([dureeTxt(r.duree), r.lieu].filter(Boolean).join(' · ')) + '</div></div></button>').join('') : '<div class="discret">Aucun rendez-vous.</div>');
-  h += '<div class="etiquette">Notes de séance</div>' + (notes.length ? notes.map(n => '<button class="rdv" data-a="voirnote" data-id="' + n.id + '"><div class="h">' + esc(n.numero) + '</div><div><div class="c" style="font-size:19px">' + euros(n.total) + '</div><div class="p">' + dateCourte(n.date) + '</div></div></button>').join('') : '<div class="discret">Aucune note de séance.</div>');
+  h += '<div class="etiquette">Notes d\'honoraires</div>' + (notes.length ? notes.map(n => '<button class="rdv" data-a="voirnote" data-id="' + n.id + '"><div class="h">' + esc(n.numero) + '</div><div><div class="c" style="font-size:19px">' + euros(n.total) + '</div><div class="p">' + dateCourte(n.date) + '</div></div></button>').join('') : '<div class="discret">Aucune note d\'honoraires.</div>');
   return h + '</div>';
 };
 
@@ -831,9 +1351,9 @@ VUES.personnes = p => {
 VUES.notes = () => {
   fond('ciel');
   const l = [...D.notes].sort((a, b) => b.numero.localeCompare(a.numero));
-  return barre('Notes de séance') + '<div class="page">' +
-    (l.length ? l.map(n => '<button class="rdv" data-a="voirnote" data-id="' + n.id + '"><div class="h">' + esc(n.numero) + '<small>' + dateCourte(n.date) + '</small></div><div><div class="c">' + esc(n.clientNom) + '</div><div class="p">' + euros(n.total) + ' · ' + esc(n.lignes.map(x => x.intitule).join(', ')) + '</div></div></button>').join('') : '<div class="vide">Aucune note de séance pour l\'instant</div>') +
-    '</div><button class="btn plein flottant" data-a="nouvellenote">+ Nouvelle note</button>';
+  return barre('Notes d\'honoraires') + '<div class="page">' +
+    (l.length ? l.map(n => '<button class="rdv" data-a="voirnote" data-id="' + n.id + '"><div class="h">' + esc(n.numero) + '<small>' + dateCourte(n.date) + '</small></div><div><div class="c">' + esc(n.clientNom) + '</div><div class="p">' + euros(n.total) + ' · ' + esc(n.lignes.map(x => x.intitule).join(', ')) + '</div></div></button>').join('') : '<div class="vide">Aucune note d\'honoraires pour l\'instant</div>') +
+    '</div><button class="btn plein flottant" data-a="nouvellenote">+ Nouvelle note d\'honoraires</button>';
 };
 let brouillon = null, brouillonInit = '';
 const brouillonModifie = () => !!brouillon && JSON.stringify(brouillon) !== brouillonInit;
@@ -858,7 +1378,7 @@ VUES.nouvellenote = p => {
   const b = brouillon;
   const optsC = '<option value="">— Choisir un client —</option>' + [...D.clients].sort((a, z) => nomClient(a).localeCompare(nomClient(z), 'fr')).map(c => '<option value="' + c.id + '" ' + (c.id === b.clientId ? 'selected' : '') + '>' + esc(nomClient(c)) + '</option>').join('');
   const optsP = sel => '<option value="">— Prestation —</option>' + D.prestations.map(x => '<option value="' + x.id + '" ' + (x.id === sel ? 'selected' : '') + '>' + esc(x.nom) + (x.prix !== '' && x.prix != null ? ' · ' + x.prix + ' €' : ' · à définir') + '</option>').join('');
-  let h = barre('Nouvelle note') + '<div class="page"><div class="heros" style="margin-bottom:14px"><div class="surtitre">Note de séance</div></div>';
+  let h = barre('Nouvelle note') + '<div class="page"><div class="heros" style="margin-bottom:14px"><div class="surtitre">Note d\'honoraires</div></div>';
   h += '<div class="champ"><label>Client</label><select data-b="clientId">' + optsC + '</select></div>';
   h += '<div class="deux"><div class="champ"><label>Date de la note</label><input type="date" data-b="date" value="' + b.date + '"></div><div class="champ"><label>Date de la séance</label><input type="date" data-b="dateSeance" value="' + b.dateSeance + '"></div></div>';
   h += '<div class="champ"><label>Lieu de la séance</label><input data-b="lieu" value="' + esc(b.lieu) + '" placeholder="Cabinet, domicile du client…"></div>';
@@ -876,7 +1396,7 @@ VUES.nouvellenote = p => {
 function htmlNote(n) {
   const e = n.emetteur;
   return '<div class="papier"><div class="ent"><div class="em"><b>' + esc(e.nom) + '</b><br>' + esc(e.statut) + ' · ' + esc(e.activite) + '<br>' + esc(e.adresse) + '<br>SIRET ' + esc(e.siret) + '<br>' + esc(e.tel) + ' · ' + esc(e.mail) + '</div>' +
-    '<div><div class="tit">NOTE DE SÉANCE</div><div style="text-align:right;margin-top:6px">N° <b>' + esc(n.numero || 'à attribuer') + '</b><br>Date : ' + dateCourte(n.date) + '</div></div></div>' +
+    '<div><div class="tit">NOTE D\'HONORAIRES</div><div style="text-align:right;margin-top:6px">N° <b>' + esc(n.numero || 'à attribuer') + '</b><br>Date : ' + dateCourte(n.date) + '</div></div></div>' +
     '<div class="cli"><span style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#6b6d75">Client</span><br><b>' + esc(n.clientNom) + '</b>' + (n.clientAdresse ? '<br>' + esc(n.clientAdresse) : '') + '</div>' +
     '<div>Séance du ' + dateCourte(n.dateSeance) + (n.lieu ? ' · ' + esc(n.lieu) : '') + '</div>' +
     '<table><tr><th>Prestation</th><th>Durée</th><th class="d">Prix</th></tr>' + n.lignes.map(l => '<tr><td>' + esc(l.intitule) + '</td><td>' + esc(dureeTxt(l.duree)) + '</td><td class="d">' + euros(l.prix) + '</td></tr>').join('') + '</table>' +
@@ -903,14 +1423,6 @@ VUES.voirnote = p => {
     (derniere && derniere.id === n.id ? '<button class="btn danger large" style="margin-top:22px" data-a="supnote" data-id="' + n.id + '">Annuler cette note (dernière émise)</button>' : '') + '</div>';
 };
 
-/* ----- Notes diverses ----- */
-VUES.diverses = () => {
-  fond('ciel');
-  return barre('Notes diverses') + '<div class="page"><div class="heros" style="margin-bottom:14px"><div class="surtitre">Carnet</div><div class="titre" style="font-size:40px">Notes diverses</div></div>' +
-    (D.diverses.length ? D.diverses.map(n => '<div class="bloc" data-a="modifdiverse" data-id="' + n.id + '"><div style="font-family:var(--serif);font-size:25px;color:#f3f5fb;margin-bottom:8px">' + esc(n.titre) + '</div><div style="white-space:pre-line;font-size:17px;line-height:1.65;color:#cfd6e6">' + esc(n.texte) + '</div></div>').join('') : '<div class="vide">Aucune note</div>') +
-    '</div><button class="btn plein flottant" data-a="nouvellediverse">+ Note</button>';
-};
-
 /* ----- Réglages ----- */
 VUES.reglages = () => {
   fond('ciel');
@@ -920,9 +1432,9 @@ VUES.reglages = () => {
     '<div class="etiquette">Sauvegarde</div><div class="bloc"><div style="font-size:16px;margin-bottom:12px">Dernière sauvegarde : <b>' + (D.derniereSauvegarde ? dateCourte(D.derniereSauvegarde.slice(0, 10)) : 'jamais') + '</b></div><div class="discret" style="margin-bottom:14px">Toutes tes données sont sur cette tablette. Garde régulièrement une copie ailleurs (mail, Drive, clé). Un rappel apparaît une fois par mois.</div><div class="rangee"><button class="btn plein" data-a="sauver">Sauvegarder</button><button class="btn" data-a="restaurer">Restaurer</button></div><input type="file" id="fichierrest" accept="application/json,.json" class="cache"></div>' +
     '<div class="etiquette">Prestations et tarifs</div>' + D.prestations.map(x => '<button class="rdv" data-a="modifprest" data-id="' + x.id + '"><div style="flex:1"><div class="c" style="font-size:20px">' + esc(x.nom) + '</div><div class="p">' + (x.prix !== '' && x.prix != null ? euros(x.prix) : 'Prix à définir') + (x.duree ? ' · ' + dureeTxt(x.duree) : '') + (x.pack ? ' · pack de ' + x.pack + ' séances' : '') + '</div></div></button>').join('') +
     '<button class="btn large" data-a="ajoutprest">+ Ajouter une prestation</button>' +
-    '<div class="etiquette">Mes coordonnées (notes de séance)</div>' + ch('nom', 'Nom') + ch('statut', 'Statut') + ch('activite', 'Activité') + ch('adresse', 'Adresse') + '<div class="deux">' + ch('siret', 'SIRET') + ch('tel', 'Téléphone') + '</div>' + ch('mail', 'Mail') + ch('tva', 'Mention TVA') +
+    '<div class="etiquette">Mes coordonnées (notes d\'honoraires)</div>' + ch('nom', 'Nom') + ch('statut', 'Statut') + ch('activite', 'Activité') + ch('adresse', 'Adresse') + '<div class="deux">' + ch('siret', 'SIRET') + ch('tel', 'Téléphone') + '</div>' + ch('mail', 'Mail') + ch('tva', 'Mention TVA') +
     '<button class="btn plein large" data-a="sauveremetteur">Enregistrer mes coordonnées</button>' +
-    '<div class="discret" style="text-align:center;margin-top:30px">Entre Ciel et Terre · version 2</div></div>';
+    '<div class="discret" style="text-align:center;margin-top:30px">Entre Ciel et Terre · version 3</div></div>';
 };
 
 /* ---------- Fenêtres (formulaires) ---------- */
@@ -956,7 +1468,7 @@ function formClient(c, apres) {
         enregistrer(); fermer(); apres ? apres(obj) : rendre();
       },
       sup() {
-        if (!confirm('Supprimer ce client ? Ses rendez-vous seront aussi supprimés. Les notes de séance émises sont conservées.')) return;
+        if (!confirm('Supprimer ce client ? Ses rendez-vous seront aussi supprimés. Les notes d\'honoraires émises sont conservées.')) return;
         D.clients = D.clients.filter(x => x.id !== c.id); D.rdv = D.rdv.filter(r => r.clientId !== c.id);
         enregistrer(); fermer(); remplacer('clients');
       }
@@ -1004,7 +1516,7 @@ function ficheRdv(r) {
     '<div style="text-align:center;margin:-8px 0 18px;color:#cfd6e6;font-size:17px;line-height:1.7">' + esc(maj(dateLongue(r.date))) + '<br>' + esc(r.heure || '') + (r.duree ? ' → ' + finHeure(r.heure, r.duree) + ' (' + dureeTxt(r.duree) + ')' : '') + '<br>' + esc([p ? p.nom : '', r.lieu].filter(Boolean).join(' · ')) + (r.note ? '<br><i>' + esc(r.note) + '</i>' : '') + '</div>' +
     '<div style="display:grid;gap:10px">' +
     '<button class="btn" data-a="f-fait">' + (r.fait ? 'Marquer comme non honoré' : 'Marquer comme honoré') + '</button>' +
-    '<button class="btn" data-a="f-note">Créer la note de séance</button>' +
+    '<button class="btn" data-a="f-note">Créer la note d\'honoraires</button>' +
     '<button class="btn" data-a="f-client">Ouvrir la fiche client</button>' +
     '<button class="btn" data-a="f-modif">Modifier</button>' +
     '<button class="btn" data-a="f-annuler">Fermer</button></div>', {
@@ -1032,16 +1544,36 @@ function formPers(c, i) {
 }
 
 function formDiverse(n) {
-  n = n || {};
-  ouvrir(n.id ? 'Modifier la note' : 'Nouvelle note', champ('dtitre', 'Titre', n.titre) + champ('dtexte', 'Texte', n.texte, 'textarea', 'style="min-height:220px"') + boutonsForm(!!n.id), {
+  n = n || { etiquettes: filtreDiv ? [filtreDiv] : [] };
+  const choisies = [...(n.etiquettes || [])];
+  const toutes = [...D.etiquettes, ...choisies.filter(e => !D.etiquettes.includes(e))];
+  const majChoix = () => { document.getElementById('detiq').value = JSON.stringify([...document.querySelectorAll('#detiqs .on')].map(b => b.dataset.e)); };
+  ouvrir(n.id ? 'Modifier la note' : 'Nouvelle note', champ('dtitre', 'Titre', n.titre) +
+    '<div class="champ"><label>Étiquettes</label><div class="filtres" id="detiqs" style="margin:0 0 10px">' + toutes.map(e => '<button type="button" class="' + (choisies.includes(e) ? 'on' : '') + '" data-a="f-etiq" data-e="' + esc(e) + '">' + esc(e) + '</button>').join('') + '</div>' +
+    '<div style="display:flex;gap:8px"><input id="dnouv" placeholder="Nouvelle étiquette…" style="flex:1"><button type="button" class="btn" data-a="f-ajetiq">Ajouter</button></div><input type="hidden" id="detiq" value="' + esc(JSON.stringify(choisies)) + '"></div>' +
+    champ('dtexte', 'Texte', n.texte, 'textarea', 'style="min-height:220px"') + boutonsForm(!!n.id), {
+    etiq(el) { el.classList.toggle('on'); majChoix(); },
+    ajetiq() {
+      const v = valeur('dnouv'); if (!v) return;
+      let b = [...document.querySelectorAll('#detiqs button')].find(x => x.dataset.e.toLowerCase() === v.toLowerCase());
+      if (!b) { b = document.createElement('button'); b.type = 'button'; b.dataset.a = 'f-etiq'; b.dataset.e = v; b.textContent = v; $('#detiqs').appendChild(b); }
+      b.classList.add('on'); document.getElementById('dnouv').value = ''; majChoix();
+    },
     ok() {
       if (!valeur('dtitre')) return toast('Donne un titre à la note.');
       const obj = n.id ? n : { id: uid() };
       obj.titre = valeur('dtitre'); obj.texte = document.getElementById('dtexte').value;
-      if (!n.id) D.diverses.push(obj);
+      obj.etiquettes = JSON.parse(document.getElementById('detiq').value || '[]');
+      const nouv = valeur('dnouv'); if (nouv && !obj.etiquettes.includes(nouv)) obj.etiquettes.push(nouv);
+      for (const e of obj.etiquettes) if (!D.etiquettes.includes(e)) D.etiquettes.push(e);
+      if (!n.id) D.diverses.unshift(obj);
       enregistrer(); fermer(); rendre();
     },
-    sup() { if (!confirm('Supprimer cette note ?')) return; D.diverses = D.diverses.filter(x => x.id !== n.id); enregistrer(); fermer(); rendre(); }
+    sup() {
+      if (!confirm('Supprimer cette note ?')) return;
+      D.diverses = D.diverses.filter(x => x.id !== n.id); enregistrer(); fermer();
+      if (vue.v === 'voirdiverse') retour(); else rendre();
+    }
   });
 }
 
@@ -1125,7 +1657,7 @@ function creerPDF(n) {
   const txt = (x, y, t, taille, gras, couleur) => { ops.push({ x, y, t, taille, gras, couleur: couleur || '0.11 0.11 0.13' }); };
   const droite = (xd, y, t, taille, gras, couleur) => txt(xd - largeur(t, taille, gras), y, t, taille, gras, couleur);
   let y = 790;
-  txt(50, y, e.nom, 14, true); droite(545, y, 'NOTE DE SÉANCE', 15, true);
+  txt(50, y, e.nom, 14, true); droite(545, y, 'NOTE D\'HONORAIRES', 15, true);
   y -= 17; txt(50, y, e.statut + ' · ' + e.activite, 10);
   droite(545, y, 'N° ' + n.numero, 11, true);
   y -= 14; txt(50, y, e.adresse, 10); droite(545, y, 'Date : ' + dateCourte(n.date), 10);
@@ -1151,7 +1683,7 @@ function creerPDF(n) {
   y -= 26; droite(470, y, 'Total', 13, true); droite(545, y, euros(n.total), 13, true);
   y -= 40; txt(50, y, e.tva, 9, false, '0.33 0.34 0.37');
   if (n.mode && n.mode !== 'Non réglé') { y -= 14; txt(50, y, 'Réglé le ' + dateCourte(n.dateReglement) + ' par ' + n.mode.toLowerCase() + '.', 9, false, '0.33 0.34 0.37'); }
-  return assemblerPDF([{ ops, traits, fonds }], 'Note de seance ' + n.numero);
+  return assemblerPDF([{ ops, traits, fonds }], 'Note d\'honoraires ' + n.numero);
 }
 function couper(t, taille, larg, gras) {
   const out = []; let cur = '';
@@ -1175,7 +1707,7 @@ function creerPDFTexte(t) {
   for (const et of t.etapes) {
     place(56);
     txt(60, y, (et.r ? et.r + '. ' : '') + et.titre, 13, true); y -= 20;
-    for (const [type, val] of et.b) {
+    for (const [type, val] of blocsVisibles(et.b, t.ctx)) {
       const elements = (type === 'liste' || type === 'q') ? val : [val];
       for (const it of elements) {
         const puce = type === 'liste' || type === 'q';
@@ -1200,7 +1732,7 @@ function creerPDFTexte(t) {
   });
   return assemblerPDF(pages, t.nom);
 }
-const nomPDF = n => 'Note-de-seance-' + n.numero + '-' + SANS_ACCENT(n.clientNom).replace(/[^A-Za-z0-9]+/g, '-') + '.pdf';
+const nomPDF = n => 'Note-d-honoraires-' + n.numero + '-' + SANS_ACCENT(n.clientNom).replace(/[^A-Za-z0-9]+/g, '-') + '.pdf';
 function telecharger(blob, nom) {
   const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = nom;
   document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1500);
@@ -1232,7 +1764,7 @@ function restaurer(fichier) {
       const o = JSON.parse(lec.result); const d = o.donnees || o;
       if (!d.clients || !d.rdv || !d.notes) throw new Error();
       if (!confirm('Remplacer toutes les données actuelles par celles de cette sauvegarde (' + (o.date ? dateCourte(o.date.slice(0, 10)) : 'date inconnue') + ') ?')) return;
-      D = Object.assign(DEFAUT(), d); enregistrer(); remplacer('accueil'); toast('Données restaurées');
+      D = Object.assign(DEFAUT(), d); migrer(); enregistrer(); remplacer('accueil'); toast('Données restaurées');
     } catch (e) { toast('Ce fichier n\'est pas une sauvegarde valide.'); }
   };
   lec.readAsText(fichier);
@@ -1256,7 +1788,7 @@ document.addEventListener('click', ev => {
     case 'saut': cibleEtape = Number(d.i); return retour();
     case 'taille': return setTaille(tailleActuelle() + Number(d.d) * 0.1, true);
     case 'pdftech': {
-      const t = TECHNIQUES[vue.p.id]; if (!t) return;
+      const t = tech(vue.p.id); if (!t) return;
       return partager(creerPDFTexte(t), SANS_ACCENT(t.nom).replace(/[^A-Za-z0-9]+/g, '-') + '.pdf', t.nom, 'Bonjour, voici la technique dont nous avons parlé. Belle pratique, ' + D.emetteur.nom.split(' ')[0] + '.');
     }
     case 'choixpers': {
@@ -1265,14 +1797,7 @@ document.addEventListener('click', ev => {
         pers(b) { const id = b.dataset.id; fermer(); aller('personnes', { id }); }
       });
     }
-    case 'decal': {
-      const n = Number(d.d), dt = versDate(agenda.date);
-      if (agenda.mode === 'jour') agenda.date = decaler(agenda.date, n);
-      else if (agenda.mode === 'semaine') agenda.date = decaler(agenda.date, 7 * n);
-      else if (agenda.mode === 'mois') agenda.date = isoJour(new Date(dt.getFullYear(), dt.getMonth() + n, 1));
-      else agenda.date = isoJour(new Date(dt.getFullYear() + n, dt.getMonth(), 1));
-      return rendre();
-    }
+    case 'decal': return decalAgenda(Number(d.d), false);
     case 'titreagenda': if (agenda.mode !== 'annee') { agenda.mode = 'annee'; rendre(); } return;
     case 'voirmois': agenda.date = d.j; agenda.mode = 'mois'; return rendre();
     case 'heurelibre': {
@@ -1325,10 +1850,34 @@ document.addEventListener('click', ev => {
     }
     case 'voirnote': return aller('voirnote', { id: d.id });
     case 'pdf': { const n = D.notes.find(x => x.id === d.id); return telecharger(creerPDF(n), nomPDF(n)); }
-    case 'envoyer': { const n = D.notes.find(x => x.id === d.id); return partager(creerPDF(n), nomPDF(n), 'Note de séance ' + n.numero, 'Bonjour, voici votre note de séance. Belle journée, ' + D.emetteur.nom.split(' ')[0] + '.'); }
+    case 'envoyer': { const n = D.notes.find(x => x.id === d.id); return partager(creerPDF(n), nomPDF(n), 'Note d\'honoraires ' + n.numero, 'Bonjour, voici votre note d\'honoraires. Belle journée, ' + D.emetteur.nom.split(' ')[0] + '.'); }
     case 'supnote': {
       if (!confirm('Annuler définitivement la note ' + D.notes.find(x => x.id === d.id).numero + ' ? Son numéro sera réutilisé.')) return;
       D.notes = D.notes.filter(x => x.id !== d.id); enregistrer(); return retour();
+    }
+    case 'voirdiverse': return aller('voirdiverse', { id: d.id });
+    case 'filtreetiq': filtreDiv = d.e; try { localStorage.setItem('ect-etiq', filtreDiv); } catch (e) {} return rendre();
+    case 'jeu': return aller('jeu', { id: d.id });
+    case 'atelier': return aller('atelier', { face: d.face });
+    case 'choisir': compo[d.t] = d.id; garderCompo(); { const y = scrollY; rendre(); window.scrollTo(0, y); } return;
+    case 'safe': compo.safe = !compo.safe; garderCompo(); { const y = scrollY; rendre(); window.scrollTo(0, y); } return;
+    case 'lancercompo': if (!pret(compo)) return; positions.compo = 0; return aller('technique', { id: 'compo', terre: compo.face === 'terrestre' });
+    case 'enrcompo': if (!pret(compo)) return; return formEnrCompo();
+    case 'nouvellebrique': return formBrique();
+    case 'modifbrique': return formBrique((D.briques || []).find(b => b.id === d.id));
+    case 'preparer': {
+      const cid = d.id;
+      return ouvrir('Préparer sa séance', '<div style="display:grid;gap:10px"><button class="btn" data-a="f-face" data-face="celeste">Hypnose céleste</button><button class="btn" data-a="f-face" data-face="terrestre">Hypnose terrestre</button><button class="btn" data-a="f-annuler">Annuler</button></div>', {
+        face(b) { const face = b.dataset.face; fermer(); if (compo && compo.face === face && compo.clientId !== cid) compo = null; aller('atelier', { face, client: cid }); }
+      });
+    }
+    case 'seanceprep': {
+      const c = client(vue.p.id), x = c && (c.seances || []).find(s => s.id === d.id); if (!x) return;
+      return ouvrir(x.titre, '<div class="discret" style="text-align:center;margin:-8px 0 16px">' + esc(dateCourte(x.date)) + ' · ≈ ' + dureeCompo(x.compo) + ' min</div><div style="display:grid;gap:10px"><button class="btn plein" data-a="f-lancer">Lancer la séance</button><button class="btn" data-a="f-reprendre">Reprendre dans l\'atelier</button><button class="btn danger" data-a="f-sup">Supprimer</button><button class="btn" data-a="f-annuler">Fermer</button></div>', {
+        lancer() { fermer(); const id = 'seance:' + c.id + ':' + x.id; positions[id] = 0; aller('technique', { id, terre: x.compo.face === 'terrestre' }); },
+        reprendre() { fermer(); compo = JSON.parse(JSON.stringify(x.compo)); compo.clientId = c.id; garderCompo(); aller('atelier', { face: compo.face, client: c.id }); },
+        sup() { if (!confirm('Supprimer cette séance préparée ?')) return; c.seances = c.seances.filter(s => s.id !== x.id); enregistrer(); fermer(); rendre(); }
+      });
     }
     case 'nouvellediverse': return formDiverse();
     case 'modifdiverse': return formDiverse(D.diverses.find(x => x.id === d.id));
@@ -1347,6 +1896,11 @@ document.addEventListener('input', ev => {
     recherche = t.value; const pos = t.selectionStart; rendre();
     const n = $('#recherche'); n.focus(); n.setSelectionRange(pos, pos); return;
   }
+  if (t.id === 'rechdiv') {
+    rechDiv = t.value; const pos = t.selectionStart; rendre();
+    const n = $('#rechdiv'); n.focus(); n.setSelectionRange(pos, pos); return;
+  }
+  if (t.dataset.liaison && compo) { compo.liaisons[t.dataset.liaison] = t.value; garderCompo(); return; }
   if (!brouillon) return;
   if (t.dataset.b) brouillon[t.dataset.b] = t.value;
   if (t.dataset.l != null && t.dataset.k) brouillon.lignes[Number(t.dataset.l)][t.dataset.k] = t.value;
@@ -1367,6 +1921,42 @@ document.addEventListener('change', ev => {
     return rendre();
   }
 });
+
+/* ---------- Agenda : glisser pour changer de période ---------- */
+function decalAgenda(n, glisse) {
+  const dt = versDate(agenda.date);
+  if (agenda.mode === 'jour') agenda.date = decaler(agenda.date, n);
+  else if (agenda.mode === 'semaine') agenda.date = decaler(agenda.date, 7 * n);
+  else if (agenda.mode === 'mois') agenda.date = isoJour(new Date(dt.getFullYear(), dt.getMonth() + n, 1));
+  else agenda.date = isoJour(new Date(dt.getFullYear() + n, dt.getMonth(), 1));
+  rendre();
+  if (glisse) { const pg = document.querySelector('#app .page'); if (pg) pg.classList.add(n > 0 ? 'glisse-g' : 'glisse-d'); }
+}
+let doigt = null;
+document.addEventListener('touchstart', e => {
+  doigt = (vue.v === 'agenda' && e.touches.length === 1 && $('#voile').classList.contains('cache')) ? { x: e.touches[0].clientX, y: e.touches[0].clientY, t: Date.now() } : null;
+}, { passive: true });
+document.addEventListener('touchmove', e => { if (doigt && e.touches.length > 1) doigt = null; }, { passive: true });
+document.addEventListener('touchend', e => {
+  if (!doigt || vue.v !== 'agenda') return;
+  const t = e.changedTouches[0], dx = t.clientX - doigt.x, dy = t.clientY - doigt.y, dur = Date.now() - doigt.t;
+  doigt = null;
+  if (Math.abs(dx) > 70 && Math.abs(dx) > 2 * Math.abs(dy) && dur < 800) decalAgenda(dx < 0 ? 1 : -1, true);
+}, { passive: true });
+
+/* ---------- Accueil : sous-titres de même longueur ---------- */
+function egaliser() {
+  if (vue.v !== 'accueil') return;
+  const s = [...document.querySelectorAll('.face .desc span')]; if (s.length !== 2) return;
+  s.forEach(x => x.style.letterSpacing = '');
+  const [a, b] = s.map(x => x.getBoundingClientRect().width);
+  const petit = a < b ? s[0] : s[1], ecartPx = Math.abs(a - b);
+  const n = petit.textContent.length - 1;
+  if (n > 0 && ecartPx > 0.5) petit.style.letterSpacing = (ecartPx / n).toFixed(3) + 'px';
+}
+window.addEventListener('resize', egaliser);
+if (document.fonts) { if (document.fonts.ready) document.fonts.ready.then(egaliser); if (document.fonts.addEventListener) document.fonts.addEventListener('loadingdone', egaliser); }
+window.addEventListener('load', () => { egaliser(); setTimeout(egaliser, 800); });
 
 /* ---------- Démarrage ---------- */
 charger();

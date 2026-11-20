@@ -1,7 +1,7 @@
 {
   "name": "Entre Ciel et Terre",
   "short_name": "Ciel & Terre",
-  "description": "Guide de séance, agenda, clients et notes de séance — hypnose céleste et terrestre.",
+  "description": "Guide de séance, agenda, clients et notes d’honoraires — hypnose céleste et terrestre.",
   "lang": "fr",
   "start_url": "./",
   "scope": "./",
