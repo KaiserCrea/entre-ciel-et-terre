@@ -693,9 +693,270 @@ const JEUX = [
   ]}
 ];
 
+
+/* ---------- Version 4 : nouvelles inductions ---------- */
+const TOUCHER = "Pendant toute l'induction : toujours reprendre ses propres mots.";
+const ELMAN = [
+  { r: 'x', titre: 'La catalepsie des paupières', b: [
+    ['dit', "Pour que nous réussissions ensemble à t'emmener en hypnose profonde, tu vas tout simplement suivre mes indications. Je vais te guider… et tu pourras toujours me parler, me dire où tu en es, même si ta voix devient un peu lourde, un peu lente.\nLa première chose que je te demande, c'est d'écouter les bruits autour de toi, dans cette pièce… tous ces petits bruits qu'on ne remarque jamais… et qui sont pourtant là."],
+    ['consigne', "Silence. Puis nommer les bruits un à un : série de oui."],
+    ['dit', "Maintenant, prends une grande inspiration… et en expirant, détends tout ton corps, du haut de ta tête jusqu'au bout de tes pieds.\nPorte ton attention sur tes paupières… et ferme les yeux. Détends tes paupières, le plus possible… jusqu'à sentir qu'elles ne répondent plus. C'est ça.\nEt maintenant, teste-les : essaie de les ouvrir."],
+    ['consigne', "S'il y arrive, recommencer jusqu'à ce qu'il n'y arrive plus."],
+    ['dit', "C'est bien. Arrête d'essayer. Tu ne peux plus ouvrir les yeux."]
+  ]},
+  { r: 'x', titre: 'Le fractionnement', b: [
+    ['dit', "Maintenant, nous allons approfondir ton état. Comme un poisson qui joue dans l'eau, tu vas remonter un court instant… avant de redescendre encore plus profond. Nous allons le faire trois fois de suite, et à chaque fois tu descendras dix fois plus. Si tes yeux ne s'ouvrent plus, le simple fait d'essayer suffira à t'emmener de plus en plus profond, de plus en plus loin, dans cet océan de calme et de tranquillité.\nOuvre les yeux… et referme-les. C'est ça.\nEncore une fois… ouvre… et referme.\nEt une troisième fois… ouvre… et referme.\nDe plus en plus profond… de plus en plus loin… de plus en plus détendu."]
+  ]},
+  { r: 'x', titre: 'Le lâcher du bras', b: [
+    ['dit', "Dans un instant, je vais prendre ton bras et le soulever pour sentir son poids, pour que tu le sentes aussi… puis je vais le lâcher, et il retombera comme une bûche sur ta jambe. Ne fais rien… surtout ne m'aide pas. Laisse les choses se faire toutes seules.\nEt quand ton bras retombera, tu descendras dix fois plus profond… encore et encore."],
+    ['consigne', "Soulever le bras, puis le lâcher."],
+    ['dit', "C'est ça. Remarque maintenant la lourdeur de tes deux bras… comme ils se détendent encore et encore, à mesure que tu avances dans cette transe… à tel point que ça se fait tout seul… Et cette lourdeur se répand dans tout ton corps, pendant que ton inconscient crée cet état."],
+    ['sous', 'Variante'],
+    ['dit', "Dans un instant, je vais prendre ton poignet et lever ton bras, et il va retomber très lourdement, comme s'il pesait une tonne. Ne fais rien, c'est moi qui fais le travail. Et quand tu sentiras ton bras retomber lourdement, profites-en pour aller encore plus loin. Voilà. C'est très bien."]
+  ]},
+  { r: 'x', titre: "L'amnésie des chiffres", b: [
+    ['dit', "Ton corps est maintenant complètement détendu. Je vais te montrer comment ton esprit peut se détendre aussi bien que ton corps.\nJe vais te demander de compter à voix haute, à l'envers, en partant de 100. À chaque nombre que tu dis, double ta détente… et quand tu arriveras à 98, tu seras si détendu qu'il n'y aura plus de nombres. Commence avec l'idée de faire apparaître ces chiffres, de les voir… et de les regarder passer.\nCompte, à voix haute."],
+    ['consigne', "Il dit : « 100 »."],
+    ['dit', "Double ta détente… et regarde les chiffres commencer à disparaître."],
+    ['consigne', "« 99 »"],
+    ['dit', "Regarde… les chiffres commencent à disparaître."],
+    ['consigne', "« 98 »"],
+    ['dit', "Maintenant, ils sont presque partis… ça se fait. C'est toi qui le fais, je ne peux pas le faire à ta place. Fais-les disparaître… qu'ils se dissipent… qu'ils s'effacent.\nSont-ils tous partis ?"],
+    ['consigne', "S'il dit oui, c'est qu'il est simplement trop détendu pour continuer."],
+    ['dit', "Ces chiffres ont complètement disparu… effacés…"],
+    ['sous', "S'il en reste"],
+    ['dit', "Je vais lever ta main et la laisser tomber… et quand je le ferai, le reste des chiffres se décrochera. Tu veux qu'ils se décrochent… regarde-les disparaître… C'est fini ?"],
+    ['consigne', "Attendre son « oui »."]
+  ]},
+  { r: 'x', titre: 'En option', b: [
+    ['liste', ["S'il résiste : lui faire ouvrir les yeux et tout recommencer à zéro, deux ou trois fois s'il le faut (pyramidage). Ça montre ta conviction qu'il va y arriver.", "Tester l'état obtenu : lui parler (voix lointaine, parole lente) et poser des questions sur la problématique.", "Lui faire ouvrir les yeux tout en restant en hypnose (regard fixe).", "Amnésie : il suffit de la lui demander.", "Début d'anesthésie légère (pincement de la main, par exemple) : prévenir le client et avoir son accord avant la séance."]]
+  ]}
+];
+const ELMAN_AVANT = { r: '', titre: 'Avant la séance : la conversation préalable', b: [
+  ['liste', ["Mettre le client en sécurité : se montrer sûr de soi, protecteur et ouvert, et prendre en compte ses doutes et ses peurs.", "Parler beaucoup de l'inconscient, de la sensation agréable et de la fluidité de l'hypnose profonde.", "Utiliser le double langage conscient/inconscient. Ex. : « Ton inconscient a beaucoup de choses à apprendre à ton conscient. »", "Évoquer l'amnésie finale, qui peut se produire si besoin.", "Insister sur l'efficacité du processus, sur sa puissance et son utilité.", "Expliquer que toute hypnose est de l'autohypnose et que tu n'es qu'un guide. Garder ensuite une distance bienveillante."]]
+]};
+const ESDAILE = [
+  { r: 'x', titre: 'Le poing', b: [
+    ['consigne', "À faire quand la transe est déjà profonde. Exploration de l'hypnose profonde, pour des séances spécifiques."],
+    ['dit', "Tu sais comment serrer ton poing très fort, n'est-ce pas… jusqu'à une tension extrême… Et tu sais aussi comment le relâcher complètement… jusqu'à la détente ultime.\nDans l'état où tu es, il y a encore trois niveaux. Nous allons les appeler A, B et C. Le niveau C est le niveau ultime de détente."]
+  ]},
+  { r: 'x', titre: 'Le niveau A', b: [
+    ['dit', "Je vais maintenant te demander de descendre au niveau A, en doublant ta détente… par un escalator, un escalier roulant, ou tout autre moyen que tu choisis. Quand tu seras au niveau A, tu verras une pancarte A. Tu me le feras savoir en disant « A » à voix haute.\nVa au niveau A !"],
+    ['consigne', "Il dit : « A »."],
+    ['dit', "Très bien ! Maintenant, je vais compter de 10 à 1, et à chaque chiffre tu vas continuer à t'approfondir.\nDix… neuf… huit… sept… six… cinq… quatre… trois… deux… un.\nC'est bien… mais tu peux aller encore beaucoup plus profond !"]
+  ]},
+  { r: 'x', titre: 'Le niveau B', b: [
+    ['dit', "Maintenant, va au niveau B. Prends l'escalator et descends jusqu'au niveau B… Tu vois une pancarte avec une flèche B. Ta détente va encore doubler, ou même plus.\nEn arrivant, tu verras une pancarte avec la lettre B. Ce sera difficile de prononcer « B »… mais essaie."],
+    ['consigne', "Il dit « B », difficilement."],
+    ['dit', "Voilà, tu as atteint le niveau B !"]
+  ]},
+  { r: 'x', titre: 'Le niveau C', b: [
+    ['dit', "Maintenant, nous allons aller encore plus profond. Suis la pancarte C, et descends jusqu'au niveau C, la base ultime de ta détente, ton niveau le plus profond. Quand tu seras au niveau C, il te sera impossible de parler.\nAllez, maintenant… au niveau C !"],
+    ['consigne', "Laisser le temps. Au niveau C, il ne parle plus. Pas de retour ici : c'est le compte final de la séance qui ramène."]
+  ]}
+];
+const RAPPROCHENT_AVANT = { r: '', titre: 'Avant la séance', b: [
+  ['liste', ["Client assis, les mains libres devant lui.", "Le prévenir que tu toucheras ses mains et ses poignets, et avoir son accord."]],
+  ['consigne', TOUCHER]
+]};
+const RAPPROCHENT = [
+  { r: 'x', titre: 'Le rituel des mains', b: [
+    ['consigne', "Placer tes mains en prière devant toi, doigts vers le haut, pour qu'il t'imite."],
+    ['dit', "Mets tes mains comme ça."],
+    ['consigne', "Incliner tes mains, toujours jointes, à 90°, doigts vers l'avant."],
+    ['dit', "C'est ça. Et incline-les comme ça.\nParfait. Maintenant, choisis dans ta tête une de tes mains… regarde son pouce… et choisis un tout petit point sur ce pouce, d'un ou deux millimètres.\nQuand tu as ce point, dis-moi « ok »."],
+    ['consigne', "Attendre son « ok »."],
+    ['dit', "Super ! Et à partir de maintenant, garde vraiment toute ton attention dessus…"],
+    ['consigne', "Pause, sans bouger."],
+    ['dit', "… même quand je déplace tes mains comme ça."],
+    ['consigne', "Sur la fin de phrase, écarter lentement ses paumes d'environ 30 cm, 20 cm s'il a eu du mal à suivre. Vérifier que son regard suit le point. Puis lâcher ses poignets."]
+  ]},
+  { r: 'x', titre: 'Le souffle', b: [
+    ['dit', "Ok. Maintenant, prends une bonne inspiration."],
+    ['consigne', "Inspirer fort toi aussi, en levant une main paume vers le haut, comme pour guider sa poitrine."],
+    ['dit', "Et souffle en laissant tes yeux se fermer…"],
+    ['consigne', "Souffler aussi, et passer la main de haut en bas devant ses yeux."]
+  ]},
+  { r: 'x', titre: 'Le ballon', b: [
+    ['dit', "Entre tes paumes, tu tiens un ballon gonflable."],
+    ['consigne', "Toucher ses deux paumes avec le dos de tes mains, comme pour situer le ballon, puis les retirer."],
+    ['sous', 'En option'],
+    ['q', ["Tu le vois plutôt de couleur chaude ou froide ?", "Plutôt jaune, orange ou rouge ? (S'il dit froide : plutôt bleu, vert ou violet ?)", "Au toucher, il est plutôt lisse ou rugueux ?"]],
+    ['consigne', "Trois réponses : il est engagé dans l'imaginaire."],
+    ['dit', "Et pfffff… le ballon se dégonfle, de plus en plus, maintenant."],
+    ['consigne', "Le son seul suffit souvent : la phrase peut être omise."]
+  ]},
+  { r: 'x', titre: 'Les mains qui bougent', b: [
+    ['consigne', "Dès que ses mains commencent à bouger :"],
+    ['q', ["Tu sens ce qui se passe dans tes mains ?", "Et c'est comment ?"]],
+    ['dit', "Exactement, elles bougent toutes seules… et elles continuent d'elles-mêmes, comme le ballon… pffff… qui continue de se dégonfler."],
+    ['consigne', "Reprendre ses propres mots."]
+  ]},
+  { r: 'x', titre: 'Les mains collées', b: [
+    ['consigne', "Quand ses mains se touchent :"],
+    ['dit', "Maintenant qu'elles se touchent…"],
+    ['consigne', "Prendre ses deux poignets et tenter à peine de les écarter, très brièvement, juste pour sentir la pression."],
+    ['sous', 'Si ça fonctionne'],
+    ['q', ["Tu sens la force avec laquelle tes mains se pressent l'une contre l'autre ?"]],
+    ['consigne', "Refaire le test un peu plus fort."],
+    ['dit', "C'est ça ! Tellement pressées que tes mains se fixent, se collent et se verrouillent l'une contre l'autre."],
+    ['consigne', "Essayer à nouveau de les séparer."],
+    ['q', ["Tu sens que je force de plus en plus, pourtant ?", "Et c'est comment ?"]],
+    ['dit', "Et sens comme elles sont tellement verrouillées que, même si tu essaies de les déverrouiller, elles restent complètement collées ensemble."],
+    ['sous', 'Sinon'],
+    ['consigne', "Pousser légèrement ses mains l'une contre l'autre, vers sa poitrine."],
+    ['dit', "… remarque comme tes mains continuent à se presser l'une contre l'autre. Et quand tu sens la pression augmenter entre tes mains, dis-moi « ok »."],
+    ['consigne', "À son « ok » :"],
+    ['q', ["C'est comment ?"]],
+    ['dit', "C'est ça. Tellement fort que… tes mains se fixent, se collent et se verrouillent l'une contre l'autre."]
+  ]},
+  { r: 'x', titre: 'La descente des mains', b: [
+    ['dit', "Dans un moment, quand je claquerai des doigts, tes mains vont commencer à descendre, lentement, toutes seules. Plus elles descendront, plus ton corps s'endormira confortablement. Et plus il s'endormira, plus ton esprit entrera dans une bulle reposante, où seule ma voix pourra lui parvenir. Et dans ta tête, tu décriras vraiment comment tu veux cette bulle : colorée ou transparente, fraîche ou chaude à l'intérieur… Et plus tu la décriras intérieurement, plus ton esprit se reposera dans cette bulle."],
+    ['consigne', "Répéter l'annonce deux fois."],
+    ['dit', "Si tu as compris et que tu es prêt, fais oui de la tête."],
+    ['consigne', "Claquer des doigts, puis observer comment il réagit au silence."],
+    ['sous', "En option, si la descente dure plus d'une ou deux minutes"],
+    ['dit', "Et quand tes mains toucheront tes cuisses, tu entreras dans un sommeil très agréable et très profond, où tu m'entendras toujours."],
+    ['consigne', "Ralentir sur « très agréable » et « très profond ». Puis reprendre :"],
+    ['dit', "Et quand tes mains toucheront tes cuisses, tu entreras dans un sommeil très agréable et très profond et…"],
+    ['consigne', "Rupture : attraper un de ses poignets et le tirer vers toi d'un petit à-coup bref, rapide et doux. Couper la phrase exactement sur l'à-coup."],
+    ['dit', "… Dors d'un sommeil hypnotique très profond, et laisse-toi glisser, flotter, plonger de plus en plus loin… loin… loin… tout en écoutant ma voix."],
+    ['consigne', "« Dors » un peu plus fort, au moment de l'à-coup. La suite plus vite. « Loin, loin, loin » comme un écho qui s'éloigne."],
+    ['consigne', "Une fois ses mains posées sur ses cuisses :", { si: 'safe' }],
+    ['dit', "Ressens maintenant le calme, la paix et la sécurité de ta bulle, dans tout ton corps. Et pendant que tu ressens tout ça, touche doucement ton pouce et ton index. Ce geste est relié à ta bulle. Chaque fois que tu le feras, ou que je te le demanderai, tu y reviendras instantanément, en sécurité. Relâche tes doigts. Ta bulle reste là, elle t'attend, toujours disponible.", { si: 'safe' }]
+  ]}
+];
+const VISAGE_AVANT = { r: '', titre: 'Avant la séance', b: [
+  ['liste', ["Client assis.", "Le prévenir que tu toucheras son poignet, sa main et son épaule, et avoir son accord."]],
+  ['consigne', TOUCHER]
+]};
+const VISAGE = [
+  { r: 'x', titre: 'Le point sur la paume', b: [
+    ['consigne', "Placer ta main droite devant ton visage, paume vers toi, à 20 ou 30 cm, pour lui montrer."],
+    ['dit', "Tiens, mets ta main devant ton visage, comme ça.\nTu vois ta main… ta paume… les lignes de ta paume… et choisis un point d'un ou deux millimètres. Quand tu l'as, montre-le-moi avec ton autre index."],
+    ['consigne', "Attendre qu'il le montre."],
+    ['dit', "Parfait. Et à partir de maintenant, fixe intensément ce point…"],
+    ['consigne', "Pause de 5 secondes."],
+    ['dit', "… même quand je déplace ta main comme ça, et…"],
+    ['consigne', "Sur la fin de la phrase, prendre son poignet : pouce et majeur de chaque côté, index derrière le dos de sa main. Le guider sans porter le poids de sa main : ne pas serrer, l'index touche à peine."],
+    ['consigne', "Déplacer lentement sa main à droite, puis à gauche. Vérifier que son regard suit le point, et sentir sa main : raide, elle ira vers la catalepsie ; souple, vers les mouvements spontanés."]
+  ]},
+  { r: 'x', titre: 'La vision qui change', b: [
+    ['sous', 'En option'],
+    ['dit', "C'est ça… et pendant que tu fixes ce point, sens comme ta vision autour du point se modifie."],
+    ['consigne', "Plus précis : « … remarque comme tout, autour du point, commence à s'estomper, à devenir flou. »"],
+    ['dit', "Quand tu remarques comment ta vision se modifie, fais oui de la tête."],
+    ['consigne', "Quand il hoche la tête :"],
+    ['q', ["Tout en continuant à fixer le point, dis-moi : ça se modifie comment ?"]],
+    ['consigne', "Rappeler toujours de fixer le point d'abord, sinon il risque de tourner la tête pour répondre."],
+    ['dit', "C'est ça. Et maintenant que ce flou est là, autour…"],
+    ['consigne', "Reprendre ses mots et enchaîner."]
+  ]},
+  { r: 'x', titre: 'La main attirée vers le visage', b: [
+    ['consigne', "Avant la phrase, commencer à approcher sa main de son visage, lentement, pas plus d'1 cm par seconde, en allégeant le contact sur son poignet. Au bout de 3 ou 4 secondes :"],
+    ['dit', "… sens comme cette main que je guide… continue d'elle-même… aaaattirée vers ton visage… sans que tu aies rien à faire pour ça."],
+    ['consigne', "Pauses d'1 ou 2 secondes au maximum. Continuer d'approcher au même rythme, alléger encore, puis lâcher son poignet au bout de 5 à 10 cm. Garder l'influence avec ta propre main, qui approche de son visage un tout petit peu plus vite que la sienne, comme si elle l'attirait."],
+    ['sous', 'En option'],
+    ['dit', "Tellement attirée qu'elle s'approche toute seule de ton visage."]
+  ]},
+  { r: 'x', titre: 'Les paupières', b: [
+    ['dit', "Et à force de fixer ce point qui avance, tes yeux commencent à se fatiiiiguer."],
+    ['consigne', "Dire « fatiguer » d'un ton las, qui descend, en soufflant un peu. Baisser un peu tes paupières et ta tête : il le capte du coin de l'œil."],
+    ['sous', 'En option'],
+    ['dit', "De plus en plus lourds."],
+    ['consigne', "Même jeu. Dès que quelque chose se passe dans ses yeux, un clignement plus long ou un regard vide :"],
+    ['q', ["Tu sens ce qui se passe dans tes paupières ?", "Et c'est comment ?"]],
+    ['dit', "Exactement, tellement plus lourdes que tes paupières se feeerment de plus en plus, toutes seules."],
+    ['consigne', "« Lourdes » plus grave et descendant. Ralentir sur « ferment », en fermant lentement tes paupières et en baissant un peu la tête."]
+  ]},
+  { r: 'x', titre: 'La main sur le visage', b: [
+    ['consigne', "Juste avant que sa main touche son visage :"],
+    ['dit', "Prends une bonne inspiration et…"],
+    ['consigne', "Inspirer toi aussi. Reprendre son poignet et lever légèrement sa main en suivant son inspiration. Quand il s'apprête à souffler, plaquer sa main sur son visage, vite et en douceur : légère rupture. Dire plus vite :"],
+    ['dit', "… plonge dans un sommeil hypnotique profond, où tu m'entends toujours."],
+    ['consigne', "Lâcher son poignet, poser ton autre main sur son épaule et la laisser devenir lourde."],
+    ['dit', "Laisse-toi glisser et flotter de plus en plus dans ce sommeil agréable."],
+    ['consigne', "Après une dizaine de secondes, retirer doucement ta main de son épaule."]
+  ]},
+  { r: 'x', titre: 'Le calme mental', b: [
+    ['dit', "Maintenant, détends ta langue dans ta bouche, en t'assurant qu'elle reste totalement immobile… et écoute comme un calme mental s'installe en toi.\nEt quand tu sens ce calme mental, fais oui de la tête."]
+  ]},
+  { r: 'x', titre: 'La main collée au visage', b: [
+    ['consigne', "Quand il hoche la tête :"],
+    ['dit', "C'est ça, de plus en plus calme intérieurement."],
+    ['consigne', "En même temps, prendre le poignet de la main posée sur son visage et la faire bouger légèrement de droite à gauche, puis vers le bas."],
+    ['sous', 'Si son visage suit la main, comme collé'],
+    ['q', ["Tu sens comment, quand je guide ta main, elle entraîne ton visage toute seule ?"]],
+    ['dit', "C'est ça ! Comme collée à ton visage."],
+    ['consigne', "Refaire des mouvements un peu plus amples."],
+    ['q', ["C'est comment, d'avoir la main collée au visage ?"]],
+    ['dit', "Et quand je claquerai des doigts, ta main se décollera et commencera à descendre toute seule, automatiquement, en accentuant ce calme intérieur… et en emmenant avec elle tout ce qui n'est plus nécessaire."],
+    ['consigne', "Claquer des doigts."],
+    ['sous', 'Sinon, si sa main se détache de son visage'],
+    ['dit', "Et cette main descend toute seule, à mesure que ce calme s'intensifie… comme si elle emmenait avec elle tout ce qui n'est plus nécessaire."]
+  ]}
+];
+const POIGNEE_AVANT = { r: '', titre: 'Avant la séance', b: [
+  ['liste', ["Client assis, face à toi.", "Le prévenir que tu prendras sa main et qu'il y aura une petite secousse, et avoir son accord."]],
+  ['consigne', TOUCHER]
+]};
+const POIGNEE = [
+  { r: 'x', titre: 'La poignée de main', b: [
+    ['dit', "Ok, je t'emprunte ta main."],
+    ['consigne', "Tendre ta main droite vers la sienne, comme pour lui dire bonjour."],
+    ['dit', "Ok, et maintenant, fixe l'espace entre mes deux sourcils, ici."],
+    ['consigne', "Montrer le point et observer sa réponse. Il verra ainsi ce que tu fais avec tes paupières."]
+  ]},
+  { r: 'x', titre: "L'annonce des trois hochements", b: [
+    ['dit', "Très bien. Dans un moment, je vais hocher ta main trois fois, comme ça."],
+    ['consigne', "Faire les trois hochements en même temps."],
+    ['dit', "Au premier hochement, tu vas sentir que tes paupières se fatiguent… et deviennent lourdes."],
+    ['consigne', "Un peu avant « fatiguent », lever la poignée de main pour une impulsion vers le bas sur ce mot. Cligner des paupières plus lentement, comme quand on s'endort, et baisser un peu la tête. Sur « lourdes », descendre la poignée de main encore un peu, comme si tu l'alourdissais. Ton plus tombant sur les deux mots."],
+    ['sous', 'En option, si ses paupières se fatiguent déjà'],
+    ['q', ["Tu sens ce qui se passe déjà dans tes paupières ?", "C'est comment ?"]],
+    ['consigne', "Continuer de cligner lentement."],
+    ['dit', "C'est ça ! Lourd… et ça va s'intensifier."],
+    ['dit', "Tellement fatiguées qu'au deuxième hochement, tes paupières se fermeront d'elles-mêmes, cooomplètement relaaaxées et scellées l'une contre l'autre."],
+    ['consigne', "Impulsion vers le bas sur « fermeront ». Ton plus las sur « fatiguées », plus descendant sur « fermeront », en fermant lentement tes paupières. Sur « relaaaxées et scellées », relâcher un peu plus la poignée de main et ton propre corps. Allonger « cooomplètement relaaaxées »."],
+    ['dit', "Et au troisième hochement, tout ton corps se relaxera et entrera dans un sommeil profond."],
+    ['consigne', "Impulsion vers le bas sur « sommeil ». Relâcher ton corps en même temps, rendre la poignée de main plus lourde sur « sommeil profond », voix un peu plus grave."],
+    ['sous', 'En option, si ses muscles se relâchent déjà'],
+    ['q', ["Tu sens ce qui se passe sur le plan musculaire ?"]],
+    ['dit', "Exactement… et de plus en plus."],
+    ['consigne', "Répéter toute l'annonce une deuxième fois, en commençant par « Donc, dans un moment, je vais… »."]
+  ]},
+  { r: 'x', titre: "L'accord", b: [
+    ['q', ["Tu as compris ?", "Prêt à explorer ?"]],
+    ['consigne', "S'il n'a pas compris, répéter. S'il n'est pas prêt, en parler avec lui."]
+  ]},
+  { r: 'x', titre: 'Les trois déclencheurs', b: [
+    ['sous', 'Premier hochement'],
+    ['dit', "Tes paupières se fatiguent fortement… et deviennent lourdes."],
+    ['consigne', "Cligner lentement, baisser un peu la tête en secouant sa main vers le bas. Sur « lourdes », descendre encore la poignée de main. Ton tombant."],
+    ['sous', 'Second hochement, sur « se ferment d\'elles-mêmes »'],
+    ['dit', "Tellement fatiguées qu'elles se ferment d'elles-mêmes, complètement, maintenant."],
+    ['consigne', "Ton las sur « fatiguées », descendant sur « se ferment d'elles-mêmes », en fermant lentement tes paupières."],
+    ['sous', 'Troisième hochement'],
+    ['consigne', "Sur le « Et », lever sa main. Puis serrer un peu plus et la baisser en la tirant vers toi d'une petite secousse rapide. « Dors » un peu plus fort au moment de la secousse, puis la suite plus vite, en ralentissant peu à peu :"],
+    ['dit', "Et… dors d'un sommeil hypnotique profond, où tu m'entends toujours. Laisse-toi flotter, glisser et plonger dans un sommeil agréable, profondément relaxé… de plus en plus loiiiin."]
+  ]}
+];
+BRIQUES.splice(BRIQUES.findIndex(b => b.type === 'approf'), 0,
+  { id: 'elman', type: 'induction', face: 'deux', min: 6, nom: "L'induction de Dave Elman", src: 'Dave Elman · hypnose profonde', avant: ELMAN_AVANT, etapes: ELMAN },
+  { id: 'rapprochent', type: 'induction', face: 'deux', min: 8, nom: 'Les mains qui se rapprochent', src: 'Ballon · bulle reposante', ancre: 'ta bulle', ancreNom: 'la bulle', avant: RAPPROCHENT_AVANT, etapes: RAPPROCHENT },
+  { id: 'visage', type: 'induction', face: 'deux', min: 8, nom: 'La main collée au visage', src: 'Point sur la paume', avant: VISAGE_AVANT, etapes: VISAGE },
+  { id: 'poignee', type: 'induction', face: 'deux', min: 4, nom: 'La poignée de main', src: 'Trois hochements', avant: POIGNEE_AVANT, etapes: POIGNEE }
+);
+BRIQUES.splice(BRIQUES.findIndex(b => b.type === 'protocole'), 0,
+  { id: 'esdaile', type: 'approf', face: 'deux', min: 5, nom: "L'état Esdaile (séances spécifiques)", src: 'Dave Elman · niveaux A, B, C', etapes: ESDAILE }
+);
+{ const l = BRIQUES.find(b => b.id === 'allemann-lieu'); l.ancre = 'ton lieu agréable'; l.ancreNom = 'le lieu agréable'; }
+const aplatir = (avant, etapes) => [avant, ...etapes].flatMap(e => [['sous', e.titre], ...e.b]);
+JEUX.push({ id: 'poignee', nom: 'La poignée de main', sous: 'Trois hochements · jeu ou début de séance légère', b: aplatir(POIGNEE_AVANT, POIGNEE) });
+
 /* ---------- Données par défaut ---------- */
 const DEFAUT = () => ({
-  version: 3,
+  version: 4,
   emetteur: {
     nom: 'Thierry Testa',
     statut: 'Entrepreneur individuel',
@@ -731,10 +992,16 @@ const DIVERSES_V3 = [
   { id: 'f5', etiquettes: ['Inductions'], titre: 'Les mouvements oculaires rapides (Mike Mandel)', texte: "Type : induction éclair.\n\n• Avant : prévenir le client du contact physique et de la bascule, avoir son accord. Client bien assis sur une chaise stable. Éviter en cas de problèmes de cou ou de dos.\n• Lui demander de ne plus bouger la tête ni le corps, de fermer les yeux et de se détendre.\n• En inspirant, ouvrir les yeux et suivre le bout de l'index placé près de ses yeux, sans bouger.\n• Accélérer les mouvements : en haut, en bas, en zigzag.\n• Faire refermer les yeux et continuer à suivre l'index à l'intérieur de la tête, de droite à gauche.\n• Passer une main derrière sa tête, prendre fermement de l'autre sa main gauche posée sur sa jambe, et dire « Dors ! » en basculant doucement le haut de son corps vers le bas. Vite, mais avec délicatesse. La transe vient en quelques secondes." },
   { id: 'f6', etiquettes: ['Inductions'], titre: "L'univers en rotation (Daniel Goldschmidt)", texte: "Type : induction, découverte, catalepsie du bras.\n\n• Faire fermer les yeux et ressentir profondément sa propre présence.\n• Lui faire sentir qu'on tourne dans l'espace en ce moment même : la Terre sur elle-même, la Terre autour du soleil en un an, le soleil dans la galaxie, emporté lui-même par la Voie lactée.\n• Inviter à suivre son corps, sa respiration, les bruits, en laissant dériver la voix : on flotte tous dans l'espace.\n• Suggérer que son bras pourrait, de lui-même, se mettre à bouger et à flotter à son tour.\n• Le plus souvent, la transe vient et le bras devient cataleptique. Après la séance, le sujet dit souvent qu'il n'écoutait plus, occupé à ressentir les mouvements.\n• Pour libérer : « Ton bras redevient léger et se repose doucement. »" }
 ];
+const DIVERSES_V4 = [
+  { id: 'f7', etiquettes: ['Inductions'], titre: "L'induction de Dave Elman", texte: "Type : induction rapide, vers l'hypnose profonde (somnambulisme).\n\n• Avant : conversation préalable (sécurité, inconscient, double langage, amnésie possible, efficacité, toute hypnose est autohypnose).\n• 1. Catalepsie des paupières : écouter les bruits de la pièce et les nommer (série de oui), grande inspiration, détendre tout le corps, fermer les yeux, détendre les paupières jusqu'à ce qu'elles ne répondent plus, tester, recommencer si besoin. « Arrête d'essayer. Tu ne peux plus ouvrir les yeux. »\n• 2. Fractionnement : image du poisson ; ouvrir et fermer les yeux trois fois, dix fois plus profond à chaque fois.\n• 3. Lâcher du bras : soulever le bras, le lâcher, il retombe comme une bûche ; ne rien faire, ne pas aider ; dix fois plus profond. Ratifier la lourdeur qui gagne tout le corps.\n• 4. Amnésie des chiffres : compter à rebours depuis 100 à voix haute, doubler la détente à chaque nombre ; vers 98, plus de nombres. S'il en reste, lever sa main et la laisser tomber : le reste se décroche.\n• 5. En option : s'il résiste, tout recommencer (pyramidage). Tests : voix lointaine, yeux ouverts en hypnose, amnésie demandée, début d'anesthésie (pincement : prévenir le client et avoir son accord)." },
+  { id: 'f8', etiquettes: ['Inductions'], titre: "L'état Esdaile (Dave Elman)", texte: "Type : approfondissement, exploration de l'hypnose profonde, pour des séances spécifiques. Quand la transe est déjà profonde. Niveaux A, B, C.\n\n• Rappeler le poing : serré jusqu'à la tension extrême, relâché jusqu'à la détente totale.\n• Annoncer trois niveaux : A, B, C, le niveau C étant la détente ultime.\n• Descendre au niveau A en doublant la détente (escalator ou autre moyen de son choix) ; pancarte A, le dire à voix haute. Compter de 10 à 1.\n• Niveau B : escalator, pancarte avec une flèche B ; la détente double encore. Pancarte B : difficile de prononcer « B », mais essayer.\n• Niveau C : la base ultime de la détente ; une fois en C, impossible de parler.\n• Pas de retour : c'est le compte final de la séance qui ramène." },
+  { id: 'd4', etiquettes: ['Théorie'], titre: 'Note hypnose', texte: "Rupture de pattern\n\nQuestions de rupture de pattern, suggestion, création du changement :\nT : Savez-vous combien de séances d'hypnose il faut pour changer une ampoule ?\nP : Je ne sais pas…\nT : Le nombre importe peu, il suffit que l'ampoule ait envie d'être changée !\nRajout : Ne changez pas trop vite, et surtout ne changez rien jusqu'à la prochaine séance. Au revoir. [Le coach ferme la porte rapidement] : deuxième rupture de pattern.\n\nExemple de première séance\n\nJ'opte donc dès la première séance pour une première induction plutôt ericksonienne pour lui permettre de se reconnecter à ses perceptions, par une forme de spirale des sens, puis à ses sensations internes, et ensuite des suggestions de relaxation suivies d'approfondissements successifs. Elle entre tout de suite facilement dans un état stuporeux dont je profite pour demander un travail inconscient général, en aveugle, sur la recherche des causes de ce mal-être et sur la possibilité de les prendre en charge d'une façon nouvelle, plus intéressante, en actualisant ce qui peut l'être.\nElle en ressort surprise du niveau de relâchement perçu, avec une baisse importante des tensions physiques et aussi de sa charge mentale (moins de pensées à propos du « problème »).\n\nHypnose profonde (Erickson)\n\nSur un plan technique, Erickson précise :\n• Une autre façon de procéder est de demander au sujet en transe légère de « faire un rêve très vivant, très agréable, d'y prendre plaisir et, dès qu'il est terminé, de l'oublier et de ne plus s'en souvenir jusqu'à ce que la personne en ait envie dans une situation favorable ».\n• Une autre méthode consiste à demander au sujet en transe légère de cacher au thérapeute une information plutôt intime que le sujet n'identifie pas complètement (par exemple le deuxième prénom). Ceci permet que le sujet puisse comprendre qu'il n'est pas un automate et qu'il peut donc coopérer avec plaisir avec le thérapeute.\n• Une autre méthode encore est d'exprimer de la reconnaissance au patient pour les services qu'il rend : les patients ont besoin d'être reconnus pour les efforts qu'ils font, d'abord en transe puis après celle-ci, afin d'obtenir leur coopération.\n\nL'hypnose profonde est une « aventure partagée » où le thérapeute stimule le sujet afin qu'il fasse les efforts nécessaires. Particulièrement efficace avec les patients les plus intelligents et les plus intéressés, elle l'est avec tout le monde. Accepter et utiliser la résistance est la manière la plus satisfaisante de procéder.\n\nUtiliser des suggestions composées verbales du type « tandis que vous faites X, vous pouvez faire Y », comme : « Tandis que vous fermez les yeux, vous pouvez prendre une respiration profonde et relaxante. » Les suggestions composées manuelles impliquent, elles, de lier des suggestions d'approfondissement à une expérience suggérée sur un plan physique, généralement des suggestions d'aller plus profond en hypnose tout en expérimentant des sensations physiques qui renforcent les suggestions. Par exemple, en prenant une des mains du patient pour l'élever et suggérer : « Pendant que je laisse lentement et doucement descendre votre main sur votre cuisse, vous pouvez descendre lentement et tranquillement encore davantage en hypnose. »\n\n« Vous pouvez prendre 60 secondes du temps de votre horloge pour apprécier une période silencieuse durant laquelle vous pouvez approfondir votre relaxation encore davantage (ou durant laquelle vous pouvez vous préparer à une relaxation encore plus profonde). »" }
+];
 const DIVERSES_DEFAUT = () => [
     { id: 'd1', etiquettes: ['Théorie'], titre: 'Les états de conscience', texte: "1. Beta : l'état d'éveil, pleinement conscient.\n2. Alpha : les niveaux de transe, du léger au profond.\n   a. Alpha léger : celui qu'on utilise en méditation.\n   b. Alpha moyen : retrouver les souvenirs d'enfance et les traumatismes anciens ; c'est aussi le niveau des changements de comportement, comme prendre ou perdre du poids, arrêter de fumer.\n   c. Alpha profond : retrouver les vies antérieures.\n3. Theta : le niveau le plus profond avant de perdre conscience ; c'est le champ de l'esprit superconscient, qui donne accès à notre vie spirituelle entre deux vies.\n4. Delta : le sommeil profond.\n\nÀ dire au client : on traverse ces états chaque nuit en s'endormant, puis dans l'autre sens au réveil." },
     { id: 'd2', etiquettes: ['Métaphores'], titre: 'La métaphore du cinéma', texte: "• Entrer dans le monde spirituel, c'est comme regarder un film dont on est le héros.\n• Au début, comme quand on entre dans une salle obscure sans connaître l'histoire, les scènes semblent défiler lentement.\n• Ensuite, une fois qu'on a pris ses repères, tout paraît s'accélérer, comme si le projectionniste lançait le film plus vite : on n'est plus spectateur, on fait partie des scènes, pris par l'action." },
-    ...DIVERSES_V3.map(n => ({ ...n, etiquettes: [...n.etiquettes] }))
+    ...DIVERSES_V3.map(n => ({ ...n, etiquettes: [...n.etiquettes] })),
+    ...DIVERSES_V4.map(n => ({ ...n, etiquettes: [...n.etiquettes] }))
 ];
 
 /* ---------- Stockage ---------- */
@@ -756,6 +1023,12 @@ function migrer() {
     for (const n of DIVERSES_V3) if (!D.diverses.some(x => x.id === n.id)) D.diverses.push({ ...n, etiquettes: [...n.etiquettes] });
     for (const e of DEFAUT().etiquettes) if (!D.etiquettes.includes(e)) D.etiquettes.push(e);
     D.version = 3;
+    enregistrer();
+  }
+  // Passage à la version 4 : nouvelles fiches et note, ajoutées à la suite.
+  if (D.version < 4) {
+    for (const n of DIVERSES_V4) if (!D.diverses.some(x => x.id === n.id)) D.diverses.push({ ...n, etiquettes: [...n.etiquettes] });
+    D.version = 4;
     enregistrer();
   }
   for (const n of D.diverses) if (!n.etiquettes) n.etiquettes = [];
@@ -951,8 +1224,9 @@ function blocsVisibles(b, ctx) {
     if (c && c.si && !ctx[c.si]) continue;
     if (c && c.sinon && ctx[c.sinon]) continue;
     const prec = out[out.length - 1];
-    if (blk[0] === 'dit' && prec && prec[0] === 'dit') out[out.length - 1] = ['dit', prec[1] + '\n' + blk[1]];
-    else out.push([blk[0], blk[1]]);
+    // Les variantes (selon l'atelier) se fondent dans le paragraphe voisin ; les autres paroles restent séparées
+    if (blk[0] === 'dit' && prec && prec[0] === 'dit' && (c || prec[2])) out[out.length - 1] = ['dit', prec[1] + '\n' + blk[1], true];
+    else out.push([blk[0], blk[1], !!c]);
   }
   return out;
 }
@@ -1056,7 +1330,7 @@ function raccords(c) {
   }
   return l;
 }
-const dureeCompo = c => ['induction', 'approf', 'protocole', 'retour'].reduce((s, k) => s + ((brique(c[k]) || {}).min || 0), 0) + (c.safe && !(brique(c.induction) || {}).lieu ? 4 : 0);
+const dureeCompo = c => ['induction', 'approf', 'protocole', 'retour'].reduce((s, k) => s + ((brique(c[k]) || {}).min || 0), 0) + (c.safe && !(brique(c.induction) || {}).ancre ? 4 : 0);
 function construire(c, titre) {
   const ind = brique(c.induction), ap = brique(c.approf), pr = brique(c.protocole), re = brique(c.retour);
   const ctx = { safe: !!c.safe, lieu: !!(ind && ind.lieu), piece: !!(ap && (ap.fournit || []).includes('piece')) };
@@ -1068,14 +1342,14 @@ function construire(c, titre) {
   };
   const rac = raccords(c), cleAvant = nom => (rac.find(r => r.cle && r.vers === nom) || {}).cle;
   let et = [];
-  if (pr && pr.avant) et.push({ ...copie(pr.avant), r: '' });
+  for (const x of [pr, ind, ap]) if (x && x.avant) et.push({ ...copie(x.avant), r: '' });
   if (ind) et = et.concat(ind.etapes.map(copie));
-  if (c.safe && ind && !ind.lieu) et.push(copie(SAFE));
+  if (c.safe && ind && !ind.ancre) et.push(copie(SAFE));
   if (ap) et = et.concat(lie(ap.etapes, cleAvant(ap.nom)));
   if (pr) et = et.concat(lie(pr.etapes, cleAvant(pr.nom)));
   if (re) et = et.concat(re.etapes.map(copie));
   if (pr && pr.apres) et.push({ ...copie(pr.apres), r: '' });
-  if (c.safe) et.push({ r: '', titre: "En cas d'urgence", b: [['consigne', 'À tout moment de la séance.'], ['dit', ctx.lieu ? "Touche ton pouce et ton index… tu es maintenant dans ton lieu agréable, en sécurité." : "Touche ton pouce et ton index… tu es maintenant dans ton endroit safe, en sécurité."]] });
+  if (c.safe) et.push({ r: '', titre: "En cas d'urgence", b: [['consigne', 'À tout moment de la séance.'], ['dit', "Touche ton pouce et ton index… tu es maintenant dans " + (ind && ind.ancre ? ind.ancre : 'ton endroit safe') + ", en sécurité."]] });
   let n = 0; for (const e of et) if (e.r) e.r = romain(++n);
   return { id: 'compo', nom: titre || 'Séance composée', sous: [ind, ap, pr, re].filter(Boolean).map(b => b.nom).join(' · '), etapes: et, ctx };
 }
@@ -1096,7 +1370,7 @@ VUES.atelier = p => {
   const ind = brique(compo.induction);
   let h = barre('Atelier') + '<div class="page"><div class="heros" style="margin-bottom:8px"><div class="surtitre">Atelier · ' + (terre ? 'Terrestre' : 'Céleste') + '</div><div class="titre" style="font-size:40px">Composer une séance</div>' + (cl ? '<div class="discret">pour ' + esc(nomClient(cl)) + '</div>' : '') + '</div>';
   h += choix('induction', 1, 'Induction');
-  h += '<div class="etiquette">Endroit safe</div><button class="interrupteur' + (compo.safe ? ' on' : '') + '" data-a="safe"><span class="pt"></span><span>' + (compo.safe ? 'Oui' : 'Non') + '</span><small>' + (ind && ind.lieu ? 'Relié au lieu agréable de l\'induction' : 'Après l\'induction, avec l\'ancrage pouce-index') + '</small></button>';
+  h += '<div class="etiquette">Endroit safe</div><button class="interrupteur' + (compo.safe ? ' on' : '') + '" data-a="safe"><span class="pt"></span><span>' + (compo.safe ? 'Oui' : 'Non') + '</span><small>' + (ind && ind.ancre ? 'Relié à ' + ind.ancreNom + ' de l\'induction' : 'Après l\'induction, avec l\'ancrage pouce-index') + '</small></button>';
   h += choix('approf', 2, 'Approfondissement', true);
   h += choix('protocole', 3, 'Protocole');
   h += choix('retour', 4, 'Retour');
@@ -1434,7 +1708,7 @@ VUES.reglages = () => {
     '<button class="btn large" data-a="ajoutprest">+ Ajouter une prestation</button>' +
     '<div class="etiquette">Mes coordonnées (notes d\'honoraires)</div>' + ch('nom', 'Nom') + ch('statut', 'Statut') + ch('activite', 'Activité') + ch('adresse', 'Adresse') + '<div class="deux">' + ch('siret', 'SIRET') + ch('tel', 'Téléphone') + '</div>' + ch('mail', 'Mail') + ch('tva', 'Mention TVA') +
     '<button class="btn plein large" data-a="sauveremetteur">Enregistrer mes coordonnées</button>' +
-    '<div class="discret" style="text-align:center;margin-top:30px">Entre Ciel et Terre · version 3</div></div>';
+    '<div class="discret" style="text-align:center;margin-top:30px">Entre Ciel et Terre · version 4</div></div>';
 };
 
 /* ---------- Fenêtres (formulaires) ---------- */
