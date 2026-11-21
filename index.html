@@ -303,6 +303,22 @@ input[type=date],input[type=time]{color-scheme:dark}
 .np{display:flex;gap:6px;flex-wrap:wrap}
 .puce{font-family:var(--caps);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--argent2);border:0.5px solid #c9d4ee55;border-radius:10px;padding:3px 8px}
 .notepleine{white-space:pre-line;font-size:calc(18px * var(--taille));line-height:1.7;color:#d9dfec}
+/* ---------- Défilement automatique ---------- */
+.technique{padding-bottom:110px}
+.lecteur{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:30;display:flex;align-items:center;gap:6px;padding:7px 10px 7px 7px;border-radius:40px;background:#0b1020e0;border:0.5px solid #c9d4ee44;box-shadow:0 8px 30px #000a,0 0 18px #b9c7e622;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:opacity .4s}
+.lit .lecteur{opacity:.45}
+.lit .lecteur:active,.lit .lecteur:focus-within{opacity:1}
+.terre .lecteur{background:#170b06e0;border-color:#f5c48c55}
+.lecteur button{border:0;background:none;color:#f3f5fb;font-family:var(--serif)}
+.lbtn{width:42px;height:42px;border-radius:50%;font-size:24px;line-height:1}
+.lbtn:active{background:#ffffff14}
+.lplay{width:52px;height:52px;border-radius:50%;border:0.5px solid #dfe5f3aa !important;background:radial-gradient(circle at 40% 35%,#26345f,#0d1430) !important;font-size:17px;letter-spacing:-2px;box-shadow:0 0 14px #b9c7e640 inset}
+.terre .lplay{border-color:#f5c48caa !important;background:radial-gradient(circle at 40% 35%,#5a2e15,#21100a) !important;color:var(--ambre) !important}
+.lecteur.on .lplay{box-shadow:0 0 18px #c9d4ee77}
+.lvit{display:flex;flex-direction:column;align-items:center;margin-left:4px;min-width:44px}
+.lvit span{font-family:var(--caps);font-size:8px;letter-spacing:2px;color:var(--doux);text-transform:uppercase}
+.lvit b{font-family:var(--serif);font-weight:500;font-size:22px;color:#f3f5fb;line-height:1.1}
+html{touch-action:manipulation}
 </style>
 </head>
 <body>
@@ -1158,8 +1174,10 @@ function rendre() {
   const app = $('#app');
   const f = VUES[vue.v] || VUES.accueil;
   app.className = '';
+  if (lecture.on && vue.v !== 'technique') arreterLecture();
   app.innerHTML = f(vue.p);
   garderEveille(vue.v === 'technique');
+  majLecteur();
   egaliser();
 }
 function barre(titre, actions, sansRetour) {
@@ -1270,7 +1288,8 @@ VUES.technique = p => {
   });
   h += '<div class="fintech">✦ Fin de la technique ✦</div>';
   if (t.auto) h += '<button class="btn plein large" data-a="pdftech">Envoyer au client (PDF)</button>';
-  return h + '</div>';
+  h += '</div>' + lecteurHTML();
+  return h;
 };
 function majProg() {
   const b = document.getElementById('progbar'); if (!b) return;
@@ -1472,6 +1491,87 @@ document.addEventListener('touchmove', e => {
 document.addEventListener('touchend', e => {
   if (pincement && e.touches.length < 2) { setTaille(tailleActuelle(), true); pincement = null; }
 }, { passive: true });
+
+
+/* ----- Défilement automatique ----- */
+const VITESSES = [6, 9, 12, 16, 21, 27, 34, 42, 52, 64]; // pixels par seconde, à la taille de texte normale
+const lecture = { on: false, niveau: 2, doigt: false, reste: 0, avant: 0, anim: 0 };
+try { const n = Number(localStorage.getItem('ect-vitesse')); if (n >= 1 && n <= VITESSES.length) lecture.niveau = n; } catch (e) {}
+const enTechnique = () => vue.v === 'technique' && !vue.p.sommaire;
+function lecteurHTML() {
+  return '<div class="lecteur" id="lecteur"><button class="lbtn" data-a="vitesse" data-d="-1" aria-label="Plus lent">−</button>' +
+    '<button class="lplay" data-a="lecture" aria-label="Lecture"><span id="licone"></span></button>' +
+    '<button class="lbtn" data-a="vitesse" data-d="1" aria-label="Plus rapide">+</button>' +
+    '<div class="lvit"><span>Vitesse</span><b id="lniveau"></b></div></div>';
+}
+function majLecteur() {
+  const l = document.getElementById('lecteur'); if (!l) return;
+  l.classList.toggle('on', lecture.on);
+  document.getElementById('licone').textContent = lecture.on ? '❚❚' : '▶';
+  document.getElementById('lniveau').textContent = lecture.niveau;
+  document.body.classList.toggle('lit', lecture.on);
+}
+function pas(t) {
+  if (!lecture.on) return;
+  const dt = Math.min(0.1, (t - (lecture.avant || t)) / 1000); lecture.avant = t;
+  if (!lecture.doigt && !pincement) {
+    lecture.reste += VITESSES[lecture.niveau - 1] * tailleActuelle() * dt;
+    const px = Math.floor(lecture.reste);
+    if (px >= 1) {
+      lecture.reste -= px;
+      const max = document.documentElement.scrollHeight - innerHeight;
+      if (scrollY >= max - 1) { arreterLecture(); toast('Fin de la technique'); return; }
+      window.scrollBy(0, px);
+    }
+  }
+  lecture.anim = requestAnimationFrame(pas);
+}
+function lancerLecture() {
+  if (!enTechnique()) return;
+  lecture.on = true; lecture.avant = 0; lecture.reste = 0;
+  cancelAnimationFrame(lecture.anim); lecture.anim = requestAnimationFrame(pas);
+  majLecteur();
+}
+function arreterLecture() {
+  lecture.on = false; cancelAnimationFrame(lecture.anim); majLecteur();
+}
+const basculerLecture = () => lecture.on ? arreterLecture() : lancerLecture();
+function changerVitesse(d) {
+  lecture.niveau = Math.max(1, Math.min(VITESSES.length, lecture.niveau + d));
+  try { localStorage.setItem('ect-vitesse', lecture.niveau); } catch (e) {}
+  majLecteur();
+}
+// Le doigt sur l'écran : le défilement attend, puis reprend tout seul quand on lâche.
+// Deux touches rapides au même endroit : pause ou reprise.
+let derniereTouche = null;
+document.addEventListener('touchstart', e => {
+  if (!enTechnique()) return;
+  lecture.doigt = true;
+  if (e.touches.length === 1) derniereTouche = derniereTouche && derniereTouche.fin ? derniereTouche : null;
+  const t = e.touches[0];
+  if (e.touches.length === 1) lecture.depart = { x: t.clientX, y: t.clientY, t: Date.now() }; else lecture.depart = null;
+}, { passive: true });
+document.addEventListener('touchmove', e => {
+  const d = lecture.depart; if (!d) return;
+  const t = e.touches[0];
+  if (Math.hypot(t.clientX - d.x, t.clientY - d.y) > 12) lecture.depart = null;
+}, { passive: true });
+document.addEventListener('touchend', e => {
+  if (!enTechnique()) return;
+  if (e.touches.length) return;
+  lecture.doigt = false; lecture.avant = 0;
+  const d = lecture.depart; lecture.depart = null;
+  if (!d || Date.now() - d.t > 300 || e.target.closest('button, a, input, textarea, select, .barre, .lecteur')) { derniereTouche = null; return; }
+  const maintenant = Date.now();
+  if (derniereTouche && maintenant - derniereTouche.t < 350 && Math.hypot(d.x - derniereTouche.x, d.y - derniereTouche.y) < 40) {
+    derniereTouche = null;
+    basculerLecture();
+    toast(lecture.on ? 'Lecture' : 'Pause');
+    e.preventDefault();
+  } else derniereTouche = { x: d.x, y: d.y, t: maintenant, fin: true };
+}, { passive: false });
+// Molette ou clavier sur ordinateur : pas d'effet sur la lecture ; Espace pour pause
+document.addEventListener('keydown', e => { if (enTechnique() && e.code === 'Space' && !e.target.closest('input, textarea')) { e.preventDefault(); basculerLecture(); } });
 
 function romain(n) { const v = [[10, 'X'], [9, 'IX'], [5, 'V'], [4, 'IV'], [1, 'I']]; let s = ''; for (const [a, b] of v) while (n >= a) { s += b; n -= a; } return s; }
 
@@ -1708,7 +1808,7 @@ VUES.reglages = () => {
     '<button class="btn large" data-a="ajoutprest">+ Ajouter une prestation</button>' +
     '<div class="etiquette">Mes coordonnées (notes d\'honoraires)</div>' + ch('nom', 'Nom') + ch('statut', 'Statut') + ch('activite', 'Activité') + ch('adresse', 'Adresse') + '<div class="deux">' + ch('siret', 'SIRET') + ch('tel', 'Téléphone') + '</div>' + ch('mail', 'Mail') + ch('tva', 'Mention TVA') +
     '<button class="btn plein large" data-a="sauveremetteur">Enregistrer mes coordonnées</button>' +
-    '<div class="discret" style="text-align:center;margin-top:30px">Entre Ciel et Terre · version 4</div></div>';
+    '<div class="discret" style="text-align:center;margin-top:30px">Entre Ciel et Terre · version 5</div></div>';
 };
 
 /* ---------- Fenêtres (formulaires) ---------- */
@@ -2060,6 +2160,8 @@ document.addEventListener('click', ev => {
     case 'technique': positions[d.id] = 0; return aller('technique', { id: d.id });
     case 'sommaire': return aller('technique', { id: vue.p.id, sommaire: true });
     case 'saut': cibleEtape = Number(d.i); return retour();
+    case 'lecture': return basculerLecture();
+    case 'vitesse': return changerVitesse(Number(d.d));
     case 'taille': return setTaille(tailleActuelle() + Number(d.d) * 0.1, true);
     case 'pdftech': {
       const t = tech(vue.p.id); if (!t) return;
