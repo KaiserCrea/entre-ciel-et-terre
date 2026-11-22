@@ -319,6 +319,38 @@ input[type=date],input[type=time]{color-scheme:dark}
 .lvit span{font-family:var(--caps);font-size:8px;letter-spacing:2px;color:var(--doux);text-transform:uppercase}
 .lvit b{font-family:var(--serif);font-weight:500;font-size:22px;color:#f3f5fb;line-height:1.1}
 html{touch-action:manipulation}
+/* ---------- Version 6 ---------- */
+.lecteur{left:auto;right:calc(14px + env(safe-area-inset-right));transform:none;gap:2px;padding:4px 8px 4px 4px}
+.lbtn{width:32px;height:32px;font-size:19px}
+.lplay{width:38px;height:38px;font-size:12px}
+.lvit{min-width:30px;margin-left:2px}
+.lvit span{font-size:7px;letter-spacing:1.5px}
+.lvit b{font-size:16px}
+.lit .lecteur{opacity:.3}
+.choix .ch{position:relative}
+.choix .chb{width:100%;padding-right:86px}
+.choix .lire{position:absolute;right:10px;top:50%;transform:translateY(-50%);display:block;padding:7px 12px;border-radius:14px;border:0.5px solid #c9d4ee55;background:#ffffff0d;color:var(--argent2);font-family:var(--caps);font-size:10px;letter-spacing:2px;text-transform:uppercase}
+.terre .choix .lire{background:#ffffff0d;border-color:#f5c48c55;color:#f5d9b8}
+.segments{display:flex;gap:6px;flex-wrap:wrap}
+.segments button{flex:1;min-width:90px;padding:10px 12px;border-radius:14px;border:0.5px solid #c9d4ee44;background:#0b10208c;color:var(--argent2);font-size:15px}
+.segments button.on{background:var(--argent);color:#0b1020;border-color:var(--argent)}
+.apercu{border-top:0.5px solid #ffffff17;padding-top:12px;margin-top:12px}
+.aph{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+.aph span{font-family:var(--caps);font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#aebbd8}
+.aph em{font-style:normal;color:#f5c48c}
+.apercu .dit{font-size:20px}
+.som{display:flex;align-items:center;gap:10px;border-bottom:0.5px solid #ffffff12}
+.som button[data-a=saut]{flex:1;border-bottom:none}
+.som .modif{font-family:var(--caps);font-style:normal;font-size:9px;letter-spacing:2px;color:#f5c48c;margin-left:10px;text-transform:uppercase}
+.sommaire .som .pastille{display:inline-block;width:auto;flex-shrink:0;border:0.5px solid #c9d4ee55;padding:8px 13px;font-family:var(--sans);font-size:13px;color:var(--argent2)}
+.etoiles{display:flex;gap:4px}
+.etoiles button{border:0;background:none;font-size:30px;line-height:1;padding:2px 4px;color:#ffffff26}
+.etoiles button.on{color:#f3d58a;text-shadow:0 0 12px #f3d58a88}
+.ligne-note{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:0.5px solid #ffffff12}
+.ln-t{font-family:var(--caps);font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:#aebbd8}
+.ln-n{font-family:var(--serif);font-size:18px;color:#f3f5fb}
+.et-on{color:#f3d58a;letter-spacing:1px}
+.et-off{color:#ffffff30;letter-spacing:1px}
 </style>
 </head>
 <body>
@@ -604,12 +636,14 @@ const TECHNIQUES = {
   }
 };
 const ORDRE_CELESTE = ['rhea', 'weiss', 'projection', 'allemann'];
+// Chaque étape a une clé stable : c'est elle qui retient tes textes modifiés sur la tablette
+for (const id in TECHNIQUES) TECHNIQUES[id].etapes.forEach((e, i) => { e.k = id + ':' + i; });
 
 /* ---------- Briques de l'atelier ---------- */
 // type : induction · approf · protocole · retour — face : celeste · terrestre · deux
 // fournit / besoin : raccords entre briques — lieu : induction du lieu agréable
 const ET = (id, i) => TECHNIQUES[id].etapes[i];
-const partie = (e, titre, debut, fin) => ({ r: 'x', titre: titre || e.titre, b: e.b.slice(debut || 0, fin == null ? e.b.length : fin) });
+const partie = (e, titre, debut, fin) => ({ r: 'x', titre: titre || e.titre, k: e.k + '@' + (debut || 0), b: e.b.slice(debut || 0, fin == null ? e.b.length : fin) });
 const BRIQUES = [
   { id: 'rhea-install', type: 'induction', face: 'deux', min: 12, nom: 'Installation, du crâne aux pieds', src: 'Rhéa Powers', etapes: [ET('rhea', 1)] },
   { id: 'weiss-lumiere', type: 'induction', face: 'deux', min: 10, nom: 'Respiration, muscles et lumière', src: 'Brian Weiss', etapes: [ET('weiss', 0), ET('weiss', 1), ET('weiss', 2)] },
@@ -968,11 +1002,16 @@ BRIQUES.splice(BRIQUES.findIndex(b => b.type === 'protocole'), 0,
 );
 { const l = BRIQUES.find(b => b.id === 'allemann-lieu'); l.ancre = 'ton lieu agréable'; l.ancreNom = 'le lieu agréable'; }
 const aplatir = (avant, etapes) => [avant, ...etapes].flatMap(e => [['sous', e.titre], ...e.b]);
-JEUX.push({ id: 'poignee', nom: 'La poignée de main', sous: 'Trois hochements · jeu ou début de séance légère', b: aplatir(POIGNEE_AVANT, POIGNEE) });
+JEUX.push({ id: 'poignee', nom: 'La poignée de main', sous: 'Trois hochements · jeu ou début de séance légère', avant: POIGNEE_AVANT, etapes: POIGNEE });
+for (const b of BRIQUES) {
+  if (b.avant && !b.avant.k) b.avant.k = b.id + ':avant';
+  if (b.apres && !b.apres.k) b.apres.k = b.id + ':apres';
+  b.etapes.forEach((e, i) => { if (!e.k) e.k = b.id + ':' + i; });
+}
 
 /* ---------- Données par défaut ---------- */
 const DEFAUT = () => ({
-  version: 4,
+  version: 6,
   emetteur: {
     nom: 'Thierry Testa',
     statut: 'Entrepreneur individuel',
@@ -997,6 +1036,8 @@ const DEFAUT = () => ({
   diverses: DIVERSES_DEFAUT(),
   etiquettes: ['Inductions', 'Protocoles', 'Métaphores', 'Théorie'],
   briques: [],
+  textes: {},
+  faces: {},
   derniereSauvegarde: null
 });
 const DIVERSES_V3 = [
@@ -1047,6 +1088,15 @@ function migrer() {
     D.version = 4;
     enregistrer();
   }
+  // Passage à la version 6 : historique des séances dans chaque fiche client
+  if (D.version < 6) {
+    for (const c of D.clients) if (!c.historique) c.historique = [];
+    D.version = 6;
+    enregistrer();
+  }
+  if (!D.textes) D.textes = {};
+  if (!D.faces) D.faces = {};
+  for (const c of D.clients) if (!c.historique) c.historique = [];
   for (const n of D.diverses) if (!n.etiquettes) n.etiquettes = [];
   for (const c of D.clients) if (!c.seances) c.seances = [];
 }
@@ -1210,7 +1260,7 @@ VUES.celeste = () => {
   return barre('Entre Ciel et Terre') + '<div class="page"><div class="heros"><div class="surtitre">Hypnose</div><div class="titre">Céleste</div>' + orne('✦ ✧ ✦') + '</div>' +
     carteAtelier('celeste') +
     '<div class="etiquette">Techniques</div>' +
-    ORDRE_CELESTE.map(id => TECHNIQUES[id]).map(t => '<button class="carte" data-a="technique" data-id="' + t.id + '"><div class="int"><div><div class="nom">' + esc(t.nom) + '</div><div class="sous">' + esc(t.sous) + ' · ' + t.etapes.filter(e => e.r).length + ' étapes</div></div><span class="fl">›</span></div></button>').join('') +
+    ORDRE_CELESTE.filter(id => faceTech(id) !== 'terrestre').map(id => TECHNIQUES[id]).map(t => '<button class="carte" data-a="technique" data-id="' + t.id + '"><div class="int"><div><div class="nom">' + esc(t.nom) + '</div><div class="sous">' + esc(t.sous) + ' · ' + t.etapes.filter(e => e.r).length + ' étapes</div></div><span class="fl">›</span></div></button>').join('') +
     '<div class="fantome">Prochaine technique…</div></div>';
 };
 
@@ -1219,16 +1269,24 @@ VUES.terrestre = () => {
   fond('terre'); $('#app').className = 'terre';
   return barre('Entre Ciel et Terre') + '<div class="page"><div class="heros"><div class="surtitre">Hypnose</div><div class="titre">Terrestre</div>' + orne('◆ ◇ ◆') + '</div>' +
     carteAtelier('terrestre') +
-    '<div class="etiquette">Protocoles</div><div class="fantome">Tes protocoles terrestres viendront ici…</div>' +
+    '<div class="etiquette">Protocoles</div>' + (() => {
+      const l = ORDRE_CELESTE.filter(id => faceTech(id) !== 'celeste').map(id => TECHNIQUES[id]);
+      return l.length ? l.map(t => '<button class="carte" data-a="technique" data-terre="1" data-id="' + t.id + '"><div class="int"><div><div class="nom">' + esc(t.nom) + '</div><div class="sous">' + esc(t.sous) + ' · ' + t.etapes.filter(e => e.r).length + ' étapes</div></div><span class="fl">›</span></div></button>').join('') : '<div class="fantome">Tes protocoles terrestres viendront ici…</div>';
+    })() +
     '<div class="etiquette">Jeux hypnotiques</div>' +
-    JEUX.map(j => '<button class="carte" data-a="jeu" data-id="' + j.id + '"><div class="int"><div><div class="nom">' + esc(j.nom) + '</div><div class="sous">' + esc(j.sous) + '</div></div><span class="fl">›</span></div></button>').join('') +
+    '<button class="carte dossier" data-a="jeux"><div class="int"><div class="sceau">◆</div><div><div class="nom">Jeux hypnotiques</div><div class="sous">' + JEUX.length + ' jeux · démonstrations et découvertes</div></div><span class="fl">›</span></div></button>' +
     '</div>';
+};
+VUES.jeux = () => {
+  fond('terre'); $('#app').className = 'terre';
+  return barre('Jeux hypnotiques') + '<div class="page"><div class="heros" style="margin-bottom:14px"><div class="surtitre">Hypnose terrestre</div><div class="titre" style="font-size:40px">Jeux hypnotiques</div>' + orne('◆') + '</div>' +
+    JEUX.map(j => '<button class="carte" data-a="jeu" data-id="' + j.id + '"><div class="int"><div><div class="nom">' + esc(j.nom) + '</div><div class="sous">' + esc(j.sous) + '</div></div><span class="fl">›</span></div></button>').join('') + '</div>';
 };
 VUES.jeu = p => {
   fond('terre'); $('#app').className = 'terre';
   const j = JEUX.find(x => x.id === p.id); if (!j) return VUES.terrestre();
   return barre(j.nom, '<button class="pastille" data-a="taille" data-d="-1" aria-label="Texte plus petit">A−</button><button class="pastille" data-a="taille" data-d="1" aria-label="Texte plus grand">A+</button>') +
-    '<div class="page technique"><section class="etape"><div class="int"><div class="romain">Jeu hypnotique</div><h2>' + esc(j.nom) + '</h2>' + orne('◆') + '<div class="consigne" style="border:none;padding:0;text-align:center">' + esc(j.sous) + '</div>' + corpsEtape({ b: j.b }) + '</div></section></div>';
+    '<div class="page technique"><section class="etape"><div class="int"><div class="romain">Jeu hypnotique</div><h2>' + esc(j.nom) + '</h2>' + orne('◆') + '<div class="consigne" style="border:none;padding:0;text-align:center">' + esc(j.sous) + '</div>' + corpsEtape({ b: j.b || [j.avant, ...j.etapes].flatMap(e => [['sous', e.titre], ...blocs(e)]) }) + '</div></section></div>';
 };
 
 /* ----- Technique (texte continu) ----- */
@@ -1248,9 +1306,27 @@ function blocsVisibles(b, ctx) {
   }
   return out;
 }
+const ETIQ_COND = { safe: 'endroit safe', piece: 'la pièce', lieu: 'lieu agréable' };
+// Le texte d'une étape : ta version modifiée si elle existe, sinon le texte d'origine
+function blocs(e) {
+  const t = e && e.k && D.textes ? D.textes[e.k] : null;
+  return t != null ? texteEnBlocs(t, true) : e.b;
+}
+function blocsEnTexte(b) {
+  return b.map(([t, v, c]) => {
+    const pre = c ? '[' + (c.si ? 'si ' + ETIQ_COND[c.si] : 'sans ' + ETIQ_COND[c.sinon]) + '] ' : '';
+    if (t === 'dit') return pre + v;
+    if (t === 'q') return v.map((x, i) => (i ? '' : pre) + '? ' + x).join('\n');
+    if (t === 'consigne') return pre + '(' + v + ')';
+    if (t === 'liste') return v.map((x, i) => (i ? '' : pre) + '• ' + x).join('\n');
+    if (t === 'sous') return pre + '# ' + v;
+    if (t === 'texte') return pre + '> ' + v;
+    return pre + v;
+  }).join('\n\n');
+}
 function corpsEtape(e, ctx) {
   let c = '';
-  for (const [type, val] of blocsVisibles(e.b, ctx)) {
+  for (const [type, val] of blocsVisibles(blocs(e), ctx)) {
     if (type === 'dit') c += '<p class="dit">« ' + esc(val) + ' »</p>';
     else if (type === 'sous') c += '<div class="sousparti">' + esc(val) + '</div>';
     else if (type === 'consigne') c += '<div class="consigne">' + esc(val) + '</div>';
@@ -1274,8 +1350,10 @@ VUES.technique = p => {
   fond(p.terre ? 'terre' : 'ciel'); if (p.terre) $('#app').className = 'terre';
   const t = tech(p.id); if (!t) return VUES.celeste();
   if (p.sommaire) {
+    const edit = !!TECHNIQUES[p.id];
     return barre(t.nom) + '<div class="page"><div class="heros" style="margin-bottom:10px"><div class="surtitre">Étapes</div></div><div class="sommaire">' +
-      t.etapes.map((e, i) => '<button data-a="saut" data-i="' + i + '"><span>' + (e.r || '·') + '</span>' + esc(e.titre) + '</button>').join('') + '</div></div>';
+      t.etapes.map((e, i) => '<div class="som"><button data-a="saut" data-i="' + i + '"><span>' + (e.r || '·') + '</span>' + esc(e.titre) + (edit && D.textes[e.k] != null ? '<em class="modif">modifié</em>' : '') + '</button>' + (edit ? '<button class="pastille" data-a="modifetape" data-i="' + i + '">Modifier</button>' : '') + '</div>').join('') + '</div>' +
+      (edit ? '<div class="etiquette">Rangée dans</div>' + choixFace('t:' + p.id, faceTech(p.id)) + '<div class="discret" style="margin-top:8px">Les modifications de texte valent aussi pour les briques de l\'atelier qui reprennent la même étape.</div>' : '') + '</div>';
   }
   const total = t.etapes.filter(x => x.r).length;
   const actions = '<button class="pastille" data-a="taille" data-d="-1" aria-label="Texte plus petit">A−</button><button class="pastille" data-a="taille" data-d="1" aria-label="Texte plus grand">A+</button>' +
@@ -1288,6 +1366,7 @@ VUES.technique = p => {
   });
   h += '<div class="fintech">✦ Fin de la technique ✦</div>';
   if (t.auto) h += '<button class="btn plein large" data-a="pdftech">Envoyer au client (PDF)</button>';
+  else h += '<button class="btn plein large" data-a="rattacher">Rattacher à un rendez-vous</button>';
   h += '</div>' + lecteurHTML();
   return h;
 };
@@ -1312,21 +1391,52 @@ function restaurerDefilement() {
 let compo = null;
 try { compo = JSON.parse(localStorage.getItem('ect-compo')); } catch (e) { compo = null; }
 const garderCompo = () => { try { localStorage.setItem('ect-compo', JSON.stringify(compo)); } catch (e) {} };
-function texteEnBlocs(t) {
-  const b = []; let dit = [];
-  const vider = () => { if (dit.length) { b.push(['dit', dit.join('\n')]); dit = []; } };
+// Écriture simple : ligne vide = nouveau paragraphe, « ? » question, ( ) consigne, « • » liste, « # » sous-titre,
+// [si endroit safe] / [sans endroit safe] … : passage qui dépend des choix de l'atelier
+function texteEnBlocs(t, complet) {
+  const b = []; let dit = [], cond = null, coupe = false;
+  const ajoute = blk => { if (cond) blk.push({ ...cond }); b.push(blk); };
+  const vider = () => { if (dit.length) { ajoute(['dit', dit.join('\n')]); dit = []; } };
   for (const brut of String(t || '').split('\n')) {
-    const l = brut.trim();
-    if (!l) { vider(); continue; }
-    if (/^[?¿]/.test(l) || /^- /.test(l)) {
+    let l = brut.trim();
+    if (!l) { vider(); cond = null; coupe = true; continue; }
+    const m = l.match(/^\[(si|sans) ([^\]]+)\]\s*/i);
+    if (m) {
+      const cle = Object.keys(ETIQ_COND).find(k => ETIQ_COND[k] === m[2].toLowerCase().trim());
+      if (cle) { vider(); cond = m[1].toLowerCase() === 'si' ? { si: cle } : { sinon: cle }; l = l.slice(m[0].length); }
+    }
+    const prec = () => b[b.length - 1];
+    if (/^[?¿]/.test(l) || (!complet && /^- /.test(l))) {
       vider(); const q = l.replace(/^[?¿-]\s*/, '');
-      const prec = b[b.length - 1];
-      if (prec && prec[0] === 'q') prec[1].push(q); else b.push(['q', [q]]);
-    } else if (/^\(.*\)$/.test(l)) { vider(); b.push(['consigne', l.slice(1, -1)]); }
+      if (prec() && prec()[0] === 'q' && !m && !coupe) prec()[1].push(q); else ajoute(['q', [q]]);
+    } else if (complet && /^[•]\s*/.test(l)) {
+      vider(); const x = l.replace(/^[•]\s*/, '');
+      if (prec() && prec()[0] === 'liste' && !m && !coupe) prec()[1].push(x); else ajoute(['liste', [x]]);
+    } else if (complet && /^#\s*/.test(l)) { vider(); ajoute(['sous', l.replace(/^#\s*/, '')]); }
+    else if (complet && /^>\s*/.test(l)) { vider(); ajoute(['texte', l.replace(/^>\s*/, '')]); }
+    else if (/^\(.*\)$/.test(l)) { vider(); ajoute(['consigne', l.slice(1, -1)]); }
     else dit.push(l);
+    coupe = false;
   }
   vider();
   return b;
+}
+function formEtape(e, apres) {
+  const aide = '<div class="discret" style="line-height:1.6;margin:-6px 0 12px">Ligne vide : nouveau paragraphe. Ligne commençant par « ? » : question. Ligne entre parenthèses : consigne pour toi. « • » : liste. « # » : sous-titre. Les mentions entre crochets, comme [si endroit safe], dépendent des choix de l\'atelier : laisse-les en début de paragraphe.</div>';
+  const modifie = D.textes[e.k] != null;
+  ouvrir(e.titre, aide + '<div class="champ"><textarea id="etexte" style="min-height:52vh;font-family:var(--serif);font-size:18px;line-height:1.55">' + esc(blocsEnTexte(blocs(e))) + '</textarea></div>' +
+    '<div class="rangee" style="margin-top:10px">' + (modifie ? '<button class="btn" data-a="f-origine">Texte d\'origine</button>' : '') + '<button class="btn" data-a="f-annuler">Annuler</button><button class="btn plein" data-a="f-ok">Enregistrer</button></div>', {
+    ok() {
+      const v = document.getElementById('etexte').value;
+      if (!v.trim()) return toast('Le texte est vide.');
+      if (v.trim() === blocsEnTexte(e.b).trim()) delete D.textes[e.k]; else D.textes[e.k] = v;
+      enregistrer(); fermer(); toast('Texte enregistré'); apres ? apres() : rendre();
+    },
+    origine() {
+      if (!confirm('Revenir au texte d\'origine ? Ta version sera effacée.')) return;
+      delete D.textes[e.k]; enregistrer(); fermer(); toast('Texte d\'origine rétabli'); apres ? apres() : rendre();
+    }
+  });
 }
 function brique(id) {
   if (!id) return null;
@@ -1334,7 +1444,27 @@ function brique(id) {
   const u = (D.briques || []).find(x => x.id === id); if (!u) return null;
   return { id: u.id, type: u.type, face: u.face, min: Number(u.min) || 0, nom: u.nom, src: 'Ma brique', perso: true, etapes: [{ r: 'x', titre: u.nom, b: texteEnBlocs(u.texte) }] };
 }
-const briquesDe = (type, face) => [...BRIQUES, ...(D.briques || []).map(u => brique(u.id))].filter(b => b.type === type && (b.face === 'deux' || b.face === face));
+const faceBrique = b => b.perso ? (b.face || 'deux') : (D.faces['b:' + b.id] || b.face);
+const faceTech = id => D.faces['t:' + id] || 'celeste';
+const briquesDe = (type, face) => [...BRIQUES, ...(D.briques || []).map(u => brique(u.id))].filter(b => b.type === type && (faceBrique(b) === 'deux' || faceBrique(b) === face));
+const choixFace = (cle, v, rouvrir) => '<div class="segments">' + [['celeste', 'Céleste'], ['terrestre', 'Terrestre'], ['deux', 'Les deux']].map(([k, t]) => '<button class="' + (v === k ? 'on' : '') + '" data-a="face" data-cle="' + cle + '" data-f="' + k + '"' + (rouvrir ? ' data-r="' + rouvrir + '"' : '') + '>' + t + '</button>').join('') + '</div>';
+function lireBrique(id) {
+  const b = brique(id); if (!b) return;
+  const etapes = [b.avant, ...b.etapes, b.apres].filter(Boolean);
+  const sel = compo && compo[b.type] === b.id;
+  const btnChoix = '<button class="btn plein" data-a="f-choisir">' + (sel ? 'Retirer de la séance' : 'Choisir cette brique') + '</button>';
+  let h = '<div class="discret" style="text-align:center;margin:-10px 0 14px">' + esc((TYPES.find(t => t[0] === b.type) || ['', ''])[1]) + ' · ' + esc(b.src) + ' · ≈ ' + b.min + ' min</div>';
+  h += '<div class="etiquette" style="margin-top:0">Rangée dans</div>' + choixFace(b.perso ? 'u:' + b.id : 'b:' + b.id, faceBrique(b), b.id);
+  h += '<div class="rangee" style="margin:14px 0 6px">' + btnChoix + '<button class="btn" data-a="f-annuler">Fermer</button></div>';
+  h += etapes.map((e, i) => '<div class="apercu"><div class="aph"><span>' + esc(e.titre) + (e.k && D.textes[e.k] != null ? ' <em>· modifié</em>' : '') + '</span>' + (b.perso ? '' : '<button class="pastille" data-a="f-modif" data-i="' + i + '">Modifier</button>') + '</div>' + corpsEtape({ b: blocs(e) }) + '</div>').join('');
+  if (b.perso) h += '<button class="btn large" data-a="f-modifperso">Modifier cette brique</button>';
+  h += '<div class="rangee" style="margin-top:14px">' + btnChoix + '</div>';
+  ouvrir(b.nom, h, {
+    choisir() { compo[b.type] = sel ? '' : b.id; garderCompo(); fermer(); const y = scrollY; rendre(); window.scrollTo(0, y); },
+    modif(el) { formEtape(etapes[Number(el.dataset.i)], () => { rendre(); lireBrique(id); }); },
+    modifperso() { formBrique((D.briques || []).find(x => x.id === id)); }
+  });
+}
 function raccords(c) {
   const ind = brique(c.induction), ap = brique(c.approf), pr = brique(c.protocole);
   const l = [];
@@ -1353,7 +1483,7 @@ const dureeCompo = c => ['induction', 'approf', 'protocole', 'retour'].reduce((s
 function construire(c, titre) {
   const ind = brique(c.induction), ap = brique(c.approf), pr = brique(c.protocole), re = brique(c.retour);
   const ctx = { safe: !!c.safe, lieu: !!(ind && ind.lieu), piece: !!(ap && (ap.fournit || []).includes('piece')) };
-  const copie = e => ({ r: e.r ? 'x' : '', titre: e.titre, b: [...e.b] });
+  const copie = e => ({ r: e.r ? 'x' : '', titre: e.titre, b: [...blocs(e)] });
   const lie = (etapes, cle) => {
     const l = etapes.map(copie);
     if (cle && l.length) l[0].b.unshift(['dit', (c.liaisons && c.liaisons[cle] != null) ? c.liaisons[cle] : LIAISONS[cle]]);
@@ -1384,7 +1514,7 @@ VUES.atelier = p => {
     const l = briquesDe(type, p.face);
     return '<div class="etiquette">' + num + ' · ' + titre + '</div><div class="choix">' +
       (vide ? '<button class="' + (!compo[type] ? 'on' : '') + '" data-a="choisir" data-t="' + type + '" data-id=""><span class="cn">Aucun</span></button>' : '') +
-      (l.length ? l.map(b => '<button class="' + (compo[type] === b.id ? 'on' : '') + '" data-a="choisir" data-t="' + type + '" data-id="' + b.id + '"><span class="cn">' + esc(b.nom) + '</span><span class="cs">' + esc(b.src) + ' · ≈ ' + b.min + ' min</span></button>').join('') : '<div class="discret">Aucune brique de ce type pour l\'instant.</div>') + '</div>';
+      (l.length ? l.map(b => '<div class="ch"><button class="chb ' + (compo[type] === b.id ? 'on' : '') + '" data-a="choisir" data-t="' + type + '" data-id="' + b.id + '"><span class="cn">' + esc(b.nom) + '</span><span class="cs">' + esc(b.src) + ' · ≈ ' + b.min + ' min</span></button><button class="lire" data-a="lire" data-id="' + b.id + '">Lire</button></div>').join('') : '<div class="discret">Aucune brique de ce type pour l\'instant.</div>') + '</div>';
   };
   const ind = brique(compo.induction);
   let h = barre('Atelier') + '<div class="page"><div class="heros" style="margin-bottom:8px"><div class="surtitre">Atelier · ' + (terre ? 'Terrestre' : 'Céleste') + '</div><div class="titre" style="font-size:40px">Composer une séance</div>' + (cl ? '<div class="discret">pour ' + esc(nomClient(cl)) + '</div>' : '') + '</div>';
@@ -1706,10 +1836,88 @@ VUES.client = p => {
   h += '<button class="carte atelierc" data-a="preparer" data-id="' + c.id + '"><div class="int"><div class="sceau">✦</div><div><div class="nom">Préparer sa séance</div><div class="sous">Atelier · composer avec des briques</div></div><span class="fl">›</span></div></button>';
   const sp = c.seances || [];
   if (sp.length) h += '<div class="etiquette">Séances préparées</div>' + sp.map(x => '<button class="rdv" data-a="seanceprep" data-id="' + x.id + '"><div class="h">' + dateCourte(x.date).slice(0, 5) + '<small>≈ ' + dureeCompo(x.compo) + ' min</small></div><div><div class="c" style="font-size:19px">' + esc(x.titre) + '</div><div class="p">' + esc([x.compo.induction, x.compo.approf, x.compo.protocole].map(brique).filter(Boolean).map(b => b.nom).join(' · ')) + '</div></div></button>').join('');
+  const hi = c.historique || [];
+  h += '<div class="etiquette">Historique des séances</div>' + (hi.length ? hi.map(x => '<button class="rdv" data-a="histo" data-id="' + x.id + '"><div class="h">' + dateCourte(x.date).slice(0, 5) + '<small>' + esc(x.heure || '') + '</small></div><div style="min-width:0"><div class="c" style="font-size:19px">' + esc(x.titre) + '</div><div class="p">' + resumeNotes(x) + (x.annotation ? ' · ' + esc(x.annotation.length > 70 ? x.annotation.slice(0, 70) + '…' : x.annotation) : '') + '</div></div></button>').join('') : '<div class="discret">Aucune séance rattachée. À la fin d\'une technique, touche « Rattacher à un rendez-vous ».</div>');
   h += '<div class="etiquette">Rendez-vous</div>' + (rdvs.length ? rdvs.map(r => '<button class="rdv ' + (r.fait ? 'fait' : '') + '" data-a="rdv" data-id="' + r.id + '"><div class="h">' + dateCourte(r.date).slice(0, 5) + '<small>' + esc(r.heure || '') + '</small></div><div><div class="c" style="font-size:19px">' + esc(prestation(r.prestationId) ? prestation(r.prestationId).nom : 'Rendez-vous') + '</div><div class="p">' + esc([dureeTxt(r.duree), r.lieu].filter(Boolean).join(' · ')) + '</div></div></button>').join('') : '<div class="discret">Aucun rendez-vous.</div>');
   h += '<div class="etiquette">Notes d\'honoraires</div>' + (notes.length ? notes.map(n => '<button class="rdv" data-a="voirnote" data-id="' + n.id + '"><div class="h">' + esc(n.numero) + '</div><div><div class="c" style="font-size:19px">' + euros(n.total) + '</div><div class="p">' + dateCourte(n.date) + '</div></div></button>').join('') : '<div class="discret">Aucune note d\'honoraires.</div>');
   return h + '</div>';
 };
+
+/* ----- Séances rattachées : historique et étoiles ----- */
+const etoilesTxt = n => n ? '<span class="et-on">' + '★'.repeat(n) + '</span><span class="et-off">' + '★'.repeat(3 - n) + '</span>' : '<span class="et-off">–</span>';
+const NOMS_PARTS = { induction: 'Induction', approf: 'Approfondissement', protocole: 'Protocole', retour: 'Retour' };
+function resumeNotes(x) {
+  if (x.type === 'technique') return etoilesTxt(x.note || 0);
+  return ['induction', 'approf', 'protocole', 'retour'].filter(k => x.compo && x.compo[k]).map(k => esc((brique(x.compo[k]) || { nom: NOMS_PARTS[k] }).nom) + ' ' + etoilesTxt((x.notes || {})[k] || 0)).join(' · ');
+}
+const etoilesForm = (cle, n) => '<div class="etoiles" id="ew-' + cle + '">' + [1, 2, 3].map(i => '<button type="button" class="' + (i <= n ? 'on' : '') + '" data-a="f-etoile" data-k="' + cle + '" data-n="' + i + '" aria-label="' + i + ' étoile' + (i > 1 ? 's' : '') + '">★</button>').join('') + '<input type="hidden" id="et-' + cle + '" value="' + (n || 0) + '"></div>';
+function etoileClic(el) {
+  const k = el.dataset.k, inp = document.getElementById('et-' + k);
+  let n = Number(el.dataset.n); if (Number(inp.value) === n) n = 0;
+  inp.value = n;
+  document.querySelectorAll('#ew-' + k + ' button').forEach((b, i) => b.classList.toggle('on', i < n));
+}
+const lignesNotes = (estCompo, c0, notes, note) => '<div class="discret" style="margin:-4px 0 10px">3 étoiles : a très bien convenu · 2 : mitigé · 1 : pas convenu</div>' +
+  (estCompo
+    ? ['induction', 'approf', 'protocole', 'retour'].filter(k => c0 && c0[k] && brique(c0[k])).map(k => '<div class="ligne-note"><div><div class="ln-t">' + NOMS_PARTS[k] + '</div><div class="ln-n">' + esc(brique(c0[k]).nom) + '</div></div>' + etoilesForm(k, (notes || {})[k] || 0) + '</div>').join('')
+    : '<div class="ligne-note"><div><div class="ln-t">Technique</div></div>' + etoilesForm('tech', note || 0) + '</div>');
+const lireNotes = (estCompo, c0) => {
+  if (!estCompo) return { note: Number(valeur('et-tech')) || 0 };
+  const notes = {};
+  for (const k of ['induction', 'approf', 'protocole', 'retour']) if (document.getElementById('et-' + k)) notes[k] = Number(valeur('et-' + k)) || 0;
+  return { notes };
+};
+function formRattacher() {
+  const id = vue.p.id, t = tech(id); if (!t) return;
+  const estCompo = id === 'compo' || id.startsWith('seance:');
+  let c0 = null, titre = t.nom, cliDefaut = '';
+  if (id === 'compo') { c0 = compo; cliDefaut = compo && compo.clientId; titre = 'Séance composée'; }
+  else if (id.startsWith('seance:')) {
+    const [, cid, sid] = id.split(':'), cc = client(cid), x = cc && (cc.seances || []).find(s => s.id === sid);
+    c0 = x && x.compo; cliDefaut = cid; titre = x ? x.titre : 'Séance composée';
+  }
+  const rdvJ = D.rdv.filter(r => r.date === auj() && client(r.clientId)).sort((a, b) => (a.heure || '').localeCompare(b.heure || ''));
+  let defaut = '';
+  if (cliDefaut) { const r = rdvJ.find(r => r.clientId === cliDefaut); defaut = r ? 'r:' + r.id : 'c:' + cliDefaut; }
+  else if (rdvJ.length === 1) defaut = 'r:' + rdvJ[0].id;
+  const opt = (v, t) => '<option value="' + v + '"' + (v === defaut ? ' selected' : '') + '>' + esc(t) + '</option>';
+  const sel = '<option value="">— Choisir —</option>' +
+    (rdvJ.length ? '<optgroup label="Rendez-vous du jour">' + rdvJ.map(r => opt('r:' + r.id, (r.heure ? r.heure + ' · ' : '') + nomClient(client(r.clientId)))).join('') + '</optgroup>' : '') +
+    '<optgroup label="Autre client">' + [...D.clients].sort((a, z) => nomClient(a).localeCompare(nomClient(z), 'fr')).map(c => opt('c:' + c.id, nomClient(c))).join('') + '</optgroup>';
+  ouvrir('Rattacher la séance', '<div class="discret" style="text-align:center;margin:-10px 0 16px">' + esc(titre) + '</div>' +
+    '<div class="champ"><label for="rcible">Rendez-vous ou client</label><select id="rcible">' + sel + '</select></div>' +
+    '<div class="etiquette" style="margin-top:6px">Comment ça a convenu</div>' + lignesNotes(estCompo, c0, {}, 0) +
+    champ('rannot', 'Annotation', '', 'textarea', 'placeholder="Ce qui a bien marché, ce qui a gêné, à refaire ou à changer…"') + boutonsForm(false), {
+    etoile: etoileClic,
+    ok() {
+      const v = valeur('rcible'); if (!v) return toast('Choisis un rendez-vous ou un client.');
+      const r = v.startsWith('r:') ? D.rdv.find(x => x.id === v.slice(2)) : null;
+      const c = client(r ? r.clientId : v.slice(2)); if (!c) return;
+      c.historique = c.historique || [];
+      c.historique.unshift(Object.assign({ id: uid(), date: r ? r.date : auj(), heure: r ? (r.heure || '') : '', rdvId: r ? r.id : '', type: estCompo ? 'compo' : 'technique', titre, techId: estCompo ? '' : id, compo: estCompo && c0 ? JSON.parse(JSON.stringify(c0)) : null, annotation: valeur('rannot') }, lireNotes(estCompo, c0)));
+      enregistrer(); fermer(); toast('Séance rattachée à ' + nomClient(c));
+    }
+  });
+}
+function formHistorique(c, x) {
+  const estCompo = x.type === 'compo';
+  const relancer = estCompo ? '<button class="btn" data-a="f-atelier">Reprendre dans l\'atelier</button>' : '';
+  ouvrir(x.titre, '<div class="discret" style="text-align:center;margin:-10px 0 16px">' + esc(dateCourte(x.date)) + (x.heure ? ' · ' + esc(x.heure) : '') + '</div>' +
+    lignesNotes(estCompo, x.compo, x.notes, x.note) +
+    champ('rannot', 'Annotation', x.annotation || '', 'textarea') +
+    '<div style="display:grid;gap:10px;margin-top:6px"><button class="btn" data-a="f-refaire">Refaire cette séance</button>' + relancer + '</div>' +
+    boutonsForm(true), {
+    etoile: etoileClic,
+    ok() { Object.assign(x, lireNotes(estCompo, x.compo), { annotation: valeur('rannot') }); enregistrer(); fermer(); rendre(); },
+    sup() { if (!confirm('Retirer cette séance de l\'historique ?')) return; c.historique = c.historique.filter(h => h.id !== x.id); enregistrer(); fermer(); rendre(); },
+    refaire() {
+      fermer();
+      if (estCompo) { compo = JSON.parse(JSON.stringify(x.compo)); compo.clientId = c.id; garderCompo(); positions.compo = 0; aller('technique', { id: 'compo', terre: compo.face === 'terrestre' }); }
+      else if (TECHNIQUES[x.techId]) { positions[x.techId] = 0; aller('technique', { id: x.techId, terre: faceTech(x.techId) === 'terrestre' }); }
+    },
+    atelier() { fermer(); compo = JSON.parse(JSON.stringify(x.compo)); compo.clientId = c.id; garderCompo(); aller('atelier', { face: compo.face, client: c.id }); }
+  });
+}
 
 /* ----- Fiche personnes ----- */
 VUES.personnes = p => {
@@ -1808,7 +2016,7 @@ VUES.reglages = () => {
     '<button class="btn large" data-a="ajoutprest">+ Ajouter une prestation</button>' +
     '<div class="etiquette">Mes coordonnées (notes d\'honoraires)</div>' + ch('nom', 'Nom') + ch('statut', 'Statut') + ch('activite', 'Activité') + ch('adresse', 'Adresse') + '<div class="deux">' + ch('siret', 'SIRET') + ch('tel', 'Téléphone') + '</div>' + ch('mail', 'Mail') + ch('tva', 'Mention TVA') +
     '<button class="btn plein large" data-a="sauveremetteur">Enregistrer mes coordonnées</button>' +
-    '<div class="discret" style="text-align:center;margin-top:30px">Entre Ciel et Terre · version 5</div></div>';
+    '<div class="discret" style="text-align:center;margin-top:30px">Entre Ciel et Terre · version 6</div></div>';
 };
 
 /* ---------- Fenêtres (formulaires) ---------- */
@@ -2081,7 +2289,7 @@ function creerPDFTexte(t) {
   for (const et of t.etapes) {
     place(56);
     txt(60, y, (et.r ? et.r + '. ' : '') + et.titre, 13, true); y -= 20;
-    for (const [type, val] of blocsVisibles(et.b, t.ctx)) {
+    for (const [type, val] of blocsVisibles(blocs(et), t.ctx)) {
       const elements = (type === 'liste' || type === 'q') ? val : [val];
       for (const it of elements) {
         const puce = type === 'liste' || type === 'q';
@@ -2157,7 +2365,7 @@ document.addEventListener('click', ev => {
   switch (a) {
     case 'retour': return retour();
     case 'aller': return aller(d.v);
-    case 'technique': positions[d.id] = 0; return aller('technique', { id: d.id });
+    case 'technique': positions[d.id] = 0; return aller('technique', { id: d.id, terre: d.terre === '1' });
     case 'sommaire': return aller('technique', { id: vue.p.id, sommaire: true });
     case 'saut': cibleEtape = Number(d.i); return retour();
     case 'lecture': return basculerLecture();
@@ -2235,7 +2443,22 @@ document.addEventListener('click', ev => {
     case 'filtreetiq': filtreDiv = d.e; try { localStorage.setItem('ect-etiq', filtreDiv); } catch (e) {} return rendre();
     case 'jeu': return aller('jeu', { id: d.id });
     case 'atelier': return aller('atelier', { face: d.face });
-    case 'choisir': compo[d.t] = d.id; garderCompo(); { const y = scrollY; rendre(); window.scrollTo(0, y); } return;
+    case 'lire': return lireBrique(d.id);
+    case 'face': {
+      const f = d.f, cle = d.cle;
+      if (cle.startsWith('u:')) { const u = (D.briques || []).find(x => x.id === cle.slice(2)); if (u) u.face = f; }
+      else D.faces[cle] = f;
+      enregistrer();
+      const y = scrollY; rendre(); window.scrollTo(0, y);
+      if (d.r) lireBrique(d.r);
+      toast('Rangée dans ' + ({ celeste: 'Céleste', terrestre: 'Terrestre', deux: 'Céleste et Terrestre' })[f]);
+      return;
+    }
+    case 'modifetape': { const t = TECHNIQUES[vue.p.id]; if (t) formEtape(t.etapes[Number(d.i)]); return; }
+    case 'jeux': return aller('jeux');
+    case 'rattacher': return formRattacher();
+    case 'histo': { const c = client(vue.p.id), x = c && (c.historique || []).find(h => h.id === d.id); if (x) formHistorique(c, x); return; }
+    case 'choisir': compo[d.t] = (d.id && compo[d.t] === d.id) ? '' : d.id; garderCompo(); { const y = scrollY; rendre(); window.scrollTo(0, y); } return;
     case 'safe': compo.safe = !compo.safe; garderCompo(); { const y = scrollY; rendre(); window.scrollTo(0, y); } return;
     case 'lancercompo': if (!pret(compo)) return; positions.compo = 0; return aller('technique', { id: 'compo', terre: compo.face === 'terrestre' });
     case 'enrcompo': if (!pret(compo)) return; return formEnrCompo();
