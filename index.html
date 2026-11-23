@@ -409,6 +409,13 @@ html{touch-action:manipulation}
 .planl.tot em{color:#f3f5fb;font-size:16px}
 .apb{justify-content:center;margin:4px 0 0}
 .apb .pastille{flex:0 0 auto}
+/* ---------- Version 8 ---------- */
+#confbtn{position:fixed;right:calc(16px + env(safe-area-inset-right));bottom:calc(18px + env(safe-area-inset-bottom));z-index:24;width:68px;height:68px;border-radius:50%;border:0.5px solid #c9d4ee88;background:radial-gradient(circle at 40% 35%,#26345f,#0b1020);color:#f3f5fb;font-size:24px;line-height:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;box-shadow:0 8px 26px #000a,0 0 18px #b9c7e633;transition:opacity .4s}
+#confbtn small{font-family:var(--caps);font-size:7px;letter-spacing:1.5px;text-transform:uppercase;color:var(--argent2)}
+.lit #confbtn{opacity:.3}
+.lit #confbtn:active{opacity:1}
+.terre #confbtn,.terre~#confbtn{border-color:#f5c48c88}
+.commencer{margin:2px 0 18px}
 </style>
 </head>
 <body>
@@ -1079,7 +1086,7 @@ for (const b of BRIQUES) {
 
 /* ---------- Données par défaut ---------- */
 const DEFAUT = () => ({
-  version: 7,
+  version: 8,
   emetteur: {
     nom: 'Thierry Testa',
     statut: 'Entrepreneur individuel',
@@ -1109,6 +1116,7 @@ const DEFAUT = () => ({
   titres: {},
   suppr: {},
   confusions: [CONFUSION_1],
+  jeux: [],
   derniereSauvegarde: null
 });
 const DIVERSES_V3 = [
@@ -1166,6 +1174,8 @@ function migrer() {
     enregistrer();
   }
   if (D.version < 7) { D.version = 7; enregistrer(); }
+  if (D.version < 8) { D.version = 8; enregistrer(); }
+  if (!Array.isArray(D.jeux)) D.jeux = [];
   if (!D.textes) D.textes = {};
   if (!D.faces) D.faces = {};
   if (!D.titres) D.titres = {};
@@ -1337,7 +1347,7 @@ VUES.celeste = () => {
   return barre('Entre Ciel et Terre') + '<div class="page"><div class="heros"><div class="surtitre">Hypnose</div><div class="titre">Céleste</div>' + orne('✦ ✧ ✦') + '</div>' +
     carteAtelier('celeste') +
     '<div class="etiquette">Techniques</div>' +
-    ORDRE_CELESTE.filter(id => faceTech(id) !== 'terrestre').map(id => TECHNIQUES[id]).map(t => '<button class="carte" data-a="technique" data-id="' + t.id + '"><div class="int"><div><div class="nom">' + esc(t.nom) + '</div><div class="sous">' + esc(t.sous) + ' · ' + etapesVues(t).filter(e => e.r).length + ' étapes</div></div><span class="fl">›</span></div></button>').join('') +
+    ORDRE_CELESTE.filter(id => !['terrestre', 'jeux'].includes(faceTech(id))).map(id => TECHNIQUES[id]).map(t => '<button class="carte" data-a="technique" data-id="' + t.id + '"><div class="int"><div><div class="nom">' + esc(t.nom) + '</div><div class="sous">' + esc(t.sous) + ' · ' + etapesVues(t).filter(e => e.r).length + ' étapes</div></div><span class="fl">›</span></div></button>').join('') +
     '<div class="fantome">Prochaine technique…</div></div>';
 };
 
@@ -1347,24 +1357,63 @@ VUES.terrestre = () => {
   return barre('Entre Ciel et Terre') + '<div class="page"><div class="heros"><div class="surtitre">Hypnose</div><div class="titre">Terrestre</div>' + orne('◆ ◇ ◆') + '</div>' +
     carteAtelier('terrestre') +
     '<div class="etiquette">Protocoles</div>' + (() => {
-      const l = ORDRE_CELESTE.filter(id => faceTech(id) !== 'celeste').map(id => TECHNIQUES[id]);
+      const l = ORDRE_CELESTE.filter(id => !['celeste', 'jeux'].includes(faceTech(id))).map(id => TECHNIQUES[id]);
       return l.length ? l.map(t => '<button class="carte" data-a="technique" data-terre="1" data-id="' + t.id + '"><div class="int"><div><div class="nom">' + esc(t.nom) + '</div><div class="sous">' + esc(t.sous) + ' · ' + etapesVues(t).filter(e => e.r).length + ' étapes</div></div><span class="fl">›</span></div></button>').join('') : '<div class="fantome">Tes protocoles terrestres viendront ici…</div>';
     })() +
     '<div class="etiquette">Jeux hypnotiques</div>' +
-    '<button class="carte dossier" data-a="jeux"><div class="int"><div class="sceau">◆</div><div><div class="nom">Jeux hypnotiques</div><div class="sous">' + JEUX.length + ' jeux · démonstrations et découvertes</div></div><span class="fl">›</span></div></button>' +
+    '<button class="carte dossier" data-a="jeux"><div class="int"><div class="sceau">◆</div><div><div class="nom">Jeux hypnotiques</div><div class="sous">' + tousJeux().length + ' jeux · démonstrations et découvertes</div></div><span class="fl">›</span></div></button>' +
     '</div>';
 };
+// Tout ce qui est rangé dans les jeux : les jeux d'origine, les tiens, les briques et techniques rangées là
+const tousJeux = () => [
+  ...JEUX.map(j => ({ id: j.id, nom: j.nom, sous: j.sous, a: 'jeu' })),
+  ...(D.jeux || []).map(j => ({ id: 'u:' + j.id, nom: j.nom, sous: j.sous || 'Mon jeu', a: 'jeu', long: j.id })),
+  ...[...BRIQUES.map(b => brique(b.id)), ...(D.briques || []).map(u => brique(u.id))].filter(b => b && faceBrique(b) === 'jeux').map(b => ({ id: 'b:' + b.id, nom: b.nom, sous: (TYPES.find(t => t[0] === b.type) || ['', ''])[1] + ' · ≈ ' + b.min + ' min', a: 'jeu' })),
+  ...ORDRE_CELESTE.filter(id => faceTech(id) === 'jeux').map(id => ({ id, nom: TECHNIQUES[id].nom, sous: TECHNIQUES[id].sous, a: 'technique' }))
+];
 VUES.jeux = () => {
   fond('terre'); $('#app').className = 'terre';
   return barre('Jeux hypnotiques') + '<div class="page"><div class="heros" style="margin-bottom:14px"><div class="surtitre">Hypnose terrestre</div><div class="titre" style="font-size:40px">Jeux hypnotiques</div>' + orne('◆') + '</div>' +
-    JEUX.map(j => '<button class="carte" data-a="jeu" data-id="' + j.id + '"><div class="int"><div><div class="nom">' + esc(j.nom) + '</div><div class="sous">' + esc(j.sous) + '</div></div><span class="fl">›</span></div></button>').join('') + '</div>';
+    tousJeux().map(j => '<button class="carte" data-a="' + j.a + '" data-id="' + j.id + '"' + (j.a === 'technique' ? ' data-terre="1"' : '') + (j.long ? ' data-long="jeu" data-j="' + j.long + '"' : '') + '><div class="int"><div><div class="nom">' + esc(j.nom) + '</div><div class="sous">' + esc(j.sous) + '</div></div><span class="fl">›</span></div></button>').join('') +
+    '<div class="discret" style="margin-top:10px">Pour ranger ici une brique ou une technique : « Rangée dans » → Jeux hypnotiques.</div></div>' +
+    '<button class="btn plein flottant" data-a="nouveaujeu">+ Nouveau jeu</button>';
 };
 VUES.jeu = p => {
   fond('terre'); $('#app').className = 'terre';
-  const j = JEUX.find(x => x.id === p.id); if (!j) return VUES.terrestre();
-  return barre(j.nom, '<button class="pastille" data-a="taille" data-d="-1" aria-label="Texte plus petit">A−</button><button class="pastille" data-a="taille" data-d="1" aria-label="Texte plus grand">A+</button>') +
-    '<div class="page technique"><section class="etape"><div class="int"><div class="romain">Jeu hypnotique</div><h2>' + esc(j.nom) + '</h2>' + orne('◆') + '<div class="consigne" style="border:none;padding:0;text-align:center">' + esc(j.sous) + '</div>' + corpsEtape({ b: j.b || [j.avant, ...j.etapes].flatMap(e => [['sous', e.titre], ...blocs(e)]) }) + '</div></section></div>';
+  const id = p.id || '';
+  let nom, sous, b, extra = '', bas = '';
+  if (id.startsWith('u:')) {
+    const j = (D.jeux || []).find(x => x.id === id.slice(2)); if (!j) return VUES.jeux();
+    nom = j.nom; sous = j.sous || ''; b = texteEnBlocs(j.texte, true);
+    extra = '<button class="pastille" data-a="modifjeu" data-id="' + j.id + '">Modifier</button>';
+  } else if (id.startsWith('b:')) {
+    const br = brique(id.slice(2)); if (!br) return VUES.jeux();
+    nom = br.nom; sous = (TYPES.find(t => t[0] === br.type) || ['', ''])[1];
+    b = [br.avant, ...br.etapes, br.apres].filter(e => e && !estSuppr(e)).flatMap(e => [['sous', titreE(e)], ...blocs(e)]);
+    bas = '<div class="etiquette">Rangée dans</div>' + choixFace(br.perso ? 'u:' + br.id : 'b:' + br.id, faceBrique(br));
+  } else {
+    const j = JEUX.find(x => x.id === id); if (!j) return VUES.jeux();
+    nom = j.nom; sous = j.sous; b = j.b || [j.avant, ...j.etapes].flatMap(e => [['sous', e.titre], ...blocs(e)]);
+  }
+  return barre(nom, '<button class="pastille" data-a="taille" data-d="-1" aria-label="Texte plus petit">A−</button><button class="pastille" data-a="taille" data-d="1" aria-label="Texte plus grand">A+</button>' + extra) +
+    '<div class="page technique"><section class="etape"><div class="int"><div class="romain">Jeu hypnotique</div><h2>' + esc(nom) + '</h2>' + orne('◆') + (sous ? '<div class="consigne" style="border:none;padding:0;text-align:center">' + esc(sous) + '</div>' : '') + corpsEtape({ b }) + '</div></section>' + bas + '</div>';
 };
+function formJeu(j) {
+  j = j || {};
+  ouvrir(j.id ? 'Modifier le jeu' : 'Nouveau jeu', champ('jnom', 'Nom', j.nom) + champ('jsous', 'En quelques mots', j.sous, 'text', 'placeholder="démonstration, découverte…"') +
+    champ('jtexte', 'Texte', j.texte, 'textarea', 'style="min-height:46vh;font-family:var(--serif);font-size:18px;line-height:1.55"') +
+    '<div class="discret" style="margin:-6px 0 14px;line-height:1.5">Ligne vide : nouveau paragraphe. « ? » : question. Ligne entre parenthèses : consigne pour toi. « • » : liste. « # » : sous-titre.</div>' + boutonsForm(!!j.id), {
+    ok() {
+      if (!valeur('jnom')) return toast('Donne un nom au jeu.');
+      if (!valeur('jtexte')) return toast('Écris le texte du jeu.');
+      const o = j.id ? j : { id: uid() };
+      Object.assign(o, { nom: valeur('jnom'), sous: valeur('jsous'), texte: document.getElementById('jtexte').value });
+      if (!j.id) D.jeux.push(o);
+      enregistrer(); fermer(); if (!j.id) aller('jeu', { id: 'u:' + o.id }); else rendre(); toast('Jeu enregistré');
+    },
+    sup() { if (!confirm('Supprimer ce jeu ?')) return; D.jeux = D.jeux.filter(x => x.id !== j.id); enregistrer(); fermer(); if (vue.v === 'jeu') retour(); else rendre(); }
+  });
+}
 
 /* ----- Technique (texte continu) ----- */
 const positions = {};
@@ -1449,11 +1498,12 @@ VUES.technique = p => {
       (edit ? '<div class="etiquette">Rangée dans</div>' + choixFace('t:' + p.id, faceTech(p.id)) + '<div class="discret" style="margin-top:8px">Les modifications de texte valent aussi pour les briques de l\'atelier qui reprennent la même étape.</div>' : '') + '</div>';
   }
   const vis = etapesVues(t), total = vis.filter(x => x.r).length;
-  const actions = lecteurHTML() + '<button class="pastille ic" data-a="confusion" aria-label="Confusion">✧</button>' + boutonEnr() +
+  const actions = lecteurHTML() + boutonEnr() +
     (t.auto ? '<button class="pastille" data-a="pdftech">PDF</button>' : '<button class="pastille" data-a="choixpers">Personnages</button>') +
     '<button class="pastille" data-a="sommaire">Étapes</button>';
   let h = barre(t.nom, actions).replace(/<\/div>$/, '<div class="progfixe"><div id="progbar"></div></div></div>');
   h += '<div class="page technique">';
+  if (!t.auto && !(SEANCES[p.id] && SEANCES[p.id].commencee)) h += '<button class="btn plein large commencer" data-a="commencer">▶ Commencer la séance</button>';
   vis.forEach(e => {
     const i = e.i;
     h += '<section class="etape" id="etape-' + i + '"><div class="int"><div class="romain">' + (e.r ? e.r + ' · ' + romain(total) : '✦') + '</div><h2>' + esc(e.titre) + '</h2>' + orne('✦') + corpsEtape(e, t.ctx) + '</div></section>';
@@ -1549,7 +1599,7 @@ function brique(id) {
 const faceBrique = b => b.perso ? (b.face || 'deux') : (D.faces['b:' + b.id] || b.face);
 const faceTech = id => D.faces['t:' + id] || 'celeste';
 const briquesDe = (type, face) => [...BRIQUES.map(b => brique(b.id)), ...(D.briques || []).map(u => brique(u.id))].filter(b => b.type === type && (faceBrique(b) === 'deux' || faceBrique(b) === face));
-const choixFace = (cle, v, rouvrir) => '<div class="segments">' + [['celeste', 'Céleste'], ['terrestre', 'Terrestre'], ['deux', 'Les deux']].map(([k, t]) => '<button class="' + (v === k ? 'on' : '') + '" data-a="face" data-cle="' + cle + '" data-f="' + k + '"' + (rouvrir ? ' data-r="' + rouvrir + '"' : '') + '>' + t + '</button>').join('') + '</div>';
+const choixFace = (cle, v, rouvrir) => '<div class="segments">' + [['celeste', 'Céleste'], ['terrestre', 'Terrestre'], ['deux', 'Les deux'], ['jeux', 'Jeux hypnotiques']].map(([k, t]) => '<button class="' + (v === k ? 'on' : '') + '" data-a="face" data-cle="' + cle + '" data-f="' + k + '"' + (rouvrir ? ' data-r="' + rouvrir + '"' : '') + '>' + t + '</button>').join('') + '</div>';
 function lireBrique(id) {
   const b = brique(id); if (!b) return;
   const etapes = [b.avant, ...b.etapes, b.apres].filter(Boolean);
@@ -1658,7 +1708,7 @@ function formBrique(x) {
   x = x || { face: compo ? compo.face : 'deux', type: 'induction' };
   const sel = (id, l, opts, v) => '<div class="champ"><label for="' + id + '">' + l + '</label><select id="' + id + '">' + opts.map(([k, t]) => '<option value="' + k + '"' + (k === v ? ' selected' : '') + '>' + t + '</option>').join('') + '</select></div>';
   ouvrir(x.id ? 'Modifier la brique' : 'Nouvelle brique', champ('bnom', 'Nom', x.nom) +
-    '<div class="trois">' + sel('btype', 'Type', TYPES, x.type) + sel('bface', 'Rangée dans', [['celeste', 'Céleste'], ['terrestre', 'Terrestre'], ['deux', 'Les deux']], x.face) + champ('bmin', 'Durée (min)', x.min || '', 'number', 'inputmode="numeric"') + '</div>' +
+    '<div class="trois">' + sel('btype', 'Type', TYPES, x.type) + sel('bface', 'Rangée dans', [['celeste', 'Céleste'], ['terrestre', 'Terrestre'], ['deux', 'Les deux'], ['jeux', 'Jeux hypnotiques']], x.face) + champ('bmin', 'Durée (min)', x.min || '', 'number', 'inputmode="numeric"') + '</div>' +
     champ('btexte', 'Texte', x.texte, 'textarea', 'style="min-height:240px"') +
     '<div class="discret" style="margin:-6px 0 14px;line-height:1.5">Ligne vide : nouveau paragraphe. Ligne commençant par « ? » : question. Ligne entre parenthèses : consigne pour toi.</div>' + boutonsForm(!!x.id), {
       ok() {
@@ -1964,6 +2014,7 @@ VUES.client = p => {
     h += '<div class="etiquette">Pack régression</div><div class="bloc" style="display:flex;align-items:center;gap:14px"><div style="flex:1"><div style="font-family:var(--serif);font-size:24px;color:#f3f5fb">Séances utilisées : ' + c.pack.utilisees + ' / ' + c.pack.total + '</div><div class="discret">Pack réglé le ' + dateCourte(c.pack.depuis) + (c.pack.note ? ' · note ' + esc(c.pack.note) : '') + '</div></div><button class="rond" data-a="pack" data-d="-1">−</button><button class="rond" data-a="pack" data-d="1">+</button></div>';
   }
   h += '<div class="rangee" style="margin:14px 0"><button class="btn" data-a="personnes" data-id="' + c.id + '">Personnages (' + nbp + ')</button><button class="btn" data-a="nouveaurdv" data-client="' + c.id + '">+ Rendez-vous</button><button class="btn" data-a="nouvellenote" data-client="' + c.id + '">+ Note d\'honoraires</button></div>';
+  h += '<button class="interrupteur' + (c.accordEnr ? ' on' : '') + '" data-a="accord" style="margin-bottom:14px"><span class="pt"></span><span>Accord pour l\'enregistrement : ' + (c.accordEnr ? 'oui' : 'non') + '</span></button>';
   h += '<button class="carte atelierc" data-a="preparer" data-id="' + c.id + '"><div class="int"><div class="sceau">✦</div><div><div class="nom">Préparer sa séance</div><div class="sous">Atelier · composer avec des briques</div></div><span class="fl">›</span></div></button>';
   h += '<div class="etiquette">Séances</div>' + cartesSeances(c, rdvs, notes);
   return h + '</div>';
@@ -2033,7 +2084,10 @@ function formRattacher() {
   }
   const rdvJ = D.rdv.filter(r => r.date === auj() && client(r.clientId)).sort((a, b) => (a.heure || '').localeCompare(b.heure || ''));
   let defaut = '';
-  if (cliDefaut) { const r = rdvJ.find(r => r.clientId === cliDefaut); defaut = r ? 'r:' + r.id : 'c:' + cliDefaut; }
+  const sc = SEANCES[id];
+  if (sc && sc.rdvId && rdvJ.some(r => r.id === sc.rdvId)) defaut = 'r:' + sc.rdvId;
+  else if (sc && sc.clientId) defaut = 'c:' + sc.clientId;
+  else if (cliDefaut) { const r = rdvJ.find(r => r.clientId === cliDefaut); defaut = r ? 'r:' + r.id : 'c:' + cliDefaut; }
   else if (rdvJ.length === 1) defaut = 'r:' + rdvJ[0].id;
   const opt = (v, t) => '<option value="' + v + '"' + (v === defaut ? ' selected' : '') + '>' + esc(t) + '</option>';
   const sel = '<option value="">— Choisir —</option>' +
@@ -2175,7 +2229,7 @@ VUES.reglages = () => {
     '<button class="btn large" data-a="modifconf" style="margin-bottom:10px">+ Ajouter une confusion</button>' +
     '<div class="etiquette">Mes coordonnées (notes d\'honoraires)</div>' + ch('nom', 'Nom') + ch('statut', 'Statut') + ch('activite', 'Activité') + ch('adresse', 'Adresse') + '<div class="deux">' + ch('siret', 'SIRET') + ch('tel', 'Téléphone') + '</div>' + ch('mail', 'Mail') + ch('tva', 'Mention TVA') +
     '<button class="btn plein large" data-a="sauveremetteur">Enregistrer mes coordonnées</button>' +
-    '<div class="discret" style="text-align:center;margin-top:30px">Entre Ciel et Terre · version 7</div></div>';
+    '<div class="discret" style="text-align:center;margin-top:30px">Entre Ciel et Terre · version 8</div></div>';
 };
 
 /* ---------- Fenêtres (formulaires) ---------- */
@@ -2200,11 +2254,11 @@ const boutonsForm = (sup) => '<div class="rangee" style="margin-top:10px">' + (s
 function formClient(c, apres) {
   c = c || {};
   ouvrir(c.id ? 'Modifier le client' : 'Nouveau client',
-    '<div class="deux">' + champ('fprenom', 'Prénom', c.prenom) + champ('fnom', 'Nom', c.nom) + '</div><div class="deux">' + champ('ftel', 'Téléphone', c.tel, 'tel') + champ('fmail', 'Mail', c.mail, 'email') + '</div>' + champ('fadr', 'Adresse', c.adresse) + champ('fprofil', 'Notes sur la personne', c.profil, 'textarea') + '<label class="cocher"><input type="checkbox" id="faccord"' + (c.accordEnr ? ' checked' : '') + '><span>Accord du client pour l\'enregistrement des séances</span></label>' + boutonsForm(!!c.id), {
+    '<div class="deux">' + champ('fprenom', 'Prénom', c.prenom) + champ('fnom', 'Nom', c.nom) + '</div><div class="deux">' + champ('ftel', 'Téléphone', c.tel, 'tel') + champ('fmail', 'Mail', c.mail, 'email') + '</div>' + champ('fadr', 'Adresse', c.adresse) + champ('fprofil', 'Notes sur la personne', c.profil, 'textarea') + boutonsForm(!!c.id), {
       ok() {
         if (!valeur('fprenom') && !valeur('fnom')) return toast('Indique au moins un prénom ou un nom.');
         const obj = c.id ? c : { id: uid(), personnes: [], cree: new Date().toISOString() };
-        Object.assign(obj, { prenom: valeur('fprenom'), nom: valeur('fnom'), tel: valeur('ftel'), mail: valeur('fmail'), adresse: valeur('fadr'), profil: valeur('fprofil'), accordEnr: document.getElementById('faccord').checked });
+        Object.assign(obj, { prenom: valeur('fprenom'), nom: valeur('fnom'), tel: valeur('ftel'), mail: valeur('fmail'), adresse: valeur('fadr'), profil: valeur('fprofil') });
         if (!c.id) D.clients.push(obj);
         enregistrer(); fermer(); apres ? apres(obj) : rendre();
       },
@@ -2525,7 +2579,11 @@ document.addEventListener('click', ev => {
   switch (a) {
     case 'retour': return retour();
     case 'aller': return aller(d.v);
-    case 'technique': positions[d.id] = 0; return aller('technique', { id: d.id, terre: d.terre === '1' });
+    case 'technique': positions[d.id] = 0; delete SEANCES[d.id]; return aller('technique', { id: d.id, terre: d.terre === '1' });
+    case 'commencer': return formCommencer(vue.p.id, null);
+    case 'accord': { const c = client(vue.p.id); if (!c) return; c.accordEnr = !c.accordEnr; enregistrer(); const y = scrollY; rendre(); window.scrollTo(0, y); return; }
+    case 'nouveaujeu': return formJeu();
+    case 'modifjeu': return formJeu((D.jeux || []).find(x => x.id === d.id));
     case 'sommaire': return aller('technique', { id: vue.p.id, sommaire: true });
     case 'saut': cibleEtape = Number(d.i); return retour();
     case 'lecture': return basculerLecture();
@@ -2627,7 +2685,7 @@ document.addEventListener('click', ev => {
       enregistrer();
       const y = scrollY; rendre(); window.scrollTo(0, y);
       if (d.r) lireBrique(d.r);
-      toast('Rangée dans ' + ({ celeste: 'Céleste', terrestre: 'Terrestre', deux: 'Céleste et Terrestre' })[f]);
+      toast('Rangée dans ' + ({ celeste: 'Céleste', terrestre: 'Terrestre', deux: 'Céleste et Terrestre', jeux: 'Jeux hypnotiques' })[f]);
       return;
     }
     case 'modifetape': { const t = TECHNIQUES[vue.p.id]; if (t) formEtape(t.etapes[Number(d.i)]); return; }
@@ -2636,7 +2694,7 @@ document.addEventListener('click', ev => {
     case 'histo': { const c = client(vue.p.id), x = c && (c.historique || []).find(h => h.id === d.id); if (x) formHistorique(c, x); return; }
     case 'choisir': compo[d.t] = (d.id && compo[d.t] === d.id) ? '' : d.id; garderCompo(); { const y = scrollY; rendre(); window.scrollTo(0, y); } return;
     case 'safe': compo.safe = !compo.safe; garderCompo(); { const y = scrollY; rendre(); window.scrollTo(0, y); } return;
-    case 'lancercompo': if (!pret(compo)) return; positions.compo = 0; return aller('technique', { id: 'compo', terre: compo.face === 'terrestre' });
+    case 'lancercompo': if (!pret(compo)) return; delete SEANCES.compo; return formCommencer('compo', () => { positions.compo = 0; aller('technique', { id: 'compo', terre: compo.face === 'terrestre' }); });
     case 'enrcompo': if (!pret(compo)) return; return formEnrCompo();
     case 'nouvellebrique': return formBrique();
     case 'modifbrique': return formBrique((D.briques || []).find(b => b.id === d.id));
@@ -2650,7 +2708,7 @@ document.addEventListener('click', ev => {
     case 'seanceprep': {
       const c = client(vue.p.id), x = c && (c.seances || []).find(s => s.id === d.id); if (!x) return;
       return ouvrir(x.titre, '<div class="discret" style="text-align:center;margin:-8px 0 16px">' + esc(dateCourte(x.date)) + ' · ≈ ' + dureeCompo(x.compo) + ' min</div><div style="display:grid;gap:10px"><button class="btn plein" data-a="f-lancer">Lancer la séance</button><button class="btn" data-a="f-reprendre">Reprendre dans l\'atelier</button><button class="btn danger" data-a="f-sup">Supprimer</button><button class="btn" data-a="f-annuler">Fermer</button></div>', {
-        lancer() { fermer(); const id = 'seance:' + c.id + ':' + x.id; positions[id] = 0; aller('technique', { id, terre: x.compo.face === 'terrestre' }); },
+        lancer() { fermer(); const id = 'seance:' + c.id + ':' + x.id; delete SEANCES[id]; formCommencer(id, () => { positions[id] = 0; aller('technique', { id, terre: x.compo.face === 'terrestre' }); }); },
         reprendre() { fermer(); compo = JSON.parse(JSON.stringify(x.compo)); compo.clientId = c.id; garderCompo(); aller('atelier', { face: compo.face, client: c.id }); },
         sup() { if (!confirm('Supprimer cette séance préparée ?')) return; c.seances = c.seances.filter(s => s.id !== x.id); enregistrer(); fermer(); rendre(); }
       });
@@ -2746,9 +2804,12 @@ let confIndex = -1;
 function montrerConfusion() {
   const l = D.confusions || [];
   if (!l.length) return toast('Ajoute tes confusions dans les Réglages.');
-  confIndex = (confIndex + 1) % l.length;
+  // Au hasard, sans redonner celle qui vient d'être dite
+  let i = Math.floor(Math.random() * l.length);
+  if (l.length > 1) while (i === confIndex) i = Math.floor(Math.random() * l.length);
+  confIndex = i;
   bulle.innerHTML = '<button class="bx" data-a="fermerbulle" aria-label="Fermer">×</button><div class="bt" data-a="confusion">« ' + esc(l[confIndex]) + ' »</div>' +
-    (l.length > 1 ? '<div class="bn" data-a="confusion">' + (confIndex + 1) + ' / ' + l.length + ' · touche pour la suivante</div>' : '');
+    (l.length > 1 ? '<div class="bn" data-a="confusion">Touche pour une autre</div>' : '');
   bulle.classList.remove('cache');
 }
 function cacherBulle() { bulle.classList.add('cache'); }
@@ -2819,10 +2880,15 @@ function majEnr() {
   const b = document.getElementById('btnenr'); if (b) { b.classList.toggle('rec', !!ENR.rec); b.classList.toggle('pause', !!ENR.pause); }
   const surBarre = !!b;
   pilule.classList.toggle('cache', !ENR.rec || surBarre);
+  confbtn.classList.toggle('cache', !enTechnique());
   pilule.classList.toggle('pause', !!ENR.pause);
   if (ENR.rec) pilule.innerHTML = '<b>●</b> ' + (ENR.pause ? 'En pause · ' : '') + t;
 }
 setInterval(() => { if (ENR.rec) majEnr(); }, 1000);
+const confbtn = document.createElement('button');
+confbtn.id = 'confbtn'; confbtn.className = 'cache'; confbtn.dataset.a = 'confusion'; confbtn.setAttribute('aria-label', 'Confusion');
+confbtn.innerHTML = '✧<small>Confusion</small>';
+document.body.appendChild(confbtn);
 
 async function listeMicros() {
   try {
@@ -2834,42 +2900,111 @@ async function listeMicros() {
     return l;
   } catch (e) { return []; }
 }
-function formEnr() {
-  if (!navigator.mediaDevices || !window.MediaRecorder) return toast('L\'enregistrement n\'est pas possible sur cet appareil.');
-  const c0 = enrClient();
-  if (c0 && !c0.accordEnr) return toast('Coche « Accord du client pour l\'enregistrement » dans la fiche de ' + nomClient(c0) + '.');
-  const l = D.clients.filter(x => x.accordEnr).sort((a, z) => nomClient(a).localeCompare(nomClient(z), 'fr'));
-  if (!l.length) return toast('Aucun client n\'a donné son accord. Coche la case dans sa fiche client.');
-  const rdvJ = D.rdv.filter(r => r.date === auj());
-  const defaut = c0 ? c0.id : ((rdvJ.map(r => client(r.clientId)).find(x => x && x.accordEnr) || {}).id || '');
-  let micro = ''; try { micro = localStorage.getItem('ect-micro') || ''; } catch (e) {}
-  ouvrir('Enregistrer la séance', '<div class="champ"><label for="ncli">Client</label><select id="ncli"><option value="">— Choisir —</option>' + l.map(x => '<option value="' + x.id + '"' + (x.id === defaut ? ' selected' : '') + '>' + esc(nomClient(x)) + '</option>').join('') + '</select></div>' +
+// Client, accord et micro : partagés par « ● » et « Commencer la séance »
+function champsSeance(defaut, avecLibre) {
+  const rdvJ = D.rdv.filter(r => r.date === auj() && client(r.clientId)).sort((a, b) => (a.heure || '').localeCompare(b.heure || ''));
+  const opt = (v, t) => '<option value="' + v + '"' + (v === defaut ? ' selected' : '') + '>' + esc(t) + '</option>';
+  const sel = '<option value="">— Choisir —</option>' +
+    (rdvJ.length ? '<optgroup label="Rendez-vous du jour">' + rdvJ.map(r => opt('r:' + r.id, (r.heure ? r.heure + ' · ' : '') + nomClient(client(r.clientId)))).join('') + '</optgroup>' : '') +
+    '<optgroup label="Autre client">' + [...D.clients].sort((a, z) => nomClient(a).localeCompare(nomClient(z), 'fr')).map(c => opt('c:' + c.id, nomClient(c))).join('') + '</optgroup>' +
+    '<optgroup label="Autre">' + (avecLibre ? opt('libre', 'Séance libre, sans client') : '') + opt('nouveau', '+ Nouveau client…') + '</optgroup>';
+  return '<div class="champ"><label for="scli">Pour qui</label><select id="scli">' + sel + '</select></div>' +
+    '<div id="snouv" class="cache deux">' + champ('snprenom', 'Prénom', '') + champ('snnom', 'Nom', '') + '</div>' +
+    '<div id="szone"><label class="cocher"><input type="checkbox" id="saccord"><span>Le client a donné son accord pour l\'enregistrement</span></label>' +
     '<div class="champ"><label for="nmic">Micro</label><select id="nmic"><option value="">Micro de la tablette (par défaut)</option></select></div>' +
-    '<div class="discret" id="nmicinfo" style="margin:-6px 0 12px">Recherche des micros…</div>' +
-    '<div class="discret" style="margin-bottom:12px">L\'enregistrement reste sur la tablette, rattaché à la fiche du client. Il n\'est pas dans la sauvegarde mensuelle : pense à l\'envoyer puis à le supprimer.</div>' +
-    '<div class="rangee"><button class="btn" data-a="f-annuler">Annuler</button><button class="btn plein" data-a="f-ok">● Démarrer</button></div>', {
-    async ok() {
-      const c = client(valeur('ncli')); if (!c) return toast('Choisis le client.');
-      const dev = valeur('nmic');
-      try { localStorage.setItem('ect-micro', dev); } catch (e) {}
-      fermer(); demarrerEnr(c, dev);
-    }
-  });
+    '<div class="discret" id="nmicinfo" style="margin:-6px 0 12px">Recherche des micros…</div></div>';
+}
+const defautSeance = cid => {
+  const rdvJ = D.rdv.filter(r => r.date === auj() && client(r.clientId));
+  if (cid) { const r = rdvJ.find(r => r.clientId === cid); return r ? 'r:' + r.id : 'c:' + cid; }
+  return rdvJ.length === 1 ? 'r:' + rdvJ[0].id : '';
+};
+function brancherChampsSeance() {
+  const sel = $('#scli');
+  const maj = () => {
+    const v = sel.value, c = v.startsWith('r:') ? client((D.rdv.find(r => r.id === v.slice(2)) || {}).clientId) : v.startsWith('c:') ? client(v.slice(2)) : null;
+    $('#snouv').classList.toggle('cache', v !== 'nouveau');
+    $('#szone').classList.toggle('cache', v === 'libre' || !v);
+    $('#saccord').checked = !!(c && c.accordEnr);
+  };
+  sel.addEventListener('change', maj); maj();
+  let micro = ''; try { micro = localStorage.getItem('ect-micro') || ''; } catch (e) {}
   listeMicros().then(ms => {
-    const sel = document.getElementById('nmic'), info = document.getElementById('nmicinfo'); if (!sel) return;
-    for (const m of ms) if (m.deviceId && m.deviceId !== 'default') { const o = document.createElement('option'); o.value = m.deviceId; o.textContent = m.label || 'Micro'; if (m.deviceId === micro) o.selected = true; sel.appendChild(o); }
+    const m = document.getElementById('nmic'), info = document.getElementById('nmicinfo'); if (!m) return;
+    for (const x of ms) if (x.deviceId && x.deviceId !== 'default') { const o = document.createElement('option'); o.value = x.deviceId; o.textContent = x.label || 'Micro'; if (x.deviceId === micro) o.selected = true; m.appendChild(o); }
     info.textContent = ms.length > 1 ? 'Micro externe (récepteur USB-C) : branche-le avant, puis choisis-le ici.' : 'Pour un micro externe, branche le récepteur USB-C puis rouvre cette fenêtre.';
     formInit = etatForm();
   });
+  formInit = etatForm();
 }
-async function demarrerEnr(c, dev) {
+// Lit la fenêtre : le client (créé si nouveau), le rendez-vous, l'accord, le micro
+function lireChampsSeance() {
+  const v = valeur('scli');
+  if (!v) { toast('Choisis pour qui est la séance.'); return null; }
+  if (v === 'libre') return { libre: true };
+  let c = null, r = null;
+  if (v === 'nouveau') {
+    if (!valeur('snprenom') && !valeur('snnom')) { toast('Indique le prénom ou le nom du nouveau client.'); return null; }
+    c = { id: uid(), prenom: valeur('snprenom'), nom: valeur('snnom'), personnes: [], seances: [], historique: [], cree: new Date().toISOString() };
+    D.clients.push(c);
+  } else if (v.startsWith('r:')) { r = D.rdv.find(x => x.id === v.slice(2)); c = r && client(r.clientId); }
+  else c = client(v.slice(2));
+  if (!c) return null;
+  const accord = document.getElementById('saccord').checked;
+  if (accord && !c.accordEnr) c.accordEnr = true;
+  const dev = valeur('nmic');
+  try { localStorage.setItem('ect-micro', dev); } catch (e) {}
+  enregistrer();
+  return { c, r, accord, dev };
+}
+function formEnr() {
+  if (!navigator.mediaDevices || !window.MediaRecorder) return toast('L\'enregistrement n\'est pas possible sur cet appareil.');
+  const sc = SEANCES[vue.p.id], c0 = (sc && client(sc.clientId)) || enrClient();
+  ouvrir('Enregistrer la séance', champsSeance(sc && sc.rdvId ? 'r:' + sc.rdvId : defautSeance(c0 && c0.id), false) +
+    '<div class="discret" style="margin-bottom:12px">L\'enregistrement reste sur la tablette, rattaché à la fiche du client. Il n\'est pas dans la sauvegarde mensuelle : pense à l\'envoyer puis à le supprimer.</div>' +
+    '<div class="rangee"><button class="btn" data-a="f-annuler">Annuler</button><button class="btn plein" data-a="f-ok">● Démarrer</button></div>', {
+    ok() {
+      if (!document.getElementById('saccord').checked) return toast('Coche l\'accord du client pour enregistrer.');
+      const x = lireChampsSeance(); if (!x || x.libre) return;
+      fermer(); demarrerEnr(x.c, x.dev, x.r && x.r.id);
+    }
+  });
+  brancherChampsSeance();
+}
+/* ----- 3 et 4. Commencer la séance : pour qui, enregistrement et lecture d'un coup ----- */
+const SEANCES = {};
+function formCommencer(id, ouvrirTech) {
+  const sc = SEANCES[id];
+  const cid = (sc && sc.clientId) || (id === 'compo' ? compo && compo.clientId : id.startsWith('seance:') ? id.split(':')[1] : '');
+  const enrPossible = !!(navigator.mediaDevices && window.MediaRecorder);
+  ouvrir('Commencer la séance', champsSeance(defautSeance(cid), true) +
+    '<div class="discret" style="margin-bottom:12px">Avec l\'accord coché, l\'enregistrement et la lecture démarrent ensemble. Sinon, la séance se lance sans enregistrement.</div>' +
+    '<div class="rangee"><button class="btn" data-a="f-annuler">Annuler</button><button class="btn" data-a="f-sans">Sans enregistrement</button><button class="btn plein" data-a="f-ok">▶ Commencer</button></div>', {
+    ok() { this.go(true); },
+    sans() { this.go(false); },
+    go(avecEnr) {
+      const x = lireChampsSeance(); if (!x) return;
+      fermer();
+      if (id === 'compo' && x.c) { compo.clientId = x.c.id; garderCompo(); }
+      if (ouvrirTech) ouvrirTech();
+      SEANCES[id] = { clientId: x.c ? x.c.id : '', rdvId: x.r ? x.r.id : '', libre: !!x.libre, commencee: true };
+      const enr = avecEnr && x.accord && x.c && enrPossible;
+      if (enr) demarrerEnr(x.c, x.dev, x.r && x.r.id);
+      rendre(); window.scrollTo(0, 0);
+      lancerLecture();
+      if (!enr) toast(x.libre ? 'Séance libre, sans enregistrement' : 'Séance sans enregistrement');
+    }
+  });
+  brancherChampsSeance();
+}
+async function demarrerEnr(c, dev, rdvId) {
   let stream;
   try { stream = await navigator.mediaDevices.getUserMedia({ audio: dev ? { deviceId: { exact: dev } } : true }); }
   catch (e) { return toast('Le micro n\'est pas accessible. Vérifie l\'autorisation du micro pour l\'appli.'); }
   const type = ['audio/webm;codecs=opus', 'audio/ogg;codecs=opus', 'audio/mp4', 'audio/webm'].find(t => MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(t)) || '';
   const rec = new MediaRecorder(stream, type ? { mimeType: type } : {});
   const t = tech(vue.p.id);
-  const r = D.rdv.filter(x => x.clientId === c.id && x.date === auj()).sort((a, b) => (a.heure || '').localeCompare(b.heure || ''))[0];
+  const r = (rdvId && D.rdv.find(x => x.id === rdvId)) || D.rdv.filter(x => x.clientId === c.id && x.date === auj()).sort((a, b) => (a.heure || '').localeCompare(b.heure || ''))[0];
   const now = new Date();
   const x = { id: 'a' + uid(), date: auj(), heure: pad(now.getHours()) + ':' + pad(now.getMinutes()), rdvId: r ? r.id : '', titre: t ? t.nom : 'Séance', duree: 0, taille: 0, type: rec.mimeType || type || 'audio/webm', enCours: true };
   c.enregistrements = c.enregistrements || []; c.enregistrements.unshift(x); enregistrer();
@@ -2986,6 +3121,7 @@ function supprimerLong(el) {
     if (compo) { for (const t of ['induction', 'approf', 'protocole', 'retour']) if (compo[t] === b.id) compo[t] = ''; garderCompo(); }
     return fini();
   }
+  if (k === 'jeu') { const j = D.jeux.find(x => x.id === d.j); if (!j || !ok('Supprimer le jeu « ' + j.nom + ' » ?')) return; D.jeux = D.jeux.filter(x => x.id !== j.id); return fini(); }
   if (k === 'conf') { if (!ok('Supprimer cette confusion ?')) return; D.confusions.splice(Number(d.i), 1); return fini(); }
   if (k === 'pers' && c) { if (!ok('Retirer ' + (c.personnes[Number(d.i)].prenom || 'ce personnage') + ' ?')) return; c.personnes.splice(Number(d.i), 1); return fini(); }
   if (k === 'sp' && c) { if (!ok('Supprimer cette séance préparée ?')) return; c.seances = c.seances.filter(x => x.id !== d.id); return fini(); }
