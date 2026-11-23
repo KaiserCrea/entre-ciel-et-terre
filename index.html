@@ -1086,7 +1086,7 @@ for (const b of BRIQUES) {
 
 /* ---------- Données par défaut ---------- */
 const DEFAUT = () => ({
-  version: 8,
+  version: 9,
   emetteur: {
     nom: 'Thierry Testa',
     statut: 'Entrepreneur individuel',
@@ -1117,6 +1117,7 @@ const DEFAUT = () => ({
   suppr: {},
   confusions: [CONFUSION_1],
   jeux: [],
+  enrLibres: [],
   derniereSauvegarde: null
 });
 const DIVERSES_V3 = [
@@ -1175,6 +1176,8 @@ function migrer() {
   }
   if (D.version < 7) { D.version = 7; enregistrer(); }
   if (D.version < 8) { D.version = 8; enregistrer(); }
+  if (D.version < 9) { D.version = 9; enregistrer(); }
+  if (!Array.isArray(D.enrLibres)) D.enrLibres = [];
   if (!Array.isArray(D.jeux)) D.jeux = [];
   if (!D.textes) D.textes = {};
   if (!D.faces) D.faces = {};
@@ -1348,7 +1351,7 @@ VUES.celeste = () => {
     carteAtelier('celeste') +
     '<div class="etiquette">Techniques</div>' +
     ORDRE_CELESTE.filter(id => !['terrestre', 'jeux'].includes(faceTech(id))).map(id => TECHNIQUES[id]).map(t => '<button class="carte" data-a="technique" data-id="' + t.id + '"><div class="int"><div><div class="nom">' + esc(t.nom) + '</div><div class="sous">' + esc(t.sous) + ' · ' + etapesVues(t).filter(e => e.r).length + ' étapes</div></div><span class="fl">›</span></div></button>').join('') +
-    '<div class="fantome">Prochaine technique…</div></div>';
+    '</div>';
 };
 
 /* ----- Terrestre ----- */
@@ -1671,8 +1674,9 @@ const pret = c => c && brique(c.induction) && brique(c.protocole) && brique(c.re
 VUES.atelier = p => {
   const terre = p.face === 'terrestre';
   fond(terre ? 'terre' : 'ciel'); if (terre) $('#app').className = 'terre';
-  if (!compo || compo.face !== p.face) { compo = { face: p.face, induction: '', approf: '', safe: false, protocole: '', retour: '', liaisons: {}, clientId: '' }; garderCompo(); }
-  if (p.client && compo.clientId !== p.client) { compo.clientId = p.client; garderCompo(); }
+  if (!compo || compo.face !== p.face) { compo = { face: p.face, induction: '', approf: '', safe: false, protocole: '', retour: '', liaisons: {}, clientId: p.client || '', pour: defautSeance(p.client || '') }; garderCompo(); }
+  if (compo.pour == null) { compo.pour = compo.clientId ? defautSeance(compo.clientId) : ''; garderCompo(); }
+  pourSync();
   for (const k of ['induction', 'approf', 'protocole', 'retour']) if (compo[k] && !brique(compo[k])) compo[k] = '';
   const cl = client(compo.clientId);
   const choix = (type, num, titre, vide) => {
@@ -1683,7 +1687,8 @@ VUES.atelier = p => {
       (l.length ? l.map(b => '<div class="ch"><button class="chb ' + (compo[type] === b.id ? 'on' : '') + '" data-a="choisir" data-t="' + type + '" data-id="' + b.id + '"><span class="cn">' + esc(b.nom) + '</span><span class="cs">' + esc(b.src) + ' · ≈ ' + b.min + ' min</span></button><button class="lire" data-a="lire" data-id="' + b.id + '">Lire</button></div>').join('') : '<div class="discret">Aucune brique de ce type pour l\'instant.</div>') + '</div>';
   };
   const ind = brique(compo.induction);
-  let h = barre('Atelier') + '<div class="page"><div class="heros" style="margin-bottom:8px"><div class="surtitre">Atelier · ' + (terre ? 'Terrestre' : 'Céleste') + '</div><div class="titre" style="font-size:40px">Composer une séance</div>' + (cl ? '<div class="discret">pour ' + esc(nomClient(cl)) + '</div>' : '') + '</div>';
+  let h = barre('Atelier') + '<div class="page"><div class="heros" style="margin-bottom:8px"><div class="surtitre">Atelier · ' + (terre ? 'Terrestre' : 'Céleste') + '</div><div class="titre" style="font-size:40px">Composer une séance</div></div>';
+  h += '<div class="etiquette">Pour qui</div><div class="champ"><select id="apour">' + optionsPour(compo.pour, true).replace('— Choisir —', '— Pas encore choisi —') + '</select></div>';
   h += choix('induction', 1, 'Induction');
   h += '<div class="etiquette">Endroit safe</div><button class="interrupteur' + (compo.safe ? ' on' : '') + '" data-a="safe"><span class="pt"></span><span>' + (compo.safe ? 'Oui' : 'Non') + '</span><small>' + (ind && ind.ancre ? 'Relié à ' + ind.ancreNom + ' de l\'induction' : 'Après l\'induction, avec l\'ancrage pouce-index') + '</small></button>';
   h += choix('approf', 2, 'Approfondissement', true);
@@ -1698,7 +1703,7 @@ VUES.atelier = p => {
   h += '<div class="resume"><div class="duree">Durée estimée <b>≈ ' + dureeCompo(compo) + ' min</b></div>' +
     (pret(compo) ? '' : '<div class="discret" style="margin-bottom:12px">Choisis au moins une induction, un protocole et un retour.</div>') +
     '<button class="btn large" data-a="apercucompo"' + (pret(compo) ? '' : ' disabled') + ' style="margin-bottom:10px">Aperçu de la séance</button>' +
-    '<div class="rangee"><button class="btn" data-a="enrcompo"' + (pret(compo) ? '' : ' disabled') + '>Enregistrer dans la fiche client</button><button class="btn plein" data-a="lancercompo"' + (pret(compo) ? '' : ' disabled') + '>Lancer la séance</button></div></div>';
+    '<div class="rangee"><button class="btn" data-a="enrcompo"' + (pret(compo) ? '' : ' disabled') + '>Garder pour plus tard</button><button class="btn plein" data-a="lancercompo"' + (pret(compo) ? '' : ' disabled') + '>Lancer la séance</button></div></div>';
   const miennes = (D.briques || []).filter(b => b.face === 'deux' || b.face === p.face);
   h += '<div class="etiquette">Mes briques</div>' + (miennes.length ? miennes.map(b => '<button class="rdv" data-a="modifbrique" data-long="brique" data-id="' + b.id + '"><div style="flex:1"><div class="c" style="font-size:20px">' + esc(b.nom) + '</div><div class="p">' + esc((TYPES.find(t => t[0] === b.type) || ['', ''])[1]) + (b.min ? ' · ≈ ' + b.min + ' min' : '') + '</div></div></button>').join('') : '<div class="discret">Tu peux ajouter tes propres briques depuis la tablette.</div>') +
     '<button class="btn large" style="margin-top:8px" data-a="nouvellebrique">+ Nouvelle brique</button></div>';
@@ -1735,8 +1740,8 @@ function formEnrCompo() {
       const c = client(valeur('ecli')); if (!c) return toast('Choisis un client.');
       c.seances = c.seances || [];
       c.seances.unshift({ id: uid(), date: auj(), titre: valeur('etitre') || 'Séance préparée', compo: JSON.parse(JSON.stringify(compo)) });
-      compo.clientId = c.id; garderCompo();
-      enregistrer(); fermer(); rendre(); toast('Séance enregistrée dans la fiche de ' + nomClient(c));
+      compo.clientId = c.id; compo.pour = defautSeance(c.id); garderCompo();
+      enregistrer(); fermer(); rendre(); toast('Séance gardée dans la fiche de ' + nomClient(c));
     }
   });
 }
@@ -1997,6 +2002,7 @@ VUES.clients = () => {
       const nbr = D.rdv.filter(r => r.clientId === c.id).length;
       return '<button class="carte" data-a="client" data-long="client" data-id="' + c.id + '"><div class="int"><div><div class="nom">' + esc(nomClient(c)) + '</div><div class="sous">' + nbr + ' rendez-vous' + (c.pack ? ' · pack ' + c.pack.utilisees + '/' + c.pack.total : '') + '</div></div><span class="fl">›</span></div></button>';
     }).join('') : '<div class="vide">' + (D.clients.length ? 'Aucun résultat' : 'Aucun client pour l\'instant') + '</div>') +
+    ((D.enrLibres || []).length ? '<div class="etiquette">Enregistrements sans client</div><div class="scarte"><div class="scarte-l">' + D.enrLibres.map(x => '<button class="ligne" data-a="enreglibre" data-long="enrlibre" data-id="' + x.id + '"><span class="li-t"><b class="pt-rouge">●</b> ' + esc(x.titre) + '</span><span class="li-p">' + esc(dateCourte(x.date)) + ' à ' + esc(x.heure) + ' · ' + fmtDuree(x.duree || 0) + '</span></button>').join('') + '</div></div>' : '') +
     '</div><button class="btn plein flottant" data-a="nouveauclient">+ Client</button>';
 };
 VUES.client = p => {
@@ -2229,7 +2235,7 @@ VUES.reglages = () => {
     '<button class="btn large" data-a="modifconf" style="margin-bottom:10px">+ Ajouter une confusion</button>' +
     '<div class="etiquette">Mes coordonnées (notes d\'honoraires)</div>' + ch('nom', 'Nom') + ch('statut', 'Statut') + ch('activite', 'Activité') + ch('adresse', 'Adresse') + '<div class="deux">' + ch('siret', 'SIRET') + ch('tel', 'Téléphone') + '</div>' + ch('mail', 'Mail') + ch('tva', 'Mention TVA') +
     '<button class="btn plein large" data-a="sauveremetteur">Enregistrer mes coordonnées</button>' +
-    '<div class="discret" style="text-align:center;margin-top:30px">Entre Ciel et Terre · version 8</div></div>';
+    '<div class="discret" style="text-align:center;margin-top:30px">Entre Ciel et Terre · version 9</div></div>';
 };
 
 /* ---------- Fenêtres (formulaires) ---------- */
@@ -2581,6 +2587,7 @@ document.addEventListener('click', ev => {
     case 'aller': return aller(d.v);
     case 'technique': positions[d.id] = 0; delete SEANCES[d.id]; return aller('technique', { id: d.id, terre: d.terre === '1' });
     case 'commencer': return formCommencer(vue.p.id, null);
+    case 'enreglibre': { const x = D.enrLibres.find(y => y.id === d.id); if (x) formEnreg(SANS_CLIENT(), x); return; }
     case 'accord': { const c = client(vue.p.id); if (!c) return; c.accordEnr = !c.accordEnr; enregistrer(); const y = scrollY; rendre(); window.scrollTo(0, y); return; }
     case 'nouveaujeu': return formJeu();
     case 'modifjeu': return formJeu((D.jeux || []).find(x => x.id === d.id));
@@ -2660,7 +2667,7 @@ document.addEventListener('click', ev => {
     case 'voirdiverse': return aller('voirdiverse', { id: d.id });
     case 'filtreetiq': filtreDiv = d.e; try { localStorage.setItem('ect-etiq', filtreDiv); } catch (e) {} return rendre();
     case 'jeu': return aller('jeu', { id: d.id });
-    case 'atelier': ongletInd = null; return aller('atelier', { face: d.face });
+    case 'atelier': ongletInd = null; compo = null; garderCompo(); return aller('atelier', { face: d.face });
     case 'lire': return lireBrique(d.id);
     case 'taille2': return setTaille2(taille2() + Number(d.d) * 0.1, true);
     case 'retablir': { const t = TECHNIQUES[vue.p.id]; if (t) { delete D.suppr[t.etapes[Number(d.i)].k]; enregistrer(); rendre(); } return; }
@@ -2694,22 +2701,34 @@ document.addEventListener('click', ev => {
     case 'histo': { const c = client(vue.p.id), x = c && (c.historique || []).find(h => h.id === d.id); if (x) formHistorique(c, x); return; }
     case 'choisir': compo[d.t] = (d.id && compo[d.t] === d.id) ? '' : d.id; garderCompo(); { const y = scrollY; rendre(); window.scrollTo(0, y); } return;
     case 'safe': compo.safe = !compo.safe; garderCompo(); { const y = scrollY; rendre(); window.scrollTo(0, y); } return;
-    case 'lancercompo': if (!pret(compo)) return; delete SEANCES.compo; return formCommencer('compo', () => { positions.compo = 0; aller('technique', { id: 'compo', terre: compo.face === 'terrestre' }); });
-    case 'enrcompo': if (!pret(compo)) return; return formEnrCompo();
+    case 'lancercompo': {
+      if (!pret(compo)) return; delete SEANCES.compo;
+      const nav = () => { positions.compo = 0; aller('technique', { id: 'compo', terre: compo.face === 'terrestre' }); };
+      if (!compo.pour) return formCommencer('compo', nav);
+      return lancerPour('compo', nav, pourQui(compo.pour));
+    }
+    case 'enrcompo': {
+      if (!pret(compo)) return;
+      const c = client(compo.clientId);
+      if (!c || compo.pour === 'libre') return formEnrCompo();
+      c.seances = c.seances || [];
+      c.seances.unshift({ id: uid(), date: auj(), titre: 'Séance du ' + dateCourte(auj()), compo: JSON.parse(JSON.stringify(compo)) });
+      enregistrer(); return toast('Séance gardée dans la fiche de ' + nomClient(c));
+    }
     case 'nouvellebrique': return formBrique();
     case 'modifbrique': return formBrique((D.briques || []).find(b => b.id === d.id));
     case 'preparer': {
       ongletInd = null;
       const cid = d.id;
       return ouvrir('Préparer sa séance', '<div style="display:grid;gap:10px"><button class="btn" data-a="f-face" data-face="celeste">Hypnose céleste</button><button class="btn" data-a="f-face" data-face="terrestre">Hypnose terrestre</button><button class="btn" data-a="f-annuler">Annuler</button></div>', {
-        face(b) { const face = b.dataset.face; fermer(); if (compo && compo.face === face && compo.clientId !== cid) compo = null; aller('atelier', { face, client: cid }); }
+        face(b) { const face = b.dataset.face; fermer(); compo = null; garderCompo(); aller('atelier', { face, client: cid }); }
       });
     }
     case 'seanceprep': {
       const c = client(vue.p.id), x = c && (c.seances || []).find(s => s.id === d.id); if (!x) return;
       return ouvrir(x.titre, '<div class="discret" style="text-align:center;margin:-8px 0 16px">' + esc(dateCourte(x.date)) + ' · ≈ ' + dureeCompo(x.compo) + ' min</div><div style="display:grid;gap:10px"><button class="btn plein" data-a="f-lancer">Lancer la séance</button><button class="btn" data-a="f-reprendre">Reprendre dans l\'atelier</button><button class="btn danger" data-a="f-sup">Supprimer</button><button class="btn" data-a="f-annuler">Fermer</button></div>', {
         lancer() { fermer(); const id = 'seance:' + c.id + ':' + x.id; delete SEANCES[id]; formCommencer(id, () => { positions[id] = 0; aller('technique', { id, terre: x.compo.face === 'terrestre' }); }); },
-        reprendre() { fermer(); compo = JSON.parse(JSON.stringify(x.compo)); compo.clientId = c.id; garderCompo(); aller('atelier', { face: compo.face, client: c.id }); },
+        reprendre() { fermer(); compo = JSON.parse(JSON.stringify(x.compo)); compo.clientId = c.id; compo.pour = defautSeance(c.id); garderCompo(); aller('atelier', { face: compo.face, client: c.id }); },
         sup() { if (!confirm('Supprimer cette séance préparée ?')) return; c.seances = c.seances.filter(s => s.id !== x.id); enregistrer(); fermer(); rendre(); }
       });
     }
@@ -2742,6 +2761,10 @@ document.addEventListener('input', ev => {
 document.addEventListener('change', ev => {
   const t = ev.target;
   if (t.id === 'sautdate' && t.value) { agenda.date = t.value; return rendre(); }
+  if (t.id === 'apour') {
+    if (t.value === 'nouveau') { t.value = compo.pour || ''; return formNouveauPour(); }
+    compo.pour = t.value; pourSync(); garderCompo(); return;
+  }
   if (t.id === 'fichierrest' && t.files[0]) return restaurer(t.files[0]);
   if (brouillon && t.dataset.l != null && t.dataset.k === 'prestationId') {
     const l = brouillon.lignes[Number(t.dataset.l)], p = prestation(t.value);
@@ -2901,16 +2924,19 @@ async function listeMicros() {
   } catch (e) { return []; }
 }
 // Client, accord et micro : partagés par « ● » et « Commencer la séance »
-function champsSeance(defaut, avecLibre) {
+function optionsPour(defaut, avecLibre) {
   const rdvJ = D.rdv.filter(r => r.date === auj() && client(r.clientId)).sort((a, b) => (a.heure || '').localeCompare(b.heure || ''));
   const opt = (v, t) => '<option value="' + v + '"' + (v === defaut ? ' selected' : '') + '>' + esc(t) + '</option>';
-  const sel = '<option value="">— Choisir —</option>' +
+  return '<option value="">— Choisir —</option>' +
     (rdvJ.length ? '<optgroup label="Rendez-vous du jour">' + rdvJ.map(r => opt('r:' + r.id, (r.heure ? r.heure + ' · ' : '') + nomClient(client(r.clientId)))).join('') + '</optgroup>' : '') +
     '<optgroup label="Autre client">' + [...D.clients].sort((a, z) => nomClient(a).localeCompare(nomClient(z), 'fr')).map(c => opt('c:' + c.id, nomClient(c))).join('') + '</optgroup>' +
     '<optgroup label="Autre">' + (avecLibre ? opt('libre', 'Séance libre, sans client') : '') + opt('nouveau', '+ Nouveau client…') + '</optgroup>';
+}
+function champsSeance(defaut, avecLibre) {
+  const sel = optionsPour(defaut, avecLibre);
   return '<div class="champ"><label for="scli">Pour qui</label><select id="scli">' + sel + '</select></div>' +
     '<div id="snouv" class="cache deux">' + champ('snprenom', 'Prénom', '') + champ('snnom', 'Nom', '') + '</div>' +
-    '<div id="szone"><label class="cocher"><input type="checkbox" id="saccord"><span>Le client a donné son accord pour l\'enregistrement</span></label>' +
+    '<div id="szone"><label class="cocher"><input type="checkbox" id="saccord"><span>La personne a donné son accord pour l\'enregistrement</span></label>' +
     '<div class="champ"><label for="nmic">Micro</label><select id="nmic"><option value="">Micro de la tablette (par défaut)</option></select></div>' +
     '<div class="discret" id="nmicinfo" style="margin:-6px 0 12px">Recherche des micros…</div></div>';
 }
@@ -2924,7 +2950,7 @@ function brancherChampsSeance() {
   const maj = () => {
     const v = sel.value, c = v.startsWith('r:') ? client((D.rdv.find(r => r.id === v.slice(2)) || {}).clientId) : v.startsWith('c:') ? client(v.slice(2)) : null;
     $('#snouv').classList.toggle('cache', v !== 'nouveau');
-    $('#szone').classList.toggle('cache', v === 'libre' || !v);
+    $('#szone').classList.toggle('cache', !v);
     $('#saccord').checked = !!(c && c.accordEnr);
   };
   sel.addEventListener('change', maj); maj();
@@ -2941,7 +2967,9 @@ function brancherChampsSeance() {
 function lireChampsSeance() {
   const v = valeur('scli');
   if (!v) { toast('Choisis pour qui est la séance.'); return null; }
-  if (v === 'libre') return { libre: true };
+  const dev = valeur('nmic');
+  try { localStorage.setItem('ect-micro', dev); } catch (e) {}
+  if (v === 'libre') return { libre: true, c: null, accord: document.getElementById('saccord').checked, dev };
   let c = null, r = null;
   if (v === 'nouveau') {
     if (!valeur('snprenom') && !valeur('snnom')) { toast('Indique le prénom ou le nom du nouveau client.'); return null; }
@@ -2952,25 +2980,74 @@ function lireChampsSeance() {
   if (!c) return null;
   const accord = document.getElementById('saccord').checked;
   if (accord && !c.accordEnr) c.accordEnr = true;
-  const dev = valeur('nmic');
-  try { localStorage.setItem('ect-micro', dev); } catch (e) {}
   enregistrer();
   return { c, r, accord, dev };
 }
 function formEnr() {
   if (!navigator.mediaDevices || !window.MediaRecorder) return toast('L\'enregistrement n\'est pas possible sur cet appareil.');
   const sc = SEANCES[vue.p.id], c0 = (sc && client(sc.clientId)) || enrClient();
-  ouvrir('Enregistrer la séance', champsSeance(sc && sc.rdvId ? 'r:' + sc.rdvId : defautSeance(c0 && c0.id), false) +
+  ouvrir('Enregistrer la séance', champsSeance(sc && sc.libre ? 'libre' : sc && sc.rdvId ? 'r:' + sc.rdvId : defautSeance(c0 && c0.id), true) +
     '<div class="discret" style="margin-bottom:12px">L\'enregistrement reste sur la tablette, rattaché à la fiche du client. Il n\'est pas dans la sauvegarde mensuelle : pense à l\'envoyer puis à le supprimer.</div>' +
     '<div class="rangee"><button class="btn" data-a="f-annuler">Annuler</button><button class="btn plein" data-a="f-ok">● Démarrer</button></div>', {
     ok() {
-      if (!document.getElementById('saccord').checked) return toast('Coche l\'accord du client pour enregistrer.');
-      const x = lireChampsSeance(); if (!x || x.libre) return;
-      fermer(); demarrerEnr(x.c, x.dev, x.r && x.r.id);
+      if (!document.getElementById('saccord').checked) return toast('Coche l\'accord de la personne pour enregistrer.');
+      const x = lireChampsSeance(); if (!x) return;
+      fermer(); demarrerEnr(x.libre ? SANS_CLIENT() : x.c, x.dev, x.r && x.r.id);
     }
   });
   brancherChampsSeance();
 }
+/* ----- Version 9 : pour qui, une seule fois ----- */
+// Propriétaire des enregistrements sans client
+const SANS_CLIENT = () => ({ id: '', prenom: 'Sans client', nom: '', get enregistrements() { return D.enrLibres; }, set enregistrements(v) { D.enrLibres = v; } });
+function pourQui(v) {
+  if (v === 'libre') return { libre: true, c: null, r: null };
+  if (v.startsWith('r:')) { const r = D.rdv.find(x => x.id === v.slice(2)); return { c: r && client(r.clientId), r }; }
+  if (v.startsWith('c:')) return { c: client(v.slice(2)), r: null };
+  return null;
+}
+function pourSync() {
+  if (!compo) return;
+  const x = compo.pour ? pourQui(compo.pour) : null;
+  if (compo.pour && compo.pour !== 'libre' && !(x && x.c)) compo.pour = '';
+  compo.clientId = x && x.c ? x.c.id : '';
+}
+function formNouveauPour() {
+  ouvrir('Nouveau client', '<div class="deux">' + champ('apprenom', 'Prénom', '') + champ('apnom', 'Nom', '') + '</div>' + boutonsForm(false), {
+    ok() {
+      if (!valeur('apprenom') && !valeur('apnom')) return toast('Indique le prénom ou le nom.');
+      const c = { id: uid(), prenom: valeur('apprenom'), nom: valeur('apnom'), personnes: [], seances: [], historique: [], cree: new Date().toISOString() };
+      D.clients.push(c); enregistrer();
+      compo.pour = 'c:' + c.id; pourSync(); garderCompo(); fermer(); rendre();
+    }
+  });
+}
+// Lancer quand on sait déjà pour qui : seule la case d'accord s'affiche si besoin
+function lancerPour(id, nav, x) {
+  if (!x) return formCommencer(id, nav);
+  const enrPossible = !!(navigator.mediaDevices && window.MediaRecorder);
+  let dev = ''; try { dev = localStorage.getItem('ect-micro') || ''; } catch (e) {}
+  const go = enr => {
+    nav();
+    SEANCES[id] = { clientId: x.c ? x.c.id : '', rdvId: x.r ? x.r.id : '', libre: !!x.libre, commencee: true };
+    if (enr) demarrerEnr(x.libre ? SANS_CLIENT() : x.c, dev, x.r && x.r.id);
+    rendre(); window.scrollTo(0, 0); lancerLecture();
+    if (!enr) toast(x.libre ? 'Séance libre, sans enregistrement' : 'Séance sans enregistrement');
+  };
+  if (x.c && x.c.accordEnr && enrPossible) return go(true);
+  if (!enrPossible) return go(false);
+  ouvrir('Commencer la séance', '<div class="discret" style="text-align:center;margin:-8px 0 14px">' + (x.libre ? 'Séance libre, sans client' : esc(nomClient(x.c))) + '</div>' +
+    '<label class="cocher"><input type="checkbox" id="laccord"><span>La personne a donné son accord pour l\'enregistrement</span></label>' +
+    '<div class="rangee"><button class="btn" data-a="f-annuler">Annuler</button><button class="btn" data-a="f-sans">Sans enregistrement</button><button class="btn plein" data-a="f-ok">▶ Commencer</button></div>', {
+    ok() {
+      const a = document.getElementById('laccord').checked;
+      if (a && x.c) { x.c.accordEnr = true; enregistrer(); }
+      fermer(); go(a);
+    },
+    sans() { fermer(); go(false); }
+  });
+}
+
 /* ----- 3 et 4. Commencer la séance : pour qui, enregistrement et lecture d'un coup ----- */
 const SEANCES = {};
 function formCommencer(id, ouvrirTech) {
@@ -2985,11 +3062,11 @@ function formCommencer(id, ouvrirTech) {
     go(avecEnr) {
       const x = lireChampsSeance(); if (!x) return;
       fermer();
-      if (id === 'compo' && x.c) { compo.clientId = x.c.id; garderCompo(); }
+      if (id === 'compo') { compo.clientId = x.c ? x.c.id : ''; compo.pour = x.libre ? 'libre' : x.r ? 'r:' + x.r.id : x.c ? 'c:' + x.c.id : ''; garderCompo(); }
       if (ouvrirTech) ouvrirTech();
       SEANCES[id] = { clientId: x.c ? x.c.id : '', rdvId: x.r ? x.r.id : '', libre: !!x.libre, commencee: true };
-      const enr = avecEnr && x.accord && x.c && enrPossible;
-      if (enr) demarrerEnr(x.c, x.dev, x.r && x.r.id);
+      const enr = avecEnr && x.accord && (x.c || x.libre) && enrPossible;
+      if (enr) demarrerEnr(x.libre ? SANS_CLIENT() : x.c, x.dev, x.r && x.r.id);
       rendre(); window.scrollTo(0, 0);
       lancerLecture();
       if (!enr) toast(x.libre ? 'Séance libre, sans enregistrement' : 'Séance sans enregistrement');
@@ -3000,7 +3077,11 @@ function formCommencer(id, ouvrirTech) {
 async function demarrerEnr(c, dev, rdvId) {
   let stream;
   try { stream = await navigator.mediaDevices.getUserMedia({ audio: dev ? { deviceId: { exact: dev } } : true }); }
-  catch (e) { return toast('Le micro n\'est pas accessible. Vérifie l\'autorisation du micro pour l\'appli.'); }
+  catch (e) {
+    if (!dev) return toast('Le micro n\'est pas accessible. Vérifie l\'autorisation du micro pour l\'appli.');
+    try { stream = await navigator.mediaDevices.getUserMedia({ audio: true }); toast('Micro externe introuvable : micro de la tablette utilisé'); }
+    catch (e2) { return toast('Le micro n\'est pas accessible. Vérifie l\'autorisation du micro pour l\'appli.'); }
+  }
   const type = ['audio/webm;codecs=opus', 'audio/ogg;codecs=opus', 'audio/mp4', 'audio/webm'].find(t => MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(t)) || '';
   const rec = new MediaRecorder(stream, type ? { mimeType: type } : {});
   const t = tech(vue.p.id);
@@ -3015,7 +3096,7 @@ async function demarrerEnr(c, dev, rdvId) {
     stream.getTracks().forEach(tr => tr.stop());
     x.duree = Math.round(tempsEnr()); delete x.enCours;
     ENR.rec = null; majEnr(); garderEveille(vue.v === 'technique');
-    setTimeout(async () => { try { await assembler(x); } catch (e) {} enregistrer(); if (vue.v === 'client') rendre(); toast('Enregistrement rangé dans la fiche de ' + nomClient(c)); }, 300);
+    setTimeout(async () => { try { await assembler(x); } catch (e) {} enregistrer(); if (vue.v === 'client') rendre(); if (vue.v === 'clients') rendre(); toast(c.id ? 'Enregistrement rangé dans la fiche de ' + nomClient(c) : 'Enregistrement rangé dans « Enregistrements sans client »'); }, 300);
   };
   rec.start(10000);
   garderEveille(true); majEnr(); toast('Enregistrement en cours');
@@ -3023,7 +3104,7 @@ async function demarrerEnr(c, dev, rdvId) {
 function menuEnr() {
   ouvrir('Enregistrement · ' + fmtDuree(tempsEnr()), '<div class="discret" style="text-align:center;margin:-8px 0 16px">' + esc(nomClient(ENR.c)) + '</div><div style="display:grid;gap:10px">' +
     '<button class="btn" data-a="f-pause">' + (ENR.pause ? 'Reprendre' : 'Pause') + '</button>' +
-    '<button class="btn plein" data-a="f-stop">Arrêter et ranger dans la fiche</button>' +
+    '<button class="btn plein" data-a="f-stop">Arrêter et ranger</button>' +
     '<button class="btn" data-a="f-annuler">Continuer</button></div>', {
     pause() {
       if (ENR.pause) { ENR.rec.resume(); ENR.reprise = Date.now(); ENR.pause = false; }
@@ -3035,7 +3116,7 @@ function menuEnr() {
 }
 // Au démarrage : un enregistrement interrompu (appli fermée) est récupéré avec ce qui a été écrit
 function recupererEnr() {
-  for (const c of D.clients) for (const x of c.enregistrements || []) if (x.enCours) {
+  for (const c of [...D.clients, { enregistrements: D.enrLibres }]) for (const x of c.enregistrements || []) if (x.enCours) {
     delete x.enCours;
     assembler(x).then(b => { if (b) x.taille = b.size; enregistrer(); }).catch(() => {});
   }
@@ -3045,11 +3126,22 @@ function formEnreg(c, x) {
   const nom = 'Seance-' + SANS_ACCENT(nomClient(c)).replace(/[^A-Za-z0-9]+/g, '-') + '-' + x.date + '-' + x.heure.replace(':', 'h') + (/mp4/.test(x.type) ? '.m4a' : /ogg/.test(x.type) ? '.ogg' : '.webm');
   ouvrir('Enregistrement', '<div class="discret" style="text-align:center;margin:-8px 0 16px">' + esc(x.titre) + '<br>' + esc(dateCourte(x.date)) + ' à ' + esc(x.heure) + ' · ' + fmtDuree(x.duree) + '</div>' +
     '<div id="zaudio" class="discret" style="text-align:center;margin-bottom:14px">Chargement…</div>' +
-    '<div style="display:grid;gap:10px"><button class="btn plein" data-a="f-envoyer">Envoyer au client</button><button class="btn" data-a="f-telecharger">Télécharger sur la tablette</button><button class="btn danger" data-a="f-sup">Supprimer</button><button class="btn" data-a="f-annuler">Fermer</button></div>', {
+    '<div style="display:grid;gap:10px"><button class="btn plein" data-a="f-envoyer">Envoyer</button>' + (c.id ? '' : '<button class="btn" data-a="f-rattacher">Rattacher à une fiche client</button>') + '<button class="btn" data-a="f-telecharger">Télécharger sur la tablette</button><button class="btn danger" data-a="f-sup">Supprimer</button><button class="btn" data-a="f-annuler">Fermer</button></div>', {
     async envoyer() {
       const b = await audioLire(x.id); if (!b) return toast('Le fichier audio n\'est pas sur cette tablette.');
       const ok = await partager(b, nom, 'Enregistrement de votre séance', 'Bonjour, voici l\'enregistrement de votre séance. Belle écoute, ' + D.emetteur.nom.split(' ')[0] + '.');
       if (ok && confirm('Envoyé ? Supprimer maintenant l\'enregistrement de la tablette ?')) this.supprimer(true);
+    },
+    rattacher() {
+      ouvrir('Rattacher à une fiche', '<div class="champ"><label for="rcli">Client</label><select id="rcli"><option value="">— Choisir —</option>' + [...D.clients].sort((a, z) => nomClient(a).localeCompare(nomClient(z), 'fr')).map(k => '<option value="' + k.id + '">' + esc(nomClient(k)) + '</option>').join('') + '</select></div>' + boutonsForm(false), {
+        ok() {
+          const k = client(valeur('rcli')); if (!k) return toast('Choisis le client.');
+          const r = D.rdv.find(y => y.clientId === k.id && y.date === x.date);
+          D.enrLibres = D.enrLibres.filter(y => y.id !== x.id); x.rdvId = r ? r.id : '';
+          k.enregistrements = k.enregistrements || []; k.enregistrements.unshift(x);
+          enregistrer(); fermer(); rendre(); toast('Enregistrement rattaché à ' + nomClient(k));
+        }
+      });
     },
     async telecharger() { const b = await audioLire(x.id); if (!b) return toast('Le fichier audio n\'est pas sur cette tablette.'); telecharger(b, nom); },
     sup() { if (confirm('Supprimer cet enregistrement ? Il ne pourra pas être récupéré.')) this.supprimer(true); },
@@ -3126,6 +3218,7 @@ function supprimerLong(el) {
   if (k === 'pers' && c) { if (!ok('Retirer ' + (c.personnes[Number(d.i)].prenom || 'ce personnage') + ' ?')) return; c.personnes.splice(Number(d.i), 1); return fini(); }
   if (k === 'sp' && c) { if (!ok('Supprimer cette séance préparée ?')) return; c.seances = c.seances.filter(x => x.id !== d.id); return fini(); }
   if (k === 'histo' && c) { if (!ok('Retirer cette séance de l\'historique ?')) return; c.historique = c.historique.filter(x => x.id !== d.id); return fini(); }
+  if (k === 'enrlibre') { if (!ok('Supprimer cet enregistrement ? Il ne pourra pas être récupéré.')) return; audioSuppr(d.id).catch(() => {}); D.enrLibres = D.enrLibres.filter(x => x.id !== d.id); return fini(); }
   if (k === 'enr' && c) { if (!ok('Supprimer cet enregistrement ? Il ne pourra pas être récupéré.')) return; audioSuppr(d.id).catch(() => {}); c.enregistrements = c.enregistrements.filter(x => x.id !== d.id); return fini(); }
   if (k === 'part') {
     const t = TECHNIQUES[vue.p.id], e = t && t.etapes[Number(d.i)]; if (!e || !ok('Supprimer la partie « ' + titreE(e) + ' » ? Elle disparaîtra partout. Tu pourras la rétablir.')) return;
