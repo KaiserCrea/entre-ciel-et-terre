@@ -302,7 +302,7 @@ input[type=date],input[type=time]{color-scheme:dark}
 .notec .nx{font-size:14px;line-height:1.55;color:#aab4cc;white-space:pre-line;display:-webkit-box;-webkit-line-clamp:7;-webkit-box-orient:vertical;overflow:hidden}
 .np{display:flex;gap:6px;flex-wrap:wrap}
 .puce{font-family:var(--caps);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--argent2);border:0.5px solid #c9d4ee55;border-radius:10px;padding:3px 8px}
-.notepleine{white-space:pre-line;font-size:calc(18px * var(--taille));line-height:1.7;color:#d9dfec}
+.notepleine{white-space:pre-line;font-size:18px;line-height:1.7;color:#d9dfec}
 /* ---------- Défilement automatique ---------- */
 .technique{padding-bottom:110px}
 .lecteur{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:30;display:flex;align-items:center;gap:6px;padding:7px 10px 7px 7px;border-radius:40px;background:#0b1020e0;border:0.5px solid #c9d4ee44;box-shadow:0 8px 30px #000a,0 0 18px #b9c7e622;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:opacity .4s}
@@ -338,7 +338,7 @@ html{touch-action:manipulation}
 .aph{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
 .aph span{font-family:var(--caps);font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#aebbd8}
 .aph em{font-style:normal;color:#f5c48c}
-.apercu .dit{font-size:20px}
+.apercu .dit{font-size:calc(20px * var(--taille))}
 .som{display:flex;align-items:center;gap:10px;border-bottom:0.5px solid #ffffff12}
 .som button[data-a=saut]{flex:1;border-bottom:none}
 .som .modif{font-family:var(--caps);font-style:normal;font-size:9px;letter-spacing:2px;color:#f5c48c;margin-left:10px;text-transform:uppercase}
@@ -351,6 +351,64 @@ html{touch-action:manipulation}
 .ln-n{font-family:var(--serif);font-size:18px;color:#f3f5fb}
 .et-on{color:#f3d58a;letter-spacing:1px}
 .et-off{color:#ffffff30;letter-spacing:1px}
+/* ---------- Version 7 ---------- */
+:root{--taille2:1}
+.page:not(.technique){zoom:var(--taille2)}
+.barre .act{flex-wrap:wrap;justify-content:flex-end;align-items:center}
+.barre .lecteur{position:static;transform:none;right:auto;left:auto;bottom:auto;box-shadow:none;padding:2px 6px 2px 2px;gap:0;opacity:1 !important;background:#0b10208c}
+.terre .barre .lecteur{background:#170b068c}
+.barre .lbtn{width:30px;height:30px;font-size:18px}
+.barre .lplay{width:34px;height:34px;font-size:11px}
+.barre .lvit{min-width:24px}
+.pastille.ic{min-width:38px;padding:8px 10px;font-size:15px;line-height:1}
+.pastille.enr b{color:#e86a5c;font-weight:400}
+.pastille.enr.off{opacity:.35}
+.pastille.enr.off b{color:var(--argent2)}
+.pastille.enr.rec{border-color:#e86a5c99;color:#f6d5cf;font-variant-numeric:tabular-nums}
+.pastille.enr.rec b{animation:clignote 1.4s infinite}
+.pastille.enr.pause b{animation:none;opacity:.5}
+@keyframes clignote{50%{opacity:.25}}
+#enrpill{position:fixed;left:calc(14px + env(safe-area-inset-left));bottom:calc(16px + env(safe-area-inset-bottom));z-index:31;border:0.5px solid #e86a5c99;background:#0b1020e8;color:#f6d5cf;border-radius:22px;padding:9px 14px;font-size:14px;font-variant-numeric:tabular-nums;box-shadow:0 6px 20px #0008}
+#enrpill b{color:#e86a5c;font-weight:400;animation:clignote 1.4s infinite}
+#enrpill.pause b{animation:none;opacity:.5}
+#bulle{position:fixed;left:50%;top:calc(76px + env(safe-area-inset-top));transform:translateX(-50%);z-index:25;width:min(640px,calc(100vw - 32px));border:0.5px solid #c9d4ee66;border-radius:20px;background:#0b1020f2;box-shadow:0 10px 34px #000b,0 0 22px #b9c7e62a;padding:18px 44px 14px 20px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.terre #bulle,.terre~#bulle{border-color:#f5c48c66}
+#bulle .bt{font-family:var(--serif);font-style:italic;font-size:calc(21px * var(--taille));line-height:1.55;color:#eef1f8;white-space:pre-line}
+#bulle .bn{font-family:var(--caps);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--doux);margin-top:10px}
+#bulle .bx{position:absolute;top:8px;right:8px;width:34px;height:34px;border-radius:50%;border:0;background:#ffffff10;color:#dfe5f3;font-size:20px;line-height:1}
+.cocher{display:flex;align-items:center;gap:12px;margin:4px 0 14px;font-size:16px;color:#dfe5f3}
+.cocher input{width:22px;height:22px;accent-color:#8fa3d4;flex-shrink:0}
+.outils-l{display:flex;justify-content:center;gap:8px;margin:-6px 0 10px}
+.onglets{margin:0 0 10px}
+.onglets button{padding:8px 10px;font-size:14px}
+.som.sup button:first-child{flex:1;opacity:.45;border-bottom:none}
+.apercu.sup{opacity:.6}
+.apercu.sup .aph{margin-bottom:0}
+[data-long]{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.scarte{border:0.5px solid var(--trait);border-left:2px solid var(--argent);border-radius:14px;background:#0b1020c4;margin-bottom:12px;overflow:hidden}
+.scarte.fait{border-left-color:#8fd4a8}
+.scarte-h{display:flex;gap:14px;width:100%;text-align:left;border:0;background:none;padding:14px 16px;color:var(--texte)}
+.scarte-h .h{font-family:var(--caps);font-size:14px;letter-spacing:1px;color:var(--argent2);width:70px;flex-shrink:0;line-height:1.5}
+.scarte-h .h small{display:block;color:var(--doux);font-family:var(--sans);letter-spacing:0;font-size:12px}
+.scarte-h .c{font-family:var(--serif);font-size:20px;color:#f3f5fb}
+.scarte-h .p{color:#aab4cc;font-size:14px;margin-top:2px}
+.scarte-h.statique .c{font-family:var(--caps);font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#aebbd8}
+.scarte-l{border-top:0.5px solid #ffffff12;padding:4px 10px 6px}
+.ligne{display:block;width:100%;text-align:left;border:0;border-bottom:0.5px solid #ffffff0d;background:none;color:var(--texte);padding:10px 6px}
+.ligne:last-child{border-bottom:0}
+.ligne .li-t{display:block;font-size:16px;color:#eef1f8}
+.ligne .li-p{display:block;font-size:13px;color:#aab4cc;margin-top:2px}
+.ligne.prep .li-t{color:#f5d9b8}
+.pt-rouge{color:#e86a5c;font-weight:400}
+.plan{padding:8px 16px}
+.planl{display:flex;gap:12px;align-items:baseline;padding:9px 0;border-bottom:0.5px solid #ffffff10}
+.planl:last-child{border-bottom:0}
+.planl span{font-family:var(--caps);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#aebbd8;width:130px;flex-shrink:0}
+.planl b{flex:1;font-family:var(--serif);font-weight:400;font-size:18px;color:#f3f5fb}
+.planl em{font-style:normal;font-size:14px;color:var(--doux);white-space:nowrap}
+.planl.tot em{color:#f3f5fb;font-size:16px}
+.apb{justify-content:center;margin:4px 0 0}
+.apb .pastille{flex:0 0 auto}
 </style>
 </head>
 <body>
@@ -411,7 +469,17 @@ const TECHNIQUES = {
       ]},
       { r: 'II', titre: "L'endroit safe", b: [
         ['dit', "Maintenant que ton corps est détendu, imagine un lieu où tu te sens totalement en sécurité, apaisé, protégé. Ça peut être un endroit que tu connais ou un endroit que tu inventes : une plage, une forêt, un jardin, une maison…"],
-        ['q', ["Regarde autour de toi. Quelles couleurs vois-tu ?", "Quels sons entends-tu ?", "Quelle est la température de l'air ?", "Qu'est-ce que tu sens sous tes pieds ?"]],
+        ['consigne', "Après chaque réponse, reprendre ses mots et ratifier."],
+        ['q', ["Es-tu à l'intérieur ou à l'extérieur ?", "Fait-il jour ou fait-il nuit ?", "Es-tu seul, ou y a-t-il du monde autour de toi ?"]],
+        ['consigne', "S'il y a du monde :"],
+        ['q', ["Ce sont des personnes que tu connais ?"]],
+        ['consigne', "Si oui :"],
+        ['dit', "Ressens ce que leur présence t'apporte."],
+        ['consigne', "Si non :"],
+        ['dit', "Elles vivent leur vie tranquillement, et toi, tu es bien, à ta place."],
+        ['q', ["Est-ce que c'est calme, ou y a-t-il de l'animation autour de toi ?"]],
+        ['dit', "Apprécie les couleurs autour de toi.\nCentre-toi sur les sons de cet endroit.\nRessens la température de l'air sur ta peau.\nSens ce qu'il y a sous tes pieds."],
+        ['dit', "Cet endroit t'appartient. Tu peux le modifier comme tu le souhaites, ajouter ou retirer ce que tu veux, jusqu'à ce qu'il soit parfait pour toi.\nIci, personne ne peut entrer sans ton accord. Tu es complètement en sécurité.\nÀ chaque respiration, cet endroit devient plus présent, plus réel, plus apaisant."],
         ['dit', "Ressens cette paix, ce calme, cette sécurité dans tout ton corps.\nMaintenant, pendant que tu ressens tout ça, touche doucement ton pouce et ton index. Ce geste est relié à cet endroit. À chaque fois que tu le feras, ou que je te le demanderai, tu reviendras ici instantanément, en sécurité.\nRelâche tes doigts. Cet endroit reste là, il t'attend, toujours disponible."]
       ]},
       { r: 'III', titre: 'La pièce', b: [
@@ -1011,7 +1079,7 @@ for (const b of BRIQUES) {
 
 /* ---------- Données par défaut ---------- */
 const DEFAUT = () => ({
-  version: 6,
+  version: 7,
   emetteur: {
     nom: 'Thierry Testa',
     statut: 'Entrepreneur individuel',
@@ -1038,6 +1106,9 @@ const DEFAUT = () => ({
   briques: [],
   textes: {},
   faces: {},
+  titres: {},
+  suppr: {},
+  confusions: [CONFUSION_1],
   derniereSauvegarde: null
 });
 const DIVERSES_V3 = [
@@ -1094,8 +1165,12 @@ function migrer() {
     D.version = 6;
     enregistrer();
   }
+  if (D.version < 7) { D.version = 7; enregistrer(); }
   if (!D.textes) D.textes = {};
   if (!D.faces) D.faces = {};
+  if (!D.titres) D.titres = {};
+  if (!D.suppr) D.suppr = {};
+  if (!Array.isArray(D.confusions)) D.confusions = [CONFUSION_1];
   for (const c of D.clients) if (!c.historique) c.historique = [];
   for (const n of D.diverses) if (!n.etiquettes) n.etiquettes = [];
   for (const c of D.clients) if (!c.seances) c.seances = [];
@@ -1216,7 +1291,7 @@ async function garderEveille(oui) {
     if (!oui && verrou) { await verrou.release(); verrou = null; }
   } catch (e) {}
 }
-document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && vue.v === 'technique') garderEveille(true); });
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && (vue.v === 'technique' || ENR.rec)) garderEveille(true); });
 
 /* ---------- Rendu ---------- */
 const VUES = {};
@@ -1225,9 +1300,11 @@ function rendre() {
   const f = VUES[vue.v] || VUES.accueil;
   app.className = '';
   if (lecture.on && vue.v !== 'technique') arreterLecture();
+  cacherBulle();
   app.innerHTML = f(vue.p);
-  garderEveille(vue.v === 'technique');
+  garderEveille(vue.v === 'technique' || !!ENR.rec);
   majLecteur();
+  majEnr();
   egaliser();
 }
 function barre(titre, actions, sansRetour) {
@@ -1260,7 +1337,7 @@ VUES.celeste = () => {
   return barre('Entre Ciel et Terre') + '<div class="page"><div class="heros"><div class="surtitre">Hypnose</div><div class="titre">Céleste</div>' + orne('✦ ✧ ✦') + '</div>' +
     carteAtelier('celeste') +
     '<div class="etiquette">Techniques</div>' +
-    ORDRE_CELESTE.filter(id => faceTech(id) !== 'terrestre').map(id => TECHNIQUES[id]).map(t => '<button class="carte" data-a="technique" data-id="' + t.id + '"><div class="int"><div><div class="nom">' + esc(t.nom) + '</div><div class="sous">' + esc(t.sous) + ' · ' + t.etapes.filter(e => e.r).length + ' étapes</div></div><span class="fl">›</span></div></button>').join('') +
+    ORDRE_CELESTE.filter(id => faceTech(id) !== 'terrestre').map(id => TECHNIQUES[id]).map(t => '<button class="carte" data-a="technique" data-id="' + t.id + '"><div class="int"><div><div class="nom">' + esc(t.nom) + '</div><div class="sous">' + esc(t.sous) + ' · ' + etapesVues(t).filter(e => e.r).length + ' étapes</div></div><span class="fl">›</span></div></button>').join('') +
     '<div class="fantome">Prochaine technique…</div></div>';
 };
 
@@ -1271,7 +1348,7 @@ VUES.terrestre = () => {
     carteAtelier('terrestre') +
     '<div class="etiquette">Protocoles</div>' + (() => {
       const l = ORDRE_CELESTE.filter(id => faceTech(id) !== 'celeste').map(id => TECHNIQUES[id]);
-      return l.length ? l.map(t => '<button class="carte" data-a="technique" data-terre="1" data-id="' + t.id + '"><div class="int"><div><div class="nom">' + esc(t.nom) + '</div><div class="sous">' + esc(t.sous) + ' · ' + t.etapes.filter(e => e.r).length + ' étapes</div></div><span class="fl">›</span></div></button>').join('') : '<div class="fantome">Tes protocoles terrestres viendront ici…</div>';
+      return l.length ? l.map(t => '<button class="carte" data-a="technique" data-terre="1" data-id="' + t.id + '"><div class="int"><div><div class="nom">' + esc(t.nom) + '</div><div class="sous">' + esc(t.sous) + ' · ' + etapesVues(t).filter(e => e.r).length + ' étapes</div></div><span class="fl">›</span></div></button>').join('') : '<div class="fantome">Tes protocoles terrestres viendront ici…</div>';
     })() +
     '<div class="etiquette">Jeux hypnotiques</div>' +
     '<button class="carte dossier" data-a="jeux"><div class="int"><div class="sceau">◆</div><div><div class="nom">Jeux hypnotiques</div><div class="sous">' + JEUX.length + ' jeux · démonstrations et découvertes</div></div><span class="fl">›</span></div></button>' +
@@ -1307,6 +1384,15 @@ function blocsVisibles(b, ctx) {
   return out;
 }
 const ETIQ_COND = { safe: 'endroit safe', piece: 'la pièce', lieu: 'lieu agréable' };
+const titreE = e => (e && e.k && D.titres['e:' + e.k] != null) ? D.titres['e:' + e.k] : e.titre;
+const estSuppr = e => !!(e && e.k && D.suppr[e.k]);
+// Les étapes à afficher : sans les parties supprimées, avec les titres modifiés, renumérotées
+function etapesVues(t) {
+  const l = [];
+  t.etapes.forEach((e, i) => { if (!estSuppr(e)) l.push({ ...e, i, titre: titreE(e) }); });
+  let n = 0; for (const e of l) if (e.r) e.r = romain(++n);
+  return l;
+}
 // Le texte d'une étape : ta version modifiée si elle existe, sinon le texte d'origine
 function blocs(e) {
   const t = e && e.k && D.textes ? D.textes[e.k] : null;
@@ -1352,22 +1438,30 @@ VUES.technique = p => {
   if (p.sommaire) {
     const edit = !!TECHNIQUES[p.id];
     return barre(t.nom) + '<div class="page"><div class="heros" style="margin-bottom:10px"><div class="surtitre">Étapes</div></div><div class="sommaire">' +
-      t.etapes.map((e, i) => '<div class="som"><button data-a="saut" data-i="' + i + '"><span>' + (e.r || '·') + '</span>' + esc(e.titre) + (edit && D.textes[e.k] != null ? '<em class="modif">modifié</em>' : '') + '</button>' + (edit ? '<button class="pastille" data-a="modifetape" data-i="' + i + '">Modifier</button>' : '') + '</div>').join('') + '</div>' +
+      (() => {
+        const rOf = {}; for (const v of etapesVues(t)) rOf[v.i] = v.r;
+        return t.etapes.map((e, i) => {
+          const sup = estSuppr(e);
+          return '<div class="som' + (sup ? ' sup' : '') + '"' + (edit && !sup ? ' data-long="part" data-i="' + i + '"' : '') + '><button' + (sup ? '' : ' data-a="saut"') + ' data-i="' + i + '"><span>' + (sup ? '—' : (rOf[i] || '·')) + '</span>' + esc(titreE(e)) + (sup ? '<em class="modif">supprimée</em>' : (edit && (D.textes[e.k] != null || D.titres['e:' + e.k] != null) ? '<em class="modif">modifié</em>' : '')) + '</button>' +
+            (edit ? (sup ? '<button class="pastille" data-a="retablir" data-i="' + i + '">Rétablir</button>' : '<button class="pastille" data-a="modifetape" data-i="' + i + '">Modifier</button>') : '') + '</div>';
+        }).join('');
+      })() + '</div>' +
       (edit ? '<div class="etiquette">Rangée dans</div>' + choixFace('t:' + p.id, faceTech(p.id)) + '<div class="discret" style="margin-top:8px">Les modifications de texte valent aussi pour les briques de l\'atelier qui reprennent la même étape.</div>' : '') + '</div>';
   }
-  const total = t.etapes.filter(x => x.r).length;
-  const actions = '<button class="pastille" data-a="taille" data-d="-1" aria-label="Texte plus petit">A−</button><button class="pastille" data-a="taille" data-d="1" aria-label="Texte plus grand">A+</button>' +
-    (t.auto ? '<button class="pastille" data-a="pdftech">PDF</button>' : '<button class="pastille" data-a="choixpers">Personnes</button>') +
+  const vis = etapesVues(t), total = vis.filter(x => x.r).length;
+  const actions = lecteurHTML() + '<button class="pastille ic" data-a="confusion" aria-label="Confusion">✧</button>' + boutonEnr() +
+    (t.auto ? '<button class="pastille" data-a="pdftech">PDF</button>' : '<button class="pastille" data-a="choixpers">Personnages</button>') +
     '<button class="pastille" data-a="sommaire">Étapes</button>';
   let h = barre(t.nom, actions).replace(/<\/div>$/, '<div class="progfixe"><div id="progbar"></div></div></div>');
   h += '<div class="page technique">';
-  t.etapes.forEach((e, i) => {
+  vis.forEach(e => {
+    const i = e.i;
     h += '<section class="etape" id="etape-' + i + '"><div class="int"><div class="romain">' + (e.r ? e.r + ' · ' + romain(total) : '✦') + '</div><h2>' + esc(e.titre) + '</h2>' + orne('✦') + corpsEtape(e, t.ctx) + '</div></section>';
   });
   h += '<div class="fintech">✦ Fin de la technique ✦</div>';
   if (t.auto) h += '<button class="btn plein large" data-a="pdftech">Envoyer au client (PDF)</button>';
   else h += '<button class="btn plein large" data-a="rattacher">Rattacher à un rendez-vous</button>';
-  h += '</div>' + lecteurHTML();
+  h += '</div>';
   return h;
 };
 function majProg() {
@@ -1387,6 +1481,7 @@ function restaurerDefilement() {
   majProg();
 }
 
+const CONFUSION_1 = "Et tu ne sais pas encore si tu es en train d'écouter ce que je dis, ou de ressentir ce que tu entends, ou d'entendre ce que tu ressens… et c'est très bien de ne pas savoir… parce que plus tu cherches à comprendre, plus tu peux lâcher… maintenant.";
 /* ----- Atelier : composer une séance ----- */
 let compo = null;
 try { compo = JSON.parse(localStorage.getItem('ect-compo')); } catch (e) { compo = null; }
@@ -1423,46 +1518,64 @@ function texteEnBlocs(t, complet) {
 }
 function formEtape(e, apres) {
   const aide = '<div class="discret" style="line-height:1.6;margin:-6px 0 12px">Ligne vide : nouveau paragraphe. Ligne commençant par « ? » : question. Ligne entre parenthèses : consigne pour toi. « • » : liste. « # » : sous-titre. Les mentions entre crochets, comme [si endroit safe], dépendent des choix de l\'atelier : laisse-les en début de paragraphe.</div>';
-  const modifie = D.textes[e.k] != null;
-  ouvrir(e.titre, aide + '<div class="champ"><textarea id="etexte" style="min-height:52vh;font-family:var(--serif);font-size:18px;line-height:1.55">' + esc(blocsEnTexte(blocs(e))) + '</textarea></div>' +
-    '<div class="rangee" style="margin-top:10px">' + (modifie ? '<button class="btn" data-a="f-origine">Texte d\'origine</button>' : '') + '<button class="btn" data-a="f-annuler">Annuler</button><button class="btn plein" data-a="f-ok">Enregistrer</button></div>', {
+  const modifie = D.textes[e.k] != null || D.titres['e:' + e.k] != null;
+  const fin = msg => { enregistrer(); fermer(); toast(msg); apres ? apres() : rendre(); };
+  ouvrir('Modifier', champ('etitre', 'Titre', titreE(e)) + aide + '<div class="champ"><label for="etexte">Texte</label><textarea id="etexte" style="min-height:46vh;font-family:var(--serif);font-size:18px;line-height:1.55">' + esc(blocsEnTexte(blocs(e))) + '</textarea></div>' +
+    '<div class="rangee" style="margin-top:10px"><button class="btn danger" data-a="f-supprimer">Supprimer cette partie</button>' + (modifie ? '<button class="btn" data-a="f-origine">Texte d\'origine</button>' : '') + '</div>' +
+    '<div class="rangee" style="margin-top:10px"><button class="btn" data-a="f-annuler">Annuler</button><button class="btn plein" data-a="f-ok">Enregistrer</button></div>', {
     ok() {
-      const v = document.getElementById('etexte').value;
-      if (!v.trim()) return toast('Le texte est vide.');
+      const v = document.getElementById('etexte').value, ti = valeur('etitre');
+      if (!v.trim()) { if (confirm('Le texte est vide. Supprimer cette partie ?')) { D.suppr[e.k] = true; fin('Partie supprimée'); } return; }
       if (v.trim() === blocsEnTexte(e.b).trim()) delete D.textes[e.k]; else D.textes[e.k] = v;
-      enregistrer(); fermer(); toast('Texte enregistré'); apres ? apres() : rendre();
+      if (!ti || ti === e.titre) delete D.titres['e:' + e.k]; else D.titres['e:' + e.k] = ti;
+      fin('Texte enregistré');
+    },
+    supprimer() {
+      if (!confirm('Supprimer cette partie ? Elle disparaîtra partout : dans la brique, la technique et les séances composées.')) return;
+      D.suppr[e.k] = true; fin('Partie supprimée');
     },
     origine() {
-      if (!confirm('Revenir au texte d\'origine ? Ta version sera effacée.')) return;
-      delete D.textes[e.k]; enregistrer(); fermer(); toast('Texte d\'origine rétabli'); apres ? apres() : rendre();
+      if (!confirm('Revenir au texte et au titre d\'origine ? Ta version sera effacée.')) return;
+      delete D.textes[e.k]; delete D.titres['e:' + e.k]; delete D.suppr[e.k]; fin('Texte d\'origine rétabli');
     }
   });
 }
 function brique(id) {
   if (!id) return null;
-  const b = BRIQUES.find(x => x.id === id); if (b) return b;
+  const b = BRIQUES.find(x => x.id === id); if (b) { const n = D.titres['b:' + b.id]; return n ? { ...b, nom: n } : b; }
   const u = (D.briques || []).find(x => x.id === id); if (!u) return null;
   return { id: u.id, type: u.type, face: u.face, min: Number(u.min) || 0, nom: u.nom, src: 'Ma brique', perso: true, etapes: [{ r: 'x', titre: u.nom, b: texteEnBlocs(u.texte) }] };
 }
 const faceBrique = b => b.perso ? (b.face || 'deux') : (D.faces['b:' + b.id] || b.face);
 const faceTech = id => D.faces['t:' + id] || 'celeste';
-const briquesDe = (type, face) => [...BRIQUES, ...(D.briques || []).map(u => brique(u.id))].filter(b => b.type === type && (faceBrique(b) === 'deux' || faceBrique(b) === face));
+const briquesDe = (type, face) => [...BRIQUES.map(b => brique(b.id)), ...(D.briques || []).map(u => brique(u.id))].filter(b => b.type === type && (faceBrique(b) === 'deux' || faceBrique(b) === face));
 const choixFace = (cle, v, rouvrir) => '<div class="segments">' + [['celeste', 'Céleste'], ['terrestre', 'Terrestre'], ['deux', 'Les deux']].map(([k, t]) => '<button class="' + (v === k ? 'on' : '') + '" data-a="face" data-cle="' + cle + '" data-f="' + k + '"' + (rouvrir ? ' data-r="' + rouvrir + '"' : '') + '>' + t + '</button>').join('') + '</div>';
 function lireBrique(id) {
   const b = brique(id); if (!b) return;
   const etapes = [b.avant, ...b.etapes, b.apres].filter(Boolean);
   const sel = compo && compo[b.type] === b.id;
   const btnChoix = '<button class="btn plein" data-a="f-choisir">' + (sel ? 'Retirer de la séance' : 'Choisir cette brique') + '</button>';
-  let h = '<div class="discret" style="text-align:center;margin:-10px 0 14px">' + esc((TYPES.find(t => t[0] === b.type) || ['', ''])[1]) + ' · ' + esc(b.src) + ' · ≈ ' + b.min + ' min</div>';
+  let h = '<div class="outils-l"><button class="pastille" data-a="taille" data-d="-1">A−</button><button class="pastille" data-a="taille" data-d="1">A+</button>' + (b.perso ? '' : '<button class="pastille" data-a="f-renommer">Renommer</button>') + '</div>';
+  h += '<div class="discret" style="text-align:center;margin:0 0 14px">' + esc((TYPES.find(t => t[0] === b.type) || ['', ''])[1]) + ' · ' + esc(b.src) + ' · ≈ ' + b.min + ' min</div>';
   h += '<div class="etiquette" style="margin-top:0">Rangée dans</div>' + choixFace(b.perso ? 'u:' + b.id : 'b:' + b.id, faceBrique(b), b.id);
   h += '<div class="rangee" style="margin:14px 0 6px">' + btnChoix + '<button class="btn" data-a="f-annuler">Fermer</button></div>';
-  h += etapes.map((e, i) => '<div class="apercu"><div class="aph"><span>' + esc(e.titre) + (e.k && D.textes[e.k] != null ? ' <em>· modifié</em>' : '') + '</span>' + (b.perso ? '' : '<button class="pastille" data-a="f-modif" data-i="' + i + '">Modifier</button>') + '</div>' + corpsEtape({ b: blocs(e) }) + '</div>').join('');
+  h += etapes.map((e, i) => estSuppr(e)
+    ? '<div class="apercu sup"><div class="aph"><span>' + esc(titreE(e)) + ' <em>· supprimée</em></span><button class="pastille" data-a="f-retablir" data-i="' + i + '">Rétablir</button></div></div>'
+    : '<div class="apercu"' + (b.perso ? '' : ' data-long="bpart" data-id="' + b.id + '" data-i="' + i + '"') + '><div class="aph"><span>' + esc(titreE(e)) + (e.k && (D.textes[e.k] != null || D.titres['e:' + e.k] != null) ? ' <em>· modifié</em>' : '') + '</span>' + (b.perso ? '' : '<button class="pastille" data-a="f-modif" data-i="' + i + '">Modifier</button>') + '</div>' + corpsEtape({ b: blocs(e) }) + '</div>').join('');
   if (b.perso) h += '<button class="btn large" data-a="f-modifperso">Modifier cette brique</button>';
   h += '<div class="rangee" style="margin-top:14px">' + btnChoix + '</div>';
   ouvrir(b.nom, h, {
     choisir() { compo[b.type] = sel ? '' : b.id; garderCompo(); fermer(); const y = scrollY; rendre(); window.scrollTo(0, y); },
     modif(el) { formEtape(etapes[Number(el.dataset.i)], () => { rendre(); lireBrique(id); }); },
-    modifperso() { formBrique((D.briques || []).find(x => x.id === id)); }
+    modifperso() { formBrique((D.briques || []).find(x => x.id === id)); },
+    retablir(el) { delete D.suppr[etapes[Number(el.dataset.i)].k]; enregistrer(); rendre(); lireBrique(id); },
+    renommer() {
+      const orig = BRIQUES.find(x => x.id === id), mod = D.titres['b:' + id] != null;
+      ouvrir('Renommer la brique', champ('bnomr', 'Nom', b.nom) + '<div class="rangee" style="margin-top:10px">' + (mod ? '<button class="btn" data-a="f-origine">Nom d\'origine</button>' : '') + '<button class="btn" data-a="f-annuler">Annuler</button><button class="btn plein" data-a="f-ok">Enregistrer</button></div>', {
+        ok() { const v = valeur('bnomr'); if (!v || v === orig.nom) delete D.titres['b:' + id]; else D.titres['b:' + id] = v; enregistrer(); fermer(); rendre(); lireBrique(id); },
+        origine() { delete D.titres['b:' + id]; enregistrer(); fermer(); rendre(); lireBrique(id); }
+      });
+    }
   });
 }
 function raccords(c) {
@@ -1483,22 +1596,24 @@ const dureeCompo = c => ['induction', 'approf', 'protocole', 'retour'].reduce((s
 function construire(c, titre) {
   const ind = brique(c.induction), ap = brique(c.approf), pr = brique(c.protocole), re = brique(c.retour);
   const ctx = { safe: !!c.safe, lieu: !!(ind && ind.lieu), piece: !!(ap && (ap.fournit || []).includes('piece')) };
-  const copie = e => ({ r: e.r ? 'x' : '', titre: e.titre, b: [...blocs(e)] });
+  const copie = e => estSuppr(e) ? null : ({ r: e.r ? 'x' : '', titre: titreE(e), src: e, b: [...blocs(e)] });
   const lie = (etapes, cle) => {
-    const l = etapes.map(copie);
+    const l = etapes.map(copie).filter(Boolean);
+    if (cle && l.length) l[0].liaison = cle;
     if (cle && l.length) l[0].b.unshift(['dit', (c.liaisons && c.liaisons[cle] != null) ? c.liaisons[cle] : LIAISONS[cle]]);
     return l;
   };
   const rac = raccords(c), cleAvant = nom => (rac.find(r => r.cle && r.vers === nom) || {}).cle;
   let et = [];
-  for (const x of [pr, ind, ap]) if (x && x.avant) et.push({ ...copie(x.avant), r: '' });
+  for (const x of [pr, ind, ap]) if (x && x.avant && !estSuppr(x.avant)) et.push({ ...copie(x.avant), r: '' });
   if (ind) et = et.concat(ind.etapes.map(copie));
-  if (c.safe && ind && !ind.ancre) et.push(copie(SAFE));
+  if (c.safe && ind && !ind.ancre && !estSuppr(SAFE)) et.push(copie(SAFE));
   if (ap) et = et.concat(lie(ap.etapes, cleAvant(ap.nom)));
   if (pr) et = et.concat(lie(pr.etapes, cleAvant(pr.nom)));
   if (re) et = et.concat(re.etapes.map(copie));
-  if (pr && pr.apres) et.push({ ...copie(pr.apres), r: '' });
+  if (pr && pr.apres && !estSuppr(pr.apres)) et.push({ ...copie(pr.apres), r: '' });
   if (c.safe) et.push({ r: '', titre: "En cas d'urgence", b: [['consigne', 'À tout moment de la séance.'], ['dit', "Touche ton pouce et ton index… tu es maintenant dans " + (ind && ind.ancre ? ind.ancre : 'ton endroit safe') + ", en sécurité."]] });
+  et = et.filter(Boolean);
   let n = 0; for (const e of et) if (e.r) e.r = romain(++n);
   return { id: 'compo', nom: titre || 'Séance composée', sous: [ind, ap, pr, re].filter(Boolean).map(b => b.nom).join(' · '), etapes: et, ctx };
 }
@@ -1511,8 +1626,9 @@ VUES.atelier = p => {
   for (const k of ['induction', 'approf', 'protocole', 'retour']) if (compo[k] && !brique(compo[k])) compo[k] = '';
   const cl = client(compo.clientId);
   const choix = (type, num, titre, vide) => {
-    const l = briquesDe(type, p.face);
-    return '<div class="etiquette">' + num + ' · ' + titre + '</div><div class="choix">' +
+    const fo = type === 'induction' ? (ongletInd || p.face) : p.face;
+    const l = briquesDe(type, fo);
+    return '<div class="etiquette">' + num + ' · ' + titre + '</div>' + (type === 'induction' ? '<div class="segments onglets">' + [['celeste', 'Céleste'], ['terrestre', 'Terrestre']].map(([k, t]) => '<button class="' + (fo === k ? 'on' : '') + '" data-a="ongletind" data-f="' + k + '">' + t + '</button>').join('') + '</div>' : '') + '<div class="choix">' +
       (vide ? '<button class="' + (!compo[type] ? 'on' : '') + '" data-a="choisir" data-t="' + type + '" data-id=""><span class="cn">Aucun</span></button>' : '') +
       (l.length ? l.map(b => '<div class="ch"><button class="chb ' + (compo[type] === b.id ? 'on' : '') + '" data-a="choisir" data-t="' + type + '" data-id="' + b.id + '"><span class="cn">' + esc(b.nom) + '</span><span class="cs">' + esc(b.src) + ' · ≈ ' + b.min + ' min</span></button><button class="lire" data-a="lire" data-id="' + b.id + '">Lire</button></div>').join('') : '<div class="discret">Aucune brique de ce type pour l\'instant.</div>') + '</div>';
   };
@@ -1531,9 +1647,10 @@ VUES.atelier = p => {
   }
   h += '<div class="resume"><div class="duree">Durée estimée <b>≈ ' + dureeCompo(compo) + ' min</b></div>' +
     (pret(compo) ? '' : '<div class="discret" style="margin-bottom:12px">Choisis au moins une induction, un protocole et un retour.</div>') +
+    '<button class="btn large" data-a="apercucompo"' + (pret(compo) ? '' : ' disabled') + ' style="margin-bottom:10px">Aperçu de la séance</button>' +
     '<div class="rangee"><button class="btn" data-a="enrcompo"' + (pret(compo) ? '' : ' disabled') + '>Enregistrer dans la fiche client</button><button class="btn plein" data-a="lancercompo"' + (pret(compo) ? '' : ' disabled') + '>Lancer la séance</button></div></div>';
   const miennes = (D.briques || []).filter(b => b.face === 'deux' || b.face === p.face);
-  h += '<div class="etiquette">Mes briques</div>' + (miennes.length ? miennes.map(b => '<button class="rdv" data-a="modifbrique" data-id="' + b.id + '"><div style="flex:1"><div class="c" style="font-size:20px">' + esc(b.nom) + '</div><div class="p">' + esc((TYPES.find(t => t[0] === b.type) || ['', ''])[1]) + (b.min ? ' · ≈ ' + b.min + ' min' : '') + '</div></div></button>').join('') : '<div class="discret">Tu peux ajouter tes propres briques depuis la tablette.</div>') +
+  h += '<div class="etiquette">Mes briques</div>' + (miennes.length ? miennes.map(b => '<button class="rdv" data-a="modifbrique" data-long="brique" data-id="' + b.id + '"><div style="flex:1"><div class="c" style="font-size:20px">' + esc(b.nom) + '</div><div class="p">' + esc((TYPES.find(t => t[0] === b.type) || ['', ''])[1]) + (b.min ? ' · ≈ ' + b.min + ' min' : '') + '</div></div></button>').join('') : '<div class="discret">Tu peux ajouter tes propres briques depuis la tablette.</div>') +
     '<button class="btn large" style="margin-top:8px" data-a="nouvellebrique">+ Nouvelle brique</button></div>';
   return h;
 };
@@ -1587,13 +1704,13 @@ VUES.diverses = () => {
   return barre('Notes diverses') + '<div class="page"><div class="heros" style="margin-bottom:14px"><div class="surtitre">Carnet</div><div class="titre" style="font-size:40px">Notes diverses</div></div>' +
     '<div class="champ"><input id="rechdiv" placeholder="Rechercher dans les notes…" value="' + esc(rechDiv) + '"></div>' +
     '<div class="filtres"><button class="' + (!filtreDiv ? 'on' : '') + '" data-a="filtreetiq" data-e="">Toutes</button>' + D.etiquettes.map(e => '<button class="' + (filtreDiv === e ? 'on' : '') + '" data-a="filtreetiq" data-e="' + esc(e) + '">' + esc(e) + '</button>').join('') + '</div>' +
-    (l.length ? '<div class="mosaique">' + l.map(n => '<button class="notec" data-a="voirdiverse" data-id="' + n.id + '"><div class="nt">' + esc(n.titre) + '</div>' + (n.etiquettes && n.etiquettes.length ? '<div class="np">' + puces(n.etiquettes) + '</div>' : '') + '<div class="nx">' + esc(n.texte) + '</div></button>').join('') + '</div>' : '<div class="vide">' + (D.diverses.length ? 'Aucune note ne correspond' : 'Aucune note') + '</div>') +
+    (l.length ? '<div class="mosaique">' + l.map(n => '<button class="notec" data-a="voirdiverse" data-long="diverse" data-id="' + n.id + '"><div class="nt">' + esc(n.titre) + '</div>' + (n.etiquettes && n.etiquettes.length ? '<div class="np">' + puces(n.etiquettes) + '</div>' : '') + '<div class="nx">' + esc(n.texte) + '</div></button>').join('') + '</div>' : '<div class="vide">' + (D.diverses.length ? 'Aucune note ne correspond' : 'Aucune note') + '</div>') +
     '</div><button class="btn plein flottant" data-a="nouvellediverse">+ Note</button>';
 };
 VUES.voirdiverse = p => {
   fond('ciel');
   const n = D.diverses.find(x => x.id === p.id); if (!n) return VUES.diverses();
-  return barre('Note', '<button class="pastille" data-a="modifdiverse" data-id="' + n.id + '">Modifier</button>') +
+  return barre('Note', '<button class="pastille" data-a="taille2" data-d="-1">A−</button><button class="pastille" data-a="taille2" data-d="1">A+</button><button class="pastille" data-a="modifdiverse" data-id="' + n.id + '">Modifier</button>') +
     '<div class="page"><div class="heros" style="margin-bottom:10px"><div class="titre" style="font-size:38px">' + esc(n.titre) + '</div>' + (n.etiquettes && n.etiquettes.length ? '<div class="np" style="justify-content:center">' + puces(n.etiquettes) + '</div>' : '') + '</div>' +
     '<div class="bloc notepleine">' + esc(n.texte) + '</div></div>';
 };
@@ -1610,16 +1727,30 @@ function setTaille(v, garder) {
 }
 let pincement = null;
 const ecart = e => Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+// Deux tailles : les textes de séance (techniques, jeux, aperçu, fenêtre Lire) et le reste de l'appli
+const taille2 = () => Number(document.documentElement.style.getPropertyValue('--taille2')) || 1;
+function setTaille2(v, garder) {
+  v = Math.max(0.8, Math.min(1.7, v));
+  document.documentElement.style.setProperty('--taille2', v.toFixed(3));
+  if (garder) { try { localStorage.setItem('ect-taille2', v.toFixed(3)); } catch (e) {} }
+}
+const zoneSeance = () => {
+  if (!$('#voile').classList.contains('cache')) return document.querySelector('#feuille .apercu') ? 1 : 0;
+  return ((vue.v === 'technique' && !vue.p.sommaire) || vue.v === 'jeu' || vue.v === 'apercu') ? 1 : 2;
+};
 document.addEventListener('touchstart', e => {
-  if (vue.v === 'technique' && !vue.p.sommaire && e.touches.length === 2) pincement = { d: ecart(e), t: tailleActuelle() };
+  if (e.touches.length !== 2) return;
+  const z = zoneSeance(); if (!z) return;
+  pincement = { d: ecart(e), z, t: z === 1 ? tailleActuelle() : taille2() };
 }, { passive: true });
 document.addEventListener('touchmove', e => {
   if (!pincement || e.touches.length !== 2) return;
   e.preventDefault();
-  setTaille(pincement.t * ecart(e) / pincement.d, false);
+  const v = pincement.t * ecart(e) / pincement.d;
+  pincement.z === 1 ? setTaille(v, false) : setTaille2(v, false);
 }, { passive: false });
 document.addEventListener('touchend', e => {
-  if (pincement && e.touches.length < 2) { setTaille(tailleActuelle(), true); pincement = null; }
+  if (pincement && e.touches.length < 2) { pincement.z === 1 ? setTaille(tailleActuelle(), true) : setTaille2(taille2(), true); pincement = null; }
 }, { passive: true });
 
 
@@ -1691,7 +1822,7 @@ document.addEventListener('touchend', e => {
   if (e.touches.length) return;
   lecture.doigt = false; lecture.avant = 0;
   const d = lecture.depart; lecture.depart = null;
-  if (!d || Date.now() - d.t > 300 || e.target.closest('button, a, input, textarea, select, .barre, .lecteur')) { derniereTouche = null; return; }
+  if (!d || Date.now() - d.t > 300 || e.target.closest('button, a, input, textarea, select, .barre, .lecteur, #bulle, #enrpill')) { derniereTouche = null; return; }
   const maintenant = Date.now();
   if (derniereTouche && maintenant - derniereTouche.t < 350 && Math.hypot(d.x - derniereTouche.x, d.y - derniereTouche.y) < 40) {
     derniereTouche = null;
@@ -1713,7 +1844,7 @@ const rdvDu = iso => D.rdv.filter(r => r.date === iso).sort((a, b) => (a.heure |
 const lundiDe = iso => decaler(iso, -((versDate(iso).getDay() + 6) % 7));
 function carteRdv(r) {
   const c = client(r.clientId), pr = prestation(r.prestationId);
-  return '<button class="rdv ' + (r.fait ? 'fait' : '') + '" data-a="rdv" data-id="' + r.id + '"><div class="h">' + esc(r.heure || '—') + '<small>' + (r.duree ? 'à ' + finHeure(r.heure, r.duree) : '') + '</small></div><div><div class="c">' + esc(nomClient(c)) + '</div><div class="p">' + esc([pr ? pr.nom : '', dureeTxt(r.duree), r.lieu].filter(Boolean).join(' · ')) + '</div>' + (r.note ? '<div class="p" style="font-style:italic">' + esc(r.note) + '</div>' : '') + '</div></button>';
+  return '<button class="rdv ' + (r.fait ? 'fait' : '') + '" data-a="rdv" data-long="rdv" data-id="' + r.id + '"><div class="h">' + esc(r.heure || '—') + '<small>' + (r.duree ? 'à ' + finHeure(r.heure, r.duree) : '') + '</small></div><div><div class="c">' + esc(nomClient(c)) + '</div><div class="p">' + esc([pr ? pr.nom : '', dureeTxt(r.duree), r.lieu].filter(Boolean).join(' · ')) + '</div>' + (r.note ? '<div class="p" style="font-style:italic">' + esc(r.note) + '</div>' : '') + '</div></button>';
 }
 function titreAgenda() {
   const d = versDate(agenda.date);
@@ -1747,7 +1878,7 @@ function vueJour(iso) {
   clore();
   for (const [r, s, e, c, n] of place) {
     const cl = client(r.clientId), pr = prestation(r.prestationId);
-    h += '<button class="blocrdv' + (r.fait ? ' fait' : '') + '" data-a="rdv" data-id="' + r.id + '" style="top:' + ((s - deb) * PX + 2) + 'px;height:' + Math.max(30, (e - s) * PX - 4) + 'px;left:calc(8px + (100% - 12px) * ' + c + ' / ' + n + ');width:calc((100% - 12px) / ' + n + ' - 4px)"><div class="n">' + esc(nomClient(cl)) + '</div><div class="d">' + esc(r.heure + ' → ' + finHeure(r.heure, r.duree || 60) + (pr ? ' · ' + pr.nom : '') + (r.lieu ? ' · ' + r.lieu : '')) + '</div></button>';
+    h += '<button class="blocrdv' + (r.fait ? ' fait' : '') + '" data-a="rdv" data-long="rdv" data-id="' + r.id + '" style="top:' + ((s - deb) * PX + 2) + 'px;height:' + Math.max(30, (e - s) * PX - 4) + 'px;left:calc(8px + (100% - 12px) * ' + c + ' / ' + n + ');width:calc((100% - 12px) / ' + n + ' - 4px)"><div class="n">' + esc(nomClient(cl)) + '</div><div class="d">' + esc(r.heure + ' → ' + finHeure(r.heure, r.duree || 60) + (pr ? ' · ' + pr.nom : '') + (r.lieu ? ' · ' + r.lieu : '')) + '</div></button>';
   }
   if (iso === auj()) {
     const now = new Date(), m = now.getHours() * 60 + now.getMinutes();
@@ -1758,7 +1889,7 @@ function vueJour(iso) {
   const suite = D.rdv.filter(r => r.date !== iso && (r.date + ' ' + (r.heure || '00:00')) >= maintenant).sort((a, b) => (a.date + a.heure).localeCompare(b.date + b.heure)).slice(0, 5);
   h += '<div class="etiquette">Prochains rendez-vous</div>' + (suite.length ? suite.map(r => {
     const c = client(r.clientId), pr = prestation(r.prestationId), dt = versDate(r.date);
-    return '<button class="rdv' + (r.fait ? ' fait' : '') + '" data-a="rdv" data-id="' + r.id + '"><div class="h">' + maj(JOURS[dt.getDay()].slice(0, 3)) + ' ' + dt.getDate() + '<small>' + esc(r.heure || '') + '</small></div><div><div class="c" style="font-size:20px">' + esc(nomClient(c)) + '</div><div class="p">' + esc([pr ? pr.nom : '', dureeTxt(r.duree), r.lieu].filter(Boolean).join(' · ')) + '</div></div></button>';
+    return '<button class="rdv' + (r.fait ? ' fait' : '') + '" data-a="rdv" data-long="rdv" data-id="' + r.id + '"><div class="h">' + maj(JOURS[dt.getDay()].slice(0, 3)) + ' ' + dt.getDate() + '<small>' + esc(r.heure || '') + '</small></div><div><div class="c" style="font-size:20px">' + esc(nomClient(c)) + '</div><div class="p">' + esc([pr ? pr.nom : '', dureeTxt(r.duree), r.lieu].filter(Boolean).join(' · ')) + '</div></div></button>';
   }).join('') : '<div class="discret">Aucun rendez-vous à venir.</div>');
   return h;
 }
@@ -1814,7 +1945,7 @@ VUES.clients = () => {
   return barre('Clients') + '<div class="page"><div class="champ"><input id="recherche" placeholder="Rechercher un client…" value="' + esc(recherche) + '"></div>' +
     (l.length ? l.map(c => {
       const nbr = D.rdv.filter(r => r.clientId === c.id).length;
-      return '<button class="carte" data-a="client" data-id="' + c.id + '"><div class="int"><div><div class="nom">' + esc(nomClient(c)) + '</div><div class="sous">' + nbr + ' rendez-vous' + (c.pack ? ' · pack ' + c.pack.utilisees + '/' + c.pack.total : '') + '</div></div><span class="fl">›</span></div></button>';
+      return '<button class="carte" data-a="client" data-long="client" data-id="' + c.id + '"><div class="int"><div><div class="nom">' + esc(nomClient(c)) + '</div><div class="sous">' + nbr + ' rendez-vous' + (c.pack ? ' · pack ' + c.pack.utilisees + '/' + c.pack.total : '') + '</div></div><span class="fl">›</span></div></button>';
     }).join('') : '<div class="vide">' + (D.clients.length ? 'Aucun résultat' : 'Aucun client pour l\'instant') + '</div>') +
     '</div><button class="btn plein flottant" data-a="nouveauclient">+ Client</button>';
 };
@@ -1832,16 +1963,40 @@ VUES.client = p => {
   if (c.pack) {
     h += '<div class="etiquette">Pack régression</div><div class="bloc" style="display:flex;align-items:center;gap:14px"><div style="flex:1"><div style="font-family:var(--serif);font-size:24px;color:#f3f5fb">Séances utilisées : ' + c.pack.utilisees + ' / ' + c.pack.total + '</div><div class="discret">Pack réglé le ' + dateCourte(c.pack.depuis) + (c.pack.note ? ' · note ' + esc(c.pack.note) : '') + '</div></div><button class="rond" data-a="pack" data-d="-1">−</button><button class="rond" data-a="pack" data-d="1">+</button></div>';
   }
-  h += '<div class="rangee" style="margin:14px 0"><button class="btn" data-a="personnes" data-id="' + c.id + '">Fiche personnes (' + nbp + ')</button><button class="btn" data-a="nouveaurdv" data-client="' + c.id + '">+ Rendez-vous</button><button class="btn" data-a="nouvellenote" data-client="' + c.id + '">+ Note d\'honoraires</button></div>';
+  h += '<div class="rangee" style="margin:14px 0"><button class="btn" data-a="personnes" data-id="' + c.id + '">Personnages (' + nbp + ')</button><button class="btn" data-a="nouveaurdv" data-client="' + c.id + '">+ Rendez-vous</button><button class="btn" data-a="nouvellenote" data-client="' + c.id + '">+ Note d\'honoraires</button></div>';
   h += '<button class="carte atelierc" data-a="preparer" data-id="' + c.id + '"><div class="int"><div class="sceau">✦</div><div><div class="nom">Préparer sa séance</div><div class="sous">Atelier · composer avec des briques</div></div><span class="fl">›</span></div></button>';
-  const sp = c.seances || [];
-  if (sp.length) h += '<div class="etiquette">Séances préparées</div>' + sp.map(x => '<button class="rdv" data-a="seanceprep" data-id="' + x.id + '"><div class="h">' + dateCourte(x.date).slice(0, 5) + '<small>≈ ' + dureeCompo(x.compo) + ' min</small></div><div><div class="c" style="font-size:19px">' + esc(x.titre) + '</div><div class="p">' + esc([x.compo.induction, x.compo.approf, x.compo.protocole].map(brique).filter(Boolean).map(b => b.nom).join(' · ')) + '</div></div></button>').join('');
-  const hi = c.historique || [];
-  h += '<div class="etiquette">Historique des séances</div>' + (hi.length ? hi.map(x => '<button class="rdv" data-a="histo" data-id="' + x.id + '"><div class="h">' + dateCourte(x.date).slice(0, 5) + '<small>' + esc(x.heure || '') + '</small></div><div style="min-width:0"><div class="c" style="font-size:19px">' + esc(x.titre) + '</div><div class="p">' + resumeNotes(x) + (x.annotation ? ' · ' + esc(x.annotation.length > 70 ? x.annotation.slice(0, 70) + '…' : x.annotation) : '') + '</div></div></button>').join('') : '<div class="discret">Aucune séance rattachée. À la fin d\'une technique, touche « Rattacher à un rendez-vous ».</div>');
-  h += '<div class="etiquette">Rendez-vous</div>' + (rdvs.length ? rdvs.map(r => '<button class="rdv ' + (r.fait ? 'fait' : '') + '" data-a="rdv" data-id="' + r.id + '"><div class="h">' + dateCourte(r.date).slice(0, 5) + '<small>' + esc(r.heure || '') + '</small></div><div><div class="c" style="font-size:19px">' + esc(prestation(r.prestationId) ? prestation(r.prestationId).nom : 'Rendez-vous') + '</div><div class="p">' + esc([dureeTxt(r.duree), r.lieu].filter(Boolean).join(' · ')) + '</div></div></button>').join('') : '<div class="discret">Aucun rendez-vous.</div>');
-  h += '<div class="etiquette">Notes d\'honoraires</div>' + (notes.length ? notes.map(n => '<button class="rdv" data-a="voirnote" data-id="' + n.id + '"><div class="h">' + esc(n.numero) + '</div><div><div class="c" style="font-size:19px">' + euros(n.total) + '</div><div class="p">' + dateCourte(n.date) + '</div></div></button>').join('') : '<div class="discret">Aucune note d\'honoraires.</div>');
+  h += '<div class="etiquette">Séances</div>' + cartesSeances(c, rdvs, notes);
   return h + '</div>';
 };
+
+/* ----- Fiche client : une carte par séance ----- */
+function cartesSeances(c, rdvs, notes) {
+  const hi = c.historique || [], en = c.enregistrements || [], sp = c.seances || [];
+  const ids = new Set(rdvs.map(r => r.id));
+  const prochain = rdvs.filter(r => r.date >= auj()).sort((a, b) => (a.date + (a.heure || '')).localeCompare(b.date + (b.heure || '')))[0];
+  const ligneSp = x => '<button class="ligne prep" data-a="seanceprep" data-long="sp" data-id="' + x.id + '"><span class="li-t">✦ Séance préparée · ' + esc(x.titre) + '</span><span class="li-p">≈ ' + dureeCompo(x.compo) + ' min · ' + esc([x.compo.induction, x.compo.approf, x.compo.protocole].map(brique).filter(Boolean).map(b => b.nom).join(' · ')) + '</span></button>';
+  const ligneHi = x => '<button class="ligne" data-a="histo" data-long="histo" data-id="' + x.id + '"><span class="li-t">' + esc(x.titre) + '</span><span class="li-p">' + resumeNotes(x) + (x.annotation ? ' · ' + esc(x.annotation.length > 90 ? x.annotation.slice(0, 90) + '…' : x.annotation) : '') + '</span></button>';
+  const ligneEn = x => '<button class="ligne" data-a="enreg" data-long="enr" data-id="' + x.id + '"><span class="li-t"><b class="pt-rouge">●</b> Enregistrement</span><span class="li-p">' + fmtDuree(x.duree || 0) + ' · ' + (Math.round((x.taille || 0) / 1e5) / 10) + ' Mo</span></button>';
+  const ligneNo = n => '<button class="ligne" data-a="voirnote" data-id="' + n.id + '"><span class="li-t">Note d\'honoraires ' + esc(n.numero) + '</span><span class="li-p">' + euros(n.total) + '</span></button>';
+  const carte = (date, heure, titre, sous, rdvId, lignes, fait) => '<div class="scarte' + (fait ? ' fait' : '') + '"><button class="scarte-h"' + (rdvId ? ' data-a="rdv" data-long="rdv" data-id="' + rdvId + '"' : '') + '><div class="h">' + (date ? dateCourte(date).slice(0, 5) : '') + '<small>' + esc(heure || '') + '</small></div><div style="min-width:0"><div class="c">' + esc(titre) + '</div>' + (sous ? '<div class="p">' + esc(sous) + '</div>' : '') + '</div></button>' + (lignes.length ? '<div class="scarte-l">' + lignes.join('') + '</div>' : '') + '</div>';
+  const items = [];
+  for (const r of rdvs) {
+    const pr = prestation(r.prestationId);
+    const l = [...(prochain && r.id === prochain.id ? sp.map(ligneSp) : []), ...hi.filter(x => x.rdvId === r.id).map(ligneHi), ...en.filter(x => x.rdvId === r.id).map(ligneEn), ...notes.filter(n => n.rdvId === r.id).map(ligneNo)];
+    items.push({ k: r.date + (r.heure || ''), h: carte(r.date, r.heure, pr ? pr.nom : 'Rendez-vous', [dureeTxt(r.duree), r.lieu].filter(Boolean).join(' · '), r.id, l, r.fait) });
+  }
+  // Ce qui n'est rattaché à aucun rendez-vous : regroupé par date
+  const orph = {};
+  const ajoute = (date, html) => { (orph[date] = orph[date] || []).push(html); };
+  for (const x of hi) if (!x.rdvId || !ids.has(x.rdvId)) ajoute(x.date, ligneHi(x));
+  for (const x of en) if (!x.rdvId || !ids.has(x.rdvId)) ajoute(x.date, ligneEn(x));
+  for (const n of notes) if (!n.rdvId || !ids.has(n.rdvId)) ajoute(n.dateSeance || n.date, ligneNo(n));
+  for (const d in orph) items.push({ k: d, h: carte(d, '', 'Séance', '', '', orph[d]) });
+  items.sort((a, b) => b.k.localeCompare(a.k));
+  let h = (!prochain && sp.length) ? '<div class="scarte"><div class="scarte-h statique"><div class="c">Séances préparées</div></div><div class="scarte-l">' + sp.map(ligneSp).join('') + '</div></div>' : '';
+  h += items.map(x => x.h).join('');
+  return h || '<div class="discret">Aucune séance pour l\'instant.</div>';
+}
 
 /* ----- Séances rattachées : historique et étoiles ----- */
 const etoilesTxt = n => n ? '<span class="et-on">' + '★'.repeat(n) + '</span><span class="et-off">' + '★'.repeat(3 - n) + '</span>' : '<span class="et-off">–</span>';
@@ -1895,6 +2050,7 @@ function formRattacher() {
       const c = client(r ? r.clientId : v.slice(2)); if (!c) return;
       c.historique = c.historique || [];
       c.historique.unshift(Object.assign({ id: uid(), date: r ? r.date : auj(), heure: r ? (r.heure || '') : '', rdvId: r ? r.id : '', type: estCompo ? 'compo' : 'technique', titre, techId: estCompo ? '' : id, compo: estCompo && c0 ? JSON.parse(JSON.stringify(c0)) : null, annotation: valeur('rannot') }, lireNotes(estCompo, c0)));
+      if (id.startsWith('seance:')) { const [, cid, sid] = id.split(':'), cc = client(cid); if (cc) cc.seances = (cc.seances || []).filter(x => x.id !== sid); }
       enregistrer(); fermer(); toast('Séance rattachée à ' + nomClient(c));
     }
   });
@@ -1924,9 +2080,9 @@ VUES.personnes = p => {
   fond('ciel');
   const c = client(p.id); if (!c) return VUES.clients();
   const l = (c.personnes || []);
-  return barre('Fiche personnes') + '<div class="page"><div class="heros" style="margin-bottom:14px"><div class="surtitre">Personnes marquantes</div><div class="titre" style="font-size:38px">' + esc(nomClient(c)) + '</div><div class="discret">Par ordre d\'apparition dans sa vie</div></div>' +
-    (l.length ? l.map((x, i) => '<div class="pers"><div class="num">' + (i + 1) + '</div><div style="flex:1;min-width:0" data-a="modifpers" data-i="' + i + '"><div><span class="pn">' + esc(x.prenom || 'Prénom') + '</span><span class="pl">' + esc(x.lien || '') + '</span></div>' + (x.caractere ? '<div class="pc">' + esc(x.caractere) + '</div>' : '') + '<div class="ps">En séance : ' + (x.seance ? '<span style="color:#dfe5f3">' + esc(x.seance) + '</span>' : '…') + '</div></div><div class="ordre"><button data-a="ordrepers" data-i="' + i + '" data-d="-1" aria-label="Monter">▲</button><button data-a="ordrepers" data-i="' + i + '" data-d="1" aria-label="Descendre">▼</button></div></div>').join('') : '<div class="vide">Aucune personne pour l\'instant</div>') +
-    '<button class="btn large" style="margin-top:8px" data-a="ajoutpers">+ Ajouter une personne</button></div>';
+  return barre('Personnages') + '<div class="page"><div class="heros" style="margin-bottom:14px"><div class="surtitre">Personnages marquants</div><div class="titre" style="font-size:38px">' + esc(nomClient(c)) + '</div><div class="discret">Par ordre d\'apparition dans sa vie</div></div>' +
+    (l.length ? l.map((x, i) => '<div class="pers" data-long="pers" data-i="' + i + '"><div class="num">' + (i + 1) + '</div><div style="flex:1;min-width:0" data-a="modifpers" data-i="' + i + '"><div><span class="pn">' + esc(x.prenom || 'Prénom') + '</span><span class="pl">' + esc(x.lien || '') + '</span></div>' + (x.caractere ? '<div class="pc">' + esc(x.caractere) + '</div>' : '') + '<div class="ps">En séance : ' + (x.seance ? '<span style="color:#dfe5f3">' + esc(x.seance) + '</span>' : '…') + '</div></div><div class="ordre"><button data-a="ordrepers" data-i="' + i + '" data-d="-1" aria-label="Monter">▲</button><button data-a="ordrepers" data-i="' + i + '" data-d="1" aria-label="Descendre">▼</button></div></div>').join('') : '<div class="vide">Aucun personnage pour l\'instant</div>') +
+    '<button class="btn large" style="margin-top:8px" data-a="ajoutpers">+ Ajouter un personnage</button></div>';
 };
 
 /* ----- Notes de séance ----- */
@@ -2014,9 +2170,12 @@ VUES.reglages = () => {
     '<div class="etiquette">Sauvegarde</div><div class="bloc"><div style="font-size:16px;margin-bottom:12px">Dernière sauvegarde : <b>' + (D.derniereSauvegarde ? dateCourte(D.derniereSauvegarde.slice(0, 10)) : 'jamais') + '</b></div><div class="discret" style="margin-bottom:14px">Toutes tes données sont sur cette tablette. Garde régulièrement une copie ailleurs (mail, Drive, clé). Un rappel apparaît une fois par mois.</div><div class="rangee"><button class="btn plein" data-a="sauver">Sauvegarder</button><button class="btn" data-a="restaurer">Restaurer</button></div><input type="file" id="fichierrest" accept="application/json,.json" class="cache"></div>' +
     '<div class="etiquette">Prestations et tarifs</div>' + D.prestations.map(x => '<button class="rdv" data-a="modifprest" data-id="' + x.id + '"><div style="flex:1"><div class="c" style="font-size:20px">' + esc(x.nom) + '</div><div class="p">' + (x.prix !== '' && x.prix != null ? euros(x.prix) : 'Prix à définir') + (x.duree ? ' · ' + dureeTxt(x.duree) : '') + (x.pack ? ' · pack de ' + x.pack + ' séances' : '') + '</div></div></button>').join('') +
     '<button class="btn large" data-a="ajoutprest">+ Ajouter une prestation</button>' +
+    '<div class="etiquette">Confusions</div><div class="discret" style="margin-bottom:10px">Proposées par le bouton ✧ pendant les techniques. Appui long pour supprimer.</div>' +
+    (D.confusions.length ? D.confusions.map((t, i) => '<button class="rdv" data-a="modifconf" data-i="' + i + '" data-long="conf"><div style="flex:1;min-width:0"><div class="p" style="font-size:16px;font-family:var(--serif);font-style:italic;color:#d9dfec">« ' + esc(t.length > 160 ? t.slice(0, 160) + '…' : t) + ' »</div></div></button>').join('') : '<div class="discret">Aucune confusion.</div>') +
+    '<button class="btn large" data-a="modifconf" style="margin-bottom:10px">+ Ajouter une confusion</button>' +
     '<div class="etiquette">Mes coordonnées (notes d\'honoraires)</div>' + ch('nom', 'Nom') + ch('statut', 'Statut') + ch('activite', 'Activité') + ch('adresse', 'Adresse') + '<div class="deux">' + ch('siret', 'SIRET') + ch('tel', 'Téléphone') + '</div>' + ch('mail', 'Mail') + ch('tva', 'Mention TVA') +
     '<button class="btn plein large" data-a="sauveremetteur">Enregistrer mes coordonnées</button>' +
-    '<div class="discret" style="text-align:center;margin-top:30px">Entre Ciel et Terre · version 6</div></div>';
+    '<div class="discret" style="text-align:center;margin-top:30px">Entre Ciel et Terre · version 7</div></div>';
 };
 
 /* ---------- Fenêtres (formulaires) ---------- */
@@ -2041,16 +2200,17 @@ const boutonsForm = (sup) => '<div class="rangee" style="margin-top:10px">' + (s
 function formClient(c, apres) {
   c = c || {};
   ouvrir(c.id ? 'Modifier le client' : 'Nouveau client',
-    '<div class="deux">' + champ('fprenom', 'Prénom', c.prenom) + champ('fnom', 'Nom', c.nom) + '</div><div class="deux">' + champ('ftel', 'Téléphone', c.tel, 'tel') + champ('fmail', 'Mail', c.mail, 'email') + '</div>' + champ('fadr', 'Adresse', c.adresse) + champ('fprofil', 'Notes sur la personne', c.profil, 'textarea') + boutonsForm(!!c.id), {
+    '<div class="deux">' + champ('fprenom', 'Prénom', c.prenom) + champ('fnom', 'Nom', c.nom) + '</div><div class="deux">' + champ('ftel', 'Téléphone', c.tel, 'tel') + champ('fmail', 'Mail', c.mail, 'email') + '</div>' + champ('fadr', 'Adresse', c.adresse) + champ('fprofil', 'Notes sur la personne', c.profil, 'textarea') + '<label class="cocher"><input type="checkbox" id="faccord"' + (c.accordEnr ? ' checked' : '') + '><span>Accord du client pour l\'enregistrement des séances</span></label>' + boutonsForm(!!c.id), {
       ok() {
         if (!valeur('fprenom') && !valeur('fnom')) return toast('Indique au moins un prénom ou un nom.');
         const obj = c.id ? c : { id: uid(), personnes: [], cree: new Date().toISOString() };
-        Object.assign(obj, { prenom: valeur('fprenom'), nom: valeur('fnom'), tel: valeur('ftel'), mail: valeur('fmail'), adresse: valeur('fadr'), profil: valeur('fprofil') });
+        Object.assign(obj, { prenom: valeur('fprenom'), nom: valeur('fnom'), tel: valeur('ftel'), mail: valeur('fmail'), adresse: valeur('fadr'), profil: valeur('fprofil'), accordEnr: document.getElementById('faccord').checked });
         if (!c.id) D.clients.push(obj);
         enregistrer(); fermer(); apres ? apres(obj) : rendre();
       },
       sup() {
         if (!confirm('Supprimer ce client ? Ses rendez-vous seront aussi supprimés. Les notes d\'honoraires émises sont conservées.')) return;
+        for (const x of c.enregistrements || []) audioSuppr(x.id).catch(() => {});
         D.clients = D.clients.filter(x => x.id !== c.id); D.rdv = D.rdv.filter(r => r.clientId !== c.id);
         enregistrer(); fermer(); remplacer('clients');
       }
@@ -2111,7 +2271,7 @@ function ficheRdv(r) {
 
 function formPers(c, i) {
   const x = i != null ? c.personnes[i] : {};
-  ouvrir(i != null ? 'Modifier' : 'Nouvelle personne',
+  ouvrir(i != null ? 'Modifier' : 'Nouveau personnage',
     '<div class="deux">' + champ('pprenom', 'Prénom', x.prenom) + champ('plien', 'Lien', x.lien, 'text', 'list="liens" placeholder="mère, frère, ami…"') + '</div><datalist id="liens">' + ['mère', 'père', 'grand-mère', 'grand-père', 'frère', 'sœur', 'conjoint', 'enfant', 'premier amour', 'amour', 'meilleur ami', 'meilleure amie', 'oncle', 'tante'].map(v => '<option value="' + v + '">').join('') + '</datalist>' +
     champ('pcar', 'Caractère', x.caractere, 'text', 'placeholder="quelques mots"') + champ('pseance', 'En séance', x.seance, 'textarea', 'style="min-height:70px" placeholder="Qui elle s\'est révélée être dans le monde spirituel…"') + boutonsForm(i != null), {
       ok() {
@@ -2121,7 +2281,7 @@ function formPers(c, i) {
         if (i != null) c.personnes[i] = obj; else c.personnes.push(obj);
         enregistrer(); fermer(); rendre();
       },
-      sup() { if (!confirm('Retirer cette personne ?')) return; c.personnes.splice(i, 1); enregistrer(); fermer(); rendre(); }
+      sup() { if (!confirm('Retirer ce personnage ?')) return; c.personnes.splice(i, 1); enregistrer(); fermer(); rendre(); }
     });
 }
 
@@ -2286,7 +2446,7 @@ function creerPDFTexte(t) {
   txt(60, y, t.nom, 20, true); y -= 20;
   txt(60, y, t.sous, 11, false, G, true); y -= 14;
   pg.traits.push([60, y, 535, y, 0.6]); y -= 30;
-  for (const et of t.etapes) {
+  for (const et of etapesVues(t)) {
     place(56);
     txt(60, y, (et.r ? et.r + '. ' : '') + et.titre, 13, true); y -= 20;
     for (const [type, val] of blocsVisibles(blocs(et), t.ctx)) {
@@ -2377,7 +2537,7 @@ document.addEventListener('click', ev => {
     }
     case 'choixpers': {
       const l = [...D.clients].sort((a, b) => (b.vu || '').localeCompare(a.vu || '') || nomClient(a).localeCompare(nomClient(b), 'fr'));
-      return ouvrir('Fiche personnes de…', (l.length ? '<div style="display:grid;gap:8px">' + l.map(c => '<button class="btn" data-a="f-pers" data-id="' + c.id + '">' + esc(nomClient(c)) + '</button>').join('') + '</div>' : '<div class="vide">Aucun client</div>') + '<button class="btn large" style="margin-top:14px" data-a="f-annuler">Fermer</button>', {
+      return ouvrir('Personnages de…', (l.length ? '<div style="display:grid;gap:8px">' + l.map(c => '<button class="btn" data-a="f-pers" data-id="' + c.id + '">' + esc(nomClient(c)) + '</button>').join('') + '</div>' : '<div class="vide">Aucun client</div>') + '<button class="btn large" style="margin-top:14px" data-a="f-annuler">Fermer</button>', {
         pers(b) { const id = b.dataset.id; fermer(); aller('personnes', { id }); }
       });
     }
@@ -2442,8 +2602,24 @@ document.addEventListener('click', ev => {
     case 'voirdiverse': return aller('voirdiverse', { id: d.id });
     case 'filtreetiq': filtreDiv = d.e; try { localStorage.setItem('ect-etiq', filtreDiv); } catch (e) {} return rendre();
     case 'jeu': return aller('jeu', { id: d.id });
-    case 'atelier': return aller('atelier', { face: d.face });
+    case 'atelier': ongletInd = null; return aller('atelier', { face: d.face });
     case 'lire': return lireBrique(d.id);
+    case 'taille2': return setTaille2(taille2() + Number(d.d) * 0.1, true);
+    case 'retablir': { const t = TECHNIQUES[vue.p.id]; if (t) { delete D.suppr[t.etapes[Number(d.i)].k]; enregistrer(); rendre(); } return; }
+    case 'ongletind': ongletInd = d.f; { const y = scrollY; rendre(); window.scrollTo(0, y); } return;
+    case 'apercucompo': if (!pret(compo)) return; return aller('apercu');
+    case 'modifap': { const t = construire(compo), e = t.etapes[Number(d.i)]; if (e && e.src) formEtape(e.src); return; }
+    case 'modifliaison': {
+      const cle = d.c;
+      return ouvrir('Modifier le raccord', '<div class="champ"><textarea id="ltexte" style="min-height:30vh;font-family:var(--serif);font-size:18px">' + esc(compo.liaisons[cle] != null ? compo.liaisons[cle] : LIAISONS[cle]) + '</textarea></div><div class="discret" style="margin:-6px 0 10px">Ce raccord vaut pour cette séance.</div>' + boutonsForm(false), {
+        ok() { compo.liaisons[cle] = document.getElementById('ltexte').value; garderCompo(); fermer(); rendre(); }
+      });
+    }
+    case 'confusion': return montrerConfusion();
+    case 'fermerbulle': return cacherBulle();
+    case 'enregistrer': return ENR.rec ? menuEnr() : formEnr();
+    case 'enreg': { const c = client(vue.p.id), x = c && (c.enregistrements || []).find(y => y.id === d.id); if (x) formEnreg(c, x); return; }
+    case 'modifconf': return formConfusion(d.i === undefined ? null : Number(d.i));
     case 'face': {
       const f = d.f, cle = d.cle;
       if (cle.startsWith('u:')) { const u = (D.briques || []).find(x => x.id === cle.slice(2)); if (u) u.face = f; }
@@ -2465,6 +2641,7 @@ document.addEventListener('click', ev => {
     case 'nouvellebrique': return formBrique();
     case 'modifbrique': return formBrique((D.briques || []).find(b => b.id === d.id));
     case 'preparer': {
+      ongletInd = null;
       const cid = d.id;
       return ouvrir('Préparer sa séance', '<div style="display:grid;gap:10px"><button class="btn" data-a="f-face" data-face="celeste">Hypnose céleste</button><button class="btn" data-a="f-face" data-face="terrestre">Hypnose terrestre</button><button class="btn" data-a="f-annuler">Annuler</button></div>', {
         face(b) { const face = b.dataset.face; fermer(); if (compo && compo.face === face && compo.clientId !== cid) compo = null; aller('atelier', { face, client: cid }); }
@@ -2557,9 +2734,280 @@ window.addEventListener('resize', egaliser);
 if (document.fonts) { if (document.fonts.ready) document.fonts.ready.then(egaliser); if (document.fonts.addEventListener) document.fonts.addEventListener('loadingdone', egaliser); }
 window.addEventListener('load', () => { egaliser(); setTimeout(egaliser, 800); });
 
+/* ---------- Version 7 ---------- */
+let ongletInd = null;
+const fmtDuree = s => { s = Math.round(s || 0); const h = Math.floor(s / 3600), m = Math.floor(s / 60) % 60, r = s % 60; return (h ? h + ':' + pad(m) : m) + ':' + pad(r); };
+
+/* ----- Bouton Confusion ✧ ----- */
+const bulle = document.createElement('div');
+bulle.id = 'bulle'; bulle.className = 'cache';
+document.body.appendChild(bulle);
+let confIndex = -1;
+function montrerConfusion() {
+  const l = D.confusions || [];
+  if (!l.length) return toast('Ajoute tes confusions dans les Réglages.');
+  confIndex = (confIndex + 1) % l.length;
+  bulle.innerHTML = '<button class="bx" data-a="fermerbulle" aria-label="Fermer">×</button><div class="bt" data-a="confusion">« ' + esc(l[confIndex]) + ' »</div>' +
+    (l.length > 1 ? '<div class="bn" data-a="confusion">' + (confIndex + 1) + ' / ' + l.length + ' · touche pour la suivante</div>' : '');
+  bulle.classList.remove('cache');
+}
+function cacherBulle() { bulle.classList.add('cache'); }
+function formConfusion(i) {
+  const v = i == null ? '' : D.confusions[i];
+  ouvrir(i == null ? 'Nouvelle confusion' : 'Confusion', champ('ctexte', 'Texte', v, 'textarea', 'style="min-height:180px;font-family:var(--serif);font-size:18px"') + boutonsForm(i != null), {
+    ok() {
+      const t = document.getElementById('ctexte').value.trim(); if (!t) return toast('Écris la confusion.');
+      if (i == null) D.confusions.push(t); else D.confusions[i] = t;
+      enregistrer(); fermer(); rendre();
+    },
+    sup() { if (!confirm('Supprimer cette confusion ?')) return; D.confusions.splice(i, 1); enregistrer(); fermer(); rendre(); }
+  });
+}
+
+/* ----- Enregistrement des séances (audio gardé sur la tablette, hors sauvegarde) ----- */
+let bdd = null;
+function base() {
+  if (bdd) return bdd;
+  bdd = new Promise((ok, ko) => {
+    const r = indexedDB.open('ect-audio', 1);
+    r.onupgradeneeded = () => r.result.createObjectStore('audio');
+    r.onsuccess = () => ok(r.result); r.onerror = () => ko(r.error);
+  });
+  return bdd;
+}
+async function audioOp(mode, f) {
+  const db = await base();
+  return new Promise((ok, ko) => {
+    const tx = db.transaction('audio', mode), st = tx.objectStore('audio');
+    let res; const r = f(st); if (r) r.onsuccess = () => { res = r.result; };
+    tx.oncomplete = () => ok(res); tx.onerror = () => ko(tx.error); tx.onabort = () => ko(tx.error);
+  });
+}
+const audioMettre = (k, v) => audioOp('readwrite', st => st.put(v, k));
+const audioLire = k => audioOp('readonly', st => st.get(k));
+const plage = id => IDBKeyRange.bound(id + '#', id + '#￿');
+const audioSuppr = id => audioOp('readwrite', st => { st.delete(id); st.delete(plage(id)); });
+const morceaux = id => audioOp('readonly', st => st.getAll(plage(id)));
+// Les morceaux sont écrits au fur et à mesure : rien n'est perdu si l'appli se ferme pendant la séance
+async function assembler(x) {
+  const l = await morceaux(x.id);
+  if (!l.length) return null;
+  const blob = new Blob(l, { type: l[0].type || 'audio/webm' });
+  await audioMettre(x.id, blob);
+  await audioOp('readwrite', st => st.delete(plage(x.id)));
+  return blob;
+}
+
+const ENR = { rec: null };
+const enrClient = () => {
+  const id = vue.p.id || '';
+  if (id === 'compo') return client(compo && compo.clientId);
+  if (id.startsWith('seance:')) return client(id.split(':')[1]);
+  return null;
+};
+const accordOk = () => { const c = enrClient(); return c ? !!c.accordEnr : D.clients.some(x => x.accordEnr); };
+function boutonEnr() {
+  return '<button class="pastille ic enr' + (ENR.rec ? ' rec' : (accordOk() ? '' : ' off')) + '" data-a="enregistrer" id="btnenr" aria-label="Enregistrer la séance"><b>●</b><span id="enrtemps"></span></button>';
+}
+const tempsEnr = () => ENR.rec ? (ENR.cumul + (ENR.pause ? 0 : Date.now() - ENR.reprise)) / 1000 : 0;
+const pilule = document.createElement('button');
+pilule.id = 'enrpill'; pilule.className = 'cache'; pilule.dataset.a = 'enregistrer';
+document.body.appendChild(pilule);
+function majEnr() {
+  const t = ENR.rec ? fmtDuree(tempsEnr()) : '';
+  const s = document.getElementById('enrtemps'); if (s) s.textContent = t ? ' ' + t : '';
+  const b = document.getElementById('btnenr'); if (b) { b.classList.toggle('rec', !!ENR.rec); b.classList.toggle('pause', !!ENR.pause); }
+  const surBarre = !!b;
+  pilule.classList.toggle('cache', !ENR.rec || surBarre);
+  pilule.classList.toggle('pause', !!ENR.pause);
+  if (ENR.rec) pilule.innerHTML = '<b>●</b> ' + (ENR.pause ? 'En pause · ' : '') + t;
+}
+setInterval(() => { if (ENR.rec) majEnr(); }, 1000);
+
+async function listeMicros() {
+  try {
+    let l = (await navigator.mediaDevices.enumerateDevices()).filter(d => d.kind === 'audioinput');
+    if (l.length && !l[0].label) {
+      const s = await navigator.mediaDevices.getUserMedia({ audio: true }); s.getTracks().forEach(t => t.stop());
+      l = (await navigator.mediaDevices.enumerateDevices()).filter(d => d.kind === 'audioinput');
+    }
+    return l;
+  } catch (e) { return []; }
+}
+function formEnr() {
+  if (!navigator.mediaDevices || !window.MediaRecorder) return toast('L\'enregistrement n\'est pas possible sur cet appareil.');
+  const c0 = enrClient();
+  if (c0 && !c0.accordEnr) return toast('Coche « Accord du client pour l\'enregistrement » dans la fiche de ' + nomClient(c0) + '.');
+  const l = D.clients.filter(x => x.accordEnr).sort((a, z) => nomClient(a).localeCompare(nomClient(z), 'fr'));
+  if (!l.length) return toast('Aucun client n\'a donné son accord. Coche la case dans sa fiche client.');
+  const rdvJ = D.rdv.filter(r => r.date === auj());
+  const defaut = c0 ? c0.id : ((rdvJ.map(r => client(r.clientId)).find(x => x && x.accordEnr) || {}).id || '');
+  let micro = ''; try { micro = localStorage.getItem('ect-micro') || ''; } catch (e) {}
+  ouvrir('Enregistrer la séance', '<div class="champ"><label for="ncli">Client</label><select id="ncli"><option value="">— Choisir —</option>' + l.map(x => '<option value="' + x.id + '"' + (x.id === defaut ? ' selected' : '') + '>' + esc(nomClient(x)) + '</option>').join('') + '</select></div>' +
+    '<div class="champ"><label for="nmic">Micro</label><select id="nmic"><option value="">Micro de la tablette (par défaut)</option></select></div>' +
+    '<div class="discret" id="nmicinfo" style="margin:-6px 0 12px">Recherche des micros…</div>' +
+    '<div class="discret" style="margin-bottom:12px">L\'enregistrement reste sur la tablette, rattaché à la fiche du client. Il n\'est pas dans la sauvegarde mensuelle : pense à l\'envoyer puis à le supprimer.</div>' +
+    '<div class="rangee"><button class="btn" data-a="f-annuler">Annuler</button><button class="btn plein" data-a="f-ok">● Démarrer</button></div>', {
+    async ok() {
+      const c = client(valeur('ncli')); if (!c) return toast('Choisis le client.');
+      const dev = valeur('nmic');
+      try { localStorage.setItem('ect-micro', dev); } catch (e) {}
+      fermer(); demarrerEnr(c, dev);
+    }
+  });
+  listeMicros().then(ms => {
+    const sel = document.getElementById('nmic'), info = document.getElementById('nmicinfo'); if (!sel) return;
+    for (const m of ms) if (m.deviceId && m.deviceId !== 'default') { const o = document.createElement('option'); o.value = m.deviceId; o.textContent = m.label || 'Micro'; if (m.deviceId === micro) o.selected = true; sel.appendChild(o); }
+    info.textContent = ms.length > 1 ? 'Micro externe (récepteur USB-C) : branche-le avant, puis choisis-le ici.' : 'Pour un micro externe, branche le récepteur USB-C puis rouvre cette fenêtre.';
+    formInit = etatForm();
+  });
+}
+async function demarrerEnr(c, dev) {
+  let stream;
+  try { stream = await navigator.mediaDevices.getUserMedia({ audio: dev ? { deviceId: { exact: dev } } : true }); }
+  catch (e) { return toast('Le micro n\'est pas accessible. Vérifie l\'autorisation du micro pour l\'appli.'); }
+  const type = ['audio/webm;codecs=opus', 'audio/ogg;codecs=opus', 'audio/mp4', 'audio/webm'].find(t => MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(t)) || '';
+  const rec = new MediaRecorder(stream, type ? { mimeType: type } : {});
+  const t = tech(vue.p.id);
+  const r = D.rdv.filter(x => x.clientId === c.id && x.date === auj()).sort((a, b) => (a.heure || '').localeCompare(b.heure || ''))[0];
+  const now = new Date();
+  const x = { id: 'a' + uid(), date: auj(), heure: pad(now.getHours()) + ':' + pad(now.getMinutes()), rdvId: r ? r.id : '', titre: t ? t.nom : 'Séance', duree: 0, taille: 0, type: rec.mimeType || type || 'audio/webm', enCours: true };
+  c.enregistrements = c.enregistrements || []; c.enregistrements.unshift(x); enregistrer();
+  let n = 0;
+  rec.ondataavailable = ev => { if (ev.data && ev.data.size) { x.taille += ev.data.size; audioMettre(x.id + '#' + String(n++).padStart(5, '0'), ev.data).catch(() => toast('Mémoire pleine : l\'enregistrement risque d\'être incomplet.')); } };
+  Object.assign(ENR, { rec, stream, x, c, cumul: 0, reprise: Date.now(), pause: false });
+  rec.onstop = async () => {
+    stream.getTracks().forEach(tr => tr.stop());
+    x.duree = Math.round(tempsEnr()); delete x.enCours;
+    ENR.rec = null; majEnr(); garderEveille(vue.v === 'technique');
+    setTimeout(async () => { try { await assembler(x); } catch (e) {} enregistrer(); if (vue.v === 'client') rendre(); toast('Enregistrement rangé dans la fiche de ' + nomClient(c)); }, 300);
+  };
+  rec.start(10000);
+  garderEveille(true); majEnr(); toast('Enregistrement en cours');
+}
+function menuEnr() {
+  ouvrir('Enregistrement · ' + fmtDuree(tempsEnr()), '<div class="discret" style="text-align:center;margin:-8px 0 16px">' + esc(nomClient(ENR.c)) + '</div><div style="display:grid;gap:10px">' +
+    '<button class="btn" data-a="f-pause">' + (ENR.pause ? 'Reprendre' : 'Pause') + '</button>' +
+    '<button class="btn plein" data-a="f-stop">Arrêter et ranger dans la fiche</button>' +
+    '<button class="btn" data-a="f-annuler">Continuer</button></div>', {
+    pause() {
+      if (ENR.pause) { ENR.rec.resume(); ENR.reprise = Date.now(); ENR.pause = false; }
+      else { ENR.rec.pause(); ENR.cumul += Date.now() - ENR.reprise; ENR.pause = true; }
+      fermer(); majEnr();
+    },
+    stop() { if (!ENR.pause) { ENR.cumul += Date.now() - ENR.reprise; } ENR.pause = true; ENR.rec.stop(); fermer(); }
+  });
+}
+// Au démarrage : un enregistrement interrompu (appli fermée) est récupéré avec ce qui a été écrit
+function recupererEnr() {
+  for (const c of D.clients) for (const x of c.enregistrements || []) if (x.enCours) {
+    delete x.enCours;
+    assembler(x).then(b => { if (b) x.taille = b.size; enregistrer(); }).catch(() => {});
+  }
+  enregistrer();
+}
+function formEnreg(c, x) {
+  const nom = 'Seance-' + SANS_ACCENT(nomClient(c)).replace(/[^A-Za-z0-9]+/g, '-') + '-' + x.date + '-' + x.heure.replace(':', 'h') + (/mp4/.test(x.type) ? '.m4a' : /ogg/.test(x.type) ? '.ogg' : '.webm');
+  ouvrir('Enregistrement', '<div class="discret" style="text-align:center;margin:-8px 0 16px">' + esc(x.titre) + '<br>' + esc(dateCourte(x.date)) + ' à ' + esc(x.heure) + ' · ' + fmtDuree(x.duree) + '</div>' +
+    '<div id="zaudio" class="discret" style="text-align:center;margin-bottom:14px">Chargement…</div>' +
+    '<div style="display:grid;gap:10px"><button class="btn plein" data-a="f-envoyer">Envoyer au client</button><button class="btn" data-a="f-telecharger">Télécharger sur la tablette</button><button class="btn danger" data-a="f-sup">Supprimer</button><button class="btn" data-a="f-annuler">Fermer</button></div>', {
+    async envoyer() {
+      const b = await audioLire(x.id); if (!b) return toast('Le fichier audio n\'est pas sur cette tablette.');
+      const ok = await partager(b, nom, 'Enregistrement de votre séance', 'Bonjour, voici l\'enregistrement de votre séance. Belle écoute, ' + D.emetteur.nom.split(' ')[0] + '.');
+      if (ok && confirm('Envoyé ? Supprimer maintenant l\'enregistrement de la tablette ?')) this.supprimer(true);
+    },
+    async telecharger() { const b = await audioLire(x.id); if (!b) return toast('Le fichier audio n\'est pas sur cette tablette.'); telecharger(b, nom); },
+    sup() { if (confirm('Supprimer cet enregistrement ? Il ne pourra pas être récupéré.')) this.supprimer(true); },
+    supprimer() { audioSuppr(x.id).catch(() => {}); c.enregistrements = c.enregistrements.filter(y => y.id !== x.id); enregistrer(); fermer(); rendre(); toast('Enregistrement supprimé'); }
+  });
+  audioLire(x.id).then(b => {
+    const z = document.getElementById('zaudio'); if (!z) return;
+    if (!b) { z.textContent = 'Le fichier audio n\'est pas sur cette tablette.'; return; }
+    z.innerHTML = ''; const a = document.createElement('audio'); a.controls = true; a.src = URL.createObjectURL(b); a.style.width = '100%'; z.appendChild(a);
+  }).catch(() => {});
+}
+window.addEventListener('beforeunload', e => { if (ENR.rec) { e.preventDefault(); e.returnValue = ''; } });
+
+/* ----- Aperçu de la séance composée ----- */
+VUES.apercu = () => {
+  if (!pret(compo)) return VUES.atelier({ face: compo ? compo.face : 'celeste' });
+  const terre = compo.face === 'terrestre';
+  fond(terre ? 'terre' : 'ciel'); if (terre) $('#app').className = 'terre';
+  const t = construire(compo), ind = brique(compo.induction);
+  const plan = [['induction', 'Induction'], ['approf', 'Approfondissement'], ['protocole', 'Protocole'], ['retour', 'Retour']].map(([k, l]) => {
+    const b = brique(compo[k]); if (!b) return '';
+    return '<div class="planl"><span>' + l + '</span><b>' + esc(b.nom) + '</b><em>≈ ' + b.min + ' min</em></div>' + (k === 'induction' && compo.safe && !ind.ancre ? '<div class="planl"><span>Endroit safe</span><b>Avec l\'ancrage pouce-index</b><em>≈ 4 min</em></div>' : '');
+  }).join('');
+  let h = barre('Aperçu de la séance', '<button class="pastille" data-a="taille" data-d="-1">A−</button><button class="pastille" data-a="taille" data-d="1">A+</button>');
+  h += '<div class="page technique"><div class="heros" style="margin-bottom:10px"><div class="surtitre">Aperçu</div><div class="titre" style="font-size:38px">' + esc(t.nom) + '</div></div>';
+  h += '<div class="bloc plan">' + plan + '<div class="planl tot"><span>Durée</span><b></b><em>≈ ' + dureeCompo(compo) + ' min</em></div></div>';
+  t.etapes.forEach((e, i) => {
+    h += '<section class="etape"><div class="int"><div class="romain">' + (e.r || '✦') + '</div><h2>' + esc(e.titre) + '</h2>' +
+      '<div class="rangee apb">' + (e.src ? '<button class="pastille" data-a="modifap" data-i="' + i + '">Modifier</button>' : '') + (e.liaison ? '<button class="pastille" data-a="modifliaison" data-c="' + e.liaison + '">Modifier le raccord</button>' : '') + '</div>' +
+      orne('✦') + corpsEtape(e, t.ctx) + '</div></section>';
+  });
+  h += '<div class="discret" style="text-align:center;margin:6px 0 14px">« Modifier » change le texte de la brique partout. Le raccord ne vaut que pour cette séance.</div>';
+  h += '<button class="btn plein large" data-a="lancercompo">Lancer la séance</button></div>';
+  return h;
+};
+
+/* ----- Appui long : supprimer ----- */
+let appui = null, bloquerClic = false;
+document.addEventListener('pointerdown', e => {
+  const el = e.target.closest('[data-long]'); if (!el || e.target.closest('.pastille, .ordre, .lire')) return;
+  appui = { el, x: e.clientX, y: e.clientY, t: setTimeout(() => { appui = null; bloquerClic = true; if (navigator.vibrate) navigator.vibrate(30); supprimerLong(el); setTimeout(() => { bloquerClic = false; }, 700); }, 550) };
+}, true);
+const finAppui = () => { if (appui) { clearTimeout(appui.t); appui = null; } };
+document.addEventListener('pointermove', e => { if (appui && Math.hypot(e.clientX - appui.x, e.clientY - appui.y) > 10) finAppui(); }, true);
+document.addEventListener('pointerup', finAppui, true);
+document.addEventListener('pointercancel', finAppui, true);
+document.addEventListener('click', e => { if (bloquerClic) { bloquerClic = false; e.stopPropagation(); e.preventDefault(); } }, true);
+document.addEventListener('contextmenu', e => { if (e.target.closest('[data-long]')) e.preventDefault(); });
+function supprimerLong(el) {
+  const d = el.dataset, k = d.long, c = client(vue.p.id);
+  const ok = q => confirm(q);
+  const fini = () => { enregistrer(); const y = scrollY; rendre(); window.scrollTo(0, y); toast('Supprimé'); };
+  if (k === 'client') {
+    const x = client(d.id); if (!x || !ok('Supprimer ' + nomClient(x) + ' ? Ses rendez-vous et ses enregistrements seront aussi supprimés. Les notes d\'honoraires émises sont conservées.')) return;
+    for (const a of x.enregistrements || []) audioSuppr(a.id).catch(() => {});
+    D.clients = D.clients.filter(y => y.id !== x.id); D.rdv = D.rdv.filter(r => r.clientId !== x.id); return fini();
+  }
+  if (k === 'rdv') {
+    const r = D.rdv.find(x => x.id === d.id); if (!r || !ok('Supprimer le rendez-vous du ' + dateCourte(r.date) + (r.heure ? ' à ' + r.heure : '') + ' ?')) return;
+    D.rdv = D.rdv.filter(x => x.id !== r.id); return fini();
+  }
+  if (k === 'diverse') {
+    const n = D.diverses.find(x => x.id === d.id); if (!n || !ok('Supprimer la note « ' + n.titre + ' » ?')) return;
+    D.diverses = D.diverses.filter(x => x.id !== n.id); return fini();
+  }
+  if (k === 'brique') {
+    const b = (D.briques || []).find(x => x.id === d.id); if (!b || !ok('Supprimer la brique « ' + b.nom + ' » ?')) return;
+    D.briques = D.briques.filter(x => x.id !== b.id);
+    if (compo) { for (const t of ['induction', 'approf', 'protocole', 'retour']) if (compo[t] === b.id) compo[t] = ''; garderCompo(); }
+    return fini();
+  }
+  if (k === 'conf') { if (!ok('Supprimer cette confusion ?')) return; D.confusions.splice(Number(d.i), 1); return fini(); }
+  if (k === 'pers' && c) { if (!ok('Retirer ' + (c.personnes[Number(d.i)].prenom || 'ce personnage') + ' ?')) return; c.personnes.splice(Number(d.i), 1); return fini(); }
+  if (k === 'sp' && c) { if (!ok('Supprimer cette séance préparée ?')) return; c.seances = c.seances.filter(x => x.id !== d.id); return fini(); }
+  if (k === 'histo' && c) { if (!ok('Retirer cette séance de l\'historique ?')) return; c.historique = c.historique.filter(x => x.id !== d.id); return fini(); }
+  if (k === 'enr' && c) { if (!ok('Supprimer cet enregistrement ? Il ne pourra pas être récupéré.')) return; audioSuppr(d.id).catch(() => {}); c.enregistrements = c.enregistrements.filter(x => x.id !== d.id); return fini(); }
+  if (k === 'part') {
+    const t = TECHNIQUES[vue.p.id], e = t && t.etapes[Number(d.i)]; if (!e || !ok('Supprimer la partie « ' + titreE(e) + ' » ? Elle disparaîtra partout. Tu pourras la rétablir.')) return;
+    D.suppr[e.k] = true; return fini();
+  }
+  if (k === 'bpart') {
+    const b = brique(d.id); if (!b) return;
+    const e = [b.avant, ...b.etapes, b.apres].filter(Boolean)[Number(d.i)];
+    if (!e || !ok('Supprimer la partie « ' + titreE(e) + ' » ? Elle disparaîtra partout. Tu pourras la rétablir.')) return;
+    D.suppr[e.k] = true; enregistrer(); rendre(); lireBrique(b.id); toast('Partie supprimée');
+  }
+}
+
 /* ---------- Démarrage ---------- */
 charger();
+recupererEnr();
 document.documentElement.style.setProperty('--taille', Number(localStorage.getItem('ect-taille')) || 1);
+try { document.documentElement.style.setProperty('--taille2', Number(localStorage.getItem('ect-taille2')) || 1); } catch (e) {}
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 history.replaceState({ v: 'accueil', p: {}, sentinelle: true }, '');
 rendre();
