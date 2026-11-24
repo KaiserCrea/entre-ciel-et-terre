@@ -35,7 +35,10 @@ button{cursor:pointer}
 .cache{display:none!important}
 
 /* ---------- Fonds ---------- */
-#fond{position:fixed;inset:0;z-index:0;pointer-events:none;transition:opacity .6s}
+#fond{position:fixed;inset:0;z-index:0;pointer-events:none}
+#fond>.couche{position:absolute;inset:0;opacity:0;contain:strict;will-change:opacity;transform:translateZ(0)}
+#fond>.couche.on{opacity:1}
+#fond>.couche:not(.on) .astres i{animation-play-state:paused}
 .fond-ciel{background:radial-gradient(ellipse at 85% -10%,#22305a 0%,#0e1530 42%,#05070f 100%)}
 .fond-terre{background:radial-gradient(ellipse at 20% 120%,#b5652e 0%,#6b351a 30%,#2e170c 68%,#170b06 100%)}
 .voie{position:absolute;inset:-20%;background:linear-gradient(125deg,transparent 30%,#6f7fb21a 42%,#c9d4ee12 48%,#8a7fb81a 54%,transparent 66%);filter:blur(18px)}
@@ -435,7 +438,7 @@ html{touch-action:manipulation}
 .mixte .orne{color:#e8d2b8}
 .mixte .etiquette{color:#e3cdb6}
 .mixte .carte{background:linear-gradient(135deg,#dfe5f3aa 0%,#ffffff14 35%,#ffffff08 60%,#e09356aa 100%);box-shadow:0 10px 30px #0008,0 0 0 1px #ffffff05}
-.mixte .carte>.int{background:linear-gradient(180deg,#121933e6 0%,#1a1630e6 50%,#24130ce6 100%);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.mixte .carte>.int{background:linear-gradient(180deg,#121933f2 0%,#1a1630f2 50%,#24130cf2 100%)}
 .mixte .carte .nom{color:#f7f3ec}
 .mixte .carte .sous{color:#cbb9a6}
 .mixte .carte .fl{color:#f5c48c}
@@ -443,7 +446,8 @@ html{touch-action:manipulation}
 .mixte .pastille{border-color:#e8d2b866;background:#0b10208c}
 .mixte .retour{color:#e8d2b8}
 .mixte .discret{color:#b9ad9f}
-.mixte .rdv,.mixte .scarte,.mixte .bloc{-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.mixte .rdv,.mixte .scarte{background:#0b1020dc}
+.mixte .bloc{background:#0b1020d0}
 .mixte .btn.plein.flottant{background:linear-gradient(100deg,#dfe5f3,#f7ecdc 45%,#f5c48c);box-shadow:0 8px 26px #0009,0 0 22px #f3e6d433}
 .mixte .etape{background:linear-gradient(180deg,#121933d9,#24130cd9)}
 </style>
@@ -1295,6 +1299,16 @@ function migrer() {
   if (D.version < 10) { if (!Array.isArray(D.lecons)) D.lecons = LECONS_DEFAUT.map(l => ({ ...l })); D.version = 10; enregistrer(); }
   if (!Array.isArray(D.lecons)) D.lecons = [];
   if (D.version < 11) { D.version = 11; enregistrer(); }
+  // Passage à la version 12 : la fiche « Note hypnose » passe dans les Bases sous le nom « Notes diverses », texte inchangé
+  if (D.version < 12) {
+    const n = (D.diverses || []).find(x => x.id === 'd4');
+    if (n) {
+      D.diverses = D.diverses.filter(x => x !== n);
+      if (!D.lecons.some(l => l.id === 'd4')) D.lecons.push({ id: 'd4', titre: 'Notes diverses', texte: n.texte });
+    }
+    D.version = 12; enregistrer();
+  }
+  if (!D.jeuxMod || typeof D.jeuxMod !== 'object') D.jeuxMod = {};
   if (!D.caches || typeof D.caches !== 'object') D.caches = {};
   if (!Array.isArray(D.enrLibres)) D.enrLibres = [];
   if (!Array.isArray(D.jeux)) D.jeux = [];
@@ -1358,12 +1372,21 @@ let mixteHTML = '';
 const MIXTE = () => mixteHTML || (mixteHTML = '<div class="ciel-m"><div class="voie"></div>' + astres(340, '#e6ecfa', false, 11, true) + '</div><div class="terre-m"><div class="rayon"></div>' + astres(90, '#ffcf8f', true, 5, false) + '</div><div class="lueur"></div><div class="horizon-m"></div>');
 let fondActuel = '';
 const NEUTRES = ['agenda', 'clients', 'client', 'personnes', 'notes', 'nouvellenote', 'apercunote', 'voirnote', 'reglages', 'diverses', 'voirdiverse', 'bases', 'lecon'];
+// Version 12 : les trois ciels sont construits une seule fois, ensuite on passe de l'un à l'autre sans rien redessiner
+const couches = {};
+function couche(type) {
+  if (couches[type]) return couches[type];
+  const c = document.createElement('div');
+  c.className = 'couche ' + (type === 'terre' ? 'fond-terre' : type === 'mixte' ? 'fond-mixte' : 'fond-ciel');
+  c.innerHTML = type === 'terre' ? TERRE : type === 'mixte' ? MIXTE() : CIEL;
+  $('#fond').appendChild(c);
+  return couches[type] = c;
+}
 function fond(type) {
   if (type === 'ciel' && NEUTRES.includes(vue.v)) type = 'mixte';
   if (type === fondActuel) return; fondActuel = type;
-  const f = $('#fond');
-  f.className = type === 'terre' ? 'fond-terre' : type === 'mixte' ? 'fond-mixte' : 'fond-ciel';
-  f.innerHTML = type === 'terre' ? TERRE : type === 'mixte' ? MIXTE() : CIEL;
+  couche(type);
+  for (const k in couches) couches[k].classList.toggle('on', k === type);
   document.querySelector('meta[name=theme-color]').content = type === 'terre' ? '#2e170c' : '#05070f';
 }
 
@@ -1450,6 +1473,7 @@ function barre(titre, actions, sansRetour) {
 }
 
 /* ----- Accueil ----- */
+const ACC = {};
 VUES.accueil = () => {
   fond('ciel');
   const rien = !D.clients.length && !D.rdv.length && !D.notes.length;
@@ -1458,10 +1482,10 @@ VUES.accueil = () => {
   const rappel = !rien && ecart > 30
     ? '<div class="rappel"><span style="flex:1">Pense à sauvegarder tes données · dernière sauvegarde : ' + (dern ? dateCourte(dern.slice(0, 10)) : 'jamais') + '</span><button class="btn" data-a="sauver">Sauvegarder</button></div>' : '';
   return '<div class="accueil">' + rappel +
-    '<button class="face ciel" data-a="aller" data-v="celeste">' + '<div style="position:absolute;inset:0"><div class="voie"></div>' + astres(110, '#e6ecfa', false, 23, true) + '</div>' +
+    '<button class="face ciel" data-a="aller" data-v="celeste">' + '<div style="position:absolute;inset:0"><div class="voie"></div>' + (ACC.c || (ACC.c = astres(110, '#e6ecfa', false, 23, true))) + '</div>' +
       '<div class="z"><div class="surtitre">Hypnose</div><div class="titre">Céleste</div>' + orne('✦ ✧ ✦') + '<div class="desc"><span>Régression · Vies Antérieures · Entre Deux Vies</span></div></div></button>' +
     '<div class="horizon"></div>' +
-    '<button class="face sol" data-a="aller" data-v="terrestre"><div style="position:absolute;inset:0"><div class="rayon"></div>' + astres(70, '#ffcf8f', true, 7, false) + '</div>' +
+    '<button class="face sol" data-a="aller" data-v="terrestre"><div style="position:absolute;inset:0"><div class="rayon"></div>' + (ACC.t || (ACC.t = astres(70, '#ffcf8f', true, 7, false))) + '</div>' +
       '<div class="z"><div class="surtitre">Hypnose</div><div class="titre cuivre">Terrestre</div>' + orne('◆ ◇ ◆') + '<div class="desc"><span>Addictions · Phobies · Performances · Confiance</span></div></div></button>' +
     '<nav class="outils">' +
       [['agenda', 'Agenda'], ['clients', 'Clients'], ['notes', 'Honoraires'], ['diverses', 'Diverses'], ['bases', 'Bases'], ['reglages', 'Réglages']].map(([v, l]) => '<button class="outil" data-a="aller" data-v="' + v + '">' + ICO[v] + l + '</button>').join('') +
@@ -1492,9 +1516,12 @@ VUES.terrestre = () => {
     '<button class="carte dossier" data-a="jeux"><div class="int"><div class="sceau">◆</div><div><div class="nom">Jeux hypnotiques</div><div class="sous">' + tousJeux().length + ' jeux · démonstrations et découvertes</div></div><span class="fl">›</span></div></button>' +
     '</div>';
 };
+// Version 12 : un jeu d'origine peut être modifié ; ta version est gardée à part, l'origine reste intacte
+const jeuMod = j => (D.jeuxMod && D.jeuxMod[j.id]) || null;
+const blocsJeuOrigine = j => j.b || [j.avant, ...j.etapes].flatMap(e => [['sous', e.titre], ...blocs(e)]);
 // Tout ce qui est rangé dans les jeux : les jeux d'origine, les tiens, les briques et techniques rangées là
 const tousJeux = () => [
-  ...JEUX.filter(j => !D.caches['j:' + j.id]).map(j => ({ id: j.id, nom: j.nom, sous: j.sous, a: 'jeu' })),
+  ...JEUX.filter(j => !D.caches['j:' + j.id]).map(j => { const m = jeuMod(j); return { id: j.id, nom: m ? m.nom : j.nom, sous: m ? m.sous : j.sous, a: 'jeu' }; }),
   ...(D.jeux || []).map(j => ({ id: 'u:' + j.id, nom: j.nom, sous: j.sous || 'Mon jeu', a: 'jeu', long: j.id })),
   ...[...BRIQUES.map(b => brique(b.id)), ...(D.briques || []).map(u => brique(u.id))].filter(b => b && !D.caches['b:' + b.id] && faceBrique(b) === 'jeux').map(b => ({ id: 'b:' + b.id, nom: b.nom, sous: (TYPES.find(t => t[0] === b.type) || ['', ''])[1] + ' · ≈ ' + b.min + ' min', a: 'jeu' })),
   ...ORDRE_CELESTE.filter(id => !D.caches['t:' + id] && faceTech(id) === 'jeux').map(id => ({ id, nom: TECHNIQUES[id].nom, sous: TECHNIQUES[id].sous, a: 'technique' }))
@@ -1521,7 +1548,9 @@ VUES.jeu = p => {
     bas = '<div class="etiquette">Rangée dans</div>' + choixFace(br.perso ? 'u:' + br.id : 'b:' + br.id, faceBrique(br));
   } else {
     const j = JEUX.find(x => x.id === id); if (!j) return VUES.jeux();
-    nom = j.nom; sous = j.sous; b = j.b || [j.avant, ...j.etapes].flatMap(e => [['sous', e.titre], ...blocs(e)]);
+    const m = jeuMod(j);
+    nom = m ? m.nom : j.nom; sous = m ? m.sous : j.sous; b = m ? texteEnBlocs(m.texte, true) : blocsJeuOrigine(j);
+    extra = '<button class="pastille" data-a="modifjeuo" data-id="' + j.id + '">Modifier</button>';
   }
   return barre(nom, lecteurHTML() + '<button class="pastille" data-a="taille" data-d="-1" aria-label="Texte plus petit">A−</button><button class="pastille" data-a="taille" data-d="1" aria-label="Texte plus grand">A+</button>' + extra) +
     '<div class="page technique"><section class="etape"><div class="int"><div class="romain">Jeu hypnotique</div><h2>' + esc(nom) + '</h2>' + orne('◆') + (sous ? '<div class="consigne" style="border:none;padding:0;text-align:center">' + esc(sous) + '</div>' : '') + corpsEtape({ b }) + '</div></section>' + bas + '</div>';
@@ -1540,6 +1569,31 @@ function formJeu(j) {
       enregistrer(); fermer(); if (!j.id) aller('jeu', { id: 'u:' + o.id }); else rendre(); toast('Jeu enregistré');
     },
     sup() { if (!confirm('Supprimer ce jeu ?')) return; D.jeux = D.jeux.filter(x => x.id !== j.id); enregistrer(); fermer(); if (vue.v === 'jeu') retour(); else rendre(); }
+  });
+}
+
+const AIDE_JEU = '<div class="discret" style="margin:-6px 0 14px;line-height:1.5">Ligne vide : nouveau paragraphe. « ? » : question. Ligne entre parenthèses : consigne pour toi. « • » : liste. « # » : sous-titre.</div>';
+function formJeuOrigine(j) {
+  if (!j) return;
+  const m = jeuMod(j);
+  // Une consigne sur plusieurs lignes devient une consigne par ligne, pour que le texte se relise à l'identique
+  const morceaux = blocsJeuOrigine(j).flatMap(x => (x[0] === 'consigne' || x[0] === 'texte') && String(x[1]).includes('\n') ? String(x[1]).split('\n').filter(Boolean).map(l => [x[0], l, ...x.slice(2)]) : [x]);
+  const v = m || { nom: j.nom, sous: j.sous, texte: blocsEnTexte(morceaux) };
+  ouvrir('Modifier le jeu', champ('jnom', 'Nom', v.nom) + champ('jsous', 'En quelques mots', v.sous) +
+    champ('jtexte', 'Texte', v.texte, 'textarea', 'style="min-height:46vh;font-family:var(--serif);font-size:calc(18px * var(--taille2));line-height:1.55"') + AIDE_JEU +
+    (m ? '<div class="rangee" style="margin-bottom:6px"><button class="btn" data-a="f-origine">Revenir au texte d\'origine</button></div>' : '') +
+    boutonsForm(false), {
+    ok() {
+      if (!valeur('jnom')) return toast('Donne un nom au jeu.');
+      if (!valeur('jtexte')) return toast('Écris le texte du jeu.');
+      if (!D.jeuxMod) D.jeuxMod = {};
+      D.jeuxMod[j.id] = { nom: valeur('jnom'), sous: valeur('jsous'), texte: document.getElementById('jtexte').value };
+      enregistrer(); fermer(); rendre(); toast('Jeu enregistré');
+    },
+    origine() {
+      if (!confirm('Revenir au texte d\'origine de ce jeu ? Tes modifications seront effacées.')) return;
+      delete D.jeuxMod[j.id]; enregistrer(); fermer(); rendre(); toast('Texte d\'origine rétabli');
+    }
   });
 }
 
@@ -2373,7 +2427,7 @@ VUES.reglages = () => {
     '<button class="btn large" data-a="modifconf" style="margin-bottom:10px">+ Ajouter une confusion</button>' +
     '<div class="etiquette">Mes coordonnées (notes d\'honoraires)</div>' + ch('nom', 'Nom') + ch('statut', 'Statut') + ch('activite', 'Activité') + ch('adresse', 'Adresse') + '<div class="deux">' + ch('siret', 'SIRET') + ch('tel', 'Téléphone') + '</div>' + ch('mail', 'Mail') + ch('tva', 'Mention TVA') +
     '<button class="btn plein large" data-a="sauveremetteur">Enregistrer mes coordonnées</button>' +
-    '<div class="discret" style="text-align:center;margin-top:30px">Entre Ciel et Terre · version 11</div></div>';
+    '<div class="discret" style="text-align:center;margin-top:30px">Entre Ciel et Terre · version 12</div></div>';
 };
 
 /* ---------- Fenêtres (formulaires) ---------- */
@@ -2733,6 +2787,7 @@ document.addEventListener('click', ev => {
     case 'accord': { const c = client(vue.p.id); if (!c) return; c.accordEnr = !c.accordEnr; enregistrer(); const y = scrollY; rendre(); window.scrollTo(0, y); return; }
     case 'nouveaujeu': return formJeu();
     case 'modifjeu': return formJeu((D.jeux || []).find(x => x.id === d.id));
+    case 'modifjeuo': return formJeuOrigine(JEUX.find(x => x.id === d.id));
     case 'sommaire': return aller('technique', { id: vue.p.id, sommaire: true });
     case 'saut': cibleEtape = Number(d.i); return retour();
     case 'lecture': return basculerLecture();
@@ -3144,7 +3199,7 @@ function nomCache(k) {
   const id = k.slice(2);
   if (k.startsWith('t:')) return TECHNIQUES[id] && TECHNIQUES[id].nom;
   if (k.startsWith('b:')) { const b = brique(id); return b && b.nom; }
-  if (k.startsWith('j:')) { const j = JEUX.find(x => x.id === id); return j && j.nom; }
+  if (k.startsWith('j:')) { const j = JEUX.find(x => x.id === id); return j && ((jeuMod(j) || j).nom); }
   return null;
 }
 const typeCache = k => ({ t: 'Technique', b: 'Brique', j: 'Jeu' })[k[0]] || '';
@@ -3444,6 +3499,7 @@ try { document.documentElement.style.setProperty('--taille2', Number(localStorag
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 history.replaceState({ v: 'accueil', p: {}, sentinelle: true }, '');
 rendre();
+setTimeout(() => { for (const t of ['mixte', 'terre', 'ciel']) couche(t); }, 400);
 if ('serviceWorker' in navigator && location.protocol !== 'file:') navigator.serviceWorker.register('sw.js').catch(() => {});
 </script>
 </body>

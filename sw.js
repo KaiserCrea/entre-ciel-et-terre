@@ -1,5 +1,5 @@
 // Entre Ciel et Terre — fonctionnement hors ligne
-const VERSION = 'ect-v11';
+const VERSION = 'ect-v12';
 const FICHIERS = [
   './',
   './index.html',
