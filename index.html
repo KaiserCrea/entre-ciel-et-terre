@@ -299,6 +299,9 @@ input[type=date],input[type=time]{color-scheme:dark}
 .filtres{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin:0 0 16px;scrollbar-width:none}
 .filtres button{flex-shrink:0;border:0.5px solid #c9d4ee44;background:#0b10208c;color:var(--argent2);border-radius:20px;padding:8px 15px;font-size:calc(14px * var(--taille2));white-space:nowrap}
 .filtres button.on{background:var(--argent);color:#0b1020;border-color:var(--argent)}
+.bib-et{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:26px 0 10px;font-family:var(--serif);font-size:calc(21px * var(--taille2));color:#f3e6d4;line-height:1.25}
+.bib-et:first-child{margin-top:4px}
+.notec .deux{font-size:calc(12px * var(--taille2));color:#e8d2b8;letter-spacing:.5px}
 .mosaique{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;align-items:start}
 .notec{display:flex;flex-direction:column;gap:8px;text-align:left;border:0.5px solid #ffffff1f;border-radius:16px;padding:15px 15px 16px;background:linear-gradient(180deg,#121a32e6,#0a1022ee);color:var(--texte)}
 .notec .nt{font-family:var(--serif);font-size:calc(21px * var(--taille2));color:#f3f5fb;line-height:1.2}
@@ -430,8 +433,8 @@ html{touch-action:manipulation}
 .fond-mixte .ciel-m .astres i{opacity:.95 !important;transform:scale(1.25);box-shadow:0 0 3px 0 #fff}
 .fond-mixte .ciel-m .astres i:nth-child(3n){opacity:.55 !important}
 .fond-mixte .ciel-m .astres i:nth-child(11n){opacity:1 !important;transform:scale(2.2);box-shadow:0 0 8px 2px #ffffffdd,0 0 18px 4px #b9c7e655}
-.fond-mixte .lueur{position:absolute;left:-10%;right:-10%;top:42%;height:22%;background:radial-gradient(ellipse at 50% 50%,#f3e6d433 0%,#e0935622 30%,#8a7fb814 55%,transparent 72%);filter:blur(10px)}
-.fond-mixte .horizon-m{position:absolute;left:8%;right:8%;top:53%;height:1px;background:linear-gradient(90deg,transparent,#b9c7e640 20%,#f7ecdcaa 50%,#e0935640 80%,transparent);filter:blur(.4px)}
+.fond-mixte .lueur{position:absolute;left:-30%;right:-30%;top:45%;height:16%;background:radial-gradient(ellipse 50% 50% at 50% 50%,#ffe2b438 0%,#f5c48c2a 22%,#e0935618 48%,#e0935608 66%,transparent 80%);filter:blur(8px)}
+.fond-mixte .horizon-m{display:none;position:absolute;left:8%;right:8%;top:53%;height:1px;background:linear-gradient(90deg,transparent,#b9c7e640 20%,#f7ecdcaa 50%,#e0935640 80%,transparent);filter:blur(.4px)}
 .mixte .barre{background:linear-gradient(180deg,#04060ef0,#04060ea0 70%,transparent)}
 .mixte .surtitre{color:#e8d2b8}
 .mixte .titre{background-image:linear-gradient(100deg,#b9c7e6,#ffffff 28%,#f7ecdc 45%,#f5c48c 65%,#c6743a)}
@@ -1237,6 +1240,7 @@ const DEFAUT = () => ({
   enrLibres: [],
   lecons: LECONS_DEFAUT.map(l => ({ ...l })),
   caches: {},
+  dossiers: {},
   derniereSauvegarde: null
 });
 const DIVERSES_V3 = [
@@ -1308,6 +1312,25 @@ function migrer() {
     }
     D.version = 12; enregistrer();
   }
+  // Passage à la version 13 : « Notes diverses » (Bases) découpée en trois leçons, étiquettes de la Bibliothèque
+  if (D.version < 13) {
+    const i = D.lecons.findIndex(l => l.id === 'd4');
+    if (i >= 0) {
+      const l = D.lecons[i], lignes = String(l.texte || '').split('\n');
+      const titres = ['Rupture de pattern', 'Exemple de première séance', 'Hypnose profonde (Erickson)'];
+      const pos = titres.map(t => lignes.findIndex(x => x.trim() === t));
+      if (pos.every(x => x >= 0) && pos[0] < pos[1] && pos[1] < pos[2]) {
+        const part = (a, b) => lignes.slice(a + 1, b).join('\n').replace(/^\s*\n+|\n+\s*$/g, '');
+        D.lecons.splice(i, 1,
+          { id: 'd4a', titre: titres[0], texte: part(pos[0], pos[1]) },
+          { id: 'd4b', titre: titres[1], texte: part(pos[1], pos[2]) },
+          { id: 'd4c', titre: titres[2], texte: part(pos[2], lignes.length) });
+      }
+    }
+    for (const e of RUBRIQUES) if (!D.etiquettes.includes(e)) D.etiquettes.push(e);
+    D.version = 13; enregistrer();
+  }
+  if (!D.dossiers || typeof D.dossiers !== 'object') D.dossiers = {};
   if (!D.jeuxMod || typeof D.jeuxMod !== 'object') D.jeuxMod = {};
   if (!D.caches || typeof D.caches !== 'object') D.caches = {};
   if (!Array.isArray(D.enrLibres)) D.enrLibres = [];
@@ -1488,7 +1511,7 @@ VUES.accueil = () => {
     '<button class="face sol" data-a="aller" data-v="terrestre"><div style="position:absolute;inset:0"><div class="rayon"></div>' + (ACC.t || (ACC.t = astres(70, '#ffcf8f', true, 7, false))) + '</div>' +
       '<div class="z"><div class="surtitre">Hypnose</div><div class="titre cuivre">Terrestre</div>' + orne('◆ ◇ ◆') + '<div class="desc"><span>Addictions · Phobies · Performances · Confiance</span></div></div></button>' +
     '<nav class="outils">' +
-      [['agenda', 'Agenda'], ['clients', 'Clients'], ['notes', 'Honoraires'], ['diverses', 'Diverses'], ['bases', 'Bases'], ['reglages', 'Réglages']].map(([v, l]) => '<button class="outil" data-a="aller" data-v="' + v + '">' + ICO[v] + l + '</button>').join('') +
+      [['agenda', 'Agenda'], ['clients', 'Clients'], ['notes', 'Honoraires'], ['diverses', 'Bibliothèque'], ['bases', 'Bases'], ['reglages', 'Réglages']].map(([v, l]) => '<button class="outil" data-a="aller" data-v="' + v + '">' + ICO[v] + l + '</button>').join('') +
     '</nav></div>';
 };
 
@@ -1499,8 +1522,23 @@ VUES.celeste = () => {
   return barre('Entre Ciel et Terre') + '<div class="page"><div class="heros"><div class="surtitre">Hypnose</div><div class="titre">Céleste</div>' + orne('✦ ✧ ✦') + '</div>' +
     carteAtelier('celeste') +
     '<div class="etiquette">Techniques</div>' +
-    ORDRE_CELESTE.filter(id => !D.caches['t:' + id] && !['terrestre', 'jeux'].includes(faceTech(id))).map(id => TECHNIQUES[id]).map(t => '<button class="carte" data-a="technique" data-long="cache" data-k="t:' + t.id + '" data-id="' + t.id + '"><div class="int"><div><div class="nom">' + esc(t.nom) + '</div><div class="sous">' + esc(t.sous) + ' · ' + etapesVues(t).filter(e => e.r).length + ' étapes</div></div><span class="fl">›</span></div></button>').join('') +
+    DOSSIERS.map(([k, nom]) => { const n = techCeleste().filter(id => dossierTech(id) === k).length; return '<button class="carte dossier" data-a="dossier" data-d="' + k + '"><div class="int"><div class="sceau">✦</div><div><div class="nom">' + nom + '</div><div class="sous">' + (n ? n + (n > 1 ? ' techniques' : ' technique') : 'Aucune technique pour l\'instant') + '</div></div><span class="fl">›</span></div></button>'; }).join('') +
+    techCeleste().filter(id => !dossierTech(id)).map(id => TECHNIQUES[id]).map(t => '<button class="carte" data-a="technique" data-long="cache" data-k="t:' + t.id + '" data-id="' + t.id + '"><div class="int"><div><div class="nom">' + esc(t.nom) + '</div><div class="sous">' + esc(t.sous) + ' · ' + etapesVues(t).filter(e => e.r).length + ' étapes</div></div><span class="fl">›</span></div></button>').join('') +
     '</div>';
+};
+
+const DOSSIERS = [['anterieures', 'Vies antérieures'], ['future', 'Vie future'], ['entre', 'Entre deux vies'], ['auto', 'Auto-régression']];
+const DOSSIER_DEFAUT = { rhea: 'anterieures', weiss: 'anterieures', projection: 'future', allemann: 'auto' };
+const dossierTech = id => (D.dossiers && id in D.dossiers) ? D.dossiers[id] : (DOSSIER_DEFAUT[id] || '');
+const techCeleste = () => ORDRE_CELESTE.filter(id => !D.caches['t:' + id] && !['terrestre', 'jeux'].includes(faceTech(id)));
+const carteTech = t => '<button class="carte" data-a="technique" data-long="cache" data-k="t:' + t.id + '" data-id="' + t.id + '"><div class="int"><div><div class="nom">' + esc(t.nom) + '</div><div class="sous">' + esc(t.sous) + ' · ' + etapesVues(t).filter(e => e.r).length + ' étapes</div></div><span class="fl">›</span></div></button>';
+VUES.dossier = p => {
+  fond('ciel');
+  const d = DOSSIERS.find(x => x[0] === p.d); if (!d) return VUES.celeste();
+  const l = techCeleste().filter(id => dossierTech(id) === d[0]).map(id => TECHNIQUES[id]);
+  return barre(d[1]) + '<div class="page"><div class="heros" style="margin-bottom:14px"><div class="surtitre">Hypnose céleste</div><div class="titre" style="font-size:calc(40px * var(--taille2))">' + d[1] + '</div>' + orne('✦') + '</div>' +
+    (l.length ? l.map(carteTech).join('') : '<div class="vide">Aucune technique pour l\'instant</div>') +
+    '<div class="discret" style="margin-top:10px">Pour ranger une technique ici : dans la technique, Étapes → « Rangée dans » → ' + d[1] + '.</div></div>';
 };
 
 /* ----- Terrestre ----- */
@@ -1508,9 +1546,9 @@ VUES.terrestre = () => {
   fond('terre'); $('#app').className = 'terre';
   return barre('Entre Ciel et Terre') + '<div class="page"><div class="heros"><div class="surtitre">Hypnose</div><div class="titre">Terrestre</div>' + orne('◆ ◇ ◆') + '</div>' +
     carteAtelier('terrestre') +
-    '<div class="etiquette">Protocoles</div>' + (() => {
+    (() => {
       const l = ORDRE_CELESTE.filter(id => !D.caches['t:' + id] && !['celeste', 'jeux'].includes(faceTech(id))).map(id => TECHNIQUES[id]);
-      return l.length ? l.map(t => '<button class="carte" data-a="technique" data-terre="1" data-long="cache" data-k="t:' + t.id + '" data-id="' + t.id + '"><div class="int"><div><div class="nom">' + esc(t.nom) + '</div><div class="sous">' + esc(t.sous) + ' · ' + etapesVues(t).filter(e => e.r).length + ' étapes</div></div><span class="fl">›</span></div></button>').join('') : '<div class="fantome">Tes protocoles terrestres viendront ici…</div>';
+      return l.length ? '<div class="etiquette">Protocoles</div>' + l.map(t => '<button class="carte" data-a="technique" data-terre="1" data-long="cache" data-k="t:' + t.id + '" data-id="' + t.id + '"><div class="int"><div><div class="nom">' + esc(t.nom) + '</div><div class="sous">' + esc(t.sous) + ' · ' + etapesVues(t).filter(e => e.r).length + ' étapes</div></div><span class="fl">›</span></div></button>').join('') : '';
     })() +
     '<div class="etiquette">Jeux hypnotiques</div>' +
     '<button class="carte dossier" data-a="jeux"><div class="int"><div class="sceau">◆</div><div><div class="nom">Jeux hypnotiques</div><div class="sous">' + tousJeux().length + ' jeux · démonstrations et découvertes</div></div><span class="fl">›</span></div></button>' +
@@ -1677,7 +1715,7 @@ VUES.technique = p => {
             (edit ? (sup ? '<button class="pastille" data-a="retablir" data-i="' + i + '">Rétablir</button>' : '<button class="pastille" data-a="modifetape" data-i="' + i + '">Modifier</button>') : '') + '</div>';
         }).join('');
       })() + '</div>' +
-      (edit ? '<div class="etiquette">Rangée dans</div>' + choixFace('t:' + p.id, faceTech(p.id)) + '<div class="discret" style="margin-top:8px">Les modifications de texte valent aussi pour les briques de l\'atelier qui reprennent la même étape.</div>' : '') + '</div>';
+      (edit ? '<div class="etiquette">Rangée dans</div>' + choixFace('t:' + p.id, faceTech(p.id)) + (['terrestre', 'jeux'].includes(faceTech(p.id)) ? '' : '<div class="segments" style="margin-top:8px">' + [...DOSSIERS, ['', 'Sans dossier']].map(([k, t]) => '<button class="' + (dossierTech(p.id) === k ? 'on' : '') + '" data-a="dossiertech" data-id="' + p.id + '" data-dd="' + k + '">' + t + '</button>').join('') + '</div>') + '<div class="discret" style="margin-top:8px">Les modifications de texte valent aussi pour les briques de l\'atelier qui reprennent la même étape.</div>' : '') + '</div>';
   }
   const vis = etapesVues(t), total = vis.filter(x => x.r).length;
   const actions = lecteurHTML() + boutonEnr() +
@@ -1937,20 +1975,63 @@ let rechDiv = '', filtreDiv = '';
 try { filtreDiv = localStorage.getItem('ect-etiq') || ''; } catch (e) {}
 const sansAcc = s => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
 const puces = (l, cls) => (l || []).map(e => '<span class="puce ' + (cls || '') + '">' + esc(e) + '</span>').join('');
+const RUBRIQUES = ['Inductions', 'Approfondissements', 'Protocoles', 'Retours', 'Techniques', 'Jeux', 'Métaphores', 'Théorie'];
+const RUB_TYPE = { induction: 'Inductions', approf: 'Approfondissements', protocole: 'Protocoles', retour: 'Retours' };
+// Fiches de notes reliées à un texte de séance : une seule carte, deux onglets
+const LIENS_FICHES = { f1: 'slam', f3: 'miroirs', f4: 'trois21', f6: 'univers', f7: 'elman', f8: 'esdaile' };
+const lienFiche = n => n.lien !== undefined ? n.lien : (LIENS_FICHES[n.id] || '');
+const etapesBrique = b => [b.avant, ...b.etapes, b.apres].filter(Boolean);
+const texteBrique = b => etapesBrique(b).filter(e => !estSuppr(e)).map(e => blocsEnTexte(blocs(e))).join('\n\n');
+const extrait = t => String(t || '').replace(/^\s*(# |\? |• |> )/gm, '').replace(/\[(si|sans) [^\]]*\] ?/g, '');
+const toutesBriques = () => [...BRIQUES.map(b => brique(b.id)), ...(D.briques || []).map(u => brique(u.id))].filter(b => b && !D.caches['b:' + b.id]);
+function elementsBiblio() {
+  const out = [], bs = toutesBriques(), parId = {}, liees = new Set();
+  for (const b of bs) parId[b.id] = b;
+  for (const n of D.diverses) {
+    const b = parId[lienFiche(n)];
+    if (b) { liees.add(b.id); const tx = texteBrique(b); out.push({ k: 'b', id: b.id, f: n.id, titre: b.nom, rub: [RUB_TYPE[b.type], ...(n.etiquettes || []).filter(e => !RUBRIQUES.includes(e))], apercu: n.texte, cherche: n.titre + ' ' + n.texte + ' ' + b.nom + ' ' + tx, long: 'data-long="cache" data-k="b:' + b.id + '"' }); }
+    else out.push({ k: 'f', id: n.id, titre: n.titre, rub: n.etiquettes || [], apercu: n.texte, cherche: n.titre + ' ' + n.texte, long: 'data-long="diverse" data-id="' + n.id + '"' });
+  }
+  for (const b of bs) if (!liees.has(b.id)) { const tx = texteBrique(b); out.push({ k: 'b', id: b.id, titre: b.nom, rub: [RUB_TYPE[b.type]], apercu: tx, cherche: b.nom + ' ' + tx, long: 'data-long="cache" data-k="b:' + b.id + '"' }); }
+  for (const id of ORDRE_CELESTE) if (!D.caches['t:' + id]) { const t = tech(id); if (!t) continue; const tx = etapesVues(t).map(e => blocsEnTexte(blocs(e))).join('\n\n'); out.push({ k: 't', id, titre: t.nom, rub: ['Techniques'], apercu: t.sous + '\n' + tx, cherche: t.nom + ' ' + t.sous + ' ' + tx, long: 'data-long="cache" data-k="t:' + id + '"' }); }
+  for (const j of JEUX) if (!D.caches['j:' + j.id]) { const m = jeuMod(j), nom = m ? m.nom : j.nom, tx = m ? m.texte : blocsEnTexte(blocsJeuOrigine(j)); out.push({ k: 'j', id: j.id, titre: nom, rub: ['Jeux'], apercu: tx, cherche: nom + ' ' + tx, long: 'data-long="cache" data-k="j:' + j.id + '"' }); }
+  for (const j of (D.jeux || [])) out.push({ k: 'j', id: 'u:' + j.id, titre: j.nom, rub: ['Jeux'], apercu: j.texte, cherche: j.nom + ' ' + (j.sous || '') + ' ' + j.texte, long: 'data-long="jeu" data-j="' + j.id + '"' });
+  const rang = e => { const r = (e.rub || []).map(x => RUBRIQUES.indexOf(x)).filter(x => x >= 0); return r.length ? Math.min(...r) : RUBRIQUES.length; };
+  return out.map((e, i) => ({ e, i, r: rang(e) })).sort((a, b) => a.r - b.r || a.i - b.i).map(x => x.e);
+}
 VUES.diverses = () => {
   fond('ciel');
-  if (filtreDiv && !D.etiquettes.includes(filtreDiv)) filtreDiv = '';
-  const r = sansAcc(rechDiv);
-  const l = D.diverses.filter(n => (!filtreDiv || (n.etiquettes || []).includes(filtreDiv)) && (!r || sansAcc(n.titre + ' ' + n.texte).includes(r)));
-  return barre('Notes diverses') + '<div class="page"><div class="heros" style="margin-bottom:14px"><div class="surtitre">Carnet</div><div class="titre" style="font-size:calc(40px * var(--taille2))">Notes diverses</div></div>' +
-    '<div class="champ"><input id="rechdiv" placeholder="Rechercher dans les notes…" value="' + esc(rechDiv) + '"></div>' +
-    '<div class="filtres"><button class="' + (!filtreDiv ? 'on' : '') + '" data-a="filtreetiq" data-e="">Toutes</button>' + D.etiquettes.map(e => '<button class="' + (filtreDiv === e ? 'on' : '') + '" data-a="filtreetiq" data-e="' + esc(e) + '">' + esc(e) + '</button>').join('') + '</div>' +
-    (l.length ? '<div class="mosaique">' + l.map(n => '<button class="notec" data-a="voirdiverse" data-long="diverse" data-id="' + n.id + '"><div class="nt">' + esc(n.titre) + '</div>' + (n.etiquettes && n.etiquettes.length ? '<div class="np">' + puces(n.etiquettes) + '</div>' : '') + '<div class="nx">' + esc(n.texte) + '</div></button>').join('') + '</div>' : '<div class="vide">' + (D.diverses.length ? 'Aucune note ne correspond' : 'Aucune note') + '</div>') +
+  const autres = D.etiquettes.filter(e => !RUBRIQUES.includes(e));
+  if (filtreDiv && !RUBRIQUES.includes(filtreDiv) && !autres.includes(filtreDiv)) filtreDiv = '';
+  const tous = elementsBiblio(), r = sansAcc(rechDiv);
+  const l = tous.filter(n => (!filtreDiv || n.rub.includes(filtreDiv)) && (!r || sansAcc(n.cherche).includes(r)));
+  return barre('Bibliothèque') + '<div class="page"><div class="heros" style="margin-bottom:14px"><div class="surtitre">Entre Ciel et Terre</div><div class="titre" style="font-size:calc(40px * var(--taille2))">Bibliothèque</div></div>' +
+    '<div class="champ"><input id="rechdiv" placeholder="Rechercher dans la bibliothèque…" value="' + esc(rechDiv) + '"></div>' +
+    '<div class="filtres"><button class="' + (!filtreDiv ? 'on' : '') + '" data-a="filtreetiq" data-e="">Tout</button>' + [...RUBRIQUES, ...autres].map(e => '<button class="' + (filtreDiv === e ? 'on' : '') + '" data-a="filtreetiq" data-e="' + esc(e) + '">' + esc(e) + '</button>').join('') + '</div>' +
+    (l.length ? '<div class="mosaique">' + l.map(n => '<button class="notec" data-a="biblio" data-k="' + n.k + '" data-id="' + esc(n.id) + '"' + (n.f ? ' data-f="' + n.f + '"' : '') + ' ' + n.long + '><div class="nt">' + esc(n.titre) + '</div>' + (n.rub.length ? '<div class="np">' + puces(n.rub) + '</div>' : '') + (n.f ? '<div class="deux">Notes · Texte de séance</div>' : '') + '<div class="nx">' + esc(extrait(n.apercu)) + '</div></button>').join('') + '</div>' : '<div class="vide">' + (tous.length ? 'Rien ne correspond' : 'La bibliothèque est vide') + '</div>') +
     '</div><button class="btn plein flottant" data-a="nouvellediverse">+ Note</button>';
+};
+VUES.voirbrique = p => {
+  fond('ciel');
+  const b = brique(p.id); if (!b) return VUES.diverses();
+  const n = p.fiche ? D.diverses.find(x => x.id === p.fiche) : null;
+  const o = n && p.o === 'notes' ? 'notes' : 'texte';
+  const onglets = n ? '<div class="segments onglets" style="margin:0 0 14px">' + [['notes', 'Notes'], ['texte', 'Texte de séance']].map(([k, t]) => '<button class="' + (o === k ? 'on' : '') + '" data-a="ongletb" data-id="' + b.id + '" data-f="' + n.id + '" data-o="' + k + '">' + t + '</button>').join('') + '</div>' : '';
+  const rub = RUB_TYPE[b.type] || '';
+  if (o === 'notes') return barre(b.nom, lecteurHTML() + '<button class="pastille" data-a="taille2" data-d="-1">A−</button><button class="pastille" data-a="taille2" data-d="1">A+</button><button class="pastille" data-a="modifdiverse" data-id="' + n.id + '">Modifier</button>') +
+    '<div class="page"><div class="heros" style="margin-bottom:10px"><div class="titre" style="font-size:calc(38px * var(--taille2))">' + esc(b.nom) + '</div>' + (n.etiquettes && n.etiquettes.length ? '<div class="np" style="justify-content:center">' + puces(n.etiquettes) + '</div>' : '') + '</div>' +
+    onglets + '<div class="bloc notepleine">' + esc(n.texte) + '</div></div>';
+  const et = etapesBrique(b);
+  const corps = et.map((e, i) => estSuppr(e) ? '' : '<div class="bib-et"><span>' + esc(titreE(e)) + '</span><button class="pastille" data-a="modifbrique" data-id="' + b.id + '" data-i="' + i + '">Modifier</button></div>' + corpsEtape({ b: blocs(e) })).join('');
+  return barre(b.nom, lecteurHTML() + '<button class="pastille" data-a="taille" data-d="-1" aria-label="Texte plus petit">A−</button><button class="pastille" data-a="taille" data-d="1" aria-label="Texte plus grand">A+</button>') +
+    '<div class="page technique">' + onglets + '<section class="etape"><div class="int"><div class="romain">' + esc(rub) + '</div><h2>' + esc(b.nom) + '</h2>' + orne('✦') + corps + '</div></section>' +
+    '<div class="etiquette">Rangée dans</div>' + choixFace(b.perso ? 'u:' + b.id : 'b:' + b.id, faceBrique(b)) +
+    '<div class="discret" style="margin-top:8px">Une modification ici vaut partout : atelier, techniques et séance.</div></div>';
 };
 VUES.voirdiverse = p => {
   fond('ciel');
   const n = D.diverses.find(x => x.id === p.id); if (!n) return VUES.diverses();
+  { const b = brique(lienFiche(n)); if (b && !D.caches['b:' + b.id]) return VUES.voirbrique({ id: b.id, fiche: n.id, o: 'notes' }); }
   return barre('Note', lecteurHTML() + '<button class="pastille" data-a="taille2" data-d="-1">A−</button><button class="pastille" data-a="taille2" data-d="1">A+</button><button class="pastille" data-a="modifdiverse" data-id="' + n.id + '">Modifier</button>') +
     '<div class="page"><div class="heros" style="margin-bottom:10px"><div class="titre" style="font-size:calc(38px * var(--taille2))">' + esc(n.titre) + '</div>' + (n.etiquettes && n.etiquettes.length ? '<div class="np" style="justify-content:center">' + puces(n.etiquettes) + '</div>' : '') + '</div>' +
     '<div class="bloc notepleine">' + esc(n.texte) + '</div></div>';
@@ -1977,7 +2058,7 @@ function setTaille2(v, garder) {
 }
 const zoneSeance = () => {
   if (!$('#voile').classList.contains('cache')) return document.querySelector('#feuille .apercu') ? 1 : 0;
-  return ((vue.v === 'technique' && !vue.p.sommaire) || vue.v === 'jeu' || vue.v === 'apercu' || vue.v === 'lecon') ? 1 : 2;
+  return ((vue.v === 'technique' && !vue.p.sommaire) || vue.v === 'jeu' || (vue.v === 'voirbrique' && vue.p.o !== 'notes') || vue.v === 'apercu' || vue.v === 'lecon') ? 1 : 2;
 };
 document.addEventListener('touchstart', e => {
   if (e.touches.length !== 2) return;
@@ -2001,7 +2082,7 @@ const lecture = { on: false, niveau: 2, doigt: false, reste: 0, avant: 0, anim: 
 try { const n = Number(localStorage.getItem('ect-vitesse')); if (n >= 1 && n <= VITESSES.length) lecture.niveau = n; } catch (e) {}
 const enTechnique = () => vue.v === 'technique' && !vue.p.sommaire;
 // Les pages où le défilement automatique est possible
-const pageLecture = () => enTechnique() || ['jeu', 'lecon', 'voirdiverse', 'apercu'].includes(vue.v);
+const pageLecture = () => enTechnique() || ['jeu', 'lecon', 'voirdiverse', 'voirbrique', 'apercu'].includes(vue.v);
 function lecteurHTML() {
   return '<div class="lecteur" id="lecteur"><button class="lbtn" data-a="vitesse" data-d="-1" aria-label="Plus lent">−</button>' +
     '<button class="lplay" data-a="lecture" aria-label="Lecture"><span id="licone"></span></button>' +
@@ -2427,7 +2508,7 @@ VUES.reglages = () => {
     '<button class="btn large" data-a="modifconf" style="margin-bottom:10px">+ Ajouter une confusion</button>' +
     '<div class="etiquette">Mes coordonnées (notes d\'honoraires)</div>' + ch('nom', 'Nom') + ch('statut', 'Statut') + ch('activite', 'Activité') + ch('adresse', 'Adresse') + '<div class="deux">' + ch('siret', 'SIRET') + ch('tel', 'Téléphone') + '</div>' + ch('mail', 'Mail') + ch('tva', 'Mention TVA') +
     '<button class="btn plein large" data-a="sauveremetteur">Enregistrer mes coordonnées</button>' +
-    '<div class="discret" style="text-align:center;margin-top:30px">Entre Ciel et Terre · version 12</div></div>';
+    '<div class="discret" style="text-align:center;margin-top:30px">Entre Ciel et Terre · version 13</div></div>';
 };
 
 /* ---------- Fenêtres (formulaires) ---------- */
@@ -2894,6 +2975,26 @@ document.addEventListener('click', ev => {
     }
     case 'modifetape': { const t = TECHNIQUES[vue.p.id]; if (t) formEtape(t.etapes[Number(d.i)]); return; }
     case 'jeux': return aller('jeux');
+    case 'dossier': return aller('dossier', { d: d.d });
+    case 'dossiertech': {
+      D.dossiers[d.id] = d.dd; enregistrer();
+      const y = scrollY; rendre(); window.scrollTo(0, y);
+      toast(d.dd ? 'Rangée dans ' + DOSSIERS.find(x => x[0] === d.dd)[1] : 'Sans dossier');
+      return;
+    }
+    case 'biblio': {
+      if (d.k === 'f') return aller('voirdiverse', { id: d.id });
+      if (d.k === 'b') return aller('voirbrique', { id: d.id, fiche: d.f || '', o: d.f ? 'notes' : 'texte' });
+      if (d.k === 't') { positions[d.id] = 0; delete SEANCES[d.id]; return aller('technique', { id: d.id, terre: faceTech(d.id) === 'terrestre' }); }
+      return aller('jeu', { id: d.id });
+    }
+    case 'ongletb': return remplacer('voirbrique', { id: d.id, fiche: d.f, o: d.o });
+    case 'modifbrique': {
+      const b = brique(d.id); if (!b) return;
+      if (b.perso) return formBrique((D.briques || []).find(x => x.id === d.id));
+      const e = [b.avant, ...b.etapes, b.apres].filter(Boolean)[Number(d.i)]; if (e) formEtape(e);
+      return;
+    }
     case 'rattacher': return formRattacher();
     case 'histo': { const c = client(vue.p.id), x = c && (c.historique || []).find(h => h.id === d.id); if (x) formHistorique(c, x); return; }
     case 'choisir': compo[d.t] = (d.id && compo[d.t] === d.id) ? '' : d.id; garderCompo(); { const y = scrollY; rendre(); window.scrollTo(0, y); } return;
