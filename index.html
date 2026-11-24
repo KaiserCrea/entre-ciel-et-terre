@@ -747,7 +747,56 @@ const TECHNIQUES = {
     ]
   }
 };
-const ORDRE_CELESTE = ['rhea', 'weiss', 'projection', 'allemann'];
+/* ---------- Version 14 : régression prénatale ---------- */
+const TECHNIQUE_PRENATALE = {
+  id: 'prenatale',
+  nom: 'Régression prénatale',
+  sous: 'Préparer le voyage vers les vies antérieures',
+  etapes: [
+    { r: '', titre: 'Avant la séance', b: [
+      ['liste', ["Choisir l'induction et l'approfondissement.", "Demander si l'enfance ou la grossesse a été difficile. Si oui, prévoir d'observer de l'extérieur.", "Poser des questions ouvertes, ne jamais suggérer la réponse."]]
+    ]},
+    { r: 'I', titre: 'La sécurité', b: [
+      ['dit', "Tout ce que tu vas voir aujourd'hui, ce sont des souvenirs. Ils sont passés, et toi tu es ici, en sécurité, bien installé. Si à un moment quelque chose est désagréable, tu peux simplement prendre de la hauteur, flotter un peu au-dessus, et regarder de loin, comme un film. Tu peux me répondre en parlant doucement. Et chaque fois que tu parles, tu descends encore un peu plus profond."]
+    ]},
+    { r: 'II', titre: 'Le couloir du temps', b: [
+      ['dit', "Imagine devant toi un long couloir, calme et doux. De chaque côté, il y a des portes. Derrière chaque porte, il y a ta chambre, à un âge de ta vie. Plus tu avances dans ce couloir, plus tu remontes le temps. Les années défilent doucement… et tu sais déjà où tu vas t'arrêter."]
+    ]},
+    { r: 'III', titre: 'Quatorze ans', b: [
+      ['dit', "Je vais compter de trois à un. À un, tu seras devant la porte de ta chambre, quand tu avais quatorze ans. Trois… deux… un. Tu es là. Pousse la porte, et entre."],
+      ['q', ["Regarde tes pieds. Qu'est-ce que tu portes aux pieds ?", "Et comment es-tu habillé ?", "Il fait jour ou il fait nuit ? Quelle saison, à ton avis ?", "Décris-moi ta chambre. Les murs, le lit, la fenêtre.", "Qu'est-ce qu'il y a sur les murs ?", "Est-ce qu'il y a un objet auquel tu tiens ?", "Qu'est-ce que tu entends dans la maison ? Une odeur ?", "Qui d'autre est là, dans la maison ?", "Comment tu te sens, là, à quatorze ans ?", "Qu'est-ce qui occupe tes pensées en ce moment ?"]],
+      ['dit', "Bien. Tu vois comme ta mémoire te répond facilement. Et elle va te répondre encore plus facilement maintenant."]
+    ]},
+    { r: 'IV', titre: 'Sept ans', b: [
+      ['dit', "Ressors doucement de cette chambre, et continue dans le couloir. Je compte de trois à un. À un, tu seras devant ta chambre, quand tu avais sept ans. Trois… deux… un. Entre."],
+      ['q', ["Regarde tes pieds. Qu'est-ce que tu portes ?", "Regarde tes mains. Elles sont comment ?", "Tout autour de toi, les choses te paraissent comment ? Grandes, petites ?", "Décris-moi ta chambre.", "Avec quoi tu aimes jouer ?", "Qui s'occupe de toi ?", "Est-ce que tu entends une voix ? À qui elle appartient ?", "Qu'est-ce que tu ressens, là, maintenant ?"]],
+      ['dit', "C'est bien. Tout vient tout seul."]
+    ]},
+    { r: 'V', titre: 'Trois ans', b: [
+      ['dit', "Continue encore dans le couloir. Les portes deviennent plus douces, plus floues. Trois… deux… un. Tu as trois ans. Laisse juste venir ce qui vient, une image, une sensation, une impression. Tout est juste."],
+      ['q', ["Où es-tu ?", "Tu es debout, assis, allongé ?", "Qui est près de toi ?", "Qu'est-ce que tu entends ?", "Une odeur, une couleur ?", "Qu'est-ce qui te rassure, là ?"]]
+    ]},
+    { r: 'VI', titre: 'Le ventre de la mère', b: [
+      ['dit', "Maintenant, tu vas aller encore plus loin. Avant même ta naissance. Au bout du couloir, il y a une dernière porte, toute douce. Trois… deux… un. Tu es dans le ventre de ta mère."],
+      ['q', ["Il fait chaud, il fait froid ?", "Tu as de la place, ou c'est serré ?", "Tu es dans quelle position ?", "C'est sombre, ou il y a une lumière ?", "Qu'est-ce que tu entends ? Son cœur, sa voix, d'autres voix ?", "Qu'est-ce que ta mère ressent, à ton avis ?", "Qu'est-ce qui se passe dehors ?", "Est-ce que tu te sens attendu ?", "Quelle émotion est là, en toi ?", "À quel mois tu es ? Le premier chiffre qui vient."]]
+    ]},
+    { r: 'VII', titre: 'Avant le ventre', b: [
+      ['dit', "Et maintenant, juste avant… Avant d'être là, dans ce ventre. Qu'est-ce qu'il y avait ? Ne cherche pas. Laisse simplement une impression venir."],
+      ['consigne', "Noter la réponse pour la séance suivante."]
+    ]},
+    { r: 'VIII', titre: 'La remontée', b: [
+      ['dit', "Laisse ce petit être tranquille, bien au chaud, en sécurité. Et reprends le couloir dans l'autre sens. Trois ans… sept ans… quatorze ans… Tu reviens doucement vers aujourd'hui, en ramenant avec toi tout ce qui est bon pour toi."]
+    ]},
+    { r: 'IX', titre: 'Retour', b: [
+      ['consigne', "Au choix dans l'Atelier."]
+    ]},
+    { r: '', titre: 'Après la séance', b: [
+      ['liste', ["Noter ce qui est apparu à chaque âge.", "Laisser le client donner son sens, ne pas interpréter à sa place."]]
+    ]}
+  ]
+};
+TECHNIQUES.prenatale = TECHNIQUE_PRENATALE;
+const ORDRE_CELESTE = ['prenatale', 'rhea', 'weiss', 'projection', 'allemann'];
 // Chaque étape a une clé stable : c'est elle qui retient tes textes modifiés sur la tablette
 for (const id in TECHNIQUES) TECHNIQUES[id].etapes.forEach((e, i) => { e.k = id + ':' + i; });
 
@@ -799,6 +848,8 @@ const BRIQUES = [
   { id: 'weiss-compte', type: 'approf', face: 'deux', min: 2, nom: 'Le compte de 5 à 1', src: 'Brian Weiss', etapes: [ET('weiss', 3)] },
   { id: 'allemann-souffle', type: 'approf', face: 'deux', min: 10, nom: 'Le souffle et la lumière blanche', src: 'Allemann', besoin: 'souffle', etapes: [ET('projection', 2), ET('projection', 3), ET('projection', 4)] },
 
+  { id: 'prenatale', type: 'protocole', face: 'celeste', min: 35, nom: 'Régression prénatale', src: 'Régression en âge',
+    avant: ET('prenatale', 0), apres: ET('prenatale', 10), etapes: [ET('prenatale', 1), ET('prenatale', 2), ET('prenatale', 3), ET('prenatale', 4), ET('prenatale', 5), ET('prenatale', 6), ET('prenatale', 7), ET('prenatale', 8)] },
   { id: 'rhea-regression', type: 'protocole', face: 'celeste', min: 40, nom: 'Régression vies antérieures', src: 'Rhéa Powers', besoin: 'escalier',
     avant: ET('rhea', 0), etapes: [ET('rhea', 6), ET('rhea', 7), ET('rhea', 8), ET('rhea', 9), ET('rhea', 10), ET('rhea', 11), ET('rhea', 12), ET('rhea', 13)] },
   { id: 'weiss-regression', type: 'protocole', face: 'celeste', min: 35, nom: 'Régression par la porte de lumière', src: 'Brian Weiss',
@@ -1528,7 +1579,7 @@ VUES.celeste = () => {
 };
 
 const DOSSIERS = [['anterieures', 'Vies antérieures'], ['future', 'Vie future'], ['entre', 'Entre deux vies'], ['auto', 'Auto-régression']];
-const DOSSIER_DEFAUT = { rhea: 'anterieures', weiss: 'anterieures', projection: 'future', allemann: 'auto' };
+const DOSSIER_DEFAUT = { prenatale: 'anterieures', rhea: 'anterieures', weiss: 'anterieures', projection: 'future', allemann: 'auto' };
 const dossierTech = id => (D.dossiers && id in D.dossiers) ? D.dossiers[id] : (DOSSIER_DEFAUT[id] || '');
 const techCeleste = () => ORDRE_CELESTE.filter(id => !D.caches['t:' + id] && !['terrestre', 'jeux'].includes(faceTech(id)));
 const carteTech = t => '<button class="carte" data-a="technique" data-long="cache" data-k="t:' + t.id + '" data-id="' + t.id + '"><div class="int"><div><div class="nom">' + esc(t.nom) + '</div><div class="sous">' + esc(t.sous) + ' · ' + etapesVues(t).filter(e => e.r).length + ' étapes</div></div><span class="fl">›</span></div></button>';
@@ -1894,7 +1945,8 @@ function construire(c, titre) {
   let n = 0; for (const e of et) if (e.r) e.r = romain(++n);
   return { id: 'compo', nom: titre || 'Séance composée', sous: [ind, ap, pr, re].filter(Boolean).map(b => b.nom).join(' · '), etapes: et, ctx };
 }
-const pret = c => c && brique(c.induction) && brique(c.protocole) && brique(c.retour);
+// Version 14 : une seule brique suffit pour lancer la séance
+const pret = c => !!(c && ['induction', 'approf', 'protocole', 'retour'].some(k => brique(c[k])));
 VUES.atelier = p => {
   const terre = p.face === 'terrestre';
   fond(terre ? 'terre' : 'ciel'); if (terre) $('#app').className = 'terre';
@@ -1925,7 +1977,7 @@ VUES.atelier = p => {
       : '<div class="raccord"><span class="ok">✓</span>' + esc(r.de) + ' → ' + esc(r.vers) + '<small>Raccord direct</small></div>').join('');
   }
   h += '<div class="resume"><div class="duree">Durée estimée <b>≈ ' + dureeCompo(compo) + ' min</b></div>' +
-    (pret(compo) ? '' : '<div class="discret" style="margin-bottom:12px">Choisis au moins une induction, un protocole et un retour.</div>') +
+    (pret(compo) ? '' : '<div class="discret" style="margin-bottom:12px">Choisis au moins une brique.</div>') +
     '<button class="btn large" data-a="apercucompo"' + (pret(compo) ? '' : ' disabled') + ' style="margin-bottom:10px">Aperçu de la séance</button>' +
     '<div class="rangee"><button class="btn" data-a="enrcompo"' + (pret(compo) ? '' : ' disabled') + '>Garder pour plus tard</button><button class="btn plein" data-a="lancercompo"' + (pret(compo) ? '' : ' disabled') + '>Lancer la séance</button></div></div>';
   const miennes = (D.briques || []).filter(b => b.face === 'deux' || b.face === p.face);
@@ -2508,7 +2560,7 @@ VUES.reglages = () => {
     '<button class="btn large" data-a="modifconf" style="margin-bottom:10px">+ Ajouter une confusion</button>' +
     '<div class="etiquette">Mes coordonnées (notes d\'honoraires)</div>' + ch('nom', 'Nom') + ch('statut', 'Statut') + ch('activite', 'Activité') + ch('adresse', 'Adresse') + '<div class="deux">' + ch('siret', 'SIRET') + ch('tel', 'Téléphone') + '</div>' + ch('mail', 'Mail') + ch('tva', 'Mention TVA') +
     '<button class="btn plein large" data-a="sauveremetteur">Enregistrer mes coordonnées</button>' +
-    '<div class="discret" style="text-align:center;margin-top:30px">Entre Ciel et Terre · version 13</div></div>';
+    '<div class="discret" style="text-align:center;margin-top:30px">Entre Ciel et Terre · version 14</div></div>';
 };
 
 /* ---------- Fenêtres (formulaires) ---------- */
@@ -3000,10 +3052,16 @@ document.addEventListener('click', ev => {
     case 'choisir': compo[d.t] = (d.id && compo[d.t] === d.id) ? '' : d.id; garderCompo(); { const y = scrollY; rendre(); window.scrollTo(0, y); } return;
     case 'safe': compo.safe = !compo.safe; garderCompo(); { const y = scrollY; rendre(); window.scrollTo(0, y); } return;
     case 'lancercompo': {
-      if (!pret(compo)) return; delete SEANCES.compo;
-      const nav = () => { positions.compo = 0; aller('technique', { id: 'compo', terre: compo.face === 'terrestre' }); };
-      if (!compo.pour) return formCommencer('compo', nav);
-      return lancerPour('compo', nav, pourQui(compo.pour));
+      if (!pret(compo)) return;
+      const go = () => {
+        delete SEANCES.compo;
+        const nav = () => { positions.compo = 0; aller('technique', { id: 'compo', terre: compo.face === 'terrestre' }); };
+        if (!compo.pour) return formCommencer('compo', nav);
+        return lancerPour('compo', nav, pourQui(compo.pour));
+      };
+      // Version 14 : prévenir s'il n'y a pas de retour
+      if (!brique(compo.retour)) return ouvrir('Pas de retour prévu', '<div class="discret" style="margin-bottom:14px">Cette séance n\'a pas de retour. Tu veux la lancer quand même ?</div><div class="rangee"><button class="btn" data-a="f-annuler">Annuler</button><button class="btn plein" data-a="f-ok">Lancer quand même</button></div>', { ok() { fermer(); go(); } });
+      return go();
     }
     case 'enrcompo': {
       if (!pret(compo)) return;
