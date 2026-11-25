@@ -334,6 +334,15 @@ html{touch-action:manipulation}
 .lvit b{font-size:calc(16px * var(--taille2))}
 .lit .lecteur{opacity:.3}
 .choix .ch{position:relative}
+.voyage{display:grid;gap:8px;margin-bottom:10px}
+.vo-l{display:flex;align-items:center;gap:8px;border:0.5px solid #dfe5f3;border-radius:14px;padding:10px 10px 10px 14px;background:linear-gradient(180deg,#1e2a50,#111a34)}
+.vo-n{font-family:var(--caps);font-size:calc(12px * var(--taille2));color:var(--argent2);min-width:16px}
+.vo-t{flex:1;min-width:0}
+.vo-t .cn{font-family:var(--serif);font-size:calc(19px * var(--taille2));color:#f3f5fb;line-height:1.2}
+.vo-t .cs{font-family:var(--caps);font-size:calc(9px * var(--taille2));letter-spacing:2px;color:var(--doux);text-transform:uppercase;margin-top:3px}
+.vo-b{width:38px;height:38px;border-radius:12px;border:0.5px solid #c9d4ee44;background:#0b10208c;color:var(--argent2);font-size:calc(16px * var(--taille2))}
+.vo-b:disabled{opacity:.3}
+.sous-et{font-family:var(--caps);font-size:calc(10px * var(--taille2));letter-spacing:2.5px;text-transform:uppercase;color:var(--doux);margin:12px 0 6px}
 .choix .chb{width:100%;padding-right:86px}
 .choix .lire{position:absolute;right:10px;top:50%;transform:translateY(-50%);display:block;padding:7px 12px;border-radius:14px;border:0.5px solid #c9d4ee55;background:#ffffff0d;color:var(--argent2);font-family:var(--caps);font-size:calc(10px * var(--taille2));letter-spacing:2px;text-transform:uppercase}
 .terre .choix .lire{background:#ffffff0d;border-color:#f5c48c55;color:#f5d9b8}
@@ -820,6 +829,125 @@ TECHNIQUES.inutero = {
     ]}
   ]
 };
+/* ---------- Version 16 : approfondissements Céleste, tunnel, vie antérieure, après cette vie ---------- */
+TECHNIQUES.montagnes = {
+  id: 'montagnes', nom: 'Les montagnes et le pré', sous: 'Approfondissement Céleste',
+  etapes: [
+    { r: 'I', titre: "L'envol", b: [
+      ['dit', "Et maintenant… tu peux laisser une partie de toi quitter cette pièce… doucement… et t'élever, toujours un peu plus haut… loin, vers une chaîne de montagnes. C'est une journée calme… paisible. Tu sens l'air chaud tout autour de toi… doux… enveloppant… pendant que tu traverses des nuages blancs, légers comme du lait. Ton corps devient léger… si léger… tu flottes… et tu te rapproches des montagnes… quelque chose te porte vers l'avant, tout simplement. Tu peux voir les sommets… la lumière qui joue sur les crêtes… les pentes qui descendent loin, tout en bas… Et plus tu avances, plus le calme grandit en toi…"]
+    ]},
+    { r: 'II', titre: 'La vallée', b: [
+      ['dit', "Bientôt, tu passes au-dessus de la première chaîne… et tu redescends doucement vers un endroit d'où tu peux voir un joli pré, au creux d'une vallée."],
+      ['consigne', 'Pause.'],
+      ['dit', "En te rapprochant, tu vois que ce pré est entouré de grands arbres majestueux… Ce pré est un sanctuaire… un lieu complètement protégé."]
+    ]},
+    { r: 'III', titre: 'Le cercle', b: [
+      ['dit', "Tu arrives tout près du sol… et tu flottes autour de ce cercle parfait d'arbres… à la recherche du passage… le chemin qui va te mener au centre de ce lieu serein et magique. Et tu le trouves facilement… comme si une force invisible te guidait… Tu te laisses guider… et tu passes entre les arbres."]
+    ]},
+    { r: 'IV', titre: 'Le centre', b: [
+      ['dit', "Ici, les rayons dorés du soleil descendent sur toi… et forment au-dessus de toi comme un bouclier de lumière chaude… Tu es en sécurité… complètement. Les couleurs sont vives… le vert de l'herbe… les fleurs… Tu sens leur parfum… tu entends le chant des oiseaux… l'herbe douce sous toi… Et tu te laisses envelopper par ce lieu… si paisible…"]
+    ]}
+  ]
+};
+TECHNIQUES.plage = {
+  id: 'plage', nom: "La plage et l'eau", sous: 'Approfondissement Céleste',
+  etapes: [
+    { r: '', titre: 'Avant la séance', b: [
+      ['consigne', "À proposer si la personne est à l'aise avec l'eau."]
+    ]},
+    { r: 'I', titre: 'La plage', b: [
+      ['dit', "Tu es sur une plage… du sable chaud à perte de vue… un sable doux, tiède sous toi… Ici, tout est tranquille… et rien ne peut troubler cette tranquillité. Au-dessus de toi, des mouettes tournent lentement dans le ciel… libres… si libres… Devant toi, les vagues roulent… et forment une écume blanche, pure… Tu écoutes leur bruit… régulier… apaisant… Ici, le temps n'a plus d'importance… il s'étire… à l'infini…"]
+    ]},
+    { r: 'II', titre: "L'eau", b: [
+      ['dit', "Et quand tu le souhaites, tu t'avances vers l'eau… elle est fraîche… agréable… Elle te lave… elle te purifie… Tu avances encore… et tu te laisses glisser dans l'eau…"]
+    ]},
+    { r: 'III', titre: 'La descente', b: [
+      ['dit', "Tu sens que tu te détaches… de plus en plus… en flottant vers le bas. Tu respires facilement… tranquillement… car c'est comme si tu flottais à travers le temps et l'espace… tout simplement. Des courants doux et chauds t'entourent… et caressent ton corps pendant que tu descends. Devant toi, des bulles blanches, rondes, translucides, montent doucement… pendant que toi, tu descends encore plus bas. Bientôt, ta propre lumière intérieure t'enveloppe tout entier, de la tête aux pieds… pendant que tu glisses dans l'eau… et que tu entres dans l'immensité de l'espace et du temps."]
+    ]},
+    { r: 'IV', titre: 'Le fleuve du temps', b: [
+      ['dit', "Le temps coule comme un fleuve… il passe pendant que tu le parcours… parfois avec le courant… parfois à travers… et tu te laisses porter… en toute confiance… tu dérives… sereinement… comme dans un rêve… vers cet endroit spécial… là où c'est juste pour toi d'aller."]
+    ]}
+  ]
+};
+TECHNIQUES.tunnel = {
+  id: 'tunnel', nom: 'Vie antérieure par le tunnel', sous: 'Passage et protocole Céleste',
+  etapes: [
+    { r: '', titre: 'Avant la séance', b: [
+      ['liste', ["Choisir avec la personne la dernière vie ou une vie importante.", "S'attendre à un moment chargé d'émotion, souvent un décès.", "Rester 15 à 30 min dans cette vie, aller assez vite vers la fin.", "Si peu d'images : passer par le toucher, les sensations, l'émotion."]]
+    ]},
+    { r: 'I', titre: 'Le tunnel du temps', b: [
+      ['dit', "Maintenant… imagine que nous avançons ensemble dans un long tunnel… qui va te conduire dans ta dernière vie. Ce tunnel ressemble à un tunnel de train… en bien plus propre… plus lisse. Un cylindre parfaitement rond, avec une entrée et une sortie."],
+      ['dit', "Nous entrons par la grande entrée ronde… autour de nous, une pénombre douce. Pendant que je compte de 10 à 1, tu vois les parois s'éclaircir… devenir grises… puis à 5, très blanches. Et tout au bout, tu vois alors une immense ouverture ronde, lumineuse… par laquelle nous passerons à 1, pour entrer dans une scène importante d'une vie passée."],
+      ['dit', "Tu vas découvrir laquelle… et quand je dirai 1, tu seras dans un autre temps, un autre lieu, un autre corps… mais tu sauras que c'est toi."],
+      ['consigne', 'Si la personne hésite :'],
+      ['dit', "Lève les doigts de ta main droite si tu veux avancer avec moi maintenant dans le tunnel du temps. Lève les doigts de ta main gauche si tu préfères attendre que je commence le compte."],
+      ['consigne', 'Commencer le compte presque aussitôt.'],
+      ['dit', "10… tu quittes le ventre… tu entres dans le tunnel… et nous prenons de la vitesse… 9… encore plus vite… 8… les parois deviennent grises… 7… 6… 5… elles sont blanches maintenant… et devant nous, une immense ouverture blanche et ronde… qui va t'emmener dans une scène importante d'une vie antérieure… 4… 3… 2… 1 ! Nous sommes sortis du tunnel.", { si: 'ventre' }],
+      ['dit', "10… tu entres dans le tunnel… et nous prenons de la vitesse… 9… encore plus vite… 8… les parois deviennent grises… 7… 6… 5… elles sont blanches maintenant… et devant nous, une immense ouverture blanche et ronde… qui va t'emmener dans une scène importante d'une vie antérieure… 4… 3… 2… 1 ! Nous sommes sortis du tunnel.", { sinon: 'ventre' }]
+    ]},
+    { r: 'II', titre: "L'arrivée", b: [
+      ['dit', "Prends ton temps… laisse venir ce qui vient."],
+      ['q', ["Dis-moi d'abord : fait-il jour ou nuit ?", "Fait-il chaud ou froid ?", "Es-tu dehors ou à l'intérieur ?", "Es-tu dans une grande ville, une petite ville, à la campagne ?", "Y a-t-il quelqu'un avec toi ?", "Que portes-tu comme vêtements ?", "Es-tu un homme ou une femme ?", "Quelle est ta taille : petite, moyenne, grande ?", "Que fais-tu en ce moment ?"]]
+    ]},
+    { r: 'III', titre: 'Mieux connaître cette vie', b: [
+      ['q', ["Quel est ton nom ? Quel âge as-tu ?", "Qui est ta famille ?", "En quelle année sommes-nous ? Dans quel pays, quelle région ?", "Que s'est-il passé avant cette scène ?", "Qui sont les personnes importantes dans cette vie ?"]],
+      ['consigne', 'Si la personne est bien dedans :'],
+      ['q', ["Parmi elles, en reconnais-tu dans ta vie d'aujourd'hui ?"]],
+      ['consigne', 'Sinon, garder cette question pour le monde spirituel.']
+    ]},
+    { r: 'IV', titre: 'Avancer dans le temps', b: [
+      ['consigne', "Si la première scène n'est pas un décès."],
+      ['dit', "Maintenant, avance de cinq ans dans cette vie…"],
+      ['consigne', 'Ou dix ans.'],
+      ['q', ['Que se passe-t-il ?']],
+      ['consigne', 'Répéter autant que nécessaire.']
+    ]},
+    { r: 'V', titre: 'Le dernier jour', b: [
+      ['dit', "Maintenant, nous allons jusqu'au dernier jour de cette vie, quand j'aurai compté jusqu'à 3… 1… 2… 3 ! Dis-moi ce qui se passe."],
+      ['consigne', "Mort de vieillesse : demander qui est là, s'il y a des témoins, ce que la personne ressent."],
+      ['consigne', 'Mort violente : faire traverser la scène très vite.'],
+      ['consigne', "Ensuite : retour, ou suite vers l'Entre deux vies."]
+    ]}
+  ]
+};
+TECHNIQUES.apresvie = {
+  id: 'apresvie', nom: 'Après cette vie', sous: 'Après la mort dans une vie antérieure',
+  etapes: [
+    { r: '', titre: 'Avant la séance', b: [
+      ['consigne', "Demander l'accord pour poser la main sur le front."]
+    ]},
+    { r: 'I', titre: 'Le passage', b: [
+      ['consigne', 'Au moment de la mort, poser la main sur le front.'],
+      ['dit', "Tu viens de quitter ce corps… et tu connais ce moment… tu l'as déjà vécu bien des fois. Alors tu peux t'en éloigner doucement… et sentir la liberté… la légèreté… l'apaisement."],
+      ['consigne', 'Si la mort a été difficile : imaginer autour de la personne une lumière dorée qui protège.'],
+      ['dit', "Tout en t'éloignant de ce corps, tu peux continuer à me parler et à me répondre… car tu es maintenant en contact avec ton être profond. Tu sens ton esprit s'ouvrir… s'élargir… jusqu'aux plus hauts niveaux de ton être. En regardant ce corps, un peu de tristesse peut passer… c'est naturel… ton esprit connaît déjà ce passage. Et quand tu le sens, tu peux simplement t'en éloigner… en laissant à ce corps tout ce qui lui appartenait."]
+    ]},
+    { r: 'II', titre: 'Prendre ses repères', b: [
+      ['consigne', 'Ralentir, baisser la voix, laisser du temps.'],
+      ['q', ["Où es-tu maintenant par rapport à ton corps ?", "Y a-t-il quelqu'un près de toi ? Parle-moi de cette personne : qui est-elle ?", "Que vois-tu autour de toi ? De quoi as-tu conscience ?", "Que ressens-tu ?", "Que se passe-t-il maintenant ? Et ensuite ? Que s'est-il passé que tu ne m'as pas encore raconté ?", "Que ressens-tu face à cette mort ?"]],
+      ['consigne', "Si la personne ne sait pas où elle est : la rassurer, c'est normal."],
+      ['dit', "Je vais garder le silence un moment… regarde autour de toi, et dis-moi la première chose que tu vois."],
+      ['consigne', 'Souvent : au plafond de la pièce ou au-dessus du corps.']
+    ]},
+    { r: 'III', titre: "Si c'est difficile de partir", b: [
+      ['consigne', 'Mort jeune, accident, tristesse, chose inachevée.'],
+      ['dit', "Une partie de toi savait sans doute que cette vie serait courte… Tu pourras comprendre tout cela avec plus de recul."],
+      ['consigne', "Mort violente : ne pas faire revivre la scène. La regarder d'en haut, en spectateur, en reconnaissant ce qu'on ressent."],
+      ['consigne', "Laisser la personne près de son corps le temps dont elle a besoin."]
+    ]},
+    { r: 'IV', titre: 'La prise de conscience', b: [
+      ['consigne', "Résumer en quelques mots ce qu'on a appris de cette vie."],
+      ['q', ["Qu'as-tu appris dans cette vie ?", "Quel était le but de cette vie ? L'as-tu atteint ?", "Y a-t-il quelque chose que tu voudrais corriger dans ce que tu m'as raconté ?", "Qu'est-ce qui a compté le plus pour toi dans cette vie ?", "De quoi es-tu le plus heureux, le plus fier ?", "Qu'est-ce qui est resté inachevé ?", "D'ici, que comprends-tu que tu ne voyais pas à ce moment-là ?", "Si tu pouvais dire une chose à la personne que tu étais, que lui dirais-tu ?", "Y a-t-il quelqu'un dans cette vie à qui tu voudrais dire quelque chose ?", "Qu'est-ce que tu retrouves de cette vie dans ta vie d'aujourd'hui ?", "Parmi les personnes importantes de cette vie, en reconnais-tu aujourd'hui ?", "Qu'est-ce que tu choisis de laisser dans cette vie ?", "Quelle force, quelle compréhension choisis-tu d'emporter avec toi aujourd'hui ?"]]
+    ]},
+    { r: 'V', titre: 'Le retour par le tunnel', b: [
+      ['dit', "Maintenant… avec ce que tu choisis d'emporter… tu vas revenir tranquillement vers aujourd'hui. Devant toi, l'ouverture lumineuse du tunnel… tu y entres, à ton rythme… Pendant que je compte de 1 à 10, tu reviens doucement vers ta vie d'aujourd'hui… 1… 2… les parois blanches défilent lentement… 3… 4… cette vie passée s'éloigne derrière toi… tranquillement… 5… 6… et ce que tu as choisi d'emporter reste avec toi… 7… 8… tu te rapproches de ta vie d'aujourd'hui… 9… et 10… tu sors du tunnel."],
+      ['dit', "Prends un moment… juste là… Laisse ce que tu as vécu se déposer en toi… tranquillement…"],
+      ['consigne', 'Pause.'],
+      ['dit', "Et maintenant, tu peux commencer à sentir à nouveau ce corps… ta respiration… l'air qui entre… l'air qui sort… le poids de ton corps, bien posé, bien porté… tes mains… tes pieds… Tu es ici… dans cette pièce… aujourd'hui."],
+      ['consigne', 'Enchaîner avec la brique Retour.']
+    ]}
+  ]
+};
 const ORDRE_CELESTE = ['rhea', 'weiss', 'projection', 'allemann'];
 // Chaque étape a une clé stable : c'est elle qui retient tes textes modifiés sur la tablette
 for (const id in TECHNIQUES) TECHNIQUES[id].etapes.forEach((e, i) => { e.k = id + ':' + i; });
@@ -872,13 +1000,13 @@ const BRIQUES = [
   { id: 'weiss-compte', type: 'approf', face: 'deux', min: 2, nom: 'Le compte de 5 à 1', src: 'Brian Weiss', etapes: [ET('weiss', 3)] },
   { id: 'allemann-souffle', type: 'approf', face: 'deux', min: 10, nom: 'Le souffle et la lumière blanche', src: 'Allemann', besoin: 'souffle', etapes: [ET('projection', 2), ET('projection', 3), ET('projection', 4)] },
 
-  { id: 'inutero', type: 'protocole', face: 'celeste', min: 45, nom: 'Régression in utero', src: 'Régression en âge',
-    avant: ET('inutero', 0), etapes: [ET('inutero', 1), ET('inutero', 2), ET('inutero', 3), ET('inutero', 4), ET('inutero', 5), ET('inutero', 6), ET('inutero', 7), ET('inutero', 8), ET('inutero', 9), ET('inutero', 10), ET('inutero', 11), ET('inutero', 12), ET('inutero', 13), ET('inutero', 14)] },
-  { id: 'rhea-regression', type: 'protocole', face: 'celeste', min: 40, nom: 'Régression vies antérieures', src: 'Rhéa Powers', besoin: 'escalier',
+  { id: 'inutero', type: 'protocole', face: 'celeste', th: 'anterieures', min: 40, nom: 'Régression in utero', src: 'Régression en âge',
+    avant: ET('inutero', 0), etapes: [ET('inutero', 1), ET('inutero', 2), ET('inutero', 3), ET('inutero', 4), ET('inutero', 5), ET('inutero', 6), ET('inutero', 7), ET('inutero', 8), ET('inutero', 9), ET('inutero', 10), ET('inutero', 11), ET('inutero', 12), ET('inutero', 13)] },
+  { id: 'rhea-regression', type: 'protocole', face: 'celeste', th: 'anterieures', min: 40, nom: 'Régression vies antérieures', src: 'Rhéa Powers', besoin: 'escalier',
     avant: ET('rhea', 0), etapes: [ET('rhea', 6), ET('rhea', 7), ET('rhea', 8), ET('rhea', 9), ET('rhea', 10), ET('rhea', 11), ET('rhea', 12), ET('rhea', 13)] },
-  { id: 'weiss-regression', type: 'protocole', face: 'celeste', min: 35, nom: 'Régression par la porte de lumière', src: 'Brian Weiss',
+  { id: 'weiss-regression', type: 'protocole', face: 'celeste', th: 'anterieures', min: 35, nom: 'Régression par la porte de lumière', src: 'Brian Weiss',
     etapes: [ET('weiss', 4), ET('weiss', 5), ET('weiss', 6), partie(ET('weiss', 7), 'Le chemin du retour', 0, 5)] },
-  { id: 'projection-futur', type: 'protocole', face: 'celeste', min: 30, nom: 'Projection vers une vie future', src: 'Allemann',
+  { id: 'projection-futur', type: 'protocole', face: 'celeste', th: 'future', min: 30, nom: 'Projection vers une vie future', src: 'Allemann',
     avant: ET('projection', 0), apres: ET('projection', 12),
     etapes: [ET('projection', 5), ET('projection', 6), ET('projection', 7), ET('projection', 8), ET('projection', 9), ET('projection', 10), partie(ET('projection', 11), 'Le retour en ballon', 0, 4)] },
   { id: 'miroirs', type: 'protocole', face: 'deux', min: 30, nom: 'Les miroirs', src: 'Stephen Brooks', apres: { r: '', titre: 'Après la séance', b: [['liste', ["En reparler avec lui après la séance."]]] },
@@ -918,7 +1046,9 @@ const LIAISONS = {
   escalier: "Devant toi, un escalier doux et sûr descend, avec une rampe sous ta main. Descends-le tranquillement, marche après marche… et à chaque marche, tu vas plus profondément en toi.\nTe voilà en bas, profondément détendu, parfaitement bien.",
   souffle: "Commence maintenant à respirer calmement, régulièrement, par le nez. Relie ton inspiration et ton expiration, sans pause entre les deux, comme une vague qui va et vient."
 };
-const TYPES = [['induction', 'Induction'], ['approf', 'Approfondissement'], ['protocole', 'Protocole'], ['retour', 'Retour']];
+const TYPES = [['induction', 'Induction'], ['approf', 'Approfondissement'], ['passage', 'Passage'], ['protocole', 'Protocole'], ['apres', 'Après le protocole'], ['retour', 'Retour']];
+// Version 16 : « Le voyage » enchaîne une ou plusieurs briques (passage, protocole, après), dans l'ordre choisi
+const TYPES_VOYAGE = ['passage', 'protocole', 'apres'];
 
 /* ---------- Jeux hypnotiques (Terrestre) ---------- */
 const JEUX = [
@@ -1188,6 +1318,23 @@ BRIQUES.splice(BRIQUES.findIndex(b => b.type === 'protocole'), 0,
   { id: 'esdaile', type: 'approf', face: 'deux', min: 5, nom: "L'état Esdaile (séances spécifiques)", src: 'Dave Elman · niveaux A, B, C', etapes: ESDAILE }
 );
 { const l = BRIQUES.find(b => b.id === 'allemann-lieu'); l.ancre = 'ton lieu agréable'; l.ancreNom = 'le lieu agréable'; }
+// Version 16 : nouvelles briques (approfondissements, passage, après cette vie, remontée de l'in utero)
+BRIQUES.splice(BRIQUES.findIndex(b => b.type === 'protocole'), 0,
+  { id: 'montagnes', type: 'approf', face: 'celeste', min: 8, nom: 'Les montagnes et le pré', src: 'Visualisation · sanctuaire', etapes: TECHNIQUES.montagnes.etapes },
+  { id: 'plage', type: 'approf', face: 'celeste', min: 8, nom: "La plage et l'eau", src: "Si à l'aise avec l'eau", avant: ET('plage', 0), etapes: TECHNIQUES.plage.etapes.slice(1) },
+  { id: 'tunnel-passage', type: 'passage', face: 'celeste', th: 'anterieures', min: 4, nom: 'Le tunnel du temps', src: 'Vers une vie antérieure', etapes: [ET('tunnel', 1)] },
+  { id: 'tunnel-vie', type: 'protocole', face: 'celeste', th: 'anterieures', min: 25, nom: 'Vie antérieure par le tunnel', src: 'Arrivée, vie, dernier jour', avant: ET('tunnel', 0), etapes: [ET('tunnel', 2), ET('tunnel', 3), ET('tunnel', 4), ET('tunnel', 5)] }
+);
+BRIQUES.splice(BRIQUES.findIndex(b => b.type === 'retour'), 0,
+  { id: 'apresvie', type: 'apres', face: 'celeste', th: 'anterieures', min: 20, nom: 'Après cette vie', src: 'Prise de conscience, retour par le tunnel', avant: ET('apresvie', 0), etapes: [ET('apresvie', 1), ET('apresvie', 2), ET('apresvie', 3), ET('apresvie', 4), ET('apresvie', 5)] }
+);
+BRIQUES.push({ id: 'inutero-retour', type: 'retour', face: 'celeste', th: 'anterieures', min: 6, nom: "La remontée de l'escalier d'or", src: 'Après la régression in utero', etapes: [ET('inutero', 14)] });
+// Parcours tout prêts : ils remplissent l'atelier d'un coup
+const PARCOURS = [
+  { id: 'va-ar', nom: 'Vie antérieure – aller-retour', approf: 'montagnes', voyage: ['tunnel-passage', 'tunnel-vie', 'apresvie'] },
+  { id: 'va-ventre', nom: 'Vie antérieure par le ventre', voyage: ['inutero', 'tunnel-passage', 'tunnel-vie', 'apresvie'] },
+  { id: 'inutero-seule', nom: 'Régression in utero seule', voyage: ['inutero'], retour: 'inutero-retour' }
+];
 // Version 10 : le questionnement inductif et l'association / dissociation
 const QUESTION_AVANT = { r: '', titre: 'Avant la séance', b: [
   ['consigne', "Idéal pour une personne qui a un peu peur de l'hypnose : elle avance à son rythme, souvent sans s'en rendre compte."]
@@ -1727,7 +1874,7 @@ function blocsVisibles(b, ctx) {
   }
   return out;
 }
-const ETIQ_COND = { safe: 'endroit safe', piece: 'la pièce', lieu: 'lieu agréable' };
+const ETIQ_COND = { safe: 'endroit safe', piece: 'la pièce', lieu: 'lieu agréable', ventre: 'après in utero' };
 const titreE = e => (e && e.k && D.titres['e:' + e.k] != null) ? D.titres['e:' + e.k] : e.titre;
 const estSuppr = e => !!(e && e.k && D.suppr[e.k]);
 // Les étapes à afficher : sans les parties supprimées, avec les titres modifiés, renumérotées
@@ -1905,7 +2052,8 @@ const choixFace = (cle, v, rouvrir) => '<div class="segments">' + [['celeste', '
 function lireBrique(id) {
   const b = brique(id); if (!b) return;
   const etapes = [b.avant, ...b.etapes, b.apres].filter(Boolean);
-  const sel = compo && compo[b.type] === b.id;
+  const enVoyage = TYPES_VOYAGE.includes(b.type);
+  const sel = compo && (enVoyage ? voyageDe(compo).includes(b.id) : compo[b.type] === b.id);
   const btnChoix = '<button class="btn plein" data-a="f-choisir">' + (sel ? 'Retirer de la séance' : 'Choisir cette brique') + '</button>';
   let h = '<div class="outils-l"><button class="pastille" data-a="taille" data-d="-1">A−</button><button class="pastille" data-a="taille" data-d="1">A+</button>' + (b.perso ? '' : '<button class="pastille" data-a="f-renommer">Renommer</button>') + '</div>';
   h += '<div class="discret" style="text-align:center;margin:0 0 14px">' + esc((TYPES.find(t => t[0] === b.type) || ['', ''])[1]) + ' · ' + esc(b.src) + ' · ≈ ' + b.min + ' min</div>';
@@ -1917,7 +2065,7 @@ function lireBrique(id) {
   if (b.perso) h += '<button class="btn large" data-a="f-modifperso">Modifier cette brique</button>';
   h += '<div class="rangee" style="margin-top:14px">' + btnChoix + '</div>';
   ouvrir(b.nom, h, {
-    choisir() { compo[b.type] = sel ? '' : b.id; garderCompo(); fermer(); const y = scrollY; rendre(); window.scrollTo(0, y); },
+    choisir() { if (enVoyage) { compo.voyage = sel ? voyageDe(compo).filter(x => x !== b.id) : [...voyageDe(compo), b.id]; syncVoyage(compo); } else compo[b.type] = sel ? '' : b.id; garderCompo(); fermer(); const y = scrollY; rendre(); window.scrollTo(0, y); },
     modif(el) { formEtape(etapes[Number(el.dataset.i)], () => { rendre(); lireBrique(id); }); },
     modifperso() { formBrique((D.briques || []).find(x => x.id === id)); },
     retablir(el) { delete D.suppr[etapes[Number(el.dataset.i)].k]; enregistrer(); rendre(); lireBrique(id); },
@@ -1930,8 +2078,15 @@ function lireBrique(id) {
     }
   });
 }
+// Version 16 : le voyage (liste ordonnée) et les thèmes
+const voyageDe = c => !c ? [] : (Array.isArray(c.voyage) ? c.voyage : (c.protocole ? [c.protocole] : [])).filter(id => brique(id));
+const syncVoyage = c => { if (!c) return; c.voyage = voyageDe(c); c.protocole = c.voyage[0] || ''; };
+const nomVoyage = c => voyageDe(c).map(id => brique(id).nom).join(' → ');
+const themeBrique = b => b.perso ? 'tous' : (b.th || 'tous');
+const dansTheme = (b, th) => !th || themeBrique(b) === 'tous' || themeBrique(b) === th;
+const retirerBrique = (c, id) => { if (!c) return; for (const k of ['induction', 'approf', 'retour']) if (c[k] === id) c[k] = ''; c.voyage = voyageDe(c).filter(x => x !== id); syncVoyage(c); };
 function raccords(c) {
-  const ind = brique(c.induction), ap = brique(c.approf), pr = brique(c.protocole);
+  const ind = brique(c.induction), ap = brique(c.approf), pr = brique(voyageDe(c)[0]);
   const l = [];
   if (ind && ap) {
     if (ap.besoin && !(ind.fournit || []).includes(ap.besoin)) l.push({ cle: ap.besoin, de: ind.nom, vers: ap.nom });
@@ -1944,10 +2099,11 @@ function raccords(c) {
   }
   return l;
 }
-const dureeCompo = c => ['induction', 'approf', 'protocole', 'retour'].reduce((s, k) => s + ((brique(c[k]) || {}).min || 0), 0) + (c.safe && !(brique(c.induction) || {}).ancre ? 4 : 0);
+const dureeCompo = c => ['induction', 'approf', 'retour'].reduce((s, k) => s + ((brique(c[k]) || {}).min || 0), 0) + voyageDe(c).reduce((s, id) => s + (brique(id).min || 0), 0) + (c.safe && !(brique(c.induction) || {}).ancre ? 4 : 0);
 function construire(c, titre) {
-  const ind = brique(c.induction), ap = brique(c.approf), pr = brique(c.protocole), re = brique(c.retour);
-  const ctx = { safe: !!c.safe, lieu: !!(ind && ind.lieu), piece: !!(ap && (ap.fournit || []).includes('piece')) };
+  const ind = brique(c.induction), ap = brique(c.approf), re = brique(c.retour);
+  const vo = voyageDe(c).map(brique), pr = vo[0];
+  const ctx = { safe: !!c.safe, lieu: !!(ind && ind.lieu), piece: !!(ap && (ap.fournit || []).includes('piece')), ventre: vo.some(b => b.id === 'inutero') };
   const copie = e => estSuppr(e) ? null : ({ r: e.r ? 'x' : '', titre: titreE(e), src: e, b: [...blocs(e)] });
   const lie = (etapes, cle) => {
     const l = etapes.map(copie).filter(Boolean);
@@ -1957,31 +2113,33 @@ function construire(c, titre) {
   };
   const rac = raccords(c), cleAvant = nom => (rac.find(r => r.cle && r.vers === nom) || {}).cle;
   let et = [];
-  for (const x of [pr, ind, ap]) if (x && x.avant && !estSuppr(x.avant)) et.push({ ...copie(x.avant), r: '' });
+  for (const x of [...vo, ind, ap]) if (x && x.avant && !estSuppr(x.avant)) et.push({ ...copie(x.avant), r: '' });
   if (ind) et = et.concat(ind.etapes.map(copie));
   if (c.safe && ind && !ind.ancre && !estSuppr(SAFE)) et.push(copie(SAFE));
   if (ap) et = et.concat(lie(ap.etapes, cleAvant(ap.nom)));
-  if (pr) et = et.concat(lie(pr.etapes, cleAvant(pr.nom)));
+  vo.forEach((x, i) => { et = et.concat(i ? x.etapes.map(copie) : lie(x.etapes, cleAvant(x.nom))); });
   if (re) et = et.concat(re.etapes.map(copie));
-  if (pr && pr.apres && !estSuppr(pr.apres)) et.push({ ...copie(pr.apres), r: '' });
+  for (const x of vo) if (x.apres && !estSuppr(x.apres)) et.push({ ...copie(x.apres), r: '' });
   if (c.safe) et.push({ r: '', titre: "En cas d'urgence", b: [['consigne', 'À tout moment de la séance.'], ['dit', "Touche ton pouce et ton index… tu es maintenant dans " + (ind && ind.ancre ? ind.ancre : 'ton endroit safe') + ", en sécurité."]] });
   et = et.filter(Boolean);
   let n = 0; for (const e of et) if (e.r) e.r = romain(++n);
-  return { id: 'compo', nom: titre || 'Séance composée', sous: [ind, ap, pr, re].filter(Boolean).map(b => b.nom).join(' · '), etapes: et, ctx };
+  return { id: 'compo', nom: titre || 'Séance composée', sous: [ind, ap, ...vo, re].filter(Boolean).map(b => b.nom).join(' · '), etapes: et, ctx };
 }
 // Version 14 : une seule brique suffit pour lancer la séance
-const pret = c => !!(c && ['induction', 'approf', 'protocole', 'retour'].some(k => brique(c[k])));
+const pret = c => !!(c && (['induction', 'approf', 'retour'].some(k => brique(c[k])) || voyageDe(c).length));
 VUES.atelier = p => {
   const terre = p.face === 'terrestre';
   fond(terre ? 'terre' : 'ciel'); if (terre) $('#app').className = 'terre';
-  if (!compo || compo.face !== p.face) { compo = { face: p.face, induction: '', approf: '', safe: false, protocole: '', retour: '', liaisons: {}, clientId: p.client || '', pour: defautSeance(p.client || '') }; garderCompo(); }
+  if (!compo || compo.face !== p.face) { compo = { face: p.face, induction: '', approf: '', safe: false, protocole: '', voyage: [], theme: '', retour: '', liaisons: {}, clientId: p.client || '', pour: defautSeance(p.client || '') }; garderCompo(); }
   if (compo.pour == null) { compo.pour = compo.clientId ? defautSeance(compo.clientId) : ''; garderCompo(); }
   pourSync();
-  for (const k of ['induction', 'approf', 'protocole', 'retour']) if (compo[k] && !brique(compo[k])) compo[k] = '';
+  for (const k of ['induction', 'approf', 'retour']) if (compo[k] && !brique(compo[k])) compo[k] = '';
+  syncVoyage(compo);
+  const th = terre ? '' : (compo.theme || '');
   const cl = client(compo.clientId);
   const choix = (type, num, titre, vide) => {
     const fo = type === 'induction' ? (ongletInd || p.face) : p.face;
-    const l = briquesDe(type, fo);
+    const l = briquesDe(type, fo).filter(b => dansTheme(b, th));
     return '<div class="etiquette">' + num + ' · ' + titre + '</div>' + (type === 'induction' ? '<div class="segments onglets">' + [['celeste', 'Céleste'], ['terrestre', 'Terrestre']].map(([k, t]) => '<button class="' + (fo === k ? 'on' : '') + '" data-a="ongletind" data-f="' + k + '">' + t + '</button>').join('') + '</div>' : '') + '<div class="choix">' +
       (vide ? '<button class="' + (!compo[type] ? 'on' : '') + '" data-a="choisir" data-t="' + type + '" data-id=""><span class="cn">Aucun</span></button>' : '') +
       (l.length ? l.map(b => '<div class="ch" data-long="cache" data-k="b:' + b.id + '"><button class="chb ' + (compo[type] === b.id ? 'on' : '') + '" data-a="choisir" data-t="' + type + '" data-id="' + b.id + '"><span class="cn">' + esc(b.nom) + '</span><span class="cs">' + esc(b.src) + ' · ≈ ' + b.min + ' min</span></button><button class="lire" data-a="lire" data-id="' + b.id + '">Lire</button></div>').join('') : '<div class="discret">Aucune brique de ce type pour l\'instant.</div>') + '</div>';
@@ -1989,10 +2147,24 @@ VUES.atelier = p => {
   const ind = brique(compo.induction);
   let h = barre('Atelier') + '<div class="page"><div class="heros" style="margin-bottom:8px"><div class="surtitre">Atelier · ' + (terre ? 'Terrestre' : 'Céleste') + '</div><div class="titre" style="font-size:calc(40px * var(--taille2))">Composer une séance</div></div>';
   h += '<div class="etiquette">Pour qui</div><div class="champ"><select id="apour">' + optionsPour(compo.pour, true).replace('— Choisir —', '— Pas encore choisi —') + '</select></div>';
+  if (!terre) {
+    h += '<div class="etiquette">Thème</div><div class="segments">' + [['', 'Tous'], ...DOSSIERS].map(([k, t]) => '<button class="' + (th === k ? 'on' : '') + '" data-a="theme" data-th="' + k + '">' + t + '</button>').join('') + '</div>';
+    const pc = PARCOURS.filter(x => !th || x.voyage.every(id => dansTheme(brique(id) || {}, th)));
+    if (pc.length) h += '<div class="etiquette">Parcours tout prêts</div><div class="choix">' + pc.map(x => '<button data-a="parcours" data-id="' + x.id + '"><span class="cn">' + esc(x.nom) + '</span><span class="cs">' + esc([x.approf, ...x.voyage, x.retour].filter(Boolean).map(id => (brique(id) || {}).nom).filter(Boolean).join(' → ')) + '</span></button>').join('') + '</div>';
+  }
   h += choix('induction', 1, 'Induction');
   h += '<div class="etiquette">Endroit safe</div><button class="interrupteur' + (compo.safe ? ' on' : '') + '" data-a="safe"><span class="pt"></span><span>' + (compo.safe ? 'Oui' : 'Non') + '</span><small>' + (ind && ind.ancre ? 'Relié à ' + ind.ancreNom + ' de l\'induction' : 'Après l\'induction, avec l\'ancrage pouce-index') + '</small></button>';
   h += choix('approf', 2, 'Approfondissement', true);
-  h += choix('protocole', 3, 'Protocole');
+  { // 3 · Le voyage : une ou plusieurs briques, dans l'ordre
+    const vo = voyageDe(compo);
+    h += '<div class="etiquette">3 · Le voyage</div>';
+    h += vo.length ? '<div class="voyage">' + vo.map((id, i) => { const b = brique(id); return '<div class="vo-l"><span class="vo-n">' + (i + 1) + '</span><div class="vo-t"><div class="cn">' + esc(b.nom) + '</div><div class="cs">' + esc((TYPES.find(t => t[0] === b.type) || ['', ''])[1]) + ' · ≈ ' + b.min + ' min</div></div><button class="vo-b" data-a="vmonte" data-i="' + i + '"' + (i ? '' : ' disabled') + ' aria-label="Monter">↑</button><button class="vo-b" data-a="vdescend" data-i="' + i + '"' + (i < vo.length - 1 ? '' : ' disabled') + ' aria-label="Descendre">↓</button><button class="vo-b" data-a="vretire" data-i="' + i + '" aria-label="Retirer">✕</button></div>'; }).join('') + '</div>' : '<div class="discret" style="margin-bottom:8px">Ajoute une ou plusieurs briques : passage, protocole, après le protocole.</div>';
+    for (const [ty, nomTy] of TYPES.filter(t => TYPES_VOYAGE.includes(t[0]))) {
+      const l = briquesDe(ty, p.face).filter(b => dansTheme(b, th));
+      if (!l.length) continue;
+      h += '<div class="sous-et">' + nomTy + '</div><div class="choix">' + l.map(b => '<div class="ch" data-long="cache" data-k="b:' + b.id + '"><button class="chb' + (vo.includes(b.id) ? ' on' : '') + '" data-a="vajoute" data-id="' + b.id + '"><span class="cn">' + (vo.includes(b.id) ? '✓ ' : '+ ') + esc(b.nom) + '</span><span class="cs">' + esc(b.src) + ' · ≈ ' + b.min + ' min</span></button><button class="lire" data-a="lire" data-id="' + b.id + '">Lire</button></div>').join('') + '</div>';
+    }
+  }
   h += choix('retour', 4, 'Retour');
   const rac = raccords(compo);
   if (rac.length) {
@@ -2028,7 +2200,7 @@ function formBrique(x) {
       sup() {
         if (!confirm('Supprimer cette brique ?')) return;
         D.briques = D.briques.filter(b => b.id !== x.id);
-        if (compo) for (const k of ['induction', 'approf', 'protocole', 'retour']) if (compo[k] === x.id) compo[k] = '';
+        retirerBrique(compo, x.id);
         garderCompo(); enregistrer(); fermer(); rendre();
       }
     });
@@ -2052,7 +2224,7 @@ try { filtreDiv = localStorage.getItem('ect-etiq') || ''; } catch (e) {}
 const sansAcc = s => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
 const puces = (l, cls) => (l || []).map(e => '<span class="puce ' + (cls || '') + '">' + esc(e) + '</span>').join('');
 const RUBRIQUES = ['Inductions', 'Approfondissements', 'Protocoles', 'Retours', 'Techniques', 'Jeux', 'Métaphores', 'Théorie'];
-const RUB_TYPE = { induction: 'Inductions', approf: 'Approfondissements', protocole: 'Protocoles', retour: 'Retours' };
+const RUB_TYPE = { induction: 'Inductions', approf: 'Approfondissements', passage: 'Protocoles', protocole: 'Protocoles', apres: 'Protocoles', retour: 'Retours' };
 // Fiches de notes reliées à un texte de séance : une seule carte, deux onglets
 const LIENS_FICHES = { f1: 'slam', f3: 'miroirs', f4: 'trois21', f6: 'univers', f7: 'elman', f8: 'esdaile' };
 const lienFiche = n => n.lien !== undefined ? n.lien : (LIENS_FICHES[n.id] || '');
@@ -2376,7 +2548,7 @@ function cartesSeances(c, rdvs, notes) {
   const hi = c.historique || [], en = c.enregistrements || [], sp = c.seances || [];
   const ids = new Set(rdvs.map(r => r.id));
   const prochain = rdvs.filter(r => r.date >= auj()).sort((a, b) => (a.date + (a.heure || '')).localeCompare(b.date + (b.heure || '')))[0];
-  const ligneSp = x => '<button class="ligne prep" data-a="seanceprep" data-long="sp" data-id="' + x.id + '"><span class="li-t">✦ Séance préparée · ' + esc(x.titre) + '</span><span class="li-p">≈ ' + dureeCompo(x.compo) + ' min · ' + esc([x.compo.induction, x.compo.approf, x.compo.protocole].map(brique).filter(Boolean).map(b => b.nom).join(' · ')) + '</span></button>';
+  const ligneSp = x => '<button class="ligne prep" data-a="seanceprep" data-long="sp" data-id="' + x.id + '"><span class="li-t">✦ Séance préparée · ' + esc(x.titre) + '</span><span class="li-p">≈ ' + dureeCompo(x.compo) + ' min · ' + esc([x.compo.induction, x.compo.approf, ...voyageDe(x.compo)].map(brique).filter(Boolean).map(b => b.nom).join(' · ')) + '</span></button>';
   const ligneHi = x => '<button class="ligne" data-a="histo" data-long="histo" data-id="' + x.id + '"><span class="li-t">' + esc(x.titre) + '</span><span class="li-p">' + resumeNotes(x) + (x.annotation ? ' · ' + esc(x.annotation.length > 90 ? x.annotation.slice(0, 90) + '…' : x.annotation) : '') + '</span></button>';
   const ligneEn = x => '<button class="ligne" data-a="enreg" data-long="enr" data-id="' + x.id + '"><span class="li-t"><b class="pt-rouge">●</b> Enregistrement</span><span class="li-p">' + fmtDuree(x.duree || 0) + ' · ' + (Math.round((x.taille || 0) / 1e5) / 10) + ' Mo</span></button>';
   const ligneNo = n => '<button class="ligne" data-a="voirnote" data-id="' + n.id + '"><span class="li-t">Note d\'honoraires ' + esc(n.numero) + '</span><span class="li-p">' + euros(n.total) + '</span></button>';
@@ -2402,10 +2574,12 @@ function cartesSeances(c, rdvs, notes) {
 
 /* ----- Séances rattachées : historique et étoiles ----- */
 const etoilesTxt = n => n ? '<span class="et-on">' + '★'.repeat(n) + '</span><span class="et-off">' + '★'.repeat(3 - n) + '</span>' : '<span class="et-off">–</span>';
-const NOMS_PARTS = { induction: 'Induction', approf: 'Approfondissement', protocole: 'Protocole', retour: 'Retour' };
+const NOMS_PARTS = { induction: 'Induction', approf: 'Approfondissement', protocole: 'Le voyage', retour: 'Retour' };
+const nomPart = (c, k) => k === 'protocole' ? (nomVoyage(c) || NOMS_PARTS[k]) : (brique(c[k]) || { nom: NOMS_PARTS[k] }).nom;
+const aPart = (c, k) => !!c && (k === 'protocole' ? voyageDe(c).length > 0 : !!(c[k] && brique(c[k])));
 function resumeNotes(x) {
   if (x.type === 'technique') return etoilesTxt(x.note || 0);
-  return ['induction', 'approf', 'protocole', 'retour'].filter(k => x.compo && x.compo[k]).map(k => esc((brique(x.compo[k]) || { nom: NOMS_PARTS[k] }).nom) + ' ' + etoilesTxt((x.notes || {})[k] || 0)).join(' · ');
+  return ['induction', 'approf', 'protocole', 'retour'].filter(k => x.compo && (k === 'protocole' ? voyageDe(x.compo).length || x.compo.protocole : x.compo[k])).map(k => esc(nomPart(x.compo, k)) + ' ' + etoilesTxt((x.notes || {})[k] || 0)).join(' · ');
 }
 const etoilesForm = (cle, n) => '<div class="etoiles" id="ew-' + cle + '">' + [1, 2, 3].map(i => '<button type="button" class="' + (i <= n ? 'on' : '') + '" data-a="f-etoile" data-k="' + cle + '" data-n="' + i + '" aria-label="' + i + ' étoile' + (i > 1 ? 's' : '') + '">★</button>').join('') + '<input type="hidden" id="et-' + cle + '" value="' + (n || 0) + '"></div>';
 function etoileClic(el) {
@@ -2416,7 +2590,7 @@ function etoileClic(el) {
 }
 const lignesNotes = (estCompo, c0, notes, note) => '<div class="discret" style="margin:-4px 0 10px">3 étoiles : a très bien convenu · 2 : mitigé · 1 : pas convenu</div>' +
   (estCompo
-    ? ['induction', 'approf', 'protocole', 'retour'].filter(k => c0 && c0[k] && brique(c0[k])).map(k => '<div class="ligne-note"><div><div class="ln-t">' + NOMS_PARTS[k] + '</div><div class="ln-n">' + esc(brique(c0[k]).nom) + '</div></div>' + etoilesForm(k, (notes || {})[k] || 0) + '</div>').join('')
+    ? ['induction', 'approf', 'protocole', 'retour'].filter(k => aPart(c0, k)).map(k => '<div class="ligne-note"><div><div class="ln-t">' + NOMS_PARTS[k] + '</div><div class="ln-n">' + esc(nomPart(c0, k)) + '</div></div>' + etoilesForm(k, (notes || {})[k] || 0) + '</div>').join('')
     : '<div class="ligne-note"><div><div class="ln-t">Technique</div></div>' + etoilesForm('tech', note || 0) + '</div>');
 const lireNotes = (estCompo, c0) => {
   if (!estCompo) return { note: Number(valeur('et-tech')) || 0 };
@@ -2582,7 +2756,7 @@ VUES.reglages = () => {
     '<button class="btn large" data-a="modifconf" style="margin-bottom:10px">+ Ajouter une confusion</button>' +
     '<div class="etiquette">Mes coordonnées (notes d\'honoraires)</div>' + ch('nom', 'Nom') + ch('statut', 'Statut') + ch('activite', 'Activité') + ch('adresse', 'Adresse') + '<div class="deux">' + ch('siret', 'SIRET') + ch('tel', 'Téléphone') + '</div>' + ch('mail', 'Mail') + ch('tva', 'Mention TVA') +
     '<button class="btn plein large" data-a="sauveremetteur">Enregistrer mes coordonnées</button>' +
-    '<div class="discret" style="text-align:center;margin-top:30px">Entre Ciel et Terre · version 15</div></div>';
+    '<div class="discret" style="text-align:center;margin-top:30px">Entre Ciel et Terre · version 16</div></div>';
 };
 
 /* ---------- Fenêtres (formulaires) ---------- */
@@ -3073,6 +3247,25 @@ document.addEventListener('click', ev => {
     case 'histo': { const c = client(vue.p.id), x = c && (c.historique || []).find(h => h.id === d.id); if (x) formHistorique(c, x); return; }
     case 'choisir': compo[d.t] = (d.id && compo[d.t] === d.id) ? '' : d.id; garderCompo(); { const y = scrollY; rendre(); window.scrollTo(0, y); } return;
     case 'safe': compo.safe = !compo.safe; garderCompo(); { const y = scrollY; rendre(); window.scrollTo(0, y); } return;
+    case 'theme': compo.theme = d.th || ''; garderCompo(); { const y = scrollY; rendre(); window.scrollTo(0, y); } return;
+    case 'vajoute': case 'vmonte': case 'vdescend': case 'vretire': {
+      const v = voyageDe(compo), i = Number(d.i);
+      if (d.a === 'vajoute') compo.voyage = v.includes(d.id) ? v.filter(x => x !== d.id) : [...v, d.id];
+      else if (d.a === 'vretire') { v.splice(i, 1); compo.voyage = v; }
+      else { const j = d.a === 'vmonte' ? i - 1 : i + 1; if (j >= 0 && j < v.length) { [v[i], v[j]] = [v[j], v[i]]; } compo.voyage = v; }
+      syncVoyage(compo); garderCompo(); { const y = scrollY; rendre(); window.scrollTo(0, y); } return;
+    }
+    case 'parcours': {
+      const x = PARCOURS.find(z => z.id === d.id); if (!x) return;
+      const go = () => {
+        if (x.approf && brique(x.approf)) compo.approf = x.approf;
+        if (x.retour && brique(x.retour)) compo.retour = x.retour;
+        compo.voyage = x.voyage.filter(id => brique(id)); syncVoyage(compo); garderCompo();
+        const y = scrollY; rendre(); window.scrollTo(0, y); toast('Parcours en place : tu peux encore changer une brique');
+      };
+      if (voyageDe(compo).length && !confirm('Remplacer le voyage déjà composé par ce parcours ?')) return;
+      return go();
+    }
     case 'lancercompo': {
       if (!pret(compo)) return;
       const go = () => {
@@ -3593,6 +3786,7 @@ VUES.apercu = () => {
   fond(terre ? 'terre' : 'ciel'); if (terre) $('#app').className = 'terre';
   const t = construire(compo), ind = brique(compo.induction);
   const plan = [['induction', 'Induction'], ['approf', 'Approfondissement'], ['protocole', 'Protocole'], ['retour', 'Retour']].map(([k, l]) => {
+    if (k === 'protocole') return voyageDe(compo).map(id => { const b = brique(id); return '<div class="planl"><span>' + esc((TYPES.find(t => t[0] === b.type) || ['', l])[1]) + '</span><b>' + esc(b.nom) + '</b><em>≈ ' + b.min + ' min</em></div>'; }).join('');
     const b = brique(compo[k]); if (!b) return '';
     return '<div class="planl"><span>' + l + '</span><b>' + esc(b.nom) + '</b><em>≈ ' + b.min + ' min</em></div>' + (k === 'induction' && compo.safe && !ind.ancre ? '<div class="planl"><span>Endroit safe</span><b>Avec l\'ancrage pouce-index</b><em>≈ 4 min</em></div>' : '');
   }).join('');
@@ -3643,14 +3837,14 @@ function supprimerLong(el) {
   if (k === 'brique') {
     const b = (D.briques || []).find(x => x.id === d.id); if (!b || !ok('Supprimer la brique « ' + b.nom + ' » ?')) return;
     D.briques = D.briques.filter(x => x.id !== b.id);
-    if (compo) { for (const t of ['induction', 'approf', 'protocole', 'retour']) if (compo[t] === b.id) compo[t] = ''; garderCompo(); }
+    if (compo) { retirerBrique(compo, b.id); garderCompo(); }
     return fini();
   }
   if (k === 'jeu') { const j = D.jeux.find(x => x.id === d.j); if (!j || !ok('Supprimer le jeu « ' + j.nom + ' » ?')) return; D.jeux = D.jeux.filter(x => x.id !== j.id); return fini(); }
   if (k === 'cache') {
     const n = nomCache(d.k); if (!n || !ok('Supprimer « ' + n + ' » ?\n\nTu pourras le rétablir dans Réglages → Éléments supprimés.')) return;
     D.caches[d.k] = true;
-    if (d.k.startsWith('b:') && compo) { for (const t of ['induction', 'approf', 'protocole', 'retour']) if (compo[t] === d.k.slice(2)) compo[t] = ''; garderCompo(); }
+    if (d.k.startsWith('b:') && compo) { retirerBrique(compo, d.k.slice(2)); garderCompo(); }
     return fini();
   }
   if (k === 'lecon') { const l = D.lecons.find(x => x.id === d.id); if (!l || !ok('Supprimer la leçon « ' + l.titre + ' » ?')) return; D.lecons = D.lecons.filter(x => x.id !== l.id); return fini(); }
