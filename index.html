@@ -747,56 +747,80 @@ const TECHNIQUES = {
     ]
   }
 };
-/* ---------- Version 14 : régression prénatale ---------- */
-const TECHNIQUE_PRENATALE = {
-  id: 'prenatale',
-  nom: 'Régression prénatale',
-  sous: 'Préparer le voyage vers les vies antérieures',
+/* ---------- Version 15 : régression in utero (brique protocole de l'atelier) ---------- */
+TECHNIQUES.inutero = {
+  id: 'inutero',
+  nom: 'Régression in utero',
+  sous: "Protocole · après l'induction et l'approfondissement",
   etapes: [
     { r: '', titre: 'Avant la séance', b: [
-      ['liste', ["Choisir l'induction et l'approfondissement.", "Demander si l'enfance ou la grossesse a été difficile. Si oui, prévoir d'observer de l'extérieur.", "Poser des questions ouvertes, ne jamais suggérer la réponse."]]
+      ['liste', ["Prévenir le client du toucher sur le bras, demander son accord.", "Repérer en entretien les années difficiles."]]
     ]},
-    { r: 'I', titre: 'La sécurité', b: [
-      ['dit', "Tout ce que tu vas voir aujourd'hui, ce sont des souvenirs. Ils sont passés, et toi tu es ici, en sécurité, bien installé. Si à un moment quelque chose est désagréable, tu peux simplement prendre de la hauteur, flotter un peu au-dessus, et regarder de loin, comme un film. Tu peux me répondre en parlant doucement. Et chaque fois que tu parles, tu descends encore un peu plus profond."]
+    { r: 'I', titre: "L'ouverture", b: [
+      ['dit', "Tu vas bientôt entrer dans les plans les plus élevés de ton esprit et de ton âme… cet espace qui est toujours en toi. Tes pensées, tes souvenirs et tes idées d'aujourd'hui, ceux dont tu te souviens consciemment, restent là. Ils te soutiennent et te renforcent, pour que la suite de ta vie se remplisse d'une énergie nouvelle et d'un sens renouvelé.\nPendant ce voyage, tu vas revoir des moments de ta vie, à différents âges, dans différents lieux. Tu laisses venir l'émotion de chaque moment. Je te poserai quelques questions, et tu me répondras simplement, tel que ça vient. Ma voix t'accompagne du début à la fin, et tu restes à l'aise. Plus tu avanceras, plus ta mémoire s'ouvrira, et plus tu verras de choses."]
     ]},
-    { r: 'II', titre: 'Le couloir du temps', b: [
-      ['dit', "Imagine devant toi un long couloir, calme et doux. De chaque côté, il y a des portes. Derrière chaque porte, il y a ta chambre, à un âge de ta vie. Plus tu avances dans ce couloir, plus tu remontes le temps. Les années défilent doucement… et tu sais déjà où tu vas t'arrêter."]
+    { r: 'II', titre: 'Le bouclier de lumière', b: [
+      ['dit', "Avant de continuer, tu vas placer autour de toi un puissant bouclier de lumière dorée. Porte ton attention sur ton cœur, au centre de ta poitrine. Là, une lumière dorée s'allume. Laisse-la grandir doucement, à ton rythme… elle remplit ta poitrine, puis tout ton corps, de la tête aux pieds. Et elle continue de grandir, au-delà de ton corps, jusqu'à t'envelopper complètement, comme un bouclier tout autour de toi. Et dans cette lumière, tu peux mettre tout ce qui peut t'être utile, tout ce que tu aimes… Ça peut être de la chaleur, de la force, ou n'importe quoi d'autre qui est bon pour toi. Fais-moi un petit signe quand il est en place."],
+      ['consigne', "Attendre le signe."],
+      ['q', ["Comment tu te sens, là, à l'intérieur de ton bouclier ?"]],
+      ['dit', "Il te protège de tout ce qui vient de l'extérieur. Et si un souvenir difficile du passé revient, il rebondit sur ce bouclier et il ne peut pas t'atteindre."]
     ]},
-    { r: 'III', titre: 'Quatorze ans', b: [
-      ['dit', "Je vais compter de trois à un. À un, tu seras devant la porte de ta chambre, quand tu avais quatorze ans. Trois… deux… un. Tu es là. Pousse la porte, et entre."],
-      ['q', ["Regarde tes pieds. Qu'est-ce que tu portes aux pieds ?", "Et comment es-tu habillé ?", "Il fait jour ou il fait nuit ? Quelle saison, à ton avis ?", "Décris-moi ta chambre. Les murs, le lit, la fenêtre.", "Qu'est-ce qu'il y a sur les murs ?", "Est-ce qu'il y a un objet auquel tu tiens ?", "Qu'est-ce que tu entends dans la maison ? Une odeur ?", "Qui d'autre est là, dans la maison ?", "Comment tu te sens, là, à quatorze ans ?", "Qu'est-ce qui occupe tes pensées en ce moment ?"]],
-      ['dit', "Bien. Tu vois comme ta mémoire te répond facilement. Et elle va te répondre encore plus facilement maintenant."]
+    { r: 'III', titre: 'Parler sans se réveiller', b: [
+      ['dit', "Tu peux me parler de tout ce qui vient, à tout moment, sans bouger. Nos échanges, même longs, entretiennent ta transe et l'approfondissent. Tout du long, tu entends clairement ma voix, et le monde extérieur s'éloigne."]
     ]},
-    { r: 'IV', titre: 'Sept ans', b: [
-      ['dit', "Ressors doucement de cette chambre, et continue dans le couloir. Je compte de trois à un. À un, tu seras devant ta chambre, quand tu avais sept ans. Trois… deux… un. Entre."],
-      ['q', ["Regarde tes pieds. Qu'est-ce que tu portes ?", "Regarde tes mains. Elles sont comment ?", "Tout autour de toi, les choses te paraissent comment ? Grandes, petites ?", "Décris-moi ta chambre.", "Avec quoi tu aimes jouer ?", "Qui s'occupe de toi ?", "Est-ce que tu entends une voix ? À qui elle appartient ?", "Qu'est-ce que tu ressens, là, maintenant ?"]],
-      ['dit', "C'est bien. Tout vient tout seul."]
+    { r: 'IV', titre: "L'escalier d'or", b: [
+      ['dit', "On va maintenant remonter le temps, année après année, jusqu'à ton enfance, en ne regardant que des souvenirs agréables ou neutres. Ton esprit a gardé chaque souvenir à l'âge où tu l'as vécu, et il peut maintenant le ramener à ta conscience d'adulte.\nImagine un bel escalier dans le ciel… un bel escalier d'or, avec une marche pour chaque année de ta vie. Bientôt, en descendant cet escalier vers ton enfance, tu vas te surprendre à aller plus profond et plus loin à chaque marche. C'est comme si tu tournais les pages d'un album photo : plus tu descends, plus tu te vois jeune. Chaque fois que tu t'arrêtes sur une marche, tu as l'âge de cette marche. Et chaque marche t'emmène plus profond, vers l'endroit où on doit aller.\nLes souvenirs qu'on va visiter sont seulement des souvenirs d'échauffement, comme des étirements pour l'esprit, pour préparer la suite de la descente. On n'est pas là pour travailler sur les blessures de l'enfance."]
     ]},
-    { r: 'V', titre: 'Trois ans', b: [
-      ['dit', "Continue encore dans le couloir. Les portes deviennent plus douces, plus floues. Trois… deux… un. Tu as trois ans. Laisse juste venir ce qui vient, une image, une sensation, une impression. Tout est juste."],
-      ['q', ["Où es-tu ?", "Tu es debout, assis, allongé ?", "Qui est près de toi ?", "Qu'est-ce que tu entends ?", "Une odeur, une couleur ?", "Qu'est-ce qui te rassure, là ?"]]
+    { r: 'V', titre: 'Le compte de 5 à 1', b: [
+      ['dit', "Quand je compterai de cinq à un, tu vas flotter doucement jusqu'à la plus haute marche de ce bel escalier d'or, en te détachant de plus en plus de ton corps.\nCinq… tu te détaches de ton corps physique, de plus en plus, en sécurité, profondément détendu.\nQuatre… tu glisses dans les espaces profonds de ton esprit…\nTrois… tu lâches prise… tu flottes… vers la plus haute marche…\nDeux… sens cette légèreté… tu glisses, tu flottes, libre… tout près de la plus haute marche…\nUn… très bien. Te voilà au sommet de ce bel escalier d'or, en sécurité."],
+      ['q', ["Comment tu te sens, là, en haut de l'escalier ?"]],
+      ['dit', "Tu es prêt à descendre avec moi."]
     ]},
-    { r: 'VI', titre: 'Le ventre de la mère', b: [
-      ['dit', "Maintenant, tu vas aller encore plus loin. Avant même ta naissance. Au bout du couloir, il y a une dernière porte, toute douce. Trois… deux… un. Tu es dans le ventre de ta mère."],
-      ['q', ["Il fait chaud, il fait froid ?", "Tu as de la place, ou c'est serré ?", "Tu es dans quelle position ?", "C'est sombre, ou il y a une lumière ?", "Qu'est-ce que tu entends ? Son cœur, sa voix, d'autres voix ?", "Qu'est-ce que ta mère ressent, à ton avis ?", "Qu'est-ce qui se passe dehors ?", "Est-ce que tu te sens attendu ?", "Quelle émotion est là, en toi ?", "À quel mois tu es ? Le premier chiffre qui vient."]]
+    { r: 'VI', titre: "La descente jusqu'à 12 ans", b: [
+      ['dit', "Maintenant, tu commences à descendre, marche après marche. Tu deviens plus jeune, et tu descends plus profond à chaque pas. Cinquante ans… quarante-cinq… quarante… trente-cinq… trente… vingt-cinq… vingt ans… dix-neuf… dix-huit… dix-sept… seize… quinze… quatorze… treize… douze ans."]
     ]},
-    { r: 'VII', titre: 'Avant le ventre', b: [
-      ['dit', "Et maintenant, juste avant… Avant d'être là, dans ce ventre. Qu'est-ce qu'il y avait ? Ne cherche pas. Laisse simplement une impression venir."],
-      ['consigne', "Noter la réponse pour la séance suivante."]
+    { r: 'VII', titre: 'Douze ans', b: [
+      ['dit', "Quitte ta marche, et flotte doucement jusqu'à l'endroit où tu vis, à douze ans. Je vais te poser quelques questions très simples."],
+      ['q', ["C'est une maison ou un appartement ?", "Regarde tes pieds. Qu'est-ce que tu portes aux pieds ?", "Comment es-tu habillé ?", "Il fait jour ou il fait nuit ?", "Maintenant, va jusqu'à ta chambre. Comment tu y vas ?", "Entre dans ta chambre. Décris-la-moi.", "De quelle couleur sont les murs ?", "Tu te rappelles la couette sur ton lit ? Comment elle est ?", "Est-ce qu'il y a un objet auquel tu tiens ?", "Qu'est-ce que tu entends dans la maison ?", "Qui d'autre est là, dans la maison ?", "Comment tu te sens, là, à douze ans ?", "Autre chose que tu remarques dans ta chambre ?"]],
+      ['dit', "Bien. Tu vois comme ta mémoire te répond facilement. Et elle va continuer à te répondre comme ça, tout au long du voyage."]
     ]},
-    { r: 'VIII', titre: 'La remontée', b: [
-      ['dit', "Laisse ce petit être tranquille, bien au chaud, en sécurité. Et reprends le couloir dans l'autre sens. Trois ans… sept ans… quatorze ans… Tu reviens doucement vers aujourd'hui, en ramenant avec toi tout ce qui est bon pour toi."]
+    { r: 'VIII', titre: "Retour sur l'escalier", b: [
+      ['dit', "Maintenant, détache-toi de ce moment dans ta chambre, et flotte doucement jusqu'à ce bel escalier d'or. Tu arrives tranquillement sur la marche de tes douze ans, prêt à continuer le voyage : plus jeune, plus petit, et toujours plus détendu à chaque marche. Et même si tu parles maintenant, tu vas remarquer que le son de ta propre voix t'aide à te détendre encore plus. Tu peux me parler librement de tout, sans te réveiller. Nos échanges ne font que garder et approfondir ton lâcher-prise, et tu continues d'entendre ma voix clairement, loin du monde extérieur."]
     ]},
-    { r: 'IX', titre: 'Retour', b: [
-      ['consigne', "Au choix dans l'Atelier."]
+    { r: 'IX', titre: 'Sept ans', b: [
+      ['consigne', "Compter lentement. Demander moins de détails qu'à 12 ans."],
+      ['dit', "Continuons le voyage, marche après marche. Onze ans… dix… neuf… huit… sept. Tu as sept ans maintenant. Comme tout à l'heure, flotte doucement de ton escalier jusqu'à l'endroit où tu vis, à sept ans."],
+      ['q', ["C'est le même endroit que tout à l'heure ?", "Cette fois, je voudrais que tu te retrouves dans un moment où tu t'amuses, à sept ans. Qu'est-ce que tu es en train de faire ?"]],
+      ['consigne', "Si rien ne vient : proposer un copain de jeu, un jeu, un jouet, un animal qui compte pour lui."]
     ]},
-    { r: '', titre: 'Après la séance', b: [
-      ['liste', ["Noter ce qui est apparu à chaque âge.", "Laisser le client donner son sens, ne pas interpréter à sa place."]]
+    { r: 'X', titre: 'Le premier souvenir heureux', b: [
+      ['dit', "Laisse doucement ce moment, et flotte jusqu'à ton bel escalier… On continue, et pendant que je compte, tu deviens plus jeune, plus petit. Plus jeune, plus petit. On va retrouver un souvenir très heureux, plus tôt dans ton enfance. Tu descends encore, plus loin, plus en arrière… six ans… cinq… quatre… trois… peut-être même deux. Tu es tout petit maintenant. Décris-moi ce souvenir heureux, comme un enfant."]
+    ]},
+    { r: 'XI', titre: 'Le ventre de la mère', b: [
+      ['dit', "Détache-toi doucement de cette scène, et retrouve ton escalier. On va descendre encore un peu, avant ta naissance, quand tu étais dans le ventre de ta mère. C'est un passage très facile, parce que tu es déjà tout petit. On va y rester quelques minutes. Un an… neuf mois… huit… sept… six… cinq… quatre… trois… deux… un."],
+      ['consigne', "Poser doucement la main sur le bras."],
+      ['dit', "Tu sens ma main sur ton bras. Tu es dans le ventre de ta mère. Je vais te poser quelques questions très simples."],
+      ['q', ["Il fait chaud, il fait froid ?", "Tu as de la place, ou c'est serré ?", "Qu'est-ce que tu entends ? Son cœur, sa voix, d'autres voix ?", "Qu'est-ce que ta mère ressent, à ton avis ?", "Ce qu'elle ressent et ce que tu ressens, est-ce que c'est lié ?", "Est-ce qu'il y a quelque chose que tu aimerais lui apporter ?", "Est-ce que tu te sens attendu ?", "Quelle émotion est là, en toi ?"]]
+    ]},
+    { r: 'XII', titre: "Le corps et l'âme", b: [
+      ['consigne', "Pour tout le monde."],
+      ['q', ["Maintenant que tu as passé quelques mois dans ce corps… qu'est-ce que tu ressens pour lui ?", "Comment tu te sens, à l'idée de vivre ta vie dans ce corps ?", "Est-ce que ce corps et ton âme vont bien ensemble ?", "Qu'est-ce que ces premières impressions te disent de la vie qui t'attend ?"]]
+    ]},
+    { r: 'XIII', titre: "L'âme expérimentée", b: [
+      ['consigne', "Seulement si les réponses montrent une âme expérimentée."],
+      ['q', ["À quel mois tu es ? Le premier chiffre qui vient.", "Tu sens une différence de caractère entre ton âme et ce corps ?", "Comment les émotions de ce corps agissent-elles sur ta façon de penser ?", "Est-ce que tu as choisi ce corps, ou est-ce qu'il t'a été donné ?"]],
+      ['consigne', "Ne poser cette question que si les autres réponses sont précises."],
+      ['q', ["Et ce corps, comparé aux autres que tu as connus ?"]]
+    ]},
+    { r: 'XIV', titre: 'La remontée', b: [
+      ['dit', "Avant de quitter ce ventre, prends un instant. Si tu as eu envie d'apporter quelque chose à ta mère, c'est le moment de le lui laisser."],
+      ['consigne', "Pause."],
+      ['dit', "On va repartir en sens inverse, et tu vas te rendre compte que tu es dans une nouvelle énergie. Comme une renaissance… quelque chose de nouveau qui commence. Tu ramènes avec toi quelque chose de précieux, et tu vas le sentir tout au long de la remontée.\nMaintenant, laisse doucement ce moment, et sors du ventre de ta mère. Retrouve ton bel escalier d'or. On va remonter, marche après marche, et à chaque marche tu grandis un peu, toujours aussi détendu. Un mois… deux… trois… quatre… cinq… six… sept… huit… neuf mois… un an. Deux ans… trois… quatre… cinq… six… sept ans.\nArrête-toi un instant, et revois l'endroit où tu vivais à sept ans. Regarde-le, juste un moment… et remarque comme tu le vois maintenant, avec cette nouvelle énergie en toi. Peut-être que quelque chose est différent. Et tu continues à monter. Huit… neuf… dix… onze… douze ans.\nArrête-toi un instant, et revois ta chambre de tes douze ans. Regarde-la, juste un moment… et remarque comme tu la vois maintenant, avec cette nouvelle énergie en toi. Peut-être que quelque chose a changé. Et tu continues à monter. Treize… quatorze… quinze… seize… dix-sept… dix-huit… dix-neuf… vingt ans… vingt-cinq… trente… trente-cinq… quarante… quarante-cinq… cinquante ans.\nTe voilà en haut de l'escalier d'or, à ton âge d'aujourd'hui, avec ce quelque chose de précieux en toi."],
+      ['consigne', "Revenir par le chemin de l'induction et de l'approfondissement, en sens inverse."]
     ]}
   ]
 };
-TECHNIQUES.prenatale = TECHNIQUE_PRENATALE;
-const ORDRE_CELESTE = ['prenatale', 'rhea', 'weiss', 'projection', 'allemann'];
+const ORDRE_CELESTE = ['rhea', 'weiss', 'projection', 'allemann'];
 // Chaque étape a une clé stable : c'est elle qui retient tes textes modifiés sur la tablette
 for (const id in TECHNIQUES) TECHNIQUES[id].etapes.forEach((e, i) => { e.k = id + ':' + i; });
 
@@ -848,8 +872,8 @@ const BRIQUES = [
   { id: 'weiss-compte', type: 'approf', face: 'deux', min: 2, nom: 'Le compte de 5 à 1', src: 'Brian Weiss', etapes: [ET('weiss', 3)] },
   { id: 'allemann-souffle', type: 'approf', face: 'deux', min: 10, nom: 'Le souffle et la lumière blanche', src: 'Allemann', besoin: 'souffle', etapes: [ET('projection', 2), ET('projection', 3), ET('projection', 4)] },
 
-  { id: 'prenatale', type: 'protocole', face: 'celeste', min: 35, nom: 'Régression prénatale', src: 'Régression en âge',
-    avant: ET('prenatale', 0), apres: ET('prenatale', 10), etapes: [ET('prenatale', 1), ET('prenatale', 2), ET('prenatale', 3), ET('prenatale', 4), ET('prenatale', 5), ET('prenatale', 6), ET('prenatale', 7), ET('prenatale', 8)] },
+  { id: 'inutero', type: 'protocole', face: 'celeste', min: 45, nom: 'Régression in utero', src: 'Régression en âge',
+    avant: ET('inutero', 0), etapes: [ET('inutero', 1), ET('inutero', 2), ET('inutero', 3), ET('inutero', 4), ET('inutero', 5), ET('inutero', 6), ET('inutero', 7), ET('inutero', 8), ET('inutero', 9), ET('inutero', 10), ET('inutero', 11), ET('inutero', 12), ET('inutero', 13), ET('inutero', 14)] },
   { id: 'rhea-regression', type: 'protocole', face: 'celeste', min: 40, nom: 'Régression vies antérieures', src: 'Rhéa Powers', besoin: 'escalier',
     avant: ET('rhea', 0), etapes: [ET('rhea', 6), ET('rhea', 7), ET('rhea', 8), ET('rhea', 9), ET('rhea', 10), ET('rhea', 11), ET('rhea', 12), ET('rhea', 13)] },
   { id: 'weiss-regression', type: 'protocole', face: 'celeste', min: 35, nom: 'Régression par la porte de lumière', src: 'Brian Weiss',
@@ -1579,7 +1603,7 @@ VUES.celeste = () => {
 };
 
 const DOSSIERS = [['anterieures', 'Vies antérieures'], ['future', 'Vie future'], ['entre', 'Entre deux vies'], ['auto', 'Auto-régression']];
-const DOSSIER_DEFAUT = { prenatale: 'anterieures', rhea: 'anterieures', weiss: 'anterieures', projection: 'future', allemann: 'auto' };
+const DOSSIER_DEFAUT = { rhea: 'anterieures', weiss: 'anterieures', projection: 'future', allemann: 'auto' };
 const dossierTech = id => (D.dossiers && id in D.dossiers) ? D.dossiers[id] : (DOSSIER_DEFAUT[id] || '');
 const techCeleste = () => ORDRE_CELESTE.filter(id => !D.caches['t:' + id] && !['terrestre', 'jeux'].includes(faceTech(id)));
 const carteTech = t => '<button class="carte" data-a="technique" data-long="cache" data-k="t:' + t.id + '" data-id="' + t.id + '"><div class="int"><div><div class="nom">' + esc(t.nom) + '</div><div class="sous">' + esc(t.sous) + ' · ' + etapesVues(t).filter(e => e.r).length + ' étapes</div></div><span class="fl">›</span></div></button>';
@@ -2129,7 +2153,7 @@ document.addEventListener('touchend', e => {
 
 
 /* ----- Défilement automatique ----- */
-const VITESSES = [6, 9, 12, 16, 21, 27, 34, 42, 52, 64]; // pixels par seconde, à la taille de texte normale
+const VITESSES = [3, 4, 5.5, 7, 8.5, 10.5, 12.5, 15, 18, 21]; // version 15 : tout ralenti (1 = moitié de l'ancienne 1, 10 = ancienne 5) // pixels par seconde, à la taille de texte normale
 const lecture = { on: false, niveau: 2, doigt: false, reste: 0, avant: 0, anim: 0 };
 try { const n = Number(localStorage.getItem('ect-vitesse')); if (n >= 1 && n <= VITESSES.length) lecture.niveau = n; } catch (e) {}
 const enTechnique = () => vue.v === 'technique' && !vue.p.sommaire;
@@ -2181,7 +2205,7 @@ function changerVitesse(d) {
   majLecteur();
 }
 // Le doigt sur l'écran : le défilement attend, puis reprend tout seul quand on lâche.
-// Deux touches rapides au même endroit : pause ou reprise.
+// Une simple touche sur le texte : pause ou reprise.
 let derniereTouche = null;
 document.addEventListener('touchstart', e => {
   if (!pageLecture()) return;
@@ -2201,13 +2225,11 @@ document.addEventListener('touchend', e => {
   lecture.doigt = false; lecture.avant = 0;
   const d = lecture.depart; lecture.depart = null;
   if (!d || Date.now() - d.t > 300 || e.target.closest('button, a, input, textarea, select, .barre, .lecteur, #bulle, #enrpill')) { derniereTouche = null; return; }
-  const maintenant = Date.now();
-  if (derniereTouche && maintenant - derniereTouche.t < 350 && Math.hypot(d.x - derniereTouche.x, d.y - derniereTouche.y) < 40) {
-    derniereTouche = null;
-    basculerLecture();
-    toast(lecture.on ? 'Lecture' : 'Pause');
-    e.preventDefault();
-  } else derniereTouche = { x: d.x, y: d.y, t: maintenant, fin: true };
+  // Version 15 : une simple touche sur le texte met en pause ou relance
+  if (e.target.closest('[data-a]')) return;
+  basculerLecture();
+  toast(lecture.on ? 'Lecture' : 'Pause');
+  e.preventDefault();
 }, { passive: false });
 // Molette ou clavier sur ordinateur : pas d'effet sur la lecture ; Espace pour pause
 document.addEventListener('keydown', e => { if (pageLecture() && e.code === 'Space' && !e.target.closest('input, textarea')) { e.preventDefault(); basculerLecture(); } });
@@ -2560,7 +2582,7 @@ VUES.reglages = () => {
     '<button class="btn large" data-a="modifconf" style="margin-bottom:10px">+ Ajouter une confusion</button>' +
     '<div class="etiquette">Mes coordonnées (notes d\'honoraires)</div>' + ch('nom', 'Nom') + ch('statut', 'Statut') + ch('activite', 'Activité') + ch('adresse', 'Adresse') + '<div class="deux">' + ch('siret', 'SIRET') + ch('tel', 'Téléphone') + '</div>' + ch('mail', 'Mail') + ch('tva', 'Mention TVA') +
     '<button class="btn plein large" data-a="sauveremetteur">Enregistrer mes coordonnées</button>' +
-    '<div class="discret" style="text-align:center;margin-top:30px">Entre Ciel et Terre · version 14</div></div>';
+    '<div class="discret" style="text-align:center;margin-top:30px">Entre Ciel et Terre · version 15</div></div>';
 };
 
 /* ---------- Fenêtres (formulaires) ---------- */
