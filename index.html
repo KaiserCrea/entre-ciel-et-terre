@@ -462,6 +462,21 @@ html{touch-action:manipulation}
 .mixte .bloc{background:#0b1020d0}
 .mixte .btn.plein.flottant{background:linear-gradient(100deg,#dfe5f3,#f7ecdc 45%,#f5c48c);box-shadow:0 8px 26px #0009,0 0 22px #f3e6d433}
 .mixte .etape{background:linear-gradient(180deg,#121933d9,#24130cd9)}
+/* ---------- Version 18 ---------- */
+/* Pas de sélection de mot dans les textes de lecture (les champs de modification restent sélectionnables) */
+.page.technique,.page.technique *,#feuille .apercu,#feuille .apercu *{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.page.technique input,.page.technique textarea{-webkit-user-select:text;user-select:text}
+.pastille.son{min-width:44px}
+.pastille.son.on{border-color:var(--argent2);color:#fff;box-shadow:0 0 12px #dfe5f344}
+.pastille.son.off{opacity:.5}
+.sonl{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.sonl label{flex:0 0 92px;font-family:var(--caps);font-size:calc(10px * var(--taille2));letter-spacing:2px;text-transform:uppercase;color:#aebbd8}
+.sonl select{flex:1;min-width:0;background:#05070fcc;border:0.5px solid #c9d4ee44;border-radius:12px;padding:11px 12px;font-size:calc(16px * var(--taille2));color:#eef1f8;outline:none}
+.sonl select option{background:#0b1020}
+.sonl .pastille{flex:0 0 auto}
+input[type=range].volume{width:100%;accent-color:var(--argent2)}
+.lecs .rdv .p{white-space:pre-line}
+.lecs .rdv .d{font-family:var(--caps);font-size:calc(10px * var(--taille2));letter-spacing:2px;color:#aebbd8;margin-bottom:4px}
 </style>
 </head>
 <body>
@@ -1462,6 +1477,9 @@ const DEFAUT = () => ({
   lecons: LECONS_DEFAUT.map(l => ({ ...l })),
   caches: {},
   dossiers: {},
+  son: SON_DEFAUT(),
+  musiques: [],
+  leconsSeance: LECONS_SEANCE_V18.map(l => ({ ...l })),
   derniereSauvegarde: null
 });
 const DIVERSES_V3 = [
@@ -1566,6 +1584,16 @@ function migrer() {
     if (D.dossiers && D.dossiers.allemann === 'auto') delete D.dossiers.allemann;
     D.version = 17; enregistrer();
   }
+  // Passage à la version 18 : son de fond, mes musiques, mes leçons de séance (avec les deux premières)
+  if (D.version < 18) {
+    if (!Array.isArray(D.leconsSeance)) D.leconsSeance = [];
+    for (const l of LECONS_SEANCE_V18) if (!D.leconsSeance.some(x => x.id === l.id)) D.leconsSeance.push({ ...l });
+    D.version = 18; enregistrer();
+  }
+  if (!D.son || typeof D.son !== 'object') D.son = SON_DEFAUT();
+  for (const [k, v] of Object.entries(SON_DEFAUT())) if (D.son[k] === undefined) D.son[k] = v;
+  if (!Array.isArray(D.musiques)) D.musiques = [];
+  if (!Array.isArray(D.leconsSeance)) D.leconsSeance = [];
   if (!Array.isArray(D.parcours)) D.parcours = [];
   if (!D.dossiers || typeof D.dossiers !== 'object') D.dossiers = {};
   if (!D.jeuxMod || typeof D.jeuxMod !== 'object') D.jeuxMod = {};
@@ -1720,6 +1748,7 @@ function rendre() {
   const f = VUES[vue.v] || VUES.accueil;
   app.className = '';
   if (lecture.on) arreterLecture();
+  if (SON.on && vue.v !== SON.vue && !(SON.vue === 'technique' && vue.v === 'personnes')) arreterSon();
   cacherBulle();
   app.innerHTML = f(vue.p);
   if (fondActuel === 'mixte' && !app.className) app.className = 'mixte';
@@ -1820,7 +1849,7 @@ VUES.jeu = p => {
   } else if (id.startsWith('b:')) {
     const br = brique(id.slice(2)); if (!br) return VUES.jeux();
     nom = br.nom; sous = (TYPES.find(t => t[0] === br.type) || ['', ''])[1];
-    b = [br.avant, ...br.etapes, br.apres].filter(e => e && !estSuppr(e)).flatMap(e => [['sous', titreE(e)], ...blocs(e)]);
+    b = [br.avant, ...br.etapes, br.apres].filter(e => e && !estSuppr(e)).flatMap(e => e.brique ? blocs(e) : [['sous', titreE(e)], ...blocs(e)]);
     bas = '<div class="etiquette">Rangée dans</div>' + choixFace(br.perso ? 'u:' + br.id : 'b:' + br.id, faceBrique(br));
   } else {
     const j = JEUX.find(x => x.id === id); if (!j) return VUES.jeux();
@@ -1943,7 +1972,7 @@ VUES.technique = p => {
   fond(p.terre ? 'terre' : 'ciel'); if (p.terre) $('#app').className = 'terre';
   const t = tech(p.id); if (!t) return VUES.celeste();
   if (p.sommaire) {
-    const edit = !!TECHNIQUES[p.id];
+    const edit = !!TECHNIQUES[p.id] && !seanceLancee(); // version 18 : rien à modifier pendant une séance lancée
     return barre(t.nom) + '<div class="page"><div class="heros" style="margin-bottom:10px"><div class="surtitre">Étapes</div></div><div class="sommaire">' +
       (() => {
         const rOf = {}; for (const v of etapesVues(t)) rOf[v.i] = v.r;
@@ -1953,10 +1982,10 @@ VUES.technique = p => {
             (edit ? (sup ? '<button class="pastille" data-a="retablir" data-i="' + i + '">Rétablir</button>' : '<button class="pastille" data-a="modifetape" data-i="' + i + '">Modifier</button>') : '') + '</div>';
         }).join('');
       })() + '</div>' +
-      (edit ? '<div class="etiquette">Rangée dans</div>' + choixFace('t:' + p.id, faceTech(p.id)) + (['terrestre', 'jeux'].includes(faceTech(p.id)) ? '' : '<div class="segments" style="margin-top:8px">' + [...DOSSIERS, ['', 'Sans dossier']].map(([k, t]) => '<button class="' + (dossierTech(p.id) === k ? 'on' : '') + '" data-a="dossiertech" data-id="' + p.id + '" data-dd="' + k + '">' + t + '</button>').join('') + '</div>') + '<div class="discret" style="margin-top:8px">Les modifications de texte valent aussi pour les briques de l\'atelier qui reprennent la même étape.</div>' : '') + '</div>';
+      (edit ? '<div class="etiquette">Rangée dans</div>' + choixFace('t:' + p.id, faceTech(p.id)) + (['terrestre', 'jeux'].includes(faceTech(p.id)) ? '' : '<div class="segments" style="margin-top:8px">' + [...DOSSIERS, ['', 'Sans dossier']].map(([k, t]) => '<button class="' + (dossierTech(p.id) === k ? 'on' : '') + '" data-a="dossiertech" data-id="' + p.id + '" data-dd="' + k + '">' + t + '</button>').join('') + '</div>') + '<div class="discret" style="margin-top:8px">Les modifications de texte valent aussi pour les briques de l\'atelier qui reprennent la même étape, sauf une brique déjà modifiée en entier.</div>' : '') + '</div>';
   }
   const vis = etapesVues(t), total = vis.filter(x => x.r).length;
-  const actions = lecteurHTML() + boutonEnr() +
+  const actions = lecteurHTML() + boutonEnr() + (t.auto ? '' : boutonSon()) +
     (t.auto ? '<button class="pastille" data-a="pdftech">PDF</button>' : '<button class="pastille" data-a="choixpers">Personnages</button>') +
     '<button class="pastille" data-a="sommaire">Étapes</button>';
   let h = barre(t.nom, actions).replace(/<\/div>$/, '<div class="progfixe"><div id="progbar"></div></div></div>');
@@ -1968,7 +1997,7 @@ VUES.technique = p => {
   });
   h += '<div class="fintech">✦ Fin de la technique ✦</div>';
   if (t.auto) h += '<button class="btn plein large" data-a="pdftech">Envoyer au client (PDF)</button>';
-  else h += '<button class="btn plein large" data-a="rattacher">Rattacher à un rendez-vous</button>';
+  else h += '<button class="btn plein large" data-a="rattacher">Rattacher à un rendez-vous</button><button class="btn large" data-a="noterlecon" style="margin-top:10px">✎ Noter une leçon de séance</button>';
   h += '</div>';
   return h;
 };
@@ -2035,14 +2064,15 @@ function formEtape(e, apres) {
   const aide = '<div class="discret" style="line-height:1.6;margin:-6px 0 12px">Ligne vide : nouveau paragraphe. Ligne commençant par « ? » : question. Ligne entre parenthèses : consigne pour toi. « • » : liste. « # » : sous-titre. Les mentions entre crochets, comme [si endroit safe], dépendent des choix de l\'atelier : laisse-les en début de paragraphe.</div>';
   const modifie = D.textes[e.k] != null || D.titres['e:' + e.k] != null;
   const fin = msg => { enregistrer(); fermer(); toast(msg); apres ? apres() : rendre(); };
-  ouvrir('Modifier', champ('etitre', 'Titre', titreE(e)) + aide + '<div class="champ"><label for="etexte">Texte</label><textarea id="etexte" style="min-height:46vh;font-family:var(--serif);font-size:calc(18px * var(--taille2));line-height:1.55">' + esc(blocsEnTexte(blocs(e))) + '</textarea></div>' +
-    '<div class="rangee" style="margin-top:10px"><button class="btn danger" data-a="f-supprimer">Supprimer cette partie</button>' + (modifie ? '<button class="btn" data-a="f-origine">Texte d\'origine</button>' : '') + '</div>' +
+  const br = !!e.brique;
+  ouvrir(br ? 'Modifier la brique' : 'Modifier', (br ? '<div class="discret" style="text-align:center;margin:-8px 0 12px">' + esc(e.titre) + '</div>' : champ('etitre', 'Titre', titreE(e))) + aide + '<div class="champ"><label for="etexte">Texte</label><textarea id="etexte" style="min-height:46vh;font-family:var(--serif);font-size:calc(18px * var(--taille2));line-height:1.55">' + esc(blocsEnTexte(blocs(e))) + '</textarea></div>' +
+    (() => { const x = (br ? '' : '<button class="btn danger" data-a="f-supprimer">Supprimer cette partie</button>') + (modifie ? '<button class="btn" data-a="f-origine">Texte d\'origine</button>' : ''); return x ? '<div class="rangee" style="margin-top:10px">' + x + '</div>' : ''; })() +
     '<div class="rangee" style="margin-top:10px"><button class="btn" data-a="f-annuler">Annuler</button><button class="btn plein" data-a="f-ok">Enregistrer</button></div>', {
     ok() {
-      const v = document.getElementById('etexte').value, ti = valeur('etitre');
-      if (!v.trim()) { if (confirm('Le texte est vide. Supprimer cette partie ?')) { D.suppr[e.k] = true; fin('Partie supprimée'); } return; }
+      const v = document.getElementById('etexte').value, ti = br ? '' : valeur('etitre');
+      if (!v.trim()) { if (br) return toast('Le texte de la brique est vide.'); if (confirm('Le texte est vide. Supprimer cette partie ?')) { D.suppr[e.k] = true; fin('Partie supprimée'); } return; }
       if (v.trim() === blocsEnTexte(e.b).trim()) delete D.textes[e.k]; else D.textes[e.k] = v;
-      if (!ti || ti === e.titre) delete D.titres['e:' + e.k]; else D.titres['e:' + e.k] = ti;
+      if (!br) { if (!ti || ti === e.titre) delete D.titres['e:' + e.k]; else D.titres['e:' + e.k] = ti; }
       fin('Texte enregistré');
     },
     supprimer() {
@@ -2051,13 +2081,23 @@ function formEtape(e, apres) {
     },
     origine() {
       if (!confirm('Revenir au texte et au titre d\'origine ? Ta version sera effacée.')) return;
-      delete D.textes[e.k]; delete D.titres['e:' + e.k]; delete D.suppr[e.k]; fin('Texte d\'origine rétabli');
+      delete D.textes[e.k]; if (!br) { delete D.titres['e:' + e.k]; delete D.suppr[e.k]; } fin('Texte d\'origine rétabli');
     }
   });
 }
+// Version 18 : une brique = un seul cadre, en lecture comme en modification.
+// Plusieurs parties : réunies en un seul texte (les anciens titres deviennent des sous-titres).
+// Une brique modifiée en entier garde son texte à elle (clé B:id) ; « Texte d'origine » revient aux parties.
+function briqueEntiere(b) {
+  const cle = 'B:' + b.id, parts = b.etapes.filter(e => !estSuppr(e));
+  if (D.textes[cle] == null && parts.length === 1) return [{ ...parts[0], titre: b.nom, brique: true }];
+  if (D.textes[cle] == null && !parts.length) return b.etapes; // tout supprimé : on garde les parties pour pouvoir les rétablir
+  const orig = parts.length === 1 ? [...blocs(parts[0])] : parts.flatMap(e => [['sous', titreE(e)], ...blocs(e)]);
+  return [{ r: 'x', titre: b.nom, k: cle, b: orig, brique: true }];
+}
 function brique(id) {
   if (!id) return null;
-  const b = BRIQUES.find(x => x.id === id); if (b) { const n = D.titres['b:' + b.id]; return n ? { ...b, nom: n } : b; }
+  const b = BRIQUES.find(x => x.id === id); if (b) { const n = D.titres['b:' + b.id]; const r = n ? { ...b, nom: n } : { ...b }; r.etapes = briqueEntiere(r); return r; }
   const u = (D.briques || []).find(x => x.id === id); if (!u) return null;
   return { id: u.id, type: u.type, face: u.face, min: Number(u.min) || 0, nom: u.nom, src: 'Ma brique', perso: true, etapes: [{ r: 'x', titre: u.nom, b: texteEnBlocs(u.texte) }] };
 }
@@ -2120,7 +2160,7 @@ function construire(c, titre) {
   const ind = brique(c.induction), ap = brique(c.approf), re = brique(c.retour);
   const vo = voyageDe(c).map(brique), pr = vo[0];
   const ctx = { safe: !!c.safe, lieu: !!(ind && ind.lieu), piece: !!(ap && (ap.fournit || []).includes('piece')), ventre: vo.some(b => b.id === 'inutero') };
-  const copie = e => estSuppr(e) ? null : ({ r: e.r ? 'x' : '', titre: titreE(e), src: e, b: [...blocs(e)] });
+  const copie = e => estSuppr(e) ? null : ({ r: e.r ? 'x' : '', titre: e.brique ? e.titre : titreE(e), src: e, b: [...blocs(e)] });
   const lie = (etapes, cle) => {
     const l = etapes.map(copie).filter(Boolean);
     if (cle && l.length) l[0].liaison = cle;
@@ -2316,7 +2356,7 @@ VUES.voirbrique = p => {
   return barre(b.nom, lecteurHTML() + '<button class="pastille" data-a="taille" data-d="-1" aria-label="Texte plus petit">A−</button><button class="pastille" data-a="taille" data-d="1" aria-label="Texte plus grand">A+</button>') +
     '<div class="page technique">' + onglets + '<section class="etape"><div class="int"><div class="romain">' + esc(rub) + '</div><h2>' + esc(b.nom) + '</h2>' + orne('✦') + corps + '</div></section>' +
     '<div class="etiquette">Rangée dans</div>' + choixFace(b.perso ? 'u:' + b.id : 'b:' + b.id, faceBrique(b)) +
-    '<div class="discret" style="margin-top:8px">Une modification ici vaut partout : atelier, techniques et séance.</div></div>';
+    '<div class="discret" style="margin-top:8px">Une modification ici vaut partout où la brique est utilisée : atelier et séances.</div></div>';
 };
 VUES.voirdiverse = p => {
   fond('ciel');
@@ -2804,12 +2844,13 @@ VUES.reglages = () => {
     '<button class="btn large" data-a="ajoutprest">+ Ajouter une prestation</button>' +
     corbeilleHTML() +
     '<div class="etiquette">Taille du texte</div><div class="bloc" style="padding:14px 16px;margin-bottom:14px"><div class="rangee" style="align-items:center"><button class="btn" data-a="taille2" data-d="-1" style="flex:0 0 64px">A−</button><div style="flex:1;text-align:center;font-family:var(--serif);font-size:calc(18px * var(--taille2));line-height:1.4;color:#f3f5fb">Voici la taille de tes textes.</div><button class="btn" data-a="taille2" data-d="1" style="flex:0 0 64px">A+</button></div><div class="discret" style="margin-top:8px">Pour toute l\'appli. Les textes de séance ont leur propre taille (A− / A+ dans la séance). Tu peux aussi pincer l\'écran.</div></div>' +
+    reglagesSon() +
     '<div class="etiquette">Confusions</div><div class="discret" style="margin-bottom:10px">Proposées par le bouton ✧ pendant les techniques. Appui long pour supprimer.</div>' +
     (D.confusions.length ? D.confusions.map((t, i) => '<button class="rdv" data-a="modifconf" data-i="' + i + '" data-long="conf"><div style="flex:1;min-width:0"><div class="p" style="font-size:calc(16px * var(--taille2));font-family:var(--serif);font-style:italic;color:#d9dfec">« ' + esc(t.length > 160 ? t.slice(0, 160) + '…' : t) + ' »</div></div></button>').join('') : '<div class="discret">Aucune confusion.</div>') +
     '<button class="btn large" data-a="modifconf" style="margin-bottom:10px">+ Ajouter une confusion</button>' +
     '<div class="etiquette">Mes coordonnées (notes d\'honoraires)</div>' + ch('nom', 'Nom') + ch('statut', 'Statut') + ch('activite', 'Activité') + ch('adresse', 'Adresse') + '<div class="deux">' + ch('siret', 'SIRET') + ch('tel', 'Téléphone') + '</div>' + ch('mail', 'Mail') + ch('tva', 'Mention TVA') +
     '<button class="btn plein large" data-a="sauveremetteur">Enregistrer mes coordonnées</button>' +
-    '<div class="discret" style="text-align:center;margin-top:30px">Entre Ciel et Terre · version 17</div></div>';
+    '<div class="discret" style="text-align:center;margin-top:30px">Entre Ciel et Terre · version 18</div></div>';
 };
 
 /* ---------- Fenêtres (formulaires) ---------- */
@@ -3163,7 +3204,16 @@ document.addEventListener('click', ev => {
     case 'commencer': return formCommencer(vue.p.id, null);
     case 'retablircache': { delete D.caches[d.k]; enregistrer(); const y = scrollY; rendre(); window.scrollTo(0, y); return toast('Rétabli'); }
     case 'lecon': return aller('lecon', { id: d.id });
-    case 'nouvellelecon': return formLecon();
+    case 'nouvellelecon': return vue.v === 'bases' && vue.p.o === 'seance' ? formLeconSeance() : formLecon();
+    // Version 18
+    case 'ongletbases': return remplacer('bases', { o: d.o });
+    case 'lecseance': { const x = (D.leconsSeance || []).find(y => y.id === d.id); return x && formLeconSeance(x); }
+    case 'noterlecon': return formLeconSeance();
+    case 'son': return fenetreSon();
+    case 'sonauto': D.son.auto = !D.son.auto; enregistrer(); { const y = scrollY; rendre(); window.scrollTo(0, y); } return;
+    case 'ecouter': { const sel = document.getElementById(d.sel); if (!sel) return; if (SON.on && SON.cle === sel.value) return arreterSon(); return jouerSon(sel.value); }
+    case 'ajoutmusique': return $('#fichiermus').click();
+    case 'modifmusique': { const m = (D.musiques || []).find(x => x.id === d.id); return m && formMusique(m); }
     case 'modiflecon': return formLecon(D.lecons.find(l => l.id === d.id));
     case 'enreglibre': { const x = D.enrLibres.find(y => y.id === d.id); if (x) formEnreg(SANS_CLIENT(), x); return; }
     case 'accord': { const c = client(vue.p.id); if (!c) return; c.accordEnr = !c.accordEnr; enregistrer(); const y = scrollY; rendre(); window.scrollTo(0, y); return; }
@@ -3249,7 +3299,7 @@ document.addEventListener('click', ev => {
     case 'atelier': ongletInd = null; compo = null; garderCompo(); return aller('atelier', { face: d.face });
     case 'lire': return lireBrique(d.id);
     case 'taille2': return setTaille2(taille2() + Number(d.d) * 0.1, true);
-    case 'retablir': { const t = TECHNIQUES[vue.p.id]; if (t) { delete D.suppr[t.etapes[Number(d.i)].k]; enregistrer(); rendre(); } return; }
+    case 'retablir': { if (seanceLancee()) return; const t = TECHNIQUES[vue.p.id]; if (t) { delete D.suppr[t.etapes[Number(d.i)].k]; enregistrer(); rendre(); } return; }
     case 'ongletind': ongletInd = d.f; { const y = scrollY; rendre(); window.scrollTo(0, y); } return;
     case 'apercucompo': if (!pret(compo)) return; return aller('apercu');
     case 'modifap': { const t = construire(compo), e = t.etapes[Number(d.i)]; if (e && e.src) formEtape(e.src); return; }
@@ -3274,7 +3324,7 @@ document.addEventListener('click', ev => {
       toast('Rangée dans ' + ({ celeste: 'Céleste', terrestre: 'Terrestre', deux: 'Céleste et Terrestre', jeux: 'Jeux hypnotiques' })[f]);
       return;
     }
-    case 'modifetape': { const t = TECHNIQUES[vue.p.id]; if (t) formEtape(t.etapes[Number(d.i)]); return; }
+    case 'modifetape': { if (seanceLancee()) return; const t = TECHNIQUES[vue.p.id]; if (t) formEtape(t.etapes[Number(d.i)]); return; }
     case 'jeux': return aller('jeux');
     case 'dossier': return aller('dossier', { d: d.d });
     case 'dossiertech': {
@@ -3378,6 +3428,7 @@ document.addEventListener('input', ev => {
     rechDiv = t.value; const pos = t.selectionStart; rendre();
     const n = $('#rechdiv'); n.focus(); n.setSelectionRange(pos, pos); return;
   }
+  if (t.id === 'sonvol' || t.id === 'sonvolr') return reglerVolume(Number(t.value) / 100);
   if (t.dataset.liaison && compo) { compo.liaisons[t.dataset.liaison] = t.value; garderCompo(); return; }
   if (!brouillon) return;
   if (t.dataset.b) brouillon[t.dataset.b] = t.value;
@@ -3391,6 +3442,9 @@ document.addEventListener('change', ev => {
     compo.pour = t.value; pourSync(); garderCompo(); return;
   }
   if (t.id === 'fichierrest' && t.files[0]) return restaurer(t.files[0]);
+  if (t.id === 'fichiermus' && t.files[0]) return ajouterMusique(t.files[0]);
+  if (t.dataset.son) { D.son[t.dataset.son] = t.value; enregistrer(); if (SON.on && SON.vue === 'reglages') jouerSon(t.value); return majSon(); }
+  if (t.id === 'sonvol' || t.id === 'sonvolr') { reglerVolume(Number(t.value) / 100); return enregistrer(); }
   if (brouillon && t.dataset.l != null && t.dataset.k === 'prestationId') {
     const l = brouillon.lignes[Number(t.dataset.l)], p = prestation(t.value);
     l.prestationId = t.value;
@@ -3641,9 +3695,14 @@ function corbeilleHTML() {
 /* ----- Version 10 : les bases ----- */
 // Dans une leçon : ligne simple = texte, « • » = liste, « # » = sous-titre, « ( ) » = remarque
 const leconEnBlocs = t => texteEnBlocs(t, true).map(b => b[0] === 'dit' ? ['texte', b[1], ...b.slice(2)] : b);
-VUES.bases = () => {
+VUES.bases = p => {
   fond('ciel');
-  return barre('Les bases') + '<div class="page"><div class="heros" style="margin-bottom:14px"><div class="surtitre">Mémo</div><div class="titre" style="font-size:calc(42px * var(--taille2))">Les bases</div>' + orne('✦ ✧ ✦') + '</div>' +
+  // Version 18 : deux rubriques, les bases (formation) et mes leçons de séance
+  const seance = p && p.o === 'seance';
+  const onglets = '<div class="segments onglets" style="margin:0 0 14px">' + [['', 'Les bases'], ['seance', 'Mes leçons de séance']].map(([k, t]) => '<button class="' + ((seance ? 'seance' : '') === k ? 'on' : '') + '" data-a="ongletbases" data-o="' + k + '">' + t + '</button>').join('') + '</div>';
+  if (seance) return barre('Les bases') + '<div class="page"><div class="heros" style="margin-bottom:14px"><div class="surtitre">Mémo</div><div class="titre" style="font-size:calc(42px * var(--taille2))">Mes leçons de séance</div>' + orne('✦ ✧ ✦') + '</div>' + onglets + leconsSeanceHTML() + '</div>' +
+    '<button class="btn plein flottant" data-a="nouvellelecon">+ Leçon</button>';
+  return barre('Les bases') + '<div class="page"><div class="heros" style="margin-bottom:14px"><div class="surtitre">Mémo</div><div class="titre" style="font-size:calc(42px * var(--taille2))">Les bases</div>' + orne('✦ ✧ ✦') + '</div>' + onglets +
     (D.lecons.length ? D.lecons.map((l, i) => '<button class="carte" data-a="lecon" data-long="lecon" data-id="' + l.id + '"><div class="int"><div class="sceau num">' + (i + 1) + '</div><div><div class="nom">' + esc(l.titre) + '</div></div><span class="fl">›</span></div></button>').join('') : '<div class="vide">Aucune leçon pour l\'instant</div>') +
     '<div class="discret" style="margin-top:10px">Appui long sur une leçon pour la supprimer. Pour changer l\'ordre : « Modifier » dans la leçon.</div></div>' +
     '<button class="btn plein flottant" data-a="nouvellelecon">+ Leçon</button>';
@@ -3709,7 +3768,7 @@ function lancerPour(id, nav, x) {
     nav();
     SEANCES[id] = { clientId: x.c ? x.c.id : '', rdvId: x.r ? x.r.id : '', libre: !!x.libre, commencee: true };
     if (enr) demarrerEnr(x.libre ? SANS_CLIENT() : x.c, dev, x.r && x.r.id);
-    rendre(); window.scrollTo(0, 0); lancerLecture();
+    rendre(); window.scrollTo(0, 0); lancerLecture(); sonSeance();
     if (!enr) toast(x.libre ? 'Séance libre, sans enregistrement' : 'Séance sans enregistrement');
   };
   if (x.c && x.c.accordEnr && enrPossible) return go(true);
@@ -3746,7 +3805,7 @@ function formCommencer(id, ouvrirTech) {
       const enr = avecEnr && x.accord && (x.c || x.libre) && enrPossible;
       if (enr) demarrerEnr(x.libre ? SANS_CLIENT() : x.c, x.dev, x.r && x.r.id);
       rendre(); window.scrollTo(0, 0);
-      lancerLecture();
+      lancerLecture(); sonSeance();
       if (!enr) toast(x.libre ? 'Séance libre, sans enregistrement' : 'Séance sans enregistrement');
     }
   });
@@ -3783,13 +3842,15 @@ function menuEnr() {
   ouvrir('Enregistrement · ' + fmtDuree(tempsEnr()), '<div class="discret" style="text-align:center;margin:-8px 0 16px">' + esc(nomClient(ENR.c)) + '</div><div style="display:grid;gap:10px">' +
     '<button class="btn" data-a="f-pause">' + (ENR.pause ? 'Reprendre' : 'Pause') + '</button>' +
     '<button class="btn plein" data-a="f-stop">Arrêter et ranger</button>' +
+    '<button class="btn" data-a="f-lecon">✎ Noter une leçon de séance</button>' +
     '<button class="btn" data-a="f-annuler">Continuer</button></div>', {
     pause() {
       if (ENR.pause) { ENR.rec.resume(); ENR.reprise = Date.now(); ENR.pause = false; }
       else { ENR.rec.pause(); ENR.cumul += Date.now() - ENR.reprise; ENR.pause = true; }
       fermer(); majEnr();
     },
-    stop() { if (!ENR.pause) { ENR.cumul += Date.now() - ENR.reprise; } ENR.pause = true; ENR.rec.stop(); fermer(); }
+    stop() { if (!ENR.pause) { ENR.cumul += Date.now() - ENR.reprise; } ENR.pause = true; ENR.rec.stop(); fermer(); },
+    lecon() { fermer(); formLeconSeance(); }
   });
 }
 // Au démarrage : un enregistrement interrompu (appli fermée) est récupéré avec ce qui a été écrit
@@ -3870,7 +3931,7 @@ document.addEventListener('pointerup', finAppui, true);
 document.addEventListener('touchstart', e => { if (e.touches.length > 1) finAppui(); }, { passive: true, capture: true });
 document.addEventListener('pointercancel', finAppui, true);
 document.addEventListener('click', e => { if (bloquerClic) { bloquerClic = false; e.stopPropagation(); e.preventDefault(); } }, true);
-document.addEventListener('contextmenu', e => { if (e.target.closest('[data-long]')) e.preventDefault(); });
+document.addEventListener('contextmenu', e => { if (e.target.closest('[data-long], .page.technique, #feuille .apercu') && !e.target.closest('input, textarea')) e.preventDefault(); });
 function supprimerLong(el) {
   const d = el.dataset, k = d.long, c = client(vue.p.id);
   const ok = q => confirm(q);
@@ -3919,6 +3980,192 @@ function supprimerLong(el) {
     if (!e || !ok('Supprimer la partie « ' + titreE(e) + ' » ? Elle disparaîtra partout. Tu pourras la rétablir.')) return;
     D.suppr[e.k] = true; enregistrer(); rendre(); lireBrique(b.id); toast('Partie supprimée');
   }
+}
+
+/* ---------- Version 18 : son de fond pendant la séance ---------- */
+// Produit par l'appli (aucun fichier, marche hors ligne) ; les musiques ajoutées restent sur la tablette, hors sauvegarde.
+const SONS = [['432', '432 Hz · nappe douce'], ['963', '963 Hz · nappe douce'], ['pluie', 'Pluie douce'], ['vagues', 'Vagues'], ['vent', 'Vent'], ['binaural', 'Sons binauraux thêta (casque)'], ['aucun', 'Aucun son']];
+const SON_DEFAUT = () => ({ auto: true, terrestre: '432', celeste: '963', volume: 0.35 });
+const SON = { ctx: null, sortie: null, noeuds: [], el: null, url: '', cle: '', vue: '', on: false };
+const nomSon = cle => { if (cle && cle.startsWith('m:')) { const m = (D.musiques || []).find(x => 'm:' + x.id === cle); return m ? m.nom : 'Musique introuvable'; } return (SONS.find(s => s[0] === cle) || ['', 'Aucun son'])[1]; };
+const optionsSon = v => [...SONS.slice(0, -1), ...(D.musiques || []).map(m => ['m:' + m.id, '♫ ' + m.nom]), SONS[SONS.length - 1]].map(([k, t]) => '<option value="' + k + '"' + (k === v ? ' selected' : '') + '>' + esc(t) + '</option>').join('');
+function ctxSon() {
+  if (!SON.ctx) { const C = window.AudioContext || window.webkitAudioContext; if (!C) return null; SON.ctx = new C(); }
+  if (SON.ctx.state === 'suspended') SON.ctx.resume().catch(() => {});
+  return SON.ctx;
+}
+const bruits = {};
+function bruit(ctx, type) {
+  if (bruits[type]) return bruits[type];
+  const sr = ctx.sampleRate, m = Math.floor(sr * 0.5), n = sr * 8 + m, buf = ctx.createBuffer(2, n, sr);
+  for (let ch = 0; ch < 2; ch++) {
+    const d = buf.getChannelData(ch); let last = 0, b0 = 0, b1 = 0, b2 = 0;
+    for (let i = 0; i < n; i++) {
+      const w = Math.random() * 2 - 1;
+      if (type === 'brun') { last = (last + 0.02 * w) / 1.02; d[i] = last * 3.5; }
+      else { b0 = 0.99765 * b0 + w * 0.099046; b1 = 0.963 * b1 + w * 0.2965164; b2 = 0.57 * b2 + w * 1.0526913; d[i] = (b0 + b1 + b2 + w * 0.1848) * 0.11; }
+    }
+    // Fondu enchaîné aux bords : la boucle tourne sans clic
+    for (let i = 0; i < m; i++) { const x = i / m; d[i] = d[i] * x + d[n - m + i] * (1 - x); }
+  }
+  return (bruits[type] = { buf, fin: (n - m) / sr });
+}
+function sourceBruit(ctx, type) { const b = bruit(ctx, type), s = ctx.createBufferSource(); s.buffer = b.buf; s.loop = true; s.loopEnd = b.fin; s.start(0, Math.random() * b.fin); SON.noeuds.push(s); return s; }
+function osc(ctx, type, f, detune) { const o = ctx.createOscillator(); o.type = type; o.frequency.value = f; if (detune) o.detune.value = detune; o.start(); SON.noeuds.push(o); return o; }
+// Un mouvement lent (respiration du son) appliqué à un réglage
+function lent(ctx, f, ampleur, reglage) { const o = osc(ctx, 'sine', f), g = ctx.createGain(); g.gain.value = ampleur; o.connect(g).connect(reglage); return o; }
+function filtre(ctx, type, f, q) { const x = ctx.createBiquadFilter(); x.type = type; x.frequency.value = f; if (q) x.Q.value = q; return x; }
+function gain(ctx, v) { const g = ctx.createGain(); g.gain.value = v; return g; }
+function nappe(ctx, f, vers) {
+  let r = f; while (r > 260) r /= 2;
+  const tout = gain(ctx, 0.45); tout.connect(vers);
+  const doux = filtre(ctx, 'lowpass', 1100, 0.5); doux.connect(tout);
+  [[1, .26, .031], [1.5, .17, .047], [2, .15, .023], [2.5, .09, .061], [3, .07, .039]].forEach(([k, v, l]) => {
+    const g = gain(ctx, v); g.connect(doux);
+    lent(ctx, l, v * 0.6, g.gain);
+    for (const dt of [-4, 4]) osc(ctx, 'triangle', r * k, dt).connect(g);
+  });
+  const pur = gain(ctx, f > 600 ? 0.035 : 0.06); pur.connect(tout);
+  osc(ctx, 'sine', f).connect(pur);
+}
+const CONSTRUIRE_SON = {
+  432: (ctx, v) => nappe(ctx, 432, v),
+  963: (ctx, v) => nappe(ctx, 963, v),
+  pluie(ctx, v) {
+    const a = sourceBruit(ctx, 'rose'), h = filtre(ctx, 'highpass', 450), l = filtre(ctx, 'lowpass', 7000), g = gain(ctx, 1.1);
+    a.connect(h).connect(l).connect(g).connect(v); lent(ctx, 0.13, 0.12, g.gain);
+    const b = sourceBruit(ctx, 'rose'), bp = filtre(ctx, 'bandpass', 2600, 1.2), g2 = gain(ctx, 0.35);
+    b.connect(bp).connect(g2).connect(v); lent(ctx, 0.37, 0.15, g2.gain);
+  },
+  vagues(ctx, v) {
+    const a = sourceBruit(ctx, 'brun'), l = filtre(ctx, 'lowpass', 650), g = gain(ctx, 0.55);
+    a.connect(l).connect(g).connect(v); lent(ctx, 0.085, 0.5, g.gain); lent(ctx, 0.085, 350, l.frequency);
+    const b = sourceBruit(ctx, 'rose'), h = filtre(ctx, 'highpass', 1800), g2 = gain(ctx, 0.08);
+    b.connect(h).connect(g2).connect(v); lent(ctx, 0.085, 0.075, g2.gain);
+  },
+  vent(ctx, v) {
+    const a = sourceBruit(ctx, 'rose'), bp = filtre(ctx, 'bandpass', 520, 0.9), g = gain(ctx, 1.5);
+    a.connect(bp).connect(g).connect(v); lent(ctx, 0.06, 320, bp.frequency); lent(ctx, 0.045, 0.55, g.gain);
+    const b = sourceBruit(ctx, 'rose'), bp2 = filtre(ctx, 'bandpass', 1300, 3), g2 = gain(ctx, 0.25);
+    b.connect(bp2).connect(g2).connect(v); lent(ctx, 0.11, 500, bp2.frequency);
+  },
+  binaural(ctx, v) {
+    // 216 Hz à gauche, 222 Hz à droite : un battement de 6 Hz (thêta), seulement au casque
+    const m = ctx.createChannelMerger(2); m.connect(v);
+    const gl = gain(ctx, 0.3), gr = gain(ctx, 0.3);
+    osc(ctx, 'sine', 216).connect(gl).connect(m, 0, 0);
+    osc(ctx, 'sine', 222).connect(gr).connect(m, 0, 1);
+    const b = sourceBruit(ctx, 'rose'), l = filtre(ctx, 'lowpass', 900), g = gain(ctx, 0.12);
+    b.connect(l).connect(g).connect(v);
+  }
+};
+const volSon = () => Math.max(0, Math.min(1, Number((D.son || {}).volume) || 0));
+async function jouerSon(cle) {
+  arreterSon(true);
+  if (!cle || cle === 'aucun') return;
+  const ctx = ctxSon(); if (!ctx) return toast('Le son n\'est pas disponible sur cet appareil.');
+  const sortie = gain(ctx, 0); sortie.connect(ctx.destination);
+  Object.assign(SON, { sortie, noeuds: [], cle, vue: vue.v, on: true });
+  try {
+    if (cle.startsWith('m:')) {
+      const blob = await audioLire(cle); if (!blob) { arreterSon(true); return toast('Cette musique n\'est plus sur la tablette.'); }
+      if (SON.sortie !== sortie) return;
+      SON.url = URL.createObjectURL(blob); SON.el = new Audio(SON.url); SON.el.loop = true;
+      ctx.createMediaElementSource(SON.el).connect(sortie);
+      await SON.el.play();
+    } else (CONSTRUIRE_SON[cle] || (() => {}))(ctx, sortie);
+  } catch (e) { arreterSon(true); return toast('Impossible de lancer ce son.'); }
+  sortie.gain.setValueAtTime(0, ctx.currentTime);
+  sortie.gain.linearRampToValueAtTime(volSon(), ctx.currentTime + 4);
+  majSon();
+}
+function arreterSon(net) {
+  if (!SON.on && !SON.sortie) return;
+  const { ctx } = SON, sortie = SON.sortie, noeuds = SON.noeuds, el = SON.el, url = SON.url;
+  Object.assign(SON, { sortie: null, noeuds: [], el: null, url: '', cle: '', on: false });
+  const fin = () => { for (const n of noeuds) { try { n.stop(); } catch (e) {} } if (el) el.pause(); if (url) URL.revokeObjectURL(url); try { sortie && sortie.disconnect(); } catch (e) {} };
+  if (sortie && ctx && !net) {
+    const t = ctx.currentTime; sortie.gain.cancelScheduledValues(t); sortie.gain.setValueAtTime(sortie.gain.value, t); sortie.gain.linearRampToValueAtTime(0, t + 2);
+    setTimeout(fin, 2100);
+  } else fin();
+  majSon();
+}
+function reglerVolume(v) {
+  D.son.volume = v;
+  if (SON.on && SON.sortie && SON.ctx) { const t = SON.ctx.currentTime; SON.sortie.gain.cancelScheduledValues(t); SON.sortie.gain.setTargetAtTime(volSon(), t, 0.1); }
+}
+const faceSeance = () => vue.p && vue.p.terre ? 'terrestre' : 'celeste';
+// Au lancement de la séance
+function sonSeance() { if (D.son.auto && D.son[faceSeance()] !== 'aucun') jouerSon(D.son[faceSeance()]); }
+const boutonSon = () => '<button class="pastille son' + (SON.on ? ' on' : '') + '" data-a="son" id="btnson" aria-label="Son de fond">♪</button>';
+function majSon() {
+  const b = document.getElementById('btnson'); if (b) b.classList.toggle('on', SON.on);
+  document.querySelectorAll('[data-a="ecouter"]').forEach(x => x.textContent = SON.on && SON.cle === (document.getElementById(x.dataset.sel) || {}).value ? 'Arrêter' : 'Écouter');
+}
+// Pendant la séance : changer de son, régler le volume, couper
+function fenetreSon() {
+  const face = faceSeance(), cle = SON.on ? SON.cle : D.son[face];
+  ouvrir('Son de fond', '<div class="champ"><label for="sonchoix">Son</label><select id="sonchoix">' + optionsSon(cle) + '</select></div>' +
+    '<div class="champ"><label for="sonvol">Volume</label><input type="range" class="volume" id="sonvol" min="0" max="100" value="' + Math.round(volSon() * 100) + '"></div>' +
+    '<div class="discret" style="margin:-4px 0 12px">Le micro capte aussi le son de fond : garde-le assez bas si tu enregistres.</div>' +
+    '<div class="rangee"><button class="btn" data-a="f-couper"' + (SON.on ? '' : ' disabled') + '>Couper</button><button class="btn plein" data-a="f-lancer">' + (SON.on ? 'Changer' : 'Lancer') + '</button><button class="btn" data-a="f-annuler">Fermer</button></div>', {
+    couper() { arreterSon(); fermer(); },
+    lancer() { const v = valeur('sonchoix'); fermer(); if (v === 'aucun') arreterSon(); else jouerSon(v); }
+  });
+}
+// Mes musiques
+function ajouterMusique(f) {
+  if (!f) return;
+  if (!/^audio\//.test(f.type) && !/\.(mp3|m4a|aac|ogg|wav|flac|opus|webm)$/i.test(f.name)) return toast('Ce fichier n\'est pas une musique.');
+  const m = { id: uid(), nom: f.name.replace(/\.[^.]+$/, '').replace(/[_-]+/g, ' ').trim() || 'Musique', taille: f.size };
+  audioMettre('m:' + m.id, f).then(() => { D.musiques.push(m); enregistrer(); rendre(); toast('Musique ajoutée'); }).catch(() => toast('Mémoire pleine : la musique n\'a pas pu être ajoutée.'));
+}
+function formMusique(m) {
+  ouvrir('Ma musique', champ('mnom', 'Nom', m.nom) + '<div class="discret" style="margin:-6px 0 14px">' + Math.round((m.taille || 0) / 1048576 * 10) / 10 + ' Mo · gardée sur la tablette, pas dans la sauvegarde.</div>' + boutonsForm(true), {
+    ok() { const v = valeur('mnom'); if (!v) return toast('Donne un nom à la musique.'); m.nom = v; enregistrer(); fermer(); rendre(); },
+    sup() {
+      if (!confirm('Supprimer « ' + m.nom + ' » de la tablette ?')) return;
+      const cle = 'm:' + m.id; if (SON.cle === cle) arreterSon(true);
+      audioOp('readwrite', st => st.delete(cle)).catch(() => {});
+      D.musiques = D.musiques.filter(x => x.id !== m.id);
+      for (const f of ['terrestre', 'celeste']) if (D.son[f] === cle) D.son[f] = SON_DEFAUT()[f];
+      enregistrer(); fermer(); rendre(); toast('Musique supprimée');
+    }
+  });
+}
+function reglagesSon() {
+  const s = D.son, ligne = (f, l) => '<div class="sonl"><label for="son-' + f + '">' + l + '</label><select id="son-' + f + '" data-son="' + f + '">' + optionsSon(s[f]) + '</select><button class="pastille" data-a="ecouter" data-sel="son-' + f + '">Écouter</button></div>';
+  return '<div class="etiquette">Son de fond</div><div class="bloc" style="padding:14px 16px;margin-bottom:14px">' +
+    '<button class="interrupteur' + (s.auto ? ' on' : '') + '" data-a="sonauto" style="margin-bottom:12px"><span class="pt"></span><span>' + (s.auto ? 'Oui' : 'Non') + '</span><small>Lancer le son en même temps que la séance</small></button>' +
+    ligne('terrestre', 'Terrestre') + ligne('celeste', 'Céleste') +
+    '<div class="sonl"><label for="sonvolr">Volume</label><input type="range" class="volume" id="sonvolr" min="0" max="100" value="' + Math.round(volSon() * 100) + '"></div>' +
+    '<div class="discret" style="margin-top:6px;line-height:1.5">Sur le haut-parleur de la tablette ou une enceinte Bluetooth. Les sons binauraux ne marchent qu\'au casque. Pendant la séance, le bouton ♪ change le son, règle le volume ou le coupe.</div></div>' +
+    '<div class="etiquette">Mes musiques</div>' + ((D.musiques || []).length ? D.musiques.map(m => '<button class="rdv" data-a="modifmusique" data-id="' + m.id + '"><div style="flex:1"><div class="c" style="font-size:calc(20px * var(--taille2))">♫ ' + esc(m.nom) + '</div><div class="p">' + Math.round((m.taille || 0) / 1048576 * 10) / 10 + ' Mo</div></div></button>').join('') : '<div class="discret" style="margin-bottom:8px">Aucune musique pour l\'instant. Elles restent sur la tablette (pas dans la sauvegarde).</div>') +
+    '<button class="btn large" data-a="ajoutmusique" style="margin-bottom:10px">+ Ajouter une musique</button><input type="file" id="fichiermus" accept="audio/*" class="cache">';
+}
+
+/* ---------- Version 18 : mes leçons de séance ---------- */
+const LECONS_SEANCE_V18 = [
+  { id: 'ls1', date: '2026-11-27', texte: "Ne pas citer les bruits du corps du client pendant l'induction. S'en tenir aux sons extérieurs." },
+  { id: 'ls2', date: '2026-11-27', texte: "Avant une régression, faire fixer la flamme d'une bougie au client avant qu'il s'allonge. Ça aide à installer un premier état d'hypnose." }
+];
+function leconsSeanceHTML() {
+  const l = [...(D.leconsSeance || [])].sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+  return '<div class="lecs">' + (l.length ? l.map(x => '<button class="rdv" data-a="lecseance" data-id="' + x.id + '"><div style="flex:1;min-width:0"><div class="d">' + esc(dateCourte(x.date)) + '</div><div class="p" style="font-size:calc(17px * var(--taille2));font-family:var(--serif);color:#eef1f8">' + esc(x.texte) + '</div></div></button>').join('') : '<div class="vide">Aucune leçon de séance pour l\'instant</div>') + '</div>' +
+    '<div class="discret" style="margin-top:10px">Ce que chaque séance t\'apprend. Touche une leçon pour la modifier ou la supprimer.</div>';
+}
+function formLeconSeance(x) {
+  ouvrir(x ? 'Leçon de séance' : 'Noter une leçon', champ('lsdate', 'Date', x ? x.date : auj(), 'date') +
+    champ('lstexte', 'Leçon', x ? x.texte : '', 'textarea', 'style="min-height:28vh;font-family:var(--serif);font-size:calc(18px * var(--taille2));line-height:1.55"') + boutonsForm(!!x), {
+    ok() {
+      const t = document.getElementById('lstexte').value.trim(); if (!t) return toast('Écris la leçon.');
+      const o = x || { id: uid() };
+      Object.assign(o, { date: valeur('lsdate') || auj(), texte: t });
+      if (!x) D.leconsSeance.push(o);
+      enregistrer(); fermer(); rendre(); toast('Leçon enregistrée');
+    },
+    sup() { if (!confirm('Supprimer cette leçon ?')) return; D.leconsSeance = D.leconsSeance.filter(y => y.id !== x.id); enregistrer(); fermer(); rendre(); }
+  });
 }
 
 /* ---------- Démarrage ---------- */
